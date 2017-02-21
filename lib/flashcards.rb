@@ -1,7 +1,7 @@
 require 'flashcards/flashcard'
 
 begin
-  path = File.expand_path('~/.config/flashcards.yml')
+  path = File.expand_path(ENV['FF'] || '~/.config/flashcards.yml')
   FLASHCARDS_DATA = File.new(path)
 rescue Errno::ENOENT
   File.open(path, 'w') { }

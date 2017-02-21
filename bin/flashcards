@@ -14,7 +14,7 @@ when 'add', '+'
   end
 
   load_do_then_save(ARGV[0]) do |data, lang, flashcards|
-    unless flashcards.find { |flashcard| flashcard == Flashcard.new(expression: ARGV[1], translations: ARGV[2]) }
+    unless flashcards.find { |flashcard| flashcard == Flashcard.new(expression: ARGV[1], translations: ARGV[2].split(',')) }
       flashcards << Flashcard.new(expression: ARGV[1], translations: [ARGV[2]])
       data[ARGV[0]] = flashcards.map(&:data)
     else
@@ -29,7 +29,10 @@ when 'edit'
   editor = ARGV.shift || ENV['EDITOR'] || abort('Either configure $EDITOR or pass an editor as an arguement.')
   exec "#{editor} #{FLASHCARDS_DATA.path}"
 when '--help', '-h'
-  puts DATA.read
+  puts(DATA.read.gsub(/<([^>]+)>(.+?)<\/\1>/m) do |match|
+    methods = $1.split('.')
+    methods.reduce($2) { |result, method| result.send(method) }
+  end)
 when nil
   load_do_then_save do |data, lang, flashcards|
     # Switch system language to whatever language you're learning.
@@ -41,13 +44,25 @@ when nil
 end
 
 __END__
-flashcards add [lang] [word] [translation]
-flashcards add es todavía still
 
-flashcards reset
-  Reset metadata. Useful if you got someone else's file, and you want to reset his progress.
+<red.bold>:: Flashcards ::</red.bold>
 
-flashcards edit
-flashcards edit vim
+<cyan.bold>Commands</cyan.bold>
 
-flashcards
+flashcards <red>add</red> [lang] [word] [translations]
+flashcards <red>add</red> es todavía still
+flashcards <red>add</red> es case almost,nearly <bright_black># Add multiple translations.</bright_black>
+
+flashcards <yellow>reset</yellow> <bright_black># Reset metadata.
+  # Useful if you got someone else's file, and you want to reset his progress.</bright_black>
+
+flashcards <green>edit</green> <bright_black># Edit your flashcards in $EDITOR.</bright_black>
+flashcards <green>edit</green> vim
+
+flashcards <bright_black># Run it!</bright_black>
+
+<cyan.bold>ENV</cyan.bold>
+  <magenta>FF</magenta>
+    <bright_black># FF is short for flashcard file.
+    # It defaults to ~/.config/flashcards.yml</bright_black>
+    FF=~/.config/flashcards/es/swearwords.yml flashcards

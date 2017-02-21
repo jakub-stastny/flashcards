@@ -56,13 +56,13 @@ es:
 # TODO
 
 v1
-  flashcards add es casi almost,nearly
   Full tests coverage including integration tests.
-  README and -h.
+  README including images.
   Tag (git) and publish the gem.
 
 v11
   Add notes and tags (:swearwords, :dancing). Display notes after answer.
+  Do we need tags if we plan on adding stacks?
   flashcards add es xxx yyy #swearwords
 
 v12
