@@ -19,19 +19,19 @@ class Verb
       when /^(.+)ar$/
         [$1, {
           yo: 'o',   nosotros: 'amos',
-          tú: 'as',  vosotros: 'ais',
+          tú: 'as',  vosotros: 'áis',
           él: 'a',   ellos: 'an'
         }]
       when /^(.+)er$/
         [$1, {
           yo: 'o',   nosotros: 'emos',
-          tú: 'es',  vosotros: 'eis',
+          tú: 'es',  vosotros: 'éis',
           él: 'e',   ellos: 'en'
         }]
       when /^(.+)ir$/
         [$1, {
           yo: 'o',   nosotros: 'imos',
-          tú: 'es',  vosotros: 'is',
+          tú: 'es',  vosotros: 'ís',
           él: 'e',   ellos: 'en'
         }]
       end
