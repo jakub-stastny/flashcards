@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+require 'term/ansicolor'
+require 'flashcards'
+
+String.send(:include, Term::ANSIColor)
+
+case ARGV.shift
+  # flashcards add es 'Madre mia!' 'Oh my!'
+when 'add', '+'
+  unless ARGV.length == 3
+    abort "Usage: #{$0} [lang] [word] [translation]"
+  end
+
+  data = YAML.load(FLASHCARDS_DATA.read) || Hash.new
+  flashcards = load_flashcards(data, ARGV[0])
+
+  unless flashcards.find { |flashcard| flashcard.expression == Flashcard.new(expression: ARGV[1], translation: ARGV[2]) }
+    flashcards << Flashcard.new(expression: ARGV[1], translation: ARGV[2])
+
+    data[ARGV[0]] = flashcards.map(&:data)
+
+    FLASHCARDS_DATA.close
+    yaml = data.to_yaml
+    File.open(FLASHCARDS_DATA.path, 'w') { |file| file << yaml }
+  else
+    warn "~ #{ARGV[1]} is already defined." # TODO: add hint as ARGV[3]
+  end
+when '--help', '-h'
+  puts DATA.read
+when nil
+  data = YAML.load(FLASHCARDS_DATA.read) || Hash.new
+  flashcards = load_flashcards(data, ENV['LANG'][0..1])
+
+  # Switch system language to whatever language you're learning.
+  run(ENV['LANG'][0..1], flashcards)
+
+  # Save metadata.
+  data[ENV['LANG'][0..1]] = flashcards.map(&:data)
+
+  FLASHCARDS_DATA.close
+  yaml = data.to_yaml
+  File.open(FLASHCARDS_DATA.path, 'w') { |file| file << yaml }
+end
+
+__END__
+flashcards add [lang] [word] [translation]
+flashcards add es todavía still
+
+flashcards
