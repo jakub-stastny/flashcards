@@ -47,7 +47,7 @@ class Flashcard
     (self.metadata[:correct_answers] || Array.new).empty?
   end
 
-  SCHEDULE = [1, 5, 25]
+  SCHEDULE = [1, 5, 25, 125]
   def time_to_review?
     return false if self.new?
 

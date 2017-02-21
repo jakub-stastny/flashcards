@@ -55,7 +55,7 @@ When you now re-run `flashcards`, you should get something more useful:
 As with any other flashcard software, flashcards is all about the [fancy learning curves](https://en.wikipedia.org/wiki/Spaced_repetition),
 so you don't get tested over and over on vocabulary you already know (hello Duolingo!).
 
-_The exact schedule is today, tomorrow, in 5 days and in 25 days._
+_The exact schedule is next day, in five days, in 25 days, in 125 days and then every 2 years._
 
 Also if you add a lot of new vocabulary, won't test you on everything at once.
 It will prioritise vocabulary that is time to refresh (according to spaced repetition),

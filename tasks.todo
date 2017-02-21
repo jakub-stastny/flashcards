@@ -1,5 +1,4 @@
 Tasks:
-- Limit overall, retention, new vocab, old vocab.
 - Full tests coverage including integration tests.
 - Tag (git) and publish the gem.
 
