@@ -19,8 +19,8 @@ And run `flashcards`. Here you go!
 
 ![flashcards-1](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards-1.png)
 
-This is just the basics though. It's important to learn in context, so let's
-make it more useful and add some examples.
+OK, it works. However it's important to learn in context, so let's make it more
+useful and add some examples.
 
 Run `flashcards edit` and paste the following data into the file:
 
@@ -47,17 +47,20 @@ es:
     - She hardly has a temperature now.
 ```
 
-When you re-run `flashcards`, you should get something more useful:
+It's the same as there was, except of the added examples.
+
+When you now re-run `flashcards`, you should get something more useful:
 
 ![flashcards-2](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards-2.png)
 
 As with any other flashcard software, flashcards is all about the [fancy learning curves](https://en.wikipedia.org/wiki/Spaced_repetition),
 so you don't get tested over and over on vocabulary you already know (hello Duolingo!).
 
-Also if you add a lot of new vocabulary, flashcards will test you on it, but
-in the subsequent runs it will rather test you on something that's time to refresh
-(say you answered it correctly yesterday and now it's time for repetition) than
-to test you on a completely new word and let you forget the other one in the meantime.
+_The exact schedule is today, tomorrow, in 5 days and in 25 days._
+
+Also if you add a lot of new vocabulary, won't test you on everything at once.
+It will prioritise vocabulary that is time to refresh (according to spaced repetition),
+and only adds limited number of the new vocabulary at a time.
 
 Sometimes even spaced retention can fail, so flashcards will test you on vocabulary
 you know once in a blue moon. We're talking months, not every other week, so chill ..
@@ -72,10 +75,10 @@ Each of these keys points to a list of flashcards.
 
 ### Flashcard keys
 
-- Key `expression` (`string`, required): desc.
-- Key `translation` (`string`) or `translations` (`list` of `strings`): desc.
-- Key `examples` (`list` of examples, each example is another list of 2 items - example text, example translation).
-- Key `hint`
+- Key `expression` (`string`, required): the word in the language you're learning.
+- Key `translation` (`string`) or `translations` (`list` of `strings`): translation to English or whatever language you already know.
+- Key `examples` (`list` of examples). Each example is a `list` of `[expression, translation]`.
+- Key `hint`. _This is currently under review._
 - Key `note` and `tags` will be added in v1.1, but as no key is deleted, you can use them already.
 - Anything else will be saved.
 
