@@ -89,11 +89,7 @@ your `~/.zshrc` you can set `$FF` to a random pack or set it based on day of the
 
 ## Syntax of `~/.config/flashcards.yml`
 
-The file `~/.config/flashcards.yml` is a hash saved in YAML.
-
-The top-level keys are shortcuts of languages, such as `es` for Spanish, `pl` for Polish etc.
-
-Each of these keys points to a list of flashcards.
+The file `~/.config/flashcards.yml` is an array of flashcards saved in YAML.
 
 ## Flashcard keys
 
