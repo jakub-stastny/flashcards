@@ -44,8 +44,9 @@ def load_do_then_save(lang = ENV['LANG'][0..1], &block)
   File.open(FLASHCARDS_DATA.path, 'w') { |file| file << yaml }
 end
 
+$correct = 0; $incorrect = 0
 def run(language, flashcards)
-  puts ["~ Testing your ".bold, language.cyan.bold, " knowledge. Change system language to whatever language you want to practice.\n".bold].join
+  puts colourise("~ Testing your <cyan>#{language}</cyan> knowledge.", bold: true)
 
   # TODO: First test ones that has been tested before and needs refreshing before
   # they go to the long-term memory. Then test the new ones and finally the remembered ones.
@@ -69,19 +70,21 @@ def run(language, flashcards)
     end
 
     if flashcard.mark(translation = $stdin.readline.chomp)
+      $correct += 1
       synonyms = flashcard.translations - [translation]
       puts colourise("  <green>✔︎  </green>" +
         "<yellow>#{flashcard.expression.titlecase}</yellow> " +
         "<green>is indeed <yellow>#{translation}</yellow>. </green>" +
         (synonyms.any? ? "<green>It can also mean</green> #{synonyms.map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')}<green>.</green>" : '') +
-        "\n\n", bold: true)
+        "\n", bold: true)
     else
+      $incorrect += 1
       list = flashcard.translations.map do |word|
         word
         "<yellow>#{word}</yellow>"
       end.join_with_and('<red>or</red>')
 
-      puts colourise("  <red>✘  #{flashcard.expression.titlecase} is </red>#{list}.\n\n", bold: true)
+      puts colourise("  <red>✘  #{flashcard.expression.titlecase} is </red>#{list}.\n", bold: true)
     end
 
     flashcard.examples.each do |expression, translation|
@@ -90,10 +93,12 @@ def run(language, flashcards)
     end
   end
 
-  puts "Statistics".green.bold
-  puts "- Total: #{6} (#{5.to_s.green} and #{1.to_s.red})"
-  puts "- Review"
-  puts "- New vocabulary:"
+  puts colourise("\n<green>Statistics</green>", bold: true)
+  puts colourise("- <bold>Total:</bold> #{$correct + $incorrect} (" +
+    [("<green>#{$correct} correct</green>" unless $correct == 0),
+      ("<red>#{$incorrect} incorrect</red>" unless $incorrect == 0)].compact.join(' and ') + ').')
+  # puts "- Review"
+  # puts "- New vocabulary:"
 rescue Interrupt
   # TODO: Save current progress (metadata).
   puts; exit
