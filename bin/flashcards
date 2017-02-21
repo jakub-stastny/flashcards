@@ -7,7 +7,6 @@ require 'flashcards'
 String.send(:include, Term::ANSIColor)
 
 case ARGV.shift
-  # flashcards add es 'Madre mia!' 'Oh my!'
 when 'add', '+'
   unless ARGV.length == 3
     abort "Usage: #{$0} [lang] [word] [translation]"

@@ -2,7 +2,7 @@
 
 Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but with an *actually* usable interface.
 
-## Tutorial
+# Tutorial
 
 First let's install the software and add a few flashcards. Let's say you're learning Spanish:
 
@@ -63,7 +63,27 @@ It will prioritise vocabulary that is time to refresh (according to spaced repet
 and only adds limited number of the new vocabulary at a time.
 
 Sometimes even spaced retention can fail, so flashcards will test you on vocabulary
-you know once in a blue moon. We're talking months, not every other week, so chill ..
+you know once in a blue moon. We're talking months, not every other week, so chill ...
+
+# Reference
+
+## Support for packs
+
+By default all the flashcards go into one file. Once you learn basic colours,
+numbers and words like dog, cat, beer and fuck, it's probably time to start using
+multiple flashcard files.
+
+At this moment support for packs is rather simplist. Set environment variable `FF`
+to point to any flashcard file.
+
+```shell
+export FF=~/.config/flashcards/swearwords.yml
+flashcards add es joder 'to fuck'
+flashcards # Run as usual.
+```
+
+Of course you can set it just for the current command by using
+`FF=~/.config/flashcards/swearwords.yml flashcards`.
 
 ## Syntax of `~/.config/flashcards.yml`
 
@@ -73,7 +93,7 @@ The top-level keys are shortcuts of languages, such as `es` for Spanish, `pl` fo
 
 Each of these keys points to a list of flashcards.
 
-### Flashcard keys
+## Flashcard keys
 
 - Key `expression` (`string`, required): the word in the language you're learning.
 - Key `translation` (`string`) or `translations` (`list` of `strings`): translation to English or whatever language you already know.
