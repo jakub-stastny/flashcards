@@ -5,6 +5,15 @@ class Flashcard
     @data[:examples] ||= Array.new
     @data[:metadata] ||= Hash.new
 
+    if translation = @data.delete(:translation)
+      @data[:translations] = [translation]
+    end
+
+    # Fix incorrect use.
+    if self.translations.is_a?(String)
+      @data[:translations] = [self.translations]
+    end
+
     self.expression || raise(ArgumentError.new('Expression has to be provided!'))
     (self.translations && self.translations[0]) || raise(ArgumentError.new('Translations has to be provided!'))
   end
@@ -15,7 +24,12 @@ class Flashcard
 
   def data
     @data.dup.tap do |data|
+      if self.translations.length == 1
+        data[:translation] = self.translations.first
+        data.delete(:translations)
+      end
       data.delete(:metadata) if metadata.empty?
+      data.delete(:examples) if examples.empty?
     end
   end
 
