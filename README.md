@@ -4,13 +4,23 @@ Flashcards for learning languages.
 
 # TODO
 
-Change to topics
-~/.config/flashcards/es/base.yml
-~/.config/flashcards/es/dancing.yml
-~/.config/flashcards/es/ordinary_numbers.yml
+v1
+  Add reset command to reset all the metadata.
+  Full tests coverage including integration tests.
+  Documentation.
+  Tag (git) and publish the gem.
 
-Add reset command to reset all the metadata.
+v2
+  Change to topics
+  ~/.config/flashcards/es/base.yml
+  ~/.config/flashcards/es/dancing.yml
+  ~/.config/flashcards/es/ordinary_numbers.yml
 
-Switch sides (ask in EN or in ES) (and deal with synonyms again).
+v21
+  Switch sides (ask in EN or in ES) (and deal with synonyms again).
+    Change both translations and expression(s) to be either string or an array in the data,
+    but always array after being parsed. If it's array with only one item, save as a string.
+    (possibly use translation/translations keys)?
 
-Tvary slov (primer, primero, primera; la (it); me, se, le), sloves.
+v3
+  Tvary slov (primer, primero, primera; la (it); me, se, le), sloves.
