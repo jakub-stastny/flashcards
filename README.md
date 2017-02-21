@@ -1,6 +1,6 @@
 # About
 
-Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but with an *actually usable* interface.
+Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but with an *actually* usable interface.
 
 ## Tutorial
 
@@ -47,17 +47,20 @@ es:
     - She hardly has a temperature now.
 ```
 
-When you re-run `flashcards`, you should get something more fun:
+When you re-run `flashcards`, you should get something more useful:
 
 ![flashcards-2](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards-2.png)
 
-As with any other flashcard software, we are all about the [fancy learning curves](https://en.wikipedia.org/wiki/Spaced_repetition),
-so you don't get tested over and over on vocabulary you know (hello Duolingo!).
+As with any other flashcard software, flashcards is all about the [fancy learning curves](https://en.wikipedia.org/wiki/Spaced_repetition),
+so you don't get tested over and over on vocabulary you already know (hello Duolingo!).
 
 Also if you add a lot of new vocabulary, flashcards will test you on it, but
 in the subsequent runs it will rather test you on something that's time to refresh
 (say you answered it correctly yesterday and now it's time for repetition) than
 to test you on a completely new word and let you forget the other one in the meantime.
+
+Sometimes even spaced retention can fail, so flashcards will test you on vocabulary
+you know once in a blue moon. We're talking months, not every other week, so chill ..
 
 ## Syntax of `~/.config/flashcards.yml`
 
