@@ -25,6 +25,18 @@ def load_flashcards(data, language)
   end
 end
 
+def load_do_then_save(lang = ENV['LANG'][0..1], &block)
+  data = YAML.load(FLASHCARDS_DATA.read) || Hash.new
+
+  flashcards = load_flashcards(data, lang)
+
+  block.call(data, lang, flashcards)
+
+  FLASHCARDS_DATA.close
+  yaml = data.to_yaml
+  File.open(FLASHCARDS_DATA.path, 'w') { |file| file << yaml }
+end
+
 def run(language, flashcards)
   puts ["~ Testing your ".bold, language.cyan.bold, " knowledge. Change system language to whatever language you want to practice.\n".bold].join
 

@@ -13,48 +13,28 @@ when 'add', '+'
     abort "Usage: #{$0} [lang] [word] [translation]"
   end
 
-  data = YAML.load(FLASHCARDS_DATA.read) || Hash.new
-  flashcards = load_flashcards(data, ARGV[0])
-
-  unless flashcards.find { |flashcard| flashcard == Flashcard.new(expression: ARGV[1], translations: ARGV[2]) }
-    flashcards << Flashcard.new(expression: ARGV[1], translations: [ARGV[2]])
-
-    data[ARGV[0]] = flashcards.map(&:data)
-
-    FLASHCARDS_DATA.close
-    yaml = data.to_yaml
-    File.open(FLASHCARDS_DATA.path, 'w') { |file| file << yaml }
-  else
-    warn "~ #{ARGV[1]} is already defined." # TODO: add hint as ARGV[3]
+  load_do_then_save(ARGV[0]) do |data, lang, flashcards|
+    unless flashcards.find { |flashcard| flashcard == Flashcard.new(expression: ARGV[1], translations: ARGV[2]) }
+      flashcards << Flashcard.new(expression: ARGV[1], translations: [ARGV[2]])
+      data[ARGV[0]] = flashcards.map(&:data)
+    else
+      warn "~ #{ARGV[1]} is already defined."
+    end
   end
 when 'reset'
-  lang = ENV['LANG'][0..1]
-  data = YAML.load(FLASHCARDS_DATA.read) || Hash.new
-
-  flashcards = load_flashcards(data, lang)
-
-  data[lang] = flashcards.each { |flashcard| flashcard.metadata.clear }.map(&:data)
-
-  FLASHCARDS_DATA.close
-  yaml = data.to_yaml
-  File.open(FLASHCARDS_DATA.path, 'w') { |file| file << yaml }
+  load_do_then_save do |data, lang, flashcards|
+    data[lang] = flashcards.each { |flashcard| flashcard.metadata.clear }.map(&:data)
+  end
 when '--help', '-h'
   puts DATA.read
 when nil
-  lang = ENV['LANG'][0..1]
-  data = YAML.load(FLASHCARDS_DATA.read) || Hash.new
+  load_do_then_save do |data, lang, flashcards|
+    # Switch system language to whatever language you're learning.
+    run(lang, flashcards)
 
-  flashcards = load_flashcards(data, lang)
-
-  # Switch system language to whatever language you're learning.
-  run(lang, flashcards)
-
-  # Save metadata.
-  data[lang] = flashcards.map(&:data)
-
-  FLASHCARDS_DATA.close
-  yaml = data.to_yaml
-  File.open(FLASHCARDS_DATA.path, 'w') { |file| file << yaml }
+    # Save metadata.
+    data[lang] = flashcards.map(&:data)
+  end
 end
 
 __END__
