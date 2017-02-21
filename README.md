@@ -26,16 +26,31 @@ When you re-run `flashcards`, you should get something more fun:
 
 ## Syntax of `~/.config/flashcards.yml`
 
+The file `~/.config/flashcards.yml` is a hash saved in YAML.
+
+The top-level keys are shortcuts of languages, such as `es` for Spanish, `pl` for Polish etc.
+
+Each of these keys points to a list of flashcards.
+
+### Flashcard keys
+
+- Key `expression` (`string`, required): desc.
+- Key `translation` (`string`) or `translations` (`list` of `strings`): desc.
+- Key `examples` (`list` of examples, each example is another list of 2 items - example text, example translation).
+- Key `hint`
+- Key `note` and `tags` will be added in v1.1, but as no key is deleted, you can use them already.
+- Anything else will be saved.
+
 ```yaml
 ---
 es:
 - :expression: todavía
+  :translation: still
   :examples:
   - - "¿Todavía estás en la cama?"
     - Are you still in bed?
   - - Todavía la quiero.
     - I still love her.
-  :translation: still
 ```
 
 # TODO
@@ -43,7 +58,7 @@ es:
 v1
   flashcards add es casi almost,nearly
   Full tests coverage including integration tests.
-  Documentation.
+  README and -h.
   Tag (git) and publish the gem.
 
 v11
