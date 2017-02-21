@@ -76,7 +76,9 @@ At this moment support for packs is rather simplist. Set environment variable `F
 to point to any flashcard file.
 
 ```shell
+# Assuming the directory ~/.config/flashcards/es exists:
 export FF=~/.config/flashcards/es/swearwords.yml
+
 flashcards add joder 'to fuck'
 flashcards # Run it as usual.
 ```
