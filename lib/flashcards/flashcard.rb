@@ -43,8 +43,18 @@ class Flashcard
     self.expression == anotherFlashcard.expression && self.translations.sort == anotherFlashcard.translations.sort
   end
 
-  def remembered?
-    (self.metadata[:correct_answers] || Array.new).length >= 3
+  def new?
+    (self.metadata[:correct_answers] || Array.new).empty?
+  end
+
+  SCHEDULE = [1, 5, 25]
+  def time_to_review?
+    return false if self.new?
+
+    correct_answers = (self.metadata[:correct_answers] || Array.new)
+    number_of_days = SCHEDULE[correct_answers.length - 1] || (365 * 2)
+
+    correct_answers.last < (Time.now - (number_of_days * 24 * 60 * 60))
   end
 
   def mark(answer)

@@ -32,6 +32,9 @@ end
 
 $correct = 0; $incorrect = 0
 def run(flashcards)
+  flashcards_to_review = flashcards.select { |flashcard| flashcard.time_to_review? }
+  new_flashcards = flashcards.select { |flashcard| flashcard.new? }
+
   # TODO: First test ones that has been tested before and needs refreshing before
   # they go to the long-term memory. Then test the new ones and finally the remembered ones.
   # Limit count of each.
