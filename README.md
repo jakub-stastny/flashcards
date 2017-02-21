@@ -117,6 +117,10 @@ es:
     - I still love her.
 ```
 
+## The `flashcard` command
+
+Run `flashcard -h` to see all the options.
+
 # Future features
 
 - Testing the other side of cards.
