@@ -91,7 +91,6 @@ def run(flashcards)
     end
 
     if flashcard.mark(translation = $stdin.readline.chomp)
-      $correct += 1
       synonyms = flashcard.translations - [translation]
       puts colourise("  <green>✔︎  </green>" +
         "<yellow>#{flashcard.expression.titlecase}</yellow> " +
@@ -102,16 +101,21 @@ def run(flashcards)
       # Experimental.
       if flashcard.tags.include?(:verb) && ! flashcard.tags.include?(:irregular)
         verb = Verb.new(flashcard.expression)
-        verb.tenses.each do |tense|
+        all = verb.tenses.all? do |tense|
           person = tense.forms.sample
           print colourise("\n  ~ <magenta>#{person.to_s.titlecase}</magenta> <cyan>form of the</cyan> <magenta>#{tense.tense}</magenta><cyan> tense is:</cyan> ", bold: true)
           answer = $stdin.readline.chomp
           if answer == tense.send(person)
             puts colourise("  <green>✔︎  </green>")
+            true
           else
             puts colourise("  <red>✘  The correct form is #{tense.send(person)}</red>")
+            flashcard.mark_as_failed
           end
         end
+        all ? $correct += 1 : $incorrect += 1
+      else
+        $correct += 1
       end
     else
       $incorrect += 1

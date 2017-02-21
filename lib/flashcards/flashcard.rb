@@ -66,8 +66,12 @@ class Flashcard
       self.metadata[:correct_answers].push(Time.now)
       return true
     else
-      self.metadata.delete(:correct_answers) # Treat as new.
-      return false
+      self.mark_as_failed
     end
+  end
+
+  def mark_as_failed
+    self.metadata.delete(:correct_answers) # Treat as new.
+    return false
   end
 end
