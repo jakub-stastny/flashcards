@@ -76,6 +76,7 @@ describe Flashcard do
     end
   end
 
+  # TODO: Test tolerance.
   describe '#time_to_review?' do
     context 'with one correct answer' do
       it 'is false if the answer is less than 24 hours old' do

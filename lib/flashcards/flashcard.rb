@@ -54,7 +54,8 @@ class Flashcard
     correct_answers = (self.metadata[:correct_answers] || Array.new)
     number_of_days = SCHEDULE[correct_answers.length - 1] || (365 * 2)
 
-    correct_answers.last < (Time.now - (number_of_days * 24 * 60 * 60))
+    tolerance = (5 * 60 * 60) # 5 hours.
+    correct_answers.last < (Time.now - ((number_of_days * 24 * 60 * 60) - tolerance))
   end
 
   def mark(answer)

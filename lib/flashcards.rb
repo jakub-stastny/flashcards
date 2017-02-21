@@ -35,13 +35,20 @@ def run(flashcards)
   flashcards_to_review = flashcards.select { |flashcard| flashcard.time_to_review? }
   new_flashcards = flashcards.select { |flashcard| flashcard.new? }
 
+  limit = ENV['LIMIT'].to_i rescue 25 # TODO: Change name so it can't conflict and document it.
+  flashcards = flashcards_to_review.shuffle[0..limit] + new_flashcards.shuffle[0..(limit - flashcards_to_review.length)]
+
+  if flashcards.empty?
+    abort colourise("<red>There are currently no flashcards that are new or pending to review.</red>\n" +
+      "  Add new ones by running <bright_black>$ #{File.basename($0)} add expression translation</bright_black>.\n" +
+      "  You can also reset all your learning by running <bright_black>$ #{File.basename($0)} reset</bright_black> or just wait until tomorrow.",
+      bold: true)
+  end
+
   # TODO: First test ones that has been tested before and needs refreshing before
   # they go to the long-term memory. Then test the new ones and finally the remembered ones.
   # Limit count of each.
   flashcards.shuffle.each do |flashcard|
-    # TODO: also test remembered, but less so.
-    next if flashcard.remembered?
-
     if sample = flashcard.examples.sample
       puts '', sample[0].
         sub(flashcard.expression, flashcard.expression.bold).
