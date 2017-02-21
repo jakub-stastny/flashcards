@@ -1,6 +1,6 @@
 # About
 
-Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but with an actually usable interface.
+Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but with an *actually usable* interface.
 
 ## Tutorial
 
