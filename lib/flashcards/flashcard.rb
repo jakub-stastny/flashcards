@@ -16,6 +16,12 @@ class Flashcard
 
     self.expression || raise(ArgumentError.new('Expression has to be provided!'))
     (self.translations && self.translations[0]) || raise(ArgumentError.new('Translations has to be provided!'))
+
+    self.examples.each do |pair|
+      if pair.length != 2
+        raise ArgumentError.new("Incorrect example: #{pair.inspect}")
+      end
+    end
   end
 
   [:expression, :translations, :hint, :examples, :metadata].each do |attribute|

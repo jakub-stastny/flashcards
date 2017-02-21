@@ -5,8 +5,6 @@ Flashcards for learning languages.
 # TODO
 
 v1
-  More thourough validations.
-  Fix the bug "- -" -> "-" (Y, Q etc).
   Full tests coverage including integration tests.
   Documentation.
   Tag (git) and publish the gem.

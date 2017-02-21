@@ -44,7 +44,7 @@ describe Flashcard do
 
   describe '#data' do
     it 'returns all the data except empty metadata' do
-      expect(subject.data).to eql(expression: 'hola', translations: ['hi', 'hello'], examples: [])
+      expect(subject.data).to eql(expression: 'hola', translations: ['hi', 'hello'])
     end
   end
 
