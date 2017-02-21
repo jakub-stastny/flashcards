@@ -1,5 +1,5 @@
 Tasks:
-- Do we want to remove the lang, having it just as an array?
+- Limit overall, retention, new vocab, old vocab.
 - Full tests coverage including integration tests.
 - Tag (git) and publish the gem.
 
