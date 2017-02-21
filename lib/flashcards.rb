@@ -35,8 +35,33 @@ def run(flashcards)
   flashcards_to_review = flashcards.select { |flashcard| flashcard.time_to_review? }
   new_flashcards = flashcards.select { |flashcard| flashcard.new? }
 
-  limit = ENV['LIMIT'].to_i rescue 25 # TODO: Change name so it can't conflict and document it.
-  flashcards = flashcards_to_review.shuffle[0..limit] + new_flashcards.shuffle[0..(limit - flashcards_to_review.length)]
+  limit = ENV['LIMIT'] ? ENV['LIMIT'].to_i : 25 # TODO: Change name so it can't conflict and document it.
+  abort 'LIMIT=0 for obtaining everything is not yet supported.' if limit == 0
+  # p [:limit, limit]
+  # p [:to_review________, flashcards_to_review.map(&:translations)]
+  # p [:to_review_limited, flashcards_to_review.shuffle[0..(limit - 1)].map(&:translations)]
+  # puts
+  # p [:new_flashcards________, new_flashcards.map(&:translations)]
+  # p [:new_flashcards_limited, new_flashcards.shuffle[0..(limit - flashcards_to_review.length - 1)].map(&:translations), new_flashcards.shuffle[0..(limit - flashcards_to_review.length - 1)].length]
+
+  if (limit - flashcards_to_review.length) < 0 # Otherwise we run into a problem with [0..0] still returning the first item instead of nothing.
+    # p [:x]
+    flashcards = flashcards_to_review.shuffle[0..(limit - 1)]
+  else
+    flashcards_to_review_limited = flashcards_to_review.shuffle[0..(limit - 1)]
+    index = limit - flashcards_to_review_limited.length - 1
+    # p [:i, index]
+    if index < 0
+      flashcards = flashcards_to_review_limited
+    else
+      new_flashcards_limited = new_flashcards.shuffle[0..(index)]
+      flashcards = flashcards_to_review_limited + new_flashcards_limited
+    end
+  end
+
+
+  puts
+  p [:flashcards, flashcards.map(&:translations)]
 
   if flashcards.empty?
     abort colourise("<red>There are currently no flashcards that are new or pending to review.</red>\n" +
