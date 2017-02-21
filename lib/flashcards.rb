@@ -37,20 +37,21 @@ def run(flashcards)
 
   limit = ENV['LIMIT'] ? ENV['LIMIT'].to_i : 25 # TODO: Change name so it can't conflict and document it.
   abort 'LIMIT=0 for obtaining everything is not yet supported.' if limit == 0
-  # p [:limit, limit]
-  # p [:to_review________, flashcards_to_review.map(&:translations)]
-  # p [:to_review_limited, flashcards_to_review.shuffle[0..(limit - 1)].map(&:translations)]
-  # puts
-  # p [:new_flashcards________, new_flashcards.map(&:translations)]
-  # p [:new_flashcards_limited, new_flashcards.shuffle[0..(limit - flashcards_to_review.length - 1)].map(&:translations), new_flashcards.shuffle[0..(limit - flashcards_to_review.length - 1)].length]
+
+  p [:limit, limit] ####
+  p [:to_review________, flashcards_to_review.map(&:translations)]
+  p [:to_review_limited, flashcards_to_review.shuffle[0..(limit - 1)].map(&:translations)]
+  puts ####
+  p [:new_flashcards________, new_flashcards.map(&:translations)]
+  p [:new_flashcards_limited, new_flashcards.shuffle[0..(limit - flashcards_to_review.length - 1)].map(&:translations), new_flashcards.shuffle[0..(limit - flashcards_to_review.length - 1)].length]
 
   if (limit - flashcards_to_review.length) < 0 # Otherwise we run into a problem with [0..0] still returning the first item instead of nothing.
-    # p [:x]
+    p [:x] ####
     flashcards = flashcards_to_review.shuffle[0..(limit - 1)]
   else
     flashcards_to_review_limited = flashcards_to_review.shuffle[0..(limit - 1)]
     index = limit - flashcards_to_review_limited.length - 1
-    # p [:i, index]
+    p [:i, index] ####
     if index < 0
       flashcards = flashcards_to_review_limited
     else
@@ -60,8 +61,8 @@ def run(flashcards)
   end
 
 
-  puts
-  p [:flashcards, flashcards.map(&:translations)]
+  puts ####
+  p [:flashcards, flashcards.map(&:translations)] ####
 
   if flashcards.empty?
     abort colourise("<red>There are currently no flashcards that are new or pending to review.</red>\n" +
@@ -75,9 +76,9 @@ def run(flashcards)
   # Limit count of each.
   flashcards.shuffle.each do |flashcard|
     if sample = flashcard.examples.sample
-      puts '', sample[0].
+      puts '', colourise(sample[0].
         sub(flashcard.expression, flashcard.expression.bold).
-        sub(flashcard.expression.titlecase, flashcard.expression.titlecase.bold)
+        sub(flashcard.expression.titlecase, flashcard.expression.titlecase.bold))
     else
       puts
     end
