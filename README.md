@@ -13,7 +13,7 @@ flashcards add es casi almost,nearly
 
 And run `flashcards`. Here you go!
 
-![flashcards-1]()
+![flashcards-1](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards-1.png)
 
 This is just the basics though. It's important to learn in context, so let's
 make it more useful and add some examples.
