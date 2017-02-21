@@ -5,7 +5,9 @@ Flashcards for learning languages.
 # TODO
 
 v1
-  Add reset command to reset all the metadata.
+  More thourough validations.
+  Fix the bug "- -" -> "-" (Y, Q etc).
+  Refactor esp. bin/flashcards
   Full tests coverage including integration tests.
   Documentation.
   Tag (git) and publish the gem.

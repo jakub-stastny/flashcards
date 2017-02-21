@@ -27,6 +27,17 @@ when 'add', '+'
   else
     warn "~ #{ARGV[1]} is already defined." # TODO: add hint as ARGV[3]
   end
+when 'reset'
+  lang = ENV['LANG'][0..1]
+  data = YAML.load(FLASHCARDS_DATA.read) || Hash.new
+
+  flashcards = load_flashcards(data, lang)
+
+  data[lang] = flashcards.each { |flashcard| flashcard.metadata.clear }.map(&:data)
+
+  FLASHCARDS_DATA.close
+  yaml = data.to_yaml
+  File.open(FLASHCARDS_DATA.path, 'w') { |file| file << yaml }
 when '--help', '-h'
   puts DATA.read
 when nil
@@ -49,5 +60,8 @@ end
 __END__
 flashcards add [lang] [word] [translation]
 flashcards add es todavía still
+
+flashcards reset
+  Reset metadata. Useful if you got someone else's file, and you want to reset his progress.
 
 flashcards
