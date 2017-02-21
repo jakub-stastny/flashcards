@@ -1,12 +1,16 @@
 # About
 
-Flashcards for learning languages.
+Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but with an actually usable interface.
 
 ## Tutorial
 
 First we have to add a few flashcards. Let's say you're learning Spanish.
 
 ```shell
+# Install it.
+gem install flashcards
+
+# Add data.
 flashcards add es todavía still
 flashcards add es casi almost,nearly
 ```
@@ -18,7 +22,7 @@ And run `flashcards`. Here you go!
 This is just the basics though. It's important to learn in context, so let's
 make it more useful and add some examples.
 
-Run `flashcards edit`.
+Run `flashcards edit` and paste the following data into the file:
 
 ```yaml
 ---
@@ -46,6 +50,14 @@ es:
 When you re-run `flashcards`, you should get something more fun:
 
 ![flashcards-2](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards-2.png)
+
+As with any other flashcard software, we are all about the [fancy learning curves](https://en.wikipedia.org/wiki/Spaced_repetition),
+so you don't get tested over and over on vocabulary you know (hello Duolingo!).
+
+Also if you add a lot of new vocabulary, flashcards will test you on it, but
+in the subsequent runs it will rather test you on something that's time to refresh
+(say you answered it correctly yesterday and now it's time for repetition) than
+to test you on a completely new word and let you forget the other one in the meantime.
 
 ## Syntax of `~/.config/flashcards.yml`
 
