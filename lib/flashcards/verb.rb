@@ -9,45 +9,49 @@ class Verb
     @infinitive = infinitive
   end
 
+  def tenses
+    [self.present, self.past]
+  end
+
   def present
     Tense.new(:present, @infinitive) do
       case @infinitive
       when /^(.+)ar$/
         [$1, {
           yo: 'o',   nosotros: 'amos',
-          tu: 'as',  vosotros: 'ais',
-          el: 'a',   ellos: 'an'
+          tú: 'as',  vosotros: 'ais',
+          él: 'a',   ellos: 'an'
         }]
       when /^(.+)er$/
         [$1, {
           yo: 'o',   nosotros: 'emos',
-          tu: 'es',  vosotros: 'eis',
-          el: 'e',   ellos: 'en'
+          tú: 'es',  vosotros: 'eis',
+          él: 'e',   ellos: 'en'
         }]
       when /^(.+)ir$/
         [$1, {
           yo: 'o',   nosotros: 'imos',
-          tu: 'es',  vosotros: 'is',
-          el: 'e',   ellos: 'en'
+          tú: 'es',  vosotros: 'is',
+          él: 'e',   ellos: 'en'
         }]
       end
     end
   end
 
   def past
-    Tense.new(:present, @infinitive) do
+    Tense.new(:past, @infinitive) do
       case @infinitive
       when /^(.+)ar$/
         [$1, {
           yo: 'é',    nosotros: 'amos',
-          tu: 'aste', vosotros: 'asteis',
-          el: 'ó',    ellos: 'aron'
+          tú: 'aste', vosotros: 'asteis',
+          él: 'ó',    ellos: 'aron'
         }]
       when /^(.+)[ei]r$/
         [$1, {
           yo: 'í',    nosotros: 'imos',
-          tu: 'iste', vosotros: 'isteis',
-          el: 'ió',   ellos: 'ieron'
+          tú: 'iste', vosotros: 'isteis',
+          él: 'ió',   ellos: 'ieron'
         }]
       end
     end
@@ -55,15 +59,16 @@ class Verb
 end
 
 class Tense
+  attr_reader :tense, :forms
   def initialize(tense, infinitive, &block)
     @tense, @infinitive = tense, infinitive
     @root, @conjugations = self.instance_eval(&block)
+    @conjugations[:usted] = @conjugations[:él]
+    @conjugations[:ustedes] = @conjugations[:ellos]
+    @forms = @conjugations.keys
   end
 
-  [:yo, :tu, :el, :nosotros, :vosotros, :ellos].each do |method_name|
+  [:yo, :tú, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |method_name|
     define_method(method_name) { "#{@root}#{@conjugations[method_name]}" }
   end
-
-  alias_method :usted, :el
-  alias_method :ustedes, :ellos
 end

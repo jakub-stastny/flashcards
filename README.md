@@ -89,6 +89,17 @@ Of course you can set it just for the current command by using
 Despite its simplicity, this implementation has its advantages, for instance in
 your `~/.zshrc` you can set `$FF` to a random pack or set it based on day of the week etc.
 
+## Conjugations
+
+If a flashcard is tagged with `verb`, you will be automatically asked 1 random
+conjugation of each tense. Currently only Spanish is supported, although adding
+new rules is easy, check out `lib/flashcards/verb.rb`. Bonus points for sending a PR.
+
+Irregular verbs are not yet supported, although it's just a matter of adding few rules.
+You can tag them with `irregular` and deal with them later. They will be skipped for now.
+
+![flashcards-3](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards-3.png)
+
 ## Syntax of `~/.config/flashcards.yml`
 
 The file `~/.config/flashcards.yml` is an array of flashcards saved in YAML.
@@ -99,7 +110,7 @@ The file `~/.config/flashcards.yml` is an array of flashcards saved in YAML.
 - Key `translation` (`string`) or `translations` (`list` of `strings`): translation to English or whatever language you already know.
 - Key `examples` (`list` of examples). Each example is a `list` of `[expression, translation]`.
 - Key `hint`. _This is currently under review._
-- Key `note` and `tags` will be added in v1.1, but as no key is deleted, you can use them already.
+- Key `tags` (`list` of `symbols`). It can contain anything, currently flashcards support `:verb` tag to ask for conjugations. Only Spanish is supported at the moment, although adding new rules is easy, check out `lib/flashcards/verb.rb`.
 - Anything else will be saved.
 
 ```yaml
@@ -120,5 +131,3 @@ Run `flashcard -h` to see all the options.
 # Future features
 
 - Testing the other side of cards.
-- Support for different forms of words. Say "I speak" -> "hablo" (not "hablar" of course).
-  Conjugation is the most obvious example, but it goes beyond verbs.

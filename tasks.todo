@@ -1,4 +1,6 @@
 Tasks:
+- Support conjugations properly, currently not answering any will still mark the verb as correctly_answered if the infinitive was correct.
+- Support irregular verbs, best would be to check them against a database, so we don't forget about any.
 - Full tests coverage including integration tests.
 - Tag (git) and publish the gem.
 
@@ -12,9 +14,6 @@ v12:
     Change both translations and expression(s) to be either string or an array in the data,
     but always array after being parsed. If it's array with only one item, save as a string.
     (possibly use translation/translations keys)?
-
-v13:
-  - Tvary slov (primer, primero, primera; la (it); me, se, le), sloves.
 
 v2:
   Change to topics ?

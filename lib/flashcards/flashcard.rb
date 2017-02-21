@@ -2,6 +2,7 @@ class Flashcard
   attr_reader :data
   def initialize(data)
     @data = data
+    @data[:tags]     ||= Array.new
     @data[:examples] ||= Array.new
     @data[:metadata] ||= Hash.new
 
@@ -24,7 +25,7 @@ class Flashcard
     end
   end
 
-  [:expression, :translations, :hint, :examples, :metadata].each do |attribute|
+  [:expression, :translations, :hint, :tags, :examples, :metadata].each do |attribute|
     define_method(attribute) { @data[attribute] }
   end
 
@@ -34,6 +35,7 @@ class Flashcard
         data[:translation] = self.translations.first
         data.delete(:translations)
       end
+      data.delete(:tags) if tags.empty?
       data.delete(:metadata) if metadata.empty?
       data.delete(:examples) if examples.empty?
     end
