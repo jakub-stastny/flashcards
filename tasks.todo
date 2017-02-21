@@ -1,4 +1,6 @@
 Tasks:
+- Enable/disable tenses (beginners only present, then add past etc etc).
+- Add support for irregular verb rules. buscar -> busqué etc.
 - Support irregular verbs, best would be to check them against a database, so we don't forget about any.
 - Full tests coverage including integration tests.
 - Tag (git) and publish the gem.
