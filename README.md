@@ -79,11 +79,14 @@ to point to any flashcard file.
 ```shell
 export FF=~/.config/flashcards/swearwords.yml
 flashcards add es joder 'to fuck'
-flashcards # Run as usual.
+flashcards # Run it as usual.
 ```
 
 Of course you can set it just for the current command by using
 `FF=~/.config/flashcards/swearwords.yml flashcards`.
+
+Despite its simplicity, this implementation has its advantages, for instance in
+your `~/.zshrc` you can set `$FF` to a random pack or set it based on day of the week etc.
 
 ## Syntax of `~/.config/flashcards.yml`
 
