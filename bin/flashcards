@@ -15,7 +15,7 @@ when 'add', '+'
 
   load_do_then_save(ARGV[0]) do |data, lang, flashcards|
     unless flashcards.find { |flashcard| flashcard == Flashcard.new(expression: ARGV[1], translations: ARGV[2].split(',')) }
-      flashcards << Flashcard.new(expression: ARGV[1], translations: [ARGV[2]])
+      flashcards << Flashcard.new(expression: ARGV[1], translations: ARGV[2].split(','))
       data[ARGV[0]] = flashcards.map(&:data)
     else
       warn "~ #{ARGV[1]} is already defined."
@@ -29,10 +29,7 @@ when 'edit'
   editor = ARGV.shift || ENV['EDITOR'] || abort('Either configure $EDITOR or pass an editor as an arguement.')
   exec "#{editor} #{FLASHCARDS_DATA.path}"
 when '--help', '-h'
-  puts(DATA.read.gsub(/<([^>]+)>(.+?)<\/\1>/m) do |match|
-    methods = $1.split('.')
-    methods.reduce($2) { |result, method| result.send(method) }
-  end)
+  puts(colourise(DATA.read))
 when nil
   load_do_then_save do |data, lang, flashcards|
     # Switch system language to whatever language you're learning.

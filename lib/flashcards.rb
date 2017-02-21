@@ -10,7 +10,14 @@ end
 
 class Array
   def join_with_and(xxx = 'and', delimiter = ', ')
+    return self[0] if self.length == 1
     "#{self[0..-2].join(delimiter)} #{xxx} #{self[-1]}"
+  end
+end
+
+class String
+  def titlecase
+    "#{self[0].upcase}#{self[1..-1]}"
   end
 end
 
@@ -50,7 +57,7 @@ def run(language, flashcards)
     if sample = flashcard.examples.sample
       puts sample[0].
         sub(flashcard.expression, flashcard.expression.bold).
-        sub(flashcard.expression.sub(/^./) { $&.upcase }, flashcard.expression.sub(/^./) { $&.upcase }.bold)
+        sub(flashcard.expression.titlecase, flashcard.expression.titlecase.bold)
     else
       puts
     end
@@ -61,21 +68,48 @@ def run(language, flashcards)
       print "#{flashcard.expression}#{" (#{flashcard.hint})" if flashcard.hint} (not any of these: #{synonyms.map(&:expression).join(', ')}): ".bold
     end
 
-    if flashcard.mark(translation = STDIN.readline.chomp)
+    if flashcard.mark(translation = $stdin.readline.chomp)
       synonyms = flashcard.translations - [translation]
-      list = synonyms.map { |word| ["'".green.bold, word.yellow.bold, "'".green.bold].join }.join_with_and('or'.green.bold)
-      puts ["~ Well done! It is indeed '".green.bold, translation.yellow.bold, "'".green.bold, (list unless synonyms.empty?), ".".green.bold, "\n\n"].join
+      puts colourise("  <green>✔︎  </green>" +
+        "<yellow>#{flashcard.expression.titlecase}</yellow> " +
+        "<green>is indeed <yellow>#{translation}</yellow>. </green>" +
+        (synonyms.any? ? "<green>It can also mean</green> #{synonyms.map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')}<green>.</green>" : '') +
+        "\n\n", bold: true)
     else
-      synonyms = flashcard.translations[1..-1]
-      list = synonyms.map { |word| ["'".red.bold, word.yellow.bold, "'".red.bold].join }.join_with_and('or'.red.bold)
-      puts ["~ It is in fact '".red.bold, translation.yellow.bold, "'".red.bold, (list unless synonyms.empty?), ".".red.bold, "\n\n"].join
+      list = flashcard.translations.map do |word|
+        word
+        "<yellow>#{word}</yellow>"
+      end.join_with_and('<red>or</red>')
+
+      puts colourise("  <red>✘  #{flashcard.expression.titlecase} is </red>#{list}.\n\n", bold: true)
     end
 
     flashcard.examples.each do |expression, translation|
-      puts "  #{expression}".green, "  #{translation}".yellow, ''
+      puts colourise("     <cyan>#{expression}</cyan>")
+      puts colourise("     <magenta>#{translation}</magenta>\n\n")
     end
   end
+
+  puts "Statistics".green.bold
+  puts "- Total: #{6} (#{5.to_s.green} and #{1.to_s.red})"
+  puts "- Review"
+  puts "- New vocabulary:"
 rescue Interrupt
   # TODO: Save current progress (metadata).
   puts; exit
+end
+
+# NOTE: The recursion is to add support for parsing nesting, such as in <green>1<yellow>2</yellow>.</green>
+# TODO: Nesting still doesn't work, i. e. in <green>✔︎ <yellow>Todavía</yellow> is indeed <yellow>still</yellow>. </green>
+# That's because we don't know which scope are we in (what tags are open).
+def colourise(string, options = Hash.new)
+  result = string.gsub(/<([^>]+)>(.+?)<\/\1>/m) do |match|
+    methods = $1.split('.')
+    methods.push(:bold) if options[:bold]
+    methods.reduce($2) do |result, method|
+      result.send(method)
+    end
+  end
+
+  result.match(/<([^>]+)>(.+?)<\/\1>/m) ? colourise(result) : result
 end
