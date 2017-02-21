@@ -20,9 +20,32 @@ make it more useful and add some examples.
 
 Run `flashcards edit`.
 
+```yaml
+---
+es:
+- :expression: todavía
+  :examples:
+  - - "¿Todavía estás en la cama?"
+    - Are you still in bed?
+  - - Todavía la quiero.
+    - I still love her.
+  :translation: still
+- :expression: casi
+  :translations:
+  - almost
+  - nearly
+  :examples:
+  - - Cuesta casi el doble.
+    - It costs almost twice as much.
+  - - La casi totalidad de la población.
+    - Almost the entire population.
+  - - Ya casi no tiene fiebre.
+    - She hardly has a temperature now.
+```
+
 When you re-run `flashcards`, you should get something more fun:
 
-![flashcards-2]()
+![flashcards-2](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards-2.png)
 
 ## Syntax of `~/.config/flashcards.yml`
 

@@ -56,7 +56,7 @@ def run(language, flashcards)
     next if flashcard.remembered?
 
     if sample = flashcard.examples.sample
-      puts sample[0].
+      puts '', sample[0].
         sub(flashcard.expression, flashcard.expression.bold).
         sub(flashcard.expression.titlecase, flashcard.expression.titlecase.bold)
     else
@@ -87,6 +87,7 @@ def run(language, flashcards)
       puts colourise("  <red>✘  #{flashcard.expression.titlecase} is </red>#{list}.\n", bold: true)
     end
 
+    puts unless flashcard.examples.empty?
     flashcard.examples.each do |expression, translation|
       puts colourise("     <cyan>#{expression}</cyan>")
       puts colourise("     <magenta>#{translation}</magenta>\n\n")
