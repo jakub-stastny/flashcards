@@ -4,7 +4,7 @@ Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but wi
 
 ## Tutorial
 
-First we have to add a few flashcards. Let's say you're learning Spanish.
+First let's install the software and add a few flashcards. Let's say you're learning Spanish:
 
 ```shell
 # Install it.
@@ -93,6 +93,6 @@ es:
 
 # Future features
 
-- Testing the other side of the card.
+- Testing the other side of cards.
 - Support for different forms of words. Say "I speak" -> "hablo" (not "hablar" of course).
   Conjugation is the most obvious example, but it goes beyond verbs.
