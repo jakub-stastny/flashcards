@@ -16,8 +16,8 @@ when 'add', '+'
   data = YAML.load(FLASHCARDS_DATA.read) || Hash.new
   flashcards = load_flashcards(data, ARGV[0])
 
-  unless flashcards.find { |flashcard| flashcard.expression == Flashcard.new(expression: ARGV[1], translation: ARGV[2]) }
-    flashcards << Flashcard.new(expression: ARGV[1], translation: ARGV[2])
+  unless flashcards.find { |flashcard| flashcard.expression == Flashcard.new(expression: ARGV[1], translations: ARGV[2]) }
+    flashcards << Flashcard.new(expression: ARGV[1], translations: ARGV[2])
 
     data[ARGV[0]] = flashcards.map(&:data)
 
@@ -30,14 +30,16 @@ when 'add', '+'
 when '--help', '-h'
   puts DATA.read
 when nil
+  lang = ENV['LANG'][0..1]
   data = YAML.load(FLASHCARDS_DATA.read) || Hash.new
-  flashcards = load_flashcards(data, ENV['LANG'][0..1])
+
+  flashcards = load_flashcards(data, lang)
 
   # Switch system language to whatever language you're learning.
-  run(ENV['LANG'][0..1], flashcards)
+  run(lang, flashcards)
 
   # Save metadata.
-  data[ENV['LANG'][0..1]] = flashcards.map(&:data)
+  data[lang] = flashcards.map(&:data)
 
   FLASHCARDS_DATA.close
   yaml = data.to_yaml

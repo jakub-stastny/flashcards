@@ -3,7 +3,7 @@ require 'flashcards/flashcard'
 
 describe Flashcard do
   let(:required_arguments) do
-    {expression: 'hola', translation: 'hi'}
+    {expression: 'hola', translations: ['hi', 'hello']}
   end
 
   describe '.new' do
@@ -13,13 +13,13 @@ describe Flashcard do
       }.to raise_error(ArgumentError)
     end
 
-    it 'requires translation' do
+    it 'requires translations' do
       expect {
-        described_class.new(required_arguments.except(:translation))
+        described_class.new(required_arguments.except(:translations))
       }.to raise_error(ArgumentError)
     end
 
-    it 'initilises successfully with expression and translation' do
+    it 'initilises successfully with expression and translations' do
       expect {
         described_class.new(required_arguments)
       }.not_to raise_error
@@ -44,12 +44,12 @@ describe Flashcard do
 
   describe '#data' do
     it 'returns all the data except empty metadata' do
-      expect(subject.data).to eql(expression: 'hola', translation: 'hi', examples: [])
+      expect(subject.data).to eql(expression: 'hola', translations: ['hi', 'hello'], examples: [])
     end
   end
 
   describe '#==' do
-    it 'returns true if the expression and the translation matches' do
+    it 'returns true if the expression and the translations matches' do
       expect(subject == described_class.new(required_arguments)).to be(true)
     end
 
@@ -58,8 +58,8 @@ describe Flashcard do
       expect(subject == described_class.new(arguements)).to be(false)
     end
 
-    it 'returns false if the translation does not match' do
-      arguements = required_arguments.merge(translation: 'random_translation')
+    it 'returns false if the translations does not match' do
+      arguements = required_arguments.merge(translations: ['random_translations'])
       expect(subject == described_class.new(arguements)).to be(false)
     end
   end
@@ -88,7 +88,7 @@ describe Flashcard do
       end
     end
 
-    context 'with a correct answer' do
+    context 'with an incorrect answer' do
       it 'returns false' do
         expect(subject.mark('co ja vim vole')).to be(false)
       end

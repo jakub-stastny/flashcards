@@ -6,10 +6,10 @@ class Flashcard
     @data[:metadata] ||= Hash.new
 
     self.expression || raise(ArgumentError.new('Expression has to be provided!'))
-    self.translation || raise(ArgumentError.new('Translation has to be provided!'))
+    (self.translations && self.translations[0]) || raise(ArgumentError.new('Translations has to be provided!'))
   end
 
-  [:expression, :translation, :hint, :examples, :metadata].each do |attribute|
+  [:expression, :translations, :hint, :examples, :metadata].each do |attribute|
     define_method(attribute) { @data[attribute] }
   end
 
@@ -20,7 +20,7 @@ class Flashcard
   end
 
   def ==(anotherFlashcard)
-    self.expression == anotherFlashcard.expression && self.translation == anotherFlashcard.translation
+    self.expression == anotherFlashcard.expression && self.translations.sort == anotherFlashcard.translations.sort
   end
 
   def remembered?
@@ -28,7 +28,7 @@ class Flashcard
   end
 
   def mark(answer)
-    if self.translation == answer
+    if self.translations.include?(answer)
       self.metadata[:correct_answers] ||= Array.new
       self.metadata[:correct_answers].push(Time.now)
       return true
