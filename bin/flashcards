@@ -16,8 +16,8 @@ when 'add', '+'
   data = YAML.load(FLASHCARDS_DATA.read) || Hash.new
   flashcards = load_flashcards(data, ARGV[0])
 
-  unless flashcards.find { |flashcard| flashcard.expression == Flashcard.new(expression: ARGV[1], translations: ARGV[2]) }
-    flashcards << Flashcard.new(expression: ARGV[1], translations: ARGV[2])
+  unless flashcards.find { |flashcard| flashcard == Flashcard.new(expression: ARGV[1], translations: ARGV[2]) }
+    flashcards << Flashcard.new(expression: ARGV[1], translations: [ARGV[2]])
 
     data[ARGV[0]] = flashcards.map(&:data)
 

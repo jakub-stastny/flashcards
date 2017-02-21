@@ -4,12 +4,13 @@ Flashcards for learning languages.
 
 # TODO
 
-Synonyma (list the others not any of these, what's the other one you know?)
+Change to topics
+~/.config/flashcards/es/base.yml
+~/.config/flashcards/es/dancing.yml
+~/.config/flashcards/es/ordinary_numbers.yml
+
+Add reset command to reset all the metadata.
+
 Switch sides (ask in EN or in ES) (and deal with synonyms again).
 
-Also (different script):
-Translate:
-He fucks her every night.
-(... write)
-Problem with synonyms, so if it doesn't match, ask was it right?
-This will be used for learning grammar, using the correct forms of verbs etc.
+Tvary slov (primer, primero, primera; la (it); me, se, le), sloves.

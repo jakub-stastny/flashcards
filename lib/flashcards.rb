@@ -11,7 +11,13 @@ end
 
 def load_flashcards(data, language)
   data[language] ||= Array.new
-  data[language].map { |flashcard_data| Flashcard.new(flashcard_data) }
+  data[language].map do |flashcard_data|
+    begin
+      Flashcard.new(flashcard_data)
+    rescue => error
+      abort "Loading flashcard #{flashcard_data.inspect} failed: #{error.message}"
+    end
+  end
 end
 
 def run(language, flashcards)
