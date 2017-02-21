@@ -8,34 +8,34 @@ String.send(:include, Term::ANSIColor)
 
 case ARGV.shift
 when 'add', '+'
-  unless ARGV.length == 3
-    abort "Usage: #{$0} [lang] [word] [translation]"
+  unless ARGV.length == 2
+    abort "Usage: #{$0} [word] [translation]"
   end
 
-  load_do_then_save(ARGV[0]) do |data, lang, flashcards|
-    unless flashcards.find { |flashcard| flashcard == Flashcard.new(expression: ARGV[1], translations: ARGV[2].split(',')) }
-      flashcards << Flashcard.new(expression: ARGV[1], translations: ARGV[2].split(','))
-      data[ARGV[0]] = flashcards.map(&:data)
+  load_do_then_save do |flashcards|
+    unless flashcards.find { |flashcard| flashcard == Flashcard.new(expression: ARGV[0], translations: ARGV[1].split(',')) }
+      flashcards << Flashcard.new(expression: ARGV[0], translations: ARGV[1].split(','))
     else
       warn "~ #{ARGV[1]} is already defined."
     end
+
+    flashcards.map(&:data)
   end
 when 'reset'
-  load_do_then_save do |data, lang, flashcards|
-    data[lang] = flashcards.each { |flashcard| flashcard.metadata.clear }.map(&:data)
+  load_do_then_save do |flashcards|
+    flashcards.each { |flashcard| flashcard.metadata.clear }.map(&:data)
   end
 when 'edit'
-  editor = ARGV.shift || ENV['EDITOR'] || abort('Either configure $EDITOR or pass an editor as an arguement.')
+  editor = ARGV.shift || ENV['EDITOR'] || abort('Either configure $EDITOR or pass an editor as an argument.')
   exec "#{editor} #{FLASHCARDS_DATA.path}"
 when '--help', '-h'
   puts(colourise(DATA.read))
 when nil
-  load_do_then_save do |data, lang, flashcards|
-    # Switch system language to whatever language you're learning.
-    run(lang, flashcards)
+  load_do_then_save do |flashcards|
+    run(flashcards)
 
-    # Save metadata.
-    data[lang] = flashcards.map(&:data)
+    # Save the metadata.
+    flashcards.map(&:data)
   end
 end
 
@@ -45,7 +45,7 @@ __END__
 
 <cyan.bold>Commands</cyan.bold>
 
-flashcards <red>add</red> [lang] [word] [translations]
+flashcards <red>add</red> [word] [translations]
 flashcards <red>add</red> es todavía still
 flashcards <red>add</red> es case almost,nearly <bright_black># Add multiple translations.</bright_black>
 

@@ -21,9 +21,8 @@ class String
   end
 end
 
-def load_flashcards(data, language)
-  data[language] ||= Array.new
-  data[language].map do |flashcard_data|
+def load_flashcards(flashcard_data)
+  flashcard_data.map do |flashcard_data|
     begin
       Flashcard.new(flashcard_data)
     rescue => error
@@ -32,12 +31,11 @@ def load_flashcards(data, language)
   end
 end
 
-def load_do_then_save(lang = ENV['LANG'][0..1], &block)
-  data = YAML.load(FLASHCARDS_DATA.read) || Hash.new
+def load_do_then_save(&block)
+  data = YAML.load(FLASHCARDS_DATA.read) || Array.new
 
-  flashcards = load_flashcards(data, lang)
-
-  block.call(data, lang, flashcards)
+  flashcards = load_flashcards(data)
+  data = block.call(flashcards)
 
   FLASHCARDS_DATA.close
   yaml = data.to_yaml
@@ -45,9 +43,7 @@ def load_do_then_save(lang = ENV['LANG'][0..1], &block)
 end
 
 $correct = 0; $incorrect = 0
-def run(language, flashcards)
-  puts colourise("~ Testing your <cyan>#{language}</cyan> knowledge.", bold: true)
-
+def run(flashcards)
   # TODO: First test ones that has been tested before and needs refreshing before
   # they go to the long-term memory. Then test the new ones and finally the remembered ones.
   # Limit count of each.

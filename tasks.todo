@@ -1,6 +1,6 @@
 Tasks:
+- Do we want to remove the lang, having it just as an array?
 - Full tests coverage including integration tests.
-- README including images.
 - Tag (git) and publish the gem.
 
 v11:
@@ -22,4 +22,3 @@ v2:
   ~/.config/flashcards/es/base.yml
   ~/.config/flashcards/es/dancing.yml
   ~/.config/flashcards/es/ordinary_numbers.yml
-

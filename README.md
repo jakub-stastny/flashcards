@@ -11,8 +11,8 @@ First let's install the software and add a few flashcards. Let's say you're lear
 gem install flashcards
 
 # Add data.
-flashcards add es todavía still
-flashcards add es casi almost,nearly
+flashcards add todavía still
+flashcards add casi almost,nearly
 ```
 
 And run `flashcards`. Here you go!
@@ -26,7 +26,6 @@ Run `flashcards edit` and paste the following data into the file:
 
 ```yaml
 ---
-es:
 - :expression: todavía
   :examples:
   - - "¿Todavía estás en la cama?"
@@ -77,13 +76,13 @@ At this moment support for packs is rather simplist. Set environment variable `F
 to point to any flashcard file.
 
 ```shell
-export FF=~/.config/flashcards/swearwords.yml
-flashcards add es joder 'to fuck'
+export FF=~/.config/flashcards/es/swearwords.yml
+flashcards add joder 'to fuck'
 flashcards # Run it as usual.
 ```
 
 Of course you can set it just for the current command by using
-`FF=~/.config/flashcards/swearwords.yml flashcards`.
+`FF=~/.config/flashcards/es/swearwords.yml flashcards`.
 
 Despite its simplicity, this implementation has its advantages, for instance in
 your `~/.zshrc` you can set `$FF` to a random pack or set it based on day of the week etc.
@@ -107,7 +106,6 @@ Each of these keys points to a list of flashcards.
 
 ```yaml
 ---
-es:
 - :expression: todavía
   :translation: still
   :examples:
