@@ -15,7 +15,7 @@ class Flashcard
 
   def data
     @data.dup.tap do |data|
-      data.delete(:metadata) if :metadata.empty?
+      data.delete(:metadata) if metadata.empty?
     end
   end
 
@@ -27,13 +27,13 @@ class Flashcard
     (self.metadata[:correct_answers] || Array.new).length >= 3
   end
 
-  def mark(reply)
-    if self.translation == reply
+  def mark(answer)
+    if self.translation == answer
       self.metadata[:correct_answers] ||= Array.new
       self.metadata[:correct_answers].push(Time.now)
       return true
     else
-      self.metadata.clear # Treat as new.
+      self.metadata.delete(:correct_answers) # Treat as new.
       return false
     end
   end
