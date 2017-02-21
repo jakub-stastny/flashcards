@@ -91,29 +91,8 @@ es:
     - I still love her.
 ```
 
-# TODO
+# Future features
 
-v1
-  Full tests coverage including integration tests.
-  README including images.
-  Tag (git) and publish the gem.
-
-v11
-  Add notes and tags (:swearwords, :dancing). Display notes after answer.
-  Do we need tags if we plan on adding stacks?
-  flashcards add es xxx yyy #swearwords
-
-v12
-  Switch sides (ask in EN or in ES) (and deal with synonyms again).
-    Change both translations and expression(s) to be either string or an array in the data,
-    but always array after being parsed. If it's array with only one item, save as a string.
-    (possibly use translation/translations keys)?
-
-v13
-  Tvary slov (primer, primero, primera; la (it); me, se, le), sloves.
-
-v2
-  Change to topics ?
-  ~/.config/flashcards/es/base.yml
-  ~/.config/flashcards/es/dancing.yml
-  ~/.config/flashcards/es/ordinary_numbers.yml
+- Testing the other side of the card.
+- Support for different forms of words. Say "I speak" -> "hablo" (not "hablar" of course).
+  Conjugation is the most obvious example, but it goes beyond verbs.
