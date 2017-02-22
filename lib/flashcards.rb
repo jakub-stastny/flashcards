@@ -15,7 +15,7 @@ def load_flashcards(flashcard_data)
     begin
       Flashcard.new(flashcard_data)
     rescue => error
-      abort "Loading flashcard #{flashcard_data.inspect} failed: #{error.message}"
+      abort "Loading flashcard #{flashcard_data.inspect} failed: #{error.message}.\n\n#{error.backtrace}"
     end
   end
 end

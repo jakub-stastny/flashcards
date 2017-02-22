@@ -8,34 +8,12 @@ class Flashcard
 
     self.expression || raise(ArgumentError.new('Expression has to be provided!'))
 
-    if translation = @data.delete(:translation)
-      @data[:translations] = [translation].flatten
-    elsif self.translations.is_a?(String)
-      @data[:translations] = [self.translations]
+    pluralise_key(:translation, data)
+    if self.translations.empty?
+      raise ArgumentError.new('Translations has to be provided!')
     end
 
-    (self.translations && self.translations[0]) || raise(ArgumentError.new('Translations has to be provided!'))
-
-    self.translations.map! do |translation|
-      translation.is_a?(Integer) ? translation.to_s : translation
-    end
-
-
-
-    if silent_translation = @data.delete(:silent_translation)
-      @data[:silent_translations] = [silent_translation].flatten
-    elsif self.silent_translations.is_a?(String)
-      @data[:silent_translations] = [self.silent_translations]
-    elsif self.silent_translations.nil?
-      @data[:silent_translations] = Array.new
-    end
-
-    self.silent_translations.map! do |translation|
-      translation.is_a?(Integer) ? translation.to_s : translation
-    end
-
-
-
+    pluralise_key(:silent_translation, data)
 
     @data[:expression] = self.expression.to_s if self.expression.is_a?(Integer)
 
@@ -115,5 +93,22 @@ class Flashcard
   def mark_as_failed
     self.metadata.delete(:correct_answers) # Treat as new.
     return false
+  end
+
+  protected
+  def pluralise_key(key, data)
+    if value = data.delete(key)
+      data["#{key}s".to_sym] = [value].flatten
+    elsif data["#{key}s".to_sym].is_a?(String)
+      data["#{key}s".to_sym] = [data["#{key}s".to_sym]]
+    elsif data["#{key}s".to_sym].is_a?(Array)
+      # Already in the correct form.
+    else
+      data["#{key}s".to_sym] = Array.new
+    end
+
+    data["#{key}s".to_sym].map! do |value|
+      value.is_a?(Integer) ? value.to_s : value
+    end
   end
 end
