@@ -57,7 +57,7 @@ __END__
 
 flashcards <red>add</red> [word] [translations]
 flashcards <red>add</red> es todavía still
-flashcards <red>add</red> es case almost,nearly <bright_black># Add multiple translations.</bright_black>
+flashcards <red>add</red> es casi almost,nearly <bright_black># Add multiple translations.</bright_black>
 
 flashcards <yellow>reset</yellow> <bright_black># Reset metadata.
   # Useful if you got someone else's file, and you want to reset his progress.</bright_black>

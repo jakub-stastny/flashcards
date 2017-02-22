@@ -6,7 +6,10 @@ class Flashcard
     @data[:examples] ||= Array.new
     @data[:metadata] ||= Hash.new
 
-    self.expression || raise(ArgumentError.new('Expression has to be provided!'))
+    deserialise_singular_or_plural_key(:expression, data)
+    if self.expressions.empty?
+      raise ArgumentError.new('At least one expression has to be provided!')
+    end
 
     deserialise_singular_or_plural_key(:translation, data)
     if self.translations.empty?
@@ -14,8 +17,6 @@ class Flashcard
     end
 
     deserialise_singular_or_plural_key(:silent_translation, data)
-
-    @data[:expression] = self.expression.to_s if self.expression.is_a?(Integer)
 
     self.examples.each do |pair|
       if pair.length != 2
@@ -25,7 +26,7 @@ class Flashcard
   end
 
   ATTRIBUTES = [
-    :expression, :translations, :silent_translations, :note, :hint, :tags, :examples, :metadata
+    :expressions, :translations, :silent_translations, :note, :hint, :tags, :examples, :metadata
   ]
 
   ATTRIBUTES.each do |attribute|
@@ -34,7 +35,7 @@ class Flashcard
 
   def data
     @data.dup.tap do |data|
-      # serialise_singular_or_plural_key(:expression, data)
+      serialise_singular_or_plural_key(:expression, data)
       serialise_singular_or_plural_key(:translation, data)
       serialise_singular_or_plural_key(:silent_translation, data)
 
@@ -45,7 +46,7 @@ class Flashcard
   end
 
   def ==(anotherFlashcard)
-    self.expression == anotherFlashcard.expression && self.translations.sort == anotherFlashcard.translations.sort
+    self.expressions.sort == anotherFlashcard.expressions.sort && self.translations.sort == anotherFlashcard.translations.sort
   end
 
   # TODO: Refactor the code to use it.
