@@ -84,17 +84,19 @@ def run(flashcards)
   # Limit count of each.
   flashcards.shuffle.each do |flashcard|
     if sample = flashcard.examples.sample
-      puts '', colourise(sample[0].
-        sub(flashcard.expression, flashcard.expression.bold).
-        sub(flashcard.expression.titlecase, flashcard.expression.titlecase.bold))
+      puts('', colourise(flashcard.expressions.reduce(sample[0]) do |result, expression|
+        result.
+          sub(expression, expression.bold).
+          sub(expression.titlecase, expression.titlecase.bold)
+      end))
     else
       puts
     end
 
-    if synonyms = flashcards.select { |f2| flashcard.expression == f2.expression }
-      print "#{flashcard.expression}#{" (#{flashcard.hint})" if flashcard.hint}: ".bold
+    if synonyms = flashcards.select { |f2| flashcard.expressions & f2.expressions }
+      print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ".bold
     else
-      print "#{flashcard.expression}#{" (#{flashcard.hint})" if flashcard.hint} (not any of these: #{synonyms.map(&:expression).join(', ')}): ".bold
+      print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (not any of these: #{synonyms.map(&:expression).join(', ')}): ".bold
     end
 
     if flashcard.mark(translation = $stdin.readline.chomp)
@@ -105,14 +107,14 @@ def run(flashcards)
         synonyms = flashcard.translations - [translation]
       end
       puts colourise("  <green>✔︎  </green>" +
-        "<yellow>#{flashcard.expression.titlecase}</yellow> " +
+        "<yellow>#{flashcard.expressions.join_with_and('<green>or</green>').titlecase}</yellow> " +
         "<green>is indeed <yellow>#{translation}</yellow>. </green>" +
         (synonyms.any? ? "<green>It can also mean</green> #{synonyms.map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')}<green>.</green>" : '') +
         "\n", bold: true)
 
       # Experimental.
       if flashcard.tags.include?(:verb) && ! flashcard.tags.include?(:irregular)
-        verb = Verb.new(flashcard.expression)
+        verb = Verb.new(flashcard.expressions.sample)
         all = verb.tenses.all? do |tense|
           person = tense.forms.sample
           print colourise("\n  ~ <magenta>#{person.to_s.titlecase}</magenta> <cyan>form of the</cyan> <magenta>#{tense.tense}</magenta><cyan> tense is:</cyan> ", bold: true)
@@ -136,7 +138,7 @@ def run(flashcards)
         "<yellow>#{word}</yellow>"
       end.join_with_and('<red>or</red>')
 
-      puts colourise("  <red>✘  #{flashcard.expression.titlecase} is </red>#{list}.\n", bold: true)
+      puts colourise("  <red>✘  #{flashcard.expressions.join_with_and('or').titlecase} is </red>#{list}.\n", bold: true)
     end
 
     if flashcard.note
