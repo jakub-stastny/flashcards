@@ -1,6 +1,16 @@
 # About
 
-Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but with an *actually* usable interface.
+Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but with an *actually* usable interface and support for conjugations.
+
+## Motivation
+
+Learning a language is easier than most people think.
+
+    Learning the first 1000 most frequently used words in the entire language will allow you to understand 76.0% of all non-fiction writing, 79.6% of all fiction writing, and an astounding 87.8% of all oral speech.
+
+      ~ Source: [HowLearnSpanish.com](http://howlearnspanish.com/2010/08/how-many-words-do-you-need-to-know/)
+
+- So all you have to do to be able to understand nearly 90% of spoken Spanish is to learn 10 Spanish words for a little over 3 months. Whaaat?
 
 # Tutorial
 
@@ -63,6 +73,14 @@ and only adds limited number of the new vocabulary at a time.
 
 Sometimes even spaced retention can fail, so flashcards will test you on vocabulary
 you know once in a blue moon. We're talking months, not every other week, so chill ...
+
+# Day to day use
+
+## Getting relevant vocabulary
+
+Knowing every bloody ZOO animal ain't gonna help you to ask a hot Colombian for her number, right?
+
+# Generic, relevant to you
 
 # Reference
 

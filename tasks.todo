@@ -1,14 +1,16 @@
 Tasks:
+- flashcards/es.yml -> so we know the language (what about overriding with FF?) and can load exts/lang.rb
+- flashcards stats
+- flashcards merge (another yaml file)
+- Support for adding tags: flashcards add es xxx yyy #swearwords
 - Enable/disable tenses (beginners only present, then add past etc etc).
 - Add support for irregular verb rules. buscar -> busqué etc.
-- Support irregular verbs, best would be to check them against a database, so we don't forget about any.
+- Support totally irregular verbs, best would be to check them against a database, so we don't forget about any.
 - Full tests coverage including integration tests.
 - Tag (git) and publish the gem.
 
 v11:
-  - Add notes and tags (:swearwords, :dancing). Display notes after answer.
-  - Do we need tags if we plan on adding stacks?
-  - flashcards add es xxx yyy #swearwords
+  - Add notes to be displayed after answer.
 
 v12:
   - Switch sides (ask in EN or in ES) (and deal with synonyms again).
