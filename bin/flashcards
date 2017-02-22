@@ -32,9 +32,10 @@ when 'stats'
   _load do |flashcards|
     puts colourise(<<-EOF, bold: true)
 <red>Stats:</red>
-  Total flashcards: #{flashcards.length}
-  You remember: #{flashcards.count { |flashcard| (flashcard.metadata[:correct_answers] || []).length > 2 }}
-  To be reviewed: #{flashcards.count(&:time_to_review?)}
+  Total flashcards: #{flashcards.length}.
+  You remember: #{flashcards.count { |flashcard| (flashcard.metadata[:correct_answers] || []).length > 2 }} (ones that you answered correctly 3 times or more).
+  To be reviewed: #{flashcards.count(&:time_to_review?)}.
+  Comletely new: #{flashcards.count(&:new?)}.
     EOF
   end
 when '--help', '-h'
