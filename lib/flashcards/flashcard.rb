@@ -6,21 +6,36 @@ class Flashcard
     @data[:examples] ||= Array.new
     @data[:metadata] ||= Hash.new
 
+    self.expression || raise(ArgumentError.new('Expression has to be provided!'))
+
     if translation = @data.delete(:translation)
       @data[:translations] = [translation].flatten
-    end
-
-    # Fix incorrect use.
-    if self.translations.is_a?(String)
+    elsif self.translations.is_a?(String)
       @data[:translations] = [self.translations]
     end
 
-    self.expression || raise(ArgumentError.new('Expression has to be provided!'))
     (self.translations && self.translations[0]) || raise(ArgumentError.new('Translations has to be provided!'))
 
     self.translations.map! do |translation|
       translation.is_a?(Integer) ? translation.to_s : translation
     end
+
+
+
+    if silent_translation = @data.delete(:silent_translation)
+      @data[:silent_translations] = [silent_translation].flatten
+    elsif self.silent_translations.is_a?(String)
+      @data[:silent_translations] = [self.silent_translations]
+    elsif self.silent_translations.nil?
+      @data[:silent_translations] = Array.new
+    end
+
+    self.silent_translations.map! do |translation|
+      translation.is_a?(Integer) ? translation.to_s : translation
+    end
+
+
+
 
     @data[:expression] = self.expression.to_s if self.expression.is_a?(Integer)
 
@@ -31,7 +46,11 @@ class Flashcard
     end
   end
 
-  [:expression, :translations, :note, :hint, :tags, :examples, :metadata].each do |attribute|
+  ATTRIBUTES = [
+    :expression, :translations, :silent_translations, :note, :hint, :tags, :examples, :metadata
+  ]
+
+  ATTRIBUTES.each do |attribute|
     define_method(attribute) { @data[attribute] }
   end
 
@@ -41,6 +60,16 @@ class Flashcard
         data[:translation] = self.translations.first
         data.delete(:translations)
       end
+
+      if self.silent_translations.length == 1
+        data[:silent_translation] = self.silent_translations.first
+        data.delete(:silent_translations)
+      end
+
+      if self.silent_translations.empty?
+        data.delete(:silent_translations)
+      end
+
       data.delete(:tags) if tags.empty?
       data.delete(:metadata) if metadata.empty?
       data.delete(:examples) if examples.empty?
@@ -74,7 +103,7 @@ class Flashcard
   end
 
   def mark(answer)
-    if self.translations.include?(answer)
+    if self.translations.include?(answer) || self.silent_translations.include?(answer)
       self.metadata[:correct_answers] ||= Array.new
       self.metadata[:correct_answers].push(Time.now)
       return true

@@ -98,7 +98,12 @@ def run(flashcards)
     end
 
     if flashcard.mark(translation = $stdin.readline.chomp)
-      synonyms = flashcard.translations - [translation]
+      if flashcard.translations.length == 1
+        synonyms = [] # This is so if we have one main translation and one silent one, we don't show it as a synonym.
+        # In case there actually are more (non-silent) synonyms, we will just show them all.
+      else
+        synonyms = flashcard.translations - [translation]
+      end
       puts colourise("  <green>✔︎  </green>" +
         "<yellow>#{flashcard.expression.titlecase}</yellow> " +
         "<green>is indeed <yellow>#{translation}</yellow>. </green>" +
