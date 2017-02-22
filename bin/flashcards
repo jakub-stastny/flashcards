@@ -28,6 +28,15 @@ when 'reset'
 when 'edit'
   editor = ARGV.shift || ENV['EDITOR'] || abort('Either configure $EDITOR or pass an editor as an argument.')
   exec "#{editor} #{FLASHCARDS_DATA.path}"
+when 'stats'
+  _load do |flashcards|
+    puts colourise(<<-EOF, bold: true)
+<red>Stats:</red>
+  Total flashcards: #{flashcards.length}
+  You remember: #{flashcards.count { |flashcard| (flashcard.metadata[:correct_answers] || []).length > 2 }}
+  To be reviewed: #{flashcards.count(&:time_to_review?)}
+    EOF
+  end
 when '--help', '-h'
   puts(colourise(DATA.read))
 when nil

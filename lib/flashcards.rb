@@ -20,6 +20,13 @@ def load_flashcards(flashcard_data)
   end
 end
 
+def _load(&block)
+  data = YAML.load(FLASHCARDS_DATA.read) || Array.new
+
+  flashcards = load_flashcards(data)
+  block.call(flashcards)
+end
+
 def load_do_then_save(&block)
   data = YAML.load(FLASHCARDS_DATA.read) || Array.new
 

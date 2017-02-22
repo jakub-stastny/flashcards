@@ -7,13 +7,16 @@ class Flashcard
     @data[:metadata] ||= Hash.new
 
     if translation = @data.delete(:translation)
-      @data[:translations] = [translation]
+      @data[:translations] = [translation].flatten
     end
 
     # Fix incorrect use.
     if self.translations.is_a?(String)
       @data[:translations] = [self.translations]
     end
+
+    self.translations.map!(&:to_s) # doce -> 12 is parsed as an integer of course.
+    @data[:expression] = self.expression.to_s
 
     self.expression || raise(ArgumentError.new('Expression has to be provided!'))
     (self.translations && self.translations[0]) || raise(ArgumentError.new('Translations has to be provided!'))
