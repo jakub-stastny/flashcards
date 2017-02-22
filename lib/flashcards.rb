@@ -125,6 +125,7 @@ def run(all_flashcards)
             true
           else
             puts colourise("  <red>✘  The correct form is #{tense.send(person)}</red>")
+            puts colourise("  <red>   This is an exception.</red>") if tense.exception?(person)
             flashcard.mark_as_failed
           end
         end

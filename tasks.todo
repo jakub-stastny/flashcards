@@ -1,5 +1,7 @@
 Tasks:
-- Add support for irregular verb rules. buscar -> busqué etc.
+- Add irregular verb rules.
+- Add reporting of other irregular forms of the verb.
+- Test exceptions more frequently (or always).
 - Support totally irregular verbs, best would be to check them against a database, so we don't forget about any.
 - flashcards/es.yml -> so we know the language (what about overriding with FF?) and can load exts/lang.rb
 - flashcards merge (another yaml file)

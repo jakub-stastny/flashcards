@@ -61,6 +61,9 @@ class Verb
       tense.exception(/gar$/, yo: Proc.new { |root| "#{root[0..-2]}gué" })
       tense.exception(/zar$/, yo: Proc.new { |root| "#{root[0..-2]}cé"  })
 
+      # Ver loses accent.
+      tense.exception('ver', yo: 'vi', él: 'vio')
+
       tense
     end
   end
@@ -71,31 +74,56 @@ class Tense
   def initialize(tense, infinitive, &block)
     @tense, @infinitive = tense, infinitive
     @root, @conjugations = self.instance_eval(&block)
-    @conjugations[:usted] = @conjugations[:él]
-    @conjugations[:ustedes] = @conjugations[:ellos]
     @forms = @conjugations.keys
     @exceptions = Hash.new
   end
 
-  [:yo, :tú, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |method_name|
-    define_method(method_name) do
-      exceptions = @exceptions.select { |match, _| @infinitive.match(match) }.values
-      case exceptions.length
-      when 0
-        "#{@root}#{@conjugations[method_name]}"
-      when 1
-        conjugations = @conjugations.merge(exceptions[0]).reduce(Hash.new) do |conjugations, (conjugation, value)|
-          value = value.is_a?(Proc) ? value.call(@root) : "#{@root}#{value}"
-          conjugations.merge(conjugation => value)
-        end
-        conjugations[method_name]
+  PERSONS = [:yo, :tú, :él, :nosotros, :vosotros, :ellos, :ustedes]
+
+  PERSONS.each do |method_name|
+    define_method(method_name) { self.forms[method_name] }
+  end
+  alias_method :usted, :él
+  alias_method :ustedes, :ellos
+
+  def regular_forms
+    PERSONS.reduce(Hash.new) do |buffer, person|
+      unless self.irregular_forms.include?(person)
+        buffer.merge(person => "#{@root}#{@conjugations[person]}")
       else
-        raise "There can't be more than 1 exception! #{exceptions.inspect}"
+        buffer
       end
     end
   end
 
+  def irregular_forms
+    exceptions = @exceptions.select { |match, _| @infinitive.match(match) }.values
+    case exceptions.length
+    when 0 then {}
+    when 1
+      exceptions[0].reduce(Hash.new) do |conjugations, (conjugation, value)|
+        if @exceptions.select { |match, _| @infinitive.match(match) }.keys[0].is_a?(String) ## refactor
+          value = value # If it's a string, we're providing full forms.
+        else # regexp
+          value = value.is_a?(Proc) ? value.call(@root) : "#{@root}#{value}"
+        end
+        conjugations.merge(conjugation => value)
+      end
+    else
+      raise "There can't be more than 1 exception! #{exceptions.inspect}"
+    end
+  end
+
+  def forms
+    self.regular_forms.merge(self.irregular_forms)
+  end
+
   def exception(match, forms)
     @exceptions[match] = forms
+  end
+
+  # Verb.new('buscar').past.exception?(:yo) # => true
+  def exception?(form)
+    !! self.irregular_forms[form]
   end
 end

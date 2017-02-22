@@ -71,6 +71,8 @@ describe 'Past tense' do
     subject { Verb.new('buscar').past }
 
     it 'changes c -> qu in the first person only' do
+      expect(subject.exception?(:yo)).to be(true)
+
       expect(subject.yo).to eql('busqué')
       expect(subject.tú).to eql('buscaste')
       expect(subject.él).to eql('buscó')
@@ -87,6 +89,8 @@ describe 'Past tense' do
     subject { Verb.new('pagar').past }
 
     it 'changes c -> gu in the first person only' do
+      expect(subject.exception?(:yo)).to be(true)
+
       expect(subject.yo).to eql('pagué')
       expect(subject.tú).to eql('pagaste')
       expect(subject.él).to eql('pagó')
@@ -103,6 +107,8 @@ describe 'Past tense' do
     subject { Verb.new('realizar').past }
 
     it 'changes c -> c in the first person only' do
+      expect(subject.exception?(:yo)).to be(true)
+
       expect(subject.yo).to eql('realicé')
       expect(subject.tú).to eql('realizaste')
       expect(subject.él).to eql('realizó')
@@ -112,6 +118,25 @@ describe 'Past tense' do
       expect(subject.vosotros).to eql('realizasteis')
       expect(subject.ellos).to eql('realizaron')
       expect(subject.ustedes).to eql('realizaron')
+    end
+  end
+
+  describe 'ver' do
+    subject { Verb.new('ver').past }
+
+    it 'loses accent in the first and third person of singular' do
+      expect(subject.exception?(:yo)).to be(true)
+      expect(subject.exception?(:él)).to be(true)
+
+      expect(subject.yo).to eql('vi')
+      expect(subject.tú).to eql('viste')
+      expect(subject.él).to eql('vio')
+      expect(subject.usted).to eql('vio')
+
+      expect(subject.nosotros).to eql('vimos')
+      expect(subject.vosotros).to eql('visteis')
+      expect(subject.ellos).to eql('vieron')
+      expect(subject.ustedes).to eql('vieron')
     end
   end
 
