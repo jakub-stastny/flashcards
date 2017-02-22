@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+# If you have any texts in the language you want to learn, like FB messages from your friends,
+# work emails etc, collect all those into a file and run cat the_file | words_by_relevance.
+#
+# This is a very basic too, it doesn't support expressions etc, it's just a starting point.
+
+words = ARGF.read.downcase.scan(/[a-zñáéíóú]+/) - ['www', 'http', 'https']
+p words.uniq.
+  select { |word| words.count(word) > 2 }.
+  sort_by { |word| words.count(word) }.reverse
