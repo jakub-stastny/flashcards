@@ -129,6 +129,7 @@ The file `~/.config/flashcards.yml` is an array of flashcards saved in YAML.
 - Key `examples` (`list` of examples). Each example is a `list` of `[expression, translation]`.
 - Key `hint`. _This is currently under review._
 - Key `tags` (`list` of `symbols`). It can contain anything, currently flashcards support `:verb` tag to ask for conjugations. Only Spanish is supported at the moment, although adding new rules is easy, check out `lib/flashcards/verb.rb`.
+- Key `note` (`string`). Note to be displayed after the word is answered. It's meant to mention irregular forms, differences from the translation (for instance to be can be either `ser` or `estar`, they are used differently, so the note would explain where to use which one).
 - Anything else will be saved.
 
 ```yaml
