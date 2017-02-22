@@ -8,12 +8,12 @@ class Flashcard
 
     self.expression || raise(ArgumentError.new('Expression has to be provided!'))
 
-    pluralise_key(:translation, data)
+    deserialise_singular_or_plural_key(:translation, data)
     if self.translations.empty?
       raise ArgumentError.new('Translations has to be provided!')
     end
 
-    pluralise_key(:silent_translation, data)
+    deserialise_singular_or_plural_key(:silent_translation, data)
 
     @data[:expression] = self.expression.to_s if self.expression.is_a?(Integer)
 
@@ -34,19 +34,9 @@ class Flashcard
 
   def data
     @data.dup.tap do |data|
-      if self.translations.length == 1
-        data[:translation] = self.translations.first
-        data.delete(:translations)
-      end
-
-      if self.silent_translations.length == 1
-        data[:silent_translation] = self.silent_translations.first
-        data.delete(:silent_translations)
-      end
-
-      if self.silent_translations.empty?
-        data.delete(:silent_translations)
-      end
+      # serialise_singular_or_plural_key(:expression, data)
+      serialise_singular_or_plural_key(:translation, data)
+      serialise_singular_or_plural_key(:silent_translation, data)
 
       data.delete(:tags) if tags.empty?
       data.delete(:metadata) if metadata.empty?
@@ -96,7 +86,7 @@ class Flashcard
   end
 
   protected
-  def pluralise_key(key, data)
+  def deserialise_singular_or_plural_key(key, data)
     if value = data.delete(key)
       data["#{key}s".to_sym] = [value].flatten
     elsif data["#{key}s".to_sym].is_a?(String)
@@ -109,6 +99,15 @@ class Flashcard
 
     data["#{key}s".to_sym].map! do |value|
       value.is_a?(Integer) ? value.to_s : value
+    end
+  end
+
+  def serialise_singular_or_plural_key(key, data)
+    if data["#{key}s".to_sym].length == 1
+      data[key] = data["#{key}s".to_sym][0]
+      data.delete("#{key}s".to_sym)
+    elsif data["#{key}s".to_sym].empty?
+      data.delete("#{key}s".to_sym)
     end
   end
 end
