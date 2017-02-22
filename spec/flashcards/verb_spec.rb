@@ -67,6 +67,54 @@ describe 'Past tense' do
     end
   end
 
+  describe 'verbs ending with -car' do
+    subject { Verb.new('buscar').past }
+
+    it 'changes c -> qu in the first person only' do
+      expect(subject.yo).to eql('busqué')
+      expect(subject.tú).to eql('buscaste')
+      expect(subject.él).to eql('buscó')
+      expect(subject.usted).to eql('buscó')
+
+      expect(subject.nosotros).to eql('buscamos')
+      expect(subject.vosotros).to eql('buscasteis')
+      expect(subject.ellos).to eql('buscaron')
+      expect(subject.ustedes).to eql('buscaron')
+    end
+  end
+
+  describe 'verbs ending with -gar' do
+    subject { Verb.new('pagar').past }
+
+    it 'changes c -> gu in the first person only' do
+      expect(subject.yo).to eql('pagué')
+      expect(subject.tú).to eql('pagaste')
+      expect(subject.él).to eql('pagó')
+      expect(subject.usted).to eql('pagó')
+
+      expect(subject.nosotros).to eql('pagamos')
+      expect(subject.vosotros).to eql('pagasteis')
+      expect(subject.ellos).to eql('pagaron')
+      expect(subject.ustedes).to eql('pagaron')
+    end
+  end
+
+  describe 'verbs ending with -zar' do
+    subject { Verb.new('realizar').past }
+
+    it 'changes c -> c in the first person only' do
+      expect(subject.yo).to eql('realicé')
+      expect(subject.tú).to eql('realizaste')
+      expect(subject.él).to eql('realizó')
+      expect(subject.usted).to eql('realizó')
+
+      expect(subject.nosotros).to eql('realizamos')
+      expect(subject.vosotros).to eql('realizasteis')
+      expect(subject.ellos).to eql('realizaron')
+      expect(subject.ustedes).to eql('realizaron')
+    end
+  end
+
   describe 'verbs ending with -er' do
     subject { Verb.new('comer').past }
 
