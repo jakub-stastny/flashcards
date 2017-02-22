@@ -14,7 +14,7 @@ when 'add', '+'
 
   load_do_then_save do |flashcards|
     unless flashcards.find { |flashcard| flashcard == Flashcard.new(expression: ARGV[0], translations: ARGV[1].split(',')) }
-      flashcards << Flashcard.new(expression: ARGV[0], translations: ARGV[1].split(','))
+      flashcards << Flashcard.new(expressions: ARGV[0].split(','), translations: ARGV[1].split(','))
     else
       warn "~ #{ARGV[1]} is already defined."
     end
@@ -56,8 +56,9 @@ __END__
 <cyan.bold>Commands</cyan.bold>
 
 flashcards <red>add</red> [word] [translations]
-flashcards <red>add</red> es todavía still
-flashcards <red>add</red> es casi almost,nearly <bright_black># Add multiple translations.</bright_black>
+flashcards <red>add</red> todavía still
+flashcards <red>add</red> casi almost,nearly <bright_black># Add multiple translations.</bright_black>
+flashcards <red>add</red> dónde,adónde where <bright_black># Add multiple expressions.</bright_black>
 
 flashcards <yellow>reset</yellow> <bright_black># Reset metadata.
   # Useful if you got someone else's file, and you want to reset his progress.</bright_black>
