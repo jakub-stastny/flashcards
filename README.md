@@ -127,9 +127,9 @@ The file `~/.config/flashcards.yml` is an array of flashcards saved in YAML.
 - Key `expression` (`string`, required): the word in the language you're learning.
 - Key `translation` (`string`) or `translations` (`list` of `strings`): translation to English or whatever language you already know. Note that for flashcard will parse `translation` if it's an array and `translations` if it's a string as well (and will format it correctly on save), so don't worry about it too much.
 - Key `silent_translation` (`string`) or `silent_translations` (`list` of `strings`): same as the above, except these won't be listed as synonyms. When asked what veinte is, 20 is a valid answer. Or primer/primera/primero are all valid, but they are not synonyms, just different forms of the same word.
-- Key `examples` (`list` of examples). Each example is a `list` of `[expression, translation]`.
+- Key `example` or `examples` (`list` of examples). Each example is a `list` of `[expression, translation]`.
 - Key `hint`. _This is currently under review._
-- Key `tags` (`list` of `symbols`). It can contain anything, currently flashcards support `:verb` tag to ask for conjugations. Only Spanish is supported at the moment, although adding new rules is easy, check out `lib/flashcards/verb.rb`.
+- Key `tag` (`symbol`) or `tags` (`list` of `symbols`). It can contain anything, currently flashcards support `:verb` tag to ask for conjugations. Only Spanish is supported at the moment, although adding new rules is easy, check out `lib/flashcards/verb.rb`.
 - Key `note` (`string`). Note to be displayed after the word is answered. It's meant to mention irregular forms, differences from the translation (for instance to be can be either `ser` or `estar`, they are used differently, so the note would explain where to use which one).
 - Anything else will be saved.
 

@@ -2,9 +2,10 @@ class Flashcard
   attr_reader :data
   def initialize(data)
     @data = data
-    @data[:tags]     ||= Array.new
-    @data[:examples] ||= Array.new
     @data[:metadata] ||= Hash.new
+
+    deserialise_singular_or_plural_key(:example, data)
+    deserialise_singular_or_plural_key(:tag, data)
 
     deserialise_singular_or_plural_key(:expression, data)
     if self.expressions.empty?
@@ -35,6 +36,8 @@ class Flashcard
 
   def data
     @data.dup.tap do |data|
+      serialise_singular_or_plural_key(:tag, data)
+      serialise_singular_or_plural_key(:example, data)
       serialise_singular_or_plural_key(:expression, data)
       serialise_singular_or_plural_key(:translation, data)
       serialise_singular_or_plural_key(:silent_translation, data)
