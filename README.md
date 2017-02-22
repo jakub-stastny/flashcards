@@ -1,4 +1,4 @@
-# About
+# About ![](https://travis-ci.org/botanicus/flashcards.svg?branch=master)
 
 Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but with an *actually* usable interface and support for conjugations.
 
