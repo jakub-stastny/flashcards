@@ -24,6 +24,14 @@ describe Flashcard do
         described_class.new(required_arguments)
       }.not_to raise_error
     end
+
+    it 'also initilises successfully with expression and one translation' do
+      expect {
+        arguments = required_arguments.except(:translations)
+        arguments[:translation] = 'a translation'
+        described_class.new(arguments)
+      }.not_to raise_error
+    end
   end
 
   subject do

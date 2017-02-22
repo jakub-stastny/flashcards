@@ -33,7 +33,7 @@ when 'stats'
     puts colourise(<<-EOF, bold: true)
 <red>Stats:</red>
   Total flashcards: #{flashcards.length}.
-  You remember: #{flashcards.count { |flashcard| (flashcard.metadata[:correct_answers] || []).length > 2 }} (ones that you answered correctly 3 times or more).
+  You remember: #{flashcards.count { |flashcard| flashcard.correct_answers.length > 2 }} (ones that you answered correctly 3 times or more).
   To be reviewed: #{flashcards.count(&:time_to_review?)}.
   Comletely new: #{flashcards.count(&:new?)}.
     EOF

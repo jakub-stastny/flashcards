@@ -15,11 +15,14 @@ class Flashcard
       @data[:translations] = [self.translations]
     end
 
-    self.translations.map!(&:to_s) # doce -> 12 is parsed as an integer of course.
-    @data[:expression] = self.expression.to_s
-
     self.expression || raise(ArgumentError.new('Expression has to be provided!'))
     (self.translations && self.translations[0]) || raise(ArgumentError.new('Translations has to be provided!'))
+
+    self.translations.map! do |translation|
+      translation.is_a?(Integer) ? translation.to_s : translation
+    end
+
+    @data[:expression] = self.expression.to_s if self.expression.is_a?(Integer)
 
     self.examples.each do |pair|
       if pair.length != 2
@@ -28,7 +31,7 @@ class Flashcard
     end
   end
 
-  [:expression, :translations, :hint, :tags, :examples, :metadata].each do |attribute|
+  [:expression, :translations, :note, :hint, :tags, :examples, :metadata].each do |attribute|
     define_method(attribute) { @data[attribute] }
   end
 
@@ -48,8 +51,15 @@ class Flashcard
     self.expression == anotherFlashcard.expression && self.translations.sort == anotherFlashcard.translations.sort
   end
 
+  # TODO: Refactor the code to use it.
+  # Also deal with correct_answers.push. Maybe I have to
+  # do the same as with metadata, bootstrap it and tear down if empty.
+  def correct_answers
+    self.metadata[:correct_answers] || Array.new
+  end
+
   def new?
-    (self.metadata[:correct_answers] || Array.new).empty?
+    self.correct_answers.empty?
   end
 
   SCHEDULE = [1, 5, 25, 125]

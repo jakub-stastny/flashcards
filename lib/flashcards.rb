@@ -134,6 +134,12 @@ def run(flashcards)
       puts colourise("  <red>✘  #{flashcard.expression.titlecase} is </red>#{list}.\n", bold: true)
     end
 
+    if flashcard.note
+      puts colourise(<<-EOF, bold: true)
+\n  <blue>ℹ #{flashcard.note}</blue>
+      EOF
+    end
+
     puts unless flashcard.examples.empty?
     flashcard.examples.each do |expression, translation|
       puts colourise("     <cyan>#{expression}</cyan>")
