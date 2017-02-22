@@ -148,6 +148,14 @@ The file `~/.config/flashcards.yml` is an array of flashcards saved in YAML.
 
 Run `flashcard -h` to see all the options.
 
+# Testimonials
+
+    What is that? I see. Well, the colours are cool.
+    ~ My mum.
+
+    Why don't you get a real job like your grandpa? I don't know what this freelancing really is, but I don't think it's good for you!
+    ~ My grandmother
+
 # Future features
 
 - Testing the other side of cards.

@@ -1,11 +1,11 @@
 Tasks:
+- Multiple expressions.
+- Add support for irregular verb rules. buscar -> busqué etc.
+- Support totally irregular verbs, best would be to check them against a database, so we don't forget about any.
 - flashcards/es.yml -> so we know the language (what about overriding with FF?) and can load exts/lang.rb
-- flashcards stats
 - flashcards merge (another yaml file)
 - Support for adding tags: flashcards add es xxx yyy #swearwords
 - Enable/disable tenses (beginners only present, then add past etc etc).
-- Add support for irregular verb rules. buscar -> busqué etc.
-- Support totally irregular verbs, best would be to check them against a database, so we don't forget about any.
 - Full tests coverage including integration tests.
 - Tag (git) and publish the gem.
 
