@@ -39,9 +39,9 @@ def load_do_then_save(&block)
 end
 
 $correct = 0; $incorrect = 0
-def run(flashcards)
-  flashcards_to_review = flashcards.select { |flashcard| flashcard.time_to_review? }
-  new_flashcards = flashcards.select { |flashcard| flashcard.new? }
+def run(all_flashcards)
+  flashcards_to_review = all_flashcards.select { |flashcard| flashcard.time_to_review? }
+  new_flashcards = all_flashcards.select { |flashcard| flashcard.new? }
 
   limit = ENV['LIMIT'] ? ENV['LIMIT'].to_i : 25 # TODO: Change name so it can't conflict and document it.
   abort 'LIMIT=0 for obtaining everything is not yet supported.' if limit == 0
@@ -83,8 +83,8 @@ def run(flashcards)
   # they go to the long-term memory. Then test the new ones and finally the remembered ones.
   # Limit count of each.
   flashcards.shuffle.each do |flashcard|
-    if sample = flashcard.examples.sample
-      puts('', colourise(flashcard.expressions.reduce(sample[0]) do |result, expression|
+    if example = flashcard.examples.sample
+      puts('', colourise(flashcard.expressions.reduce(example.expression) do |result, expression|
         result.
           sub(expression, expression.bold).
           sub(expression.titlecase, expression.titlecase.bold)
@@ -93,10 +93,11 @@ def run(flashcards)
       puts
     end
 
-    if synonyms = flashcards.select { |f2| flashcard.expressions & f2.expressions }
+    synonyms = all_flashcards.select { |f2| ! (flashcard.translations & f2.translations).empty? } - [flashcard]
+    if synonyms.empty?
       print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ".bold
     else
-      print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (not any of these: #{synonyms.map(&:expression).join(', ')}): ".bold
+      print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (also can be #{synonyms.map(&:expressions).join(', ')}): ".bold
     end
 
     if flashcard.mark(translation = $stdin.readline.chomp)
@@ -148,9 +149,9 @@ def run(flashcards)
     end
 
     puts unless flashcard.examples.empty?
-    flashcard.examples.each do |expression, translation|
-      puts colourise("     <cyan>#{expression}</cyan>")
-      puts colourise("     <magenta>#{translation}</magenta>\n\n")
+    flashcard.examples.each do |example|
+      puts colourise("     <cyan>#{example.expression}</cyan>")
+      puts colourise("     <magenta>#{example.translation}</magenta>\n\n")
     end
   end
 

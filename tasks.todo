@@ -1,5 +1,4 @@
 Tasks:
-- Multiple expressions. flashcards add es a,b translation.
 - Add support for irregular verb rules. buscar -> busqué etc.
 - Support totally irregular verbs, best would be to check them against a database, so we don't forget about any.
 - flashcards/es.yml -> so we know the language (what about overriding with FF?) and can load exts/lang.rb

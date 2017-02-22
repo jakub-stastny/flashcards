@@ -1,3 +1,14 @@
+class Example
+  attr_reader :expression, :translation
+  def initialize(expression, translation)
+    @expression, @translation = expression, translation
+  end
+
+  def data
+    {@expression => @translation}
+  end
+end
+
 class Flashcard
   attr_reader :data
   def initialize(data)
@@ -5,6 +16,14 @@ class Flashcard
     @data[:metadata] ||= Hash.new
 
     deserialise_singular_or_plural_key(:example, data)
+    self.examples.map! do |hash|
+      if hash.keys.length == 1
+        Example.new(hash.keys.first, hash.values.first)
+      else
+        raise ArgumentError.new("Incorrect example: #{hash.inspect}")
+      end
+    end
+
     deserialise_singular_or_plural_key(:tag, data)
 
     deserialise_singular_or_plural_key(:expression, data)
@@ -18,12 +37,6 @@ class Flashcard
     end
 
     deserialise_singular_or_plural_key(:silent_translation, data)
-
-    self.examples.each do |pair|
-      if pair.length != 2
-        raise ArgumentError.new("Incorrect example: #{pair.inspect}")
-      end
-    end
   end
 
   ATTRIBUTES = [
@@ -37,6 +50,7 @@ class Flashcard
   def data
     @data.dup.tap do |data|
       serialise_singular_or_plural_key(:tag, data)
+      self.examples.map!(&:data)
       serialise_singular_or_plural_key(:example, data)
       serialise_singular_or_plural_key(:expression, data)
       serialise_singular_or_plural_key(:translation, data)
