@@ -121,25 +121,6 @@ describe 'Past tense' do
     end
   end
 
-  describe 'ver' do
-    subject { Verb.new('ver').past }
-
-    it 'loses accent in the first and third person of singular' do
-      expect(subject.exception?(:yo)).to be(true)
-      expect(subject.exception?(:él)).to be(true)
-
-      expect(subject.yo).to eql('vi')
-      expect(subject.tú).to eql('viste')
-      expect(subject.él).to eql('vio')
-      expect(subject.usted).to eql('vio')
-
-      expect(subject.nosotros).to eql('vimos')
-      expect(subject.vosotros).to eql('visteis')
-      expect(subject.ellos).to eql('vieron')
-      expect(subject.ustedes).to eql('vieron')
-    end
-  end
-
   describe 'verbs ending with -er' do
     subject { Verb.new('comer').past }
 
@@ -169,6 +150,44 @@ describe 'Past tense' do
       expect(subject.vosotros).to eql('vivisteis')
       expect(subject.ellos).to eql('vivieron')
       expect(subject.ustedes).to eql('vivieron')
+    end
+  end
+
+  describe 'ver' do
+    subject { Verb.new('ver').past }
+
+    it 'loses accent in the first and third person of singular' do
+      expect(subject.exception?(:yo)).to be(true)
+      expect(subject.exception?(:él)).to be(true)
+
+      expect(subject.yo).to eql('vi')
+      expect(subject.tú).to eql('viste')
+      expect(subject.él).to eql('vio')
+      expect(subject.usted).to eql('vio')
+
+      expect(subject.nosotros).to eql('vimos')
+      expect(subject.vosotros).to eql('visteis')
+      expect(subject.ellos).to eql('vieron')
+      expect(subject.ustedes).to eql('vieron')
+    end
+  end
+
+  describe 'dar' do
+    subject { Verb.new('dar').past }
+
+    it 'loses accent in the first and third person of singular and is conjugated such as -er/-ir verbs.' do
+      expect(subject.exception?(:yo)).to be(true)
+      expect(subject.exception?(:él)).to be(true)
+
+      expect(subject.yo).to eql('di')
+      expect(subject.tú).to eql('diste')
+      expect(subject.él).to eql('dio')
+      expect(subject.usted).to eql('dio')
+
+      expect(subject.nosotros).to eql('dimos')
+      expect(subject.vosotros).to eql('disteis')
+      expect(subject.ellos).to eql('dieron')
+      expect(subject.ustedes).to eql('dieron')
     end
   end
 end
