@@ -156,6 +156,8 @@ Run `flashcard -h` to see all the options.
     Why don't you get a real job like your grandpa? I don't know what this freelancing really is, but I don't think it's good for you!
     ~ My grandmother
 
+As you can see, the credentials are bullet-proof.
+
 # Future features
 
 - Testing the other side of cards.
