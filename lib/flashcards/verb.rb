@@ -14,7 +14,7 @@ class Verb
   end
 
   def present
-    Tense.new(:present, @infinitive) do
+    tense = Tense.new(:present, @infinitive) do
       case @infinitive
       when /^(.+)ar$/
         [$1, {
@@ -36,6 +36,11 @@ class Verb
         }]
       end
     end
+
+    # TODO: Rename to #exception to #irregular or somethin'.
+    tense.exception('dar', yo: 'doy', vosotros: 'dais')
+
+    tense
   end
 
   def past
@@ -127,6 +132,14 @@ class Tense
 
   def exception(match, forms)
     @exceptions[match] = forms
+  end
+
+  def regular?
+    self.irregular_forms.empty?
+  end
+
+  def irregular?
+    ! self.regular?
   end
 
   # Verb.new('buscar').past.exception?(:yo) # => true

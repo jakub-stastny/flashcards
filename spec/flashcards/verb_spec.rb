@@ -48,6 +48,22 @@ describe 'Present tense' do
       expect(subject.ustedes).to eql('viven')
     end
   end
+
+  describe 'dar' do
+    subject { Verb.new('dar').present }
+
+    it 'is irregular in the first form of singular and second form of plural' do
+      expect(subject.yo).to eql('doy')
+      expect(subject.tú).to eql('das')
+      expect(subject.él).to eql('da')
+      expect(subject.usted).to eql('da')
+
+      expect(subject.nosotros).to eql('damos')
+      expect(subject.vosotros).to eql('dais')
+      expect(subject.ellos).to eql('dan')
+      expect(subject.ustedes).to eql('dan')
+    end
+  end
 end
 
 describe 'Past tense' do

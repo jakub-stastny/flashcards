@@ -109,23 +109,25 @@ def run(all_flashcards)
       end
       puts colourise("  <green>✔︎  </green>" +
         "<yellow>#{flashcard.expressions.join_with_and('<green>or</green>').titlecase}</yellow> " +
-        "<green>is indeed <yellow>#{translation}</yellow>. </green>" +
+        "<green>is indeed <yellow>#{flashcard.translations[0]}</yellow>. </green>" + # Do not use translation var here as it might be a silent one such as 6th.
         (synonyms.any? ? "<green>It can also mean</green> #{synonyms.map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')}<green>.</green>" : '') +
         "\n", bold: true)
 
       # Experimental.
-      if flashcard.tags.include?(:verb) && ! flashcard.tags.include?(:irregular)
+      if flashcard.tags.include?(:verb)
         verb = Verb.new(flashcard.expressions.sample)
         all = verb.tenses.all? do |tense|
-          person = tense.forms.sample
+          person = tense.forms.keys.sample
           print colourise("\n  ~ <magenta>#{person.to_s.titlecase}</magenta> <cyan>form of the</cyan> <magenta>#{tense.tense}</magenta><cyan> tense is:</cyan> ", bold: true)
           answer = $stdin.readline.chomp
           if answer == tense.send(person)
             puts colourise("  <green>✔︎  </green>")
+            puts colourise("  <green>   Keep in mind that there are irregular forms: #{tense.irregular_forms.inspect}</green>") if tense.irregular?
             true
           else
-            puts colourise("  <red>✘  The correct form is #{tense.send(person)}</red>")
+            puts colourise("  <red>✘  The correct form is #{tense.send(person)}</red>.", bold: true)
             puts colourise("  <red>   This is an exception.</red>") if tense.exception?(person)
+            puts colourise("  <blue>   All the irregular forms are: #{tense.irregular_forms.inspect}</blue>") if tense.irregular?
             flashcard.mark_as_failed
           end
         end

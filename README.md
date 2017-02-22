@@ -159,6 +159,9 @@ Run `flashcard -h` to see all the options.
     Jesus Christ dude, you need to get laid!
     ~ My best friend.
 
+    That's the shit pal!
+    ~ Random homeless guy whom I paid money to review it.
+
 As you can see, the credentials are bullet-proof.
 
 # Future features
