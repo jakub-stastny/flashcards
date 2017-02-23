@@ -29,6 +29,10 @@ flashcards <red>add</red> todavía still
 flashcards <red>add</red> casi almost,nearly <bright_black># Add multiple translations.</bright_black>
 flashcards <red>add</red> dónde,adónde where <bright_black># Add multiple expressions.</bright_black>
 
+<blue>Multilingual mode.</blue>
+If you have more than one language configured in your ~/.config/flashcards.yml,
+you have to use this syntax
+
 flashcards <yellow>reset</yellow> <bright_black># Reset metadata.
   # Useful if you got someone else's file, and you want to reset his progress.</bright_black>
 

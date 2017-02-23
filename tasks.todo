@@ -5,6 +5,7 @@ Tasks:
 - It should be possible to add irregular forms directly to the flashcards.
 - Support for adding tags: flashcards add es xxx yyy #verb
 - flashcards/es.yml -> so we know the language (what about overriding with FF?) and can load exts/lang.rb
+- flashcards reset asks confirmation (reset which language)
 - flashcards merge (another yaml file), add pack attribute. Only allow names such as <lang>.<pack>.yml
 - Full tests coverage including integration tests.
 - Tag (git) and publish the gem.

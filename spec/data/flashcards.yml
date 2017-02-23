@@ -1,6 +1,4 @@
 ---
 learning:
   es:
-    - present
-    - past
-    - reflective
+    test_me_on: [present, past, reflective]
