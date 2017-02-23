@@ -1,10 +1,12 @@
 Tasks:
 - Deprecate FF, implement what's described in help and load load exts/lang.rb
-- Mnemotechnic aid: garfield / la gare ..
-- Add irregular verb rules. (+ !, would like and reflectives).
+- Implement test_me_on.
+- Mnemotechnic aid: garfield / la gare .. + What to do about .hint?
+- Add irregular verb rules. (+ !, would like and reflectives). Refactor verb to use proper terminology, reflective is not tense.
 - Test exceptions more frequently (or always).
-- It should be possible to add irregular forms directly to the flashcards.
+- It should be possible to add irregular forms directly to the YAML.
 - flashcards merge (another yaml file), add pack attribute. Only allow names such as <lang>.<pack>.yml
+- Verify command: unknown attrs, check conjugations agains wiktionary.
 - Full tests coverage including integration tests.
 - Tag (git) and publish the gem.
 
