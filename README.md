@@ -6,7 +6,7 @@ Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but wi
 
 Learning a language is easier than most people think.
 
-    Learning the first 1000 most frequently used words in the entire language will allow you to understand 76.0% of all non-fiction writing, 79.6% of all fiction writing, and an astounding 87.8% of all oral speech.
+> Learning the first 1000 most frequently used words in the entire language will allow you to understand 76.0% of all non-fiction writing, 79.6% of all fiction writing, and an astounding 87.8% of all oral speech.
 
 ~ Source: [HowLearnSpanish.com](http://howlearnspanish.com/2010/08/how-many-words-do-you-need-to-know/)
 
@@ -143,16 +143,16 @@ Run `flashcard -h` to see all the options.
 
 # Testimonials
 
-    What is that? I see. Well, the colours are cool.
+> What is that? I see. Well, the colours are cool.
 ~ My mum.
 
-    Why don't you get a real job like your grandpa? I don't know what this freelancing really is, but I don't think it's good for you!
+> Why don't you get a real job like your grandpa? I don't know what this freelancing really is, but I don't think it's good for you!
 ~ My grandmother
 
-    Jesus Christ dude, you need to get laid!
+> Jesus Christ dude, you need to get laid!
 ~ My best friend.
 
-    That's the shit pal!
+> That's the shit pal!
 ~ Random homeless guy whom I paid money to review it.
 
 As you can see, the credentials are bullet-proof.
