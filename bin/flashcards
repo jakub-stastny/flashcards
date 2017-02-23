@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 
-require 'term/ansicolor'
 require 'flashcards/commander'
-
-String.send(:include, Term::ANSIColor)
+require 'flashcards/core_exts'
 
 case ARGV.shift
 when 'add', '+'
