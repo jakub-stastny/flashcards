@@ -11,7 +11,8 @@ Polish girls, can use it as well.
 
 There will be a mobile app, sooner or later.
 
-| ![flashcards-thumb](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards_thumb.png) | ![flashcards-thumb](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/shoes-app_thumb.png) | mobile app comming soon...er or later |
+![flashcards-thumb](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards_thumb.png)
+![flashcards-thumb](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/shoes-app_thumb.png)
 
 ## Motivation
 
