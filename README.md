@@ -18,6 +18,15 @@ writing, and an astounding 87.8% of all oral speech.
 So all you have to do to be able to **understand nearly 90% of spoken Spanish**
 is to learn **10 Spanish words** for **3 months and 10 days**. Whaaat?
 
+> Of course, only a fraction of those words are used regularly. [This study](http://www.corpus4u.org/forum/upload/forum/2005062106260627.pdf)
+> found that knowing as few as 2000 words could lead to a 95% comprehension rate
+> for English speakers. If one increases their vocabulary size to 5000 words
+> (250% the vocabulary size as before), the comprehension rate only increases to
+> 96%. This is why focusing on just the most common words in a language, as you
+> are doing, is a common tactic for language learners.
+>
+> Source: [StackExchange Linguistics](http://linguistics.stackexchange.com/questions/3333/how-many-words-do-i-need-to-learn)
+
 Besides, if you're reading this, you're probably a programmer, right? I bet **you
 know a bunch of languages already**. And no, I don't think it's all that different.
 Figuring out what's going on with little knowledge based on context, learning bunch
