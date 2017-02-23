@@ -115,9 +115,13 @@ module Flashcards
         else
           translation_or_first_translation = flashcard.translations[0] # For silent translations.
         end
+
+        flashcard_expressions = flashcard.expressions.map.with_index { |word, index| "<yellow>#{index == 0 ? word.titlecase : word}</yellow>" }.join_with_and('or')
+        list_of_synonyms = (synonyms - [translation]).map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')
+
         puts colourise(<<-EOF, bold: true)
-  <green>✔︎  <yellow>#{flashcard.expressions.join_with_and('<green>or</green>').titlecase}</yellow> is indeed <yellow>#{translation_or_first_translation}</yellow>. </green>
-  #{(synonyms.any? ? "<green>It can also mean</green> #{(synonyms - [translation]).map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')}<green>.</green>" : '')}
+  <green>✔︎  <yellow>#{flashcard_expressions}</yellow> is indeed <yellow>#{translation_or_first_translation}</yellow>.
+  #{"It can also mean #{list_of_synonyms}." if synonyms.any?}</green>
   EOF
 
         # Experimental.
@@ -125,7 +129,9 @@ module Flashcards
           verb = Verb.new(flashcard.expressions.sample)
           all = verb.tenses.all? do |tense|
             person = tense.forms.keys.sample
-            print colourise("\n  ~ <magenta>#{person.to_s.titlecase}</magenta> <cyan>form of the</cyan> <magenta>#{tense.tense}</magenta><cyan> tense is:</cyan> ", bold: true)
+            print colourise(<<-EOF, bold: true).chomp + ' '
+  ~ <magenta>#{person.to_s.titlecase} <cyan>form of the</cyan> #{tense.tense}<cyan> tense is:</cyan></magenta>
+            EOF
             answer = $stdin.readline.chomp
             x = if answer == tense.send(person)
               puts colourise("  <green>✔︎  </green>")
@@ -150,7 +156,7 @@ module Flashcards
     All the forms of the #{tense.tense} are:
       #{_wrap.call(tense, :yo)} | #{_wrap.call(tense, :nosotros)}
       #{_wrap.call(tense, :tú)} | #{_wrap.call(tense, :vosotros)}
-      #{_wrap.call(tense, :él)} | #{_wrap.call(tense, :ellos)}
+      #{_wrap.call(tense, :él)} | #{_wrap.call(tense, :ellos)}\n
             EOF
 
             x
@@ -176,7 +182,7 @@ module Flashcards
         EOF
       end
 
-      puts unless flashcard.examples.empty?
+      # puts unless flashcard.examples.empty?
       flashcard.examples.each do |example|
         puts colourise("     <cyan>#{example.expression}</cyan>")
         puts colourise("     <magenta>#{example.translation}</magenta>\n\n")
