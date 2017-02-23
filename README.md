@@ -93,7 +93,7 @@ and only adds limited number of the new vocabulary at a time.
 
 Knowing every bloody ZOO animal ain't gonna help you to ask a hot Colombian for
 her number, right? I'd suggest starting with a frequency list of 1000 words (can be
-found on [Wiktionary.org](https://en.wiktionary.org/wiki/Wiktionary%3aFrequency_lists#Spanish))
+found on [Wiktionary.org](https://en.wiktionary.org/wiki/Wiktionary%3aFrequency_lists))
 and then noting words you hear and don't understand.
 
 Yes, you have to put in the work yourself, but at least you will be learning words
@@ -103,7 +103,7 @@ used or mean a different think in the community you are in touch with.
 For instance Duolingo taught me the word _emparedado_, sandwich. In Spain I never
 heard it once, everyone says _bocadillo_. In Colombia everyone says _sandwich_.
 I don't know where is emparedado being used, and since I haven't encountered it,
-to me it's a totally irrelevant.
+to me it's a totally irrelevant word.
 
 Part of flashcards is `words_by_relevance` script. Save messages from your Spanish
 friends, blog posts you are interested in understanding etc in a file and run
@@ -139,10 +139,9 @@ your `~/.zshrc` you can set `$FF` to a random pack or set it based on day of the
 
 If a flashcard is tagged with `verb`, you will be automatically asked 1 random
 conjugation of each tense. Currently only Spanish is supported, although adding
-new rules is easy, check out `lib/flashcards/verb.rb`. Bonus points for sending a PR.
-
-Irregular verbs are not yet supported, although it's just a matter of adding few rules.
-You can tag them with `irregular` and deal with them later. They will be skipped for now.
+new rules is easy. Check out
+[lib/flashcards/verb.rb](https://github.com/botanicus/flashcards/blob/master/lib/flashcards/verb.rb).
+Bonus points for sending a PR.
 
 ![flashcards-3](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards-3.png)
 
@@ -202,3 +201,4 @@ As you can see, the credentials are bullet-proof.
 # Language learning resources
 
 - [How Many Words Do You Need to Know in Spanish (or any other foreign language)? And WHICH Words Should You Be Learning?](http://howlearnspanish.com/2010/08/how-many-words-do-you-need-to-know/)
+- [Wiktionary frequency lists for any language](https://en.wiktionary.org/wiki/Wiktionary%3aFrequency_lists)
