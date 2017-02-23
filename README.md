@@ -1,16 +1,22 @@
 # About ![](https://travis-ci.org/botanicus/flashcards.svg?branch=master)
 
-Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but with an *actually* usable interface and support for **conjugations** of regular and irregular verbs.
+Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but
+with an *actually* usable interface and support for **conjugations** of regular
+and irregular verbs.
 
 ## Motivation
 
 Learning a language is easier than most people think. Believe me – I know a few.
+It's just most people don't learn what they *actually* need.
 
-> Learning the first 1000 most frequently used words in the entire language will allow you to understand 76.0% of all non-fiction writing, 79.6% of all fiction writing, and an astounding 87.8% of all oral speech.
+> Learning the first 1000 most frequently used words in the entire language will
+allow you to understand 76.0% of all non-fiction writing, 79.6% of all fiction
+writing, and an astounding 87.8% of all oral speech.
 >
 > Source: [HowLearnSpanish.com](http://howlearnspanish.com/2010/08/how-many-words-do-you-need-to-know/)
 
-**So all you have to do to be able to understand nearly 90% of spoken Spanish is to learn 10 Spanish words for 3 months and 10 days. Whaaat?**
+So all you have to do to be able to **understand nearly 90% of spoken Spanish**
+is to learn **10 Spanish words** for **3 months and 10 days**. Whaaat?
 
 Besides, if you're reading this, you're probably a programmer, right? I bet **you
 know a bunch of languages already**. And no, I don't think it's all that different.
