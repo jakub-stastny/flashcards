@@ -9,6 +9,8 @@ on an experimental [desktop app](https://github.com/botanicus/flashcards/blob/ma
 so my friend Jaime, who's crazy about learning Polish, so he can chat up hot
 Polish girls, can use it as well.
 
+There will be a mobile app, sooner or later.
+
 ## Motivation
 
 Learning a language is easier than most people think. Believe me – I know a few.

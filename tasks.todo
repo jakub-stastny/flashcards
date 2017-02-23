@@ -11,9 +11,6 @@ Tasks:
 - Full tests coverage including integration tests.
 - Tag (git) and publish the gem.
 
-v11:
-  - Add notes to be displayed after answer.
-
 v12:
   - Switch sides (ask in EN or in ES) (and deal with synonyms again).
     Change both translations and expression(s) to be either string or an array in the data,
