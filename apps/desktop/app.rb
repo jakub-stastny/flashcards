@@ -1,12 +1,14 @@
 #!/usr/bin/env shoes
 # frozen_string_literal: true
 
-require 'flashcards'
+require 'flashcards/commander'
 
 ENV['FF'] ||= '/tmp/test.yml' #File.expand_path('~/.config/flashcards.yml')
 ENV['EDITOR_APP'] ||= 'Atom'
 
-Shoes.app(width: 600) do
+TAG_LIST = [:verb, :reflective]
+
+Shoes.app(width: 600, height: 570) do
   background '#EFC'
   border('#BE8', strokewidth: 6)
 
@@ -60,43 +62,70 @@ Shoes.app(width: 600) do
     stack margin: 10 do
       para strong('Note'), stroke: gray
       para 'Note will be displayed after your answer.', stroke: gray
-      @note = edit_box(width: 250)
+      @note = edit_box(width: 250, height: 55)
     end
 
     stack margin: 10 do
       para strong('Tags'), stroke: gray
-      para 'This can be a list of words separated by comma.', stroke: gray
-      @tags = edit_line(width: 250)
+      flow do
+        @tag_list_checks = TAG_LIST.map do |tag|
+          checkbox = check; para(tag.to_s)
+          [checkbox, tag]
+        end
+      end
     end
 
     stack margin: 10 do
+      @example_lines = Array.new
       para strong('Examples'), stroke: gray
-      flow do
-        @example_1 = edit_line(width: 250)
-        @example_2 = edit_line(width: 250)
-      end
-      flow do
-        @example_1 = edit_line(width: 250)
-        @example_2 = edit_line(width: 250)
-      end
-      flow do
-        @example_1 = edit_line(width: 250)
-        @example_2 = edit_line(width: 250)
+      3.times do
+        flow do
+          @example_lines << [
+            edit_line(width: 250), edit_line(width: 250)
+          ]
+        end
       end
     end
 
     stack margin: 10 do
       flow do
         button 'Save' do
-          flashcard = Flashcard.new(
+          tags = @tag_list_checks.
+            select { |checkbox, _| checkbox.checked? }.
+            map { |_, tag| tag }
+
+          examples = @example_lines.map do |expression, translation|
+            unless [expression.text, translation.text].any?(&:empty?)
+              Example.new(expression.text, translation.text)
+            end
+          end.compact
+
+          arguments = {
             expressions: @expressions.text.split(/\s*,\s*/),
             translations: @translations.text.split(/\s*,\s*/),
             # silent_translations: @silent_translations.text.split(/\s*,\s*/),
-            tags: @tags.text.split(/\s*,\s*/).map(&:to_sym),
-            note: @note.text)
-          p flashcard
+            tags: tags,
+            examples: examples,
+            note: @note.text
+          }
 
-          # TODO: Write to the file, reset the form.
+          begin
+            flashcard = Flashcard.new(arguments)
+          rescue ArgumentError => error
+            puts "~ Flashcard arguments: #{arguments.inspect}"
+            alert(error.message)
+          else
+            puts "~ Flashcard: #{flashcard.inspect}"
+
+            Flashcards::Commander.add_flashcard(flashcard)
+
+            @expressions.text = ''
+            @translations.text = ''
+            @translations.text = ''
+            @note.text = ''
+            @tag_list_checks.each { |checkbox, _| checkbox.checked = false }
+            @example_lines.flatten.each { |line| line.text = '' }
+          end
         end
 
         button 'Run' do

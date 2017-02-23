@@ -16,11 +16,13 @@ class Flashcard
     @data[:metadata] ||= Hash.new
 
     deserialise_singular_or_plural_key(:example, data)
-    self.examples.map! do |hash|
-      if hash.keys.length == 1
-        Example.new(hash.keys.first, hash.values.first)
+    self.examples.map! do |hash_or_example|
+      if hash_or_example.is_a?(Example)
+        hash_or_example
+      elsif hash_or_example.keys.length == 1
+        Example.new(hash_or_example.keys.first, hash_or_example.values.first)
       else
-        raise ArgumentError.new("Incorrect example: #{hash.inspect}")
+        raise ArgumentError.new("Incorrect example: #{hash_or_example.inspect}")
       end
     end
 

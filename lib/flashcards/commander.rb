@@ -7,11 +7,16 @@ module Flashcards
         abort "Usage: #{File.basename($0)} [word] [translation]"
       end
 
+      flashcard = Flashcard.new(expression: argv[0], translations: argv[1].split(','))
+      self.add_flashcard(flashcard)
+    end
+
+    def self.add_flashcard(new_flashcard)
       Flashcards.load_do_then_save do |flashcards|
-        unless flashcards.find { |flashcard| flashcard == Flashcard.new(expression: argv[0], translations: argv[1].split(',')) }
-          flashcards << Flashcard.new(expressions: argv[0].split(','), translations: argv[1].split(','))
+        unless flashcards.find { |flashcard| flashcard == new_flashcard }
+          flashcards << new_flashcard
         else
-          warn "~ #{argv[1]} is already defined."
+          warn "~ #{new_flashcard.translations.first} is already defined." ## TODO: move to the method above, return true/false and if it above.
         end
 
         flashcards.map(&:data)

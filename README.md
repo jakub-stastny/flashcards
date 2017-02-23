@@ -4,6 +4,11 @@ Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but
 with an *actually* usable interface and support for **conjugations** of regular
 and irregular verbs.
 
+Albeit flashcards was developed primarily for my own need, I'm currently working
+on an experimental [desktop app](https://github.com/botanicus/flashcards/blob/master/apps/desktop),
+so my friend Jaime, who's crazy about learning Polish, so he can chat up hot
+Polish girls, can use it as well.
+
 ## Motivation
 
 Learning a language is easier than most people think. Believe me – I know a few.
