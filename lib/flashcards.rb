@@ -88,8 +88,8 @@ module Flashcards
       if example = flashcard.examples.sample
         puts('', colourise(flashcard.expressions.reduce(example.expression) do |result, expression|
           result.
-            sub(expression, expression.bold).
-            sub(expression.titlecase, expression.titlecase.bold)
+            sub(/\b#{expression}\b/, expression.bold).
+            sub(/\b#{expression.titlecase}\b/, expression.titlecase.bold)
         end))
       else
         puts
@@ -109,10 +109,15 @@ module Flashcards
         else
           synonyms = flashcard.translations - [translation]
         end
+        if flashcard.translations.include?(translation)
+          translation_or_first_translation = translation
+        else
+          translation_or_first_translation = flashcard.translations[0] # For silent translations.
+        end
         puts colourise("  <green>✔︎  </green>" +
           "<yellow>#{flashcard.expressions.join_with_and('<green>or</green>').titlecase}</yellow> " +
-          "<green>is indeed <yellow>#{flashcard.translations[0]}</yellow>. </green>" + # Do not use translation var here as it might be a silent one such as 6th.
-          (synonyms.any? ? "<green>It can also mean</green> #{synonyms.map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')}<green>.</green>" : '') +
+          "<green>is indeed <yellow>#{translation_or_first_translation}</yellow>. </green>" + # Do not use translation var here as it might be a silent one such as 6th.
+          (synonyms.any? ? "<green>It can also mean</green> #{(synonyms - [translation]).map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')}<green>.</green>" : '') +
           "\n", bold: true)
 
         # Experimental.
@@ -122,17 +127,35 @@ module Flashcards
             person = tense.forms.keys.sample
             print colourise("\n  ~ <magenta>#{person.to_s.titlecase}</magenta> <cyan>form of the</cyan> <magenta>#{tense.tense}</magenta><cyan> tense is:</cyan> ", bold: true)
             answer = $stdin.readline.chomp
-            if answer == tense.send(person)
+            x = if answer == tense.send(person)
               puts colourise("  <green>✔︎  </green>")
-              puts colourise("  <green>   Keep in mind that there are irregular forms: #{tense.irregular_forms.inspect}</green>") if tense.irregular?
               true
             else
-              puts colourise("  <red>✘  The correct form is #{tense.send(person)}</red>.", bold: true)
+              puts colourise("  <red>✘  The correct form is #{tense.send(person)}</red>.")
               puts colourise("  <red>   This is an exception.</red>") if tense.exception?(person)
-              puts colourise("  <blue>   All the irregular forms are: #{tense.irregular_forms.inspect}</blue>") if tense.irregular?
               flashcard.mark_as_failed
             end
+
+            _wrap = Proc.new do |tense, person|
+              if tense.exception?(person)
+                "<red>#{person} #{tense.send(person)}</red>"
+              else
+                "<green>#{person} #{tense.send(person)}</green>"
+              end
+            end
+
+            # TODO: Format the lengts so | is always where it's supposed to be (delete tags before calculation).
+            puts colourise(<<-EOF)
+
+    All the forms of the #{tense.tense} are:
+      #{_wrap.call(tense, :yo)} | #{_wrap.call(tense, :nosotros)}
+      #{_wrap.call(tense, :tú)} | #{_wrap.call(tense, :vosotros)}
+      #{_wrap.call(tense, :él)} | #{_wrap.call(tense, :ellos)}
+            EOF
+
+            x
           end
+
           all ? $correct += 1 : $incorrect += 1
         else
           $correct += 1

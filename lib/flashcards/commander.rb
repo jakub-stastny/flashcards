@@ -29,7 +29,7 @@ module Flashcards
       end
     end
 
-    def self.edit
+    def self.edit(argv)
       editor = argv.shift || ENV['EDITOR'] || abort('Either configure $EDITOR or pass an editor as an argument.')
       exec "#{editor} #{FLASHCARDS_DATA.path}"
     end
