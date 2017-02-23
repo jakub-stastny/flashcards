@@ -1,52 +1,23 @@
 #!/usr/bin/env ruby
 
-require 'yaml'
 require 'term/ansicolor'
-require 'flashcards'
+require 'flashcards/commander'
 
 String.send(:include, Term::ANSIColor)
 
 case ARGV.shift
 when 'add', '+'
-  unless ARGV.length == 2
-    abort "Usage: #{$0} [word] [translation]"
-  end
-
-  load_do_then_save do |flashcards|
-    unless flashcards.find { |flashcard| flashcard == Flashcard.new(expression: ARGV[0], translations: ARGV[1].split(',')) }
-      flashcards << Flashcard.new(expressions: ARGV[0].split(','), translations: ARGV[1].split(','))
-    else
-      warn "~ #{ARGV[1]} is already defined."
-    end
-
-    flashcards.map(&:data)
-  end
+  Flashcards::Commander.add(ARGV)
 when 'reset'
-  load_do_then_save do |flashcards|
-    flashcards.each { |flashcard| flashcard.metadata.clear }.map(&:data)
-  end
+  Flashcards::Commander.reset
 when 'edit'
-  editor = ARGV.shift || ENV['EDITOR'] || abort('Either configure $EDITOR or pass an editor as an argument.')
-  exec "#{editor} #{FLASHCARDS_DATA.path}"
+  Flashcards::Commander.edit(ARGV)
 when 'stats'
-  _load do |flashcards|
-    puts colourise(<<-EOF, bold: true)
-<red>Stats:</red>
-  Total flashcards: #{flashcards.length}.
-  You remember: #{flashcards.count { |flashcard| flashcard.correct_answers.length > 2 }} (ones that you answered correctly 3 times or more).
-  To be reviewed: #{flashcards.count(&:time_to_review?)}.
-  Comletely new: #{flashcards.count(&:new?)}.
-    EOF
-  end
-when '--help', '-h'
-  puts(colourise(DATA.read))
+  Flashcards::Commander.stats
 when nil
-  load_do_then_save do |flashcards|
-    run(flashcards)
-
-    # Save the metadata.
-    flashcards.map(&:data)
-  end
+  Flashcards::Commander.run
+else # -h, --help or anything else.
+  puts(colourise(DATA.read))
 end
 
 __END__
