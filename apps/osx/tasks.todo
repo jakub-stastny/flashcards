@@ -1,0 +1,9 @@
+Tasks:
+- Help info should be showed when hovered over an i icon OR using placeholder as in HTML 5.
+- Run gem install flashcards on installation.
+- Automatic upgrades.
+- Find it an icon.
+
+Not to do:
+- List of all words -> edit. (There's the edit button to open in editor).
+- Manage tags.
