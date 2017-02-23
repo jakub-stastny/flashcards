@@ -11,8 +11,6 @@ Polish girls, can use it as well.
 
 There will be a mobile app, sooner or later.
 
-<img style="float: right;" src="https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards-1.png" size="10" /><img style="float: right;" src="https://raw.githubusercontent.com/botanicus/flashcards/master/apps/desktop/shoes-app.png" size="10" />
-
 ## Motivation
 
 Learning a language is easier than most people think. Believe me – I know a few.
