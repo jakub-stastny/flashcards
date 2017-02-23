@@ -12,7 +12,7 @@ Polish girls, can use it as well.
 There will be a mobile app, sooner or later.
 
 ![flashcards-thumb](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards_thumb.png)
-![flashcards-thumb](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/shoes-app_thumb.png)
+[![flashcards-thumb](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/shoes-app_thumb.png)](https://github.com/botanicus/flashcards/blob/master/apps/desktop)
 
 ## Motivation
 
