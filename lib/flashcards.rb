@@ -75,10 +75,11 @@ module Flashcards
     # p [:flashcards, flashcards.map(&:translations)] ####
 
     if flashcards.empty?
-      abort colourise("<red>There are currently no flashcards that are new or pending to review.</red>\n" +
-        "  Add new ones by running <bright_black>$ #{File.basename($0)} add expression translation</bright_black>.\n" +
-        "  You can also reset all your learning by running <bright_black>$ #{File.basename($0)} reset</bright_black> or just wait until tomorrow.",
-        bold: true)
+      abort colourise(<<-EOF, bold: true)
+<red>There are currently no flashcards that are new or pending to review.</red>
+    Add new ones by running <bright_black>$ #{File.basename($0)} add expression translation</bright_black>.
+    You can also reset all your learning by running <bright_black>$ #{File.basename($0)} reset</bright_black> or just wait until tomorrow.
+        EOF
     end
 
     # TODO: First test ones that has been tested before and needs refreshing before
@@ -97,9 +98,9 @@ module Flashcards
 
       synonyms = all_flashcards.select { |f2| ! (flashcard.translations & f2.translations).empty? } - [flashcard]
       if synonyms.empty?
-        print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ".bold
+        print colourise("#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ", bold: true)
       else
-        print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (also can be #{synonyms.map(&:expressions).join(', ')}): ".bold
+        print colourise("#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (also can be #{synonyms.map(&:expressions).join(', ')}): ", bold: true)
       end
 
       if flashcard.mark(translation = $stdin.readline.chomp)
@@ -114,11 +115,10 @@ module Flashcards
         else
           translation_or_first_translation = flashcard.translations[0] # For silent translations.
         end
-        puts colourise("  <green>✔︎  </green>" +
-          "<yellow>#{flashcard.expressions.join_with_and('<green>or</green>').titlecase}</yellow> " +
-          "<green>is indeed <yellow>#{translation_or_first_translation}</yellow>. </green>" + # Do not use translation var here as it might be a silent one such as 6th.
-          (synonyms.any? ? "<green>It can also mean</green> #{(synonyms - [translation]).map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')}<green>.</green>" : '') +
-          "\n", bold: true)
+        puts colourise(<<-EOF, bold: true)
+  <green>✔︎  <yellow>#{flashcard.expressions.join_with_and('<green>or</green>').titlecase}</yellow> is indeed <yellow>#{translation_or_first_translation}</yellow>. </green>
+  #{(synonyms.any? ? "<green>It can also mean</green> #{(synonyms - [translation]).map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')}<green>.</green>" : '')}
+  EOF
 
         # Experimental.
         if flashcard.tags.include?(:verb)

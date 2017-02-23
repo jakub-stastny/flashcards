@@ -17,23 +17,29 @@ end
 # That's because we don't know which scope are we in (what tags are open).
 
 =begin
-<green>Hello <red>world</red>!</green>
+s1 = "<green>Hello <red>world</red>!</green>"
+s2 = "<green>H<yellow>e</yellow>llo <red>world</red>!</green>" # F
+s3 = "<green>H</green>ello <red>w</red>orld!"
 =end
 require 'term/ansicolor'
 
-def colourise(string, options = Hash.new)
-  colours = Object.new.extend(Term::ANSIColor)
+def colours
+  @colours ||= Object.new.extend(Term::ANSIColor)
+end
 
+def colourise(string, options = Hash.new)
   result = string.gsub(/<([^>]+)>(.+?)<\/\1>/m) do |match|
     methods = $1.split('.')
     methods.push(:bold) if options[:bold]
+    # p [:i, $2, methods, options]
 
     methods.reduce(inner_text = $2) do |result, method|
-      result.sub!(/(<\/[^>]+>)/, "#{colours.send(method)}\\1")
+      # (print '  '; p [:r, result, method]) if result.match(/(<\/[^>]+>)/)
+      result.gsub!(/(<\/[^>]+>)/, "#{colours.send(method)}\\1")
       "#{result}.#{method}"
-      "#{colours.send(method)}#{result}"
+      "#{colours.send(method)}#{result}#{colours.reset unless options[:recursed]}"
     end
   end
 
-  result.match(/<([^>]+)>(.+?)<\/\1>/m) ? colourise(result) : result
+  result.match(/<([^>]+)>(.+?)<\/\1>/m) ? colourise(result, options.merge(recursed: true)) : result
 end
