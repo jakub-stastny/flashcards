@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.authors     = ['James C Russell']
   s.email       = 'james@101ideas.cz'
   s.homepage    = 'http://github.com/botanicus/flashcards'
-  s.summary     = 'Simple flashcards for learning languages'
-  s.description = '...'
+  s.summary     = 'Simple flashcards for learning languages.'
+  s.description = "#{s.summary}. Supports conjugations."
   s.license     = 'MIT'
 
   s.files       = Dir.glob('{bin,lib}/**/*.rb') + ['README.md']
