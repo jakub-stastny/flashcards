@@ -26,23 +26,28 @@ __END__
 
 flashcards <red>add</red> [word] [translations]
 flashcards <red>add</red> todavía still
-flashcards <red>add</red> casi almost,nearly <bright_black># Add multiple translations.</bright_black>
-flashcards <red>add</red> dónde,adónde where <bright_black># Add multiple expressions.</bright_black>
+flashcards <red>add</red> casi almost,nearly  <bright_black># Add multiple translations.</bright_black>
+flashcards <red>add</red> dónde,adónde where  <bright_black># Add multiple expressions.</bright_black>
+flashcards <red>add</red> dar 'to give' <yellow>#verb</yellow> <bright_black># Add with a tag.</bright_black>
 
-<blue>Multilingual mode.</blue>
-If you have more than one language configured in your ~/.config/flashcards.yml,
-you have to use this syntax
+  <magenta>Multilingual mode</magenta> If you have more than one language configured in your
+    <bright_black>~/.config/flashcards.yml</bright_black>, you can specify which one you want to add the
+    flashcard into. Note that you don't have to do so if you have one
+    langugage marked as the default one, but you always can.
+
+    flashcards <red>add</red> <yellow>es</yellow> todavía still
+
 
 flashcards <yellow>reset</yellow> <bright_black># Reset metadata.
   # Useful if you got someone else's file, and you want to reset his progress.</bright_black>
 
-flashcards <green>edit</green> <bright_black># Edit your flashcards in $EDITOR.</bright_black>
-flashcards <green>edit</green> vim
+  <magenta>Multilingual mode</magenta> If you have more than one language
+    configured, you have to specify which one do you want to reset.
+    Default option is ignored in this case.
 
-flashcards <bright_black># Run it!</bright_black>
+flashcards <green>edit</green>
+flashcards <green>edit</green> es
+<blue.bold>EDITOR=vim</blue.bold> flashcards <green>edit</green> # Edit your flashcards in $EDITOR.</bright_black>
 
-<cyan.bold>ENV</cyan.bold>
-  <magenta>FF</magenta>
-    <bright_black># FF is short for flashcard file.
-    # It defaults to ~/.config/flashcards.yml</bright_black>
-    FF=~/.config/flashcards/es/swearwords.yml flashcards
+flashcards <bright_black># Run it! Default FLASHCARDS_LIMIT is 25.</bright_black>
+<blue.bold>FLASHCARDS_LIMIT=50</blue.bold> flashcards <bright_black># Set how many cards you want to show and run it.</bright_black>
