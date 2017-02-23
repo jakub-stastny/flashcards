@@ -83,22 +83,34 @@ so you don't get tested over and over on vocabulary you already know (hello Duol
 
 _The exact schedule is next day, in five days, in 25 days, in 125 days and then every 2 years._
 
-Also if you add a lot of new vocabulary, won't test you on everything at once.
+Also if you add a lot of new vocabulary, flashcards won't test you on everything at once.
 It will prioritise vocabulary that is time to refresh (according to spaced repetition),
 and only adds limited number of the new vocabulary at a time.
-
-Sometimes even spaced retention can fail, so flashcards will test you on vocabulary
-you know once in a blue moon. We're talking months, not every other week, so chill ...
 
 # Day to day use
 
 ## Getting relevant vocabulary
 
-Knowing every bloody ZOO animal ain't gonna help you to ask a hot Colombian for her number, right?
+Knowing every bloody ZOO animal ain't gonna help you to ask a hot Colombian for
+her number, right? I'd suggest starting with a frequency list of 1000 words (can be
+found on [Wiktionary.org](https://en.wiktionary.org/wiki/Wiktionary%3aFrequency_lists#Spanish))
+and then noting words you hear and don't understand.
 
-# Generic, relevant to you
+Yes, you have to put in the work yourself, but at least you will be learning words
+you really need, not a bunch of words that are either irrelevant or are not being
+used or mean a different think in the community you are in touch with.
 
-# Reference
+For instance Duolingo taught me the word _emparedado_, sandwich. In Spain I never
+heard it once, everyone says _bocadillo_. In Colombia everyone says _sandwich_.
+I don't know where is emparedado being used, and since I haven't encountered it,
+to me it's a totally irrelevant.
+
+Part of flashcards is `words_by_relevance` script. Save messages from your Spanish
+friends, blog posts you are interested in understanding etc in a file and run
+`cat the_file | words_by_relevance` to get a list of words from there sorted by
+number of occurences.
+
+# Flashcards reference
 
 ## Support for packs
 
@@ -186,3 +198,7 @@ As you can see, the credentials are bullet-proof.
 # Future features
 
 - Testing the other side of cards.
+
+# Language learning resources
+
+- [How Many Words Do You Need to Know in Spanish (or any other foreign language)? And WHICH Words Should You Be Learning?](http://howlearnspanish.com/2010/08/how-many-words-do-you-need-to-know/)
