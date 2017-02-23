@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+def how_many_months_to_learn(total_words_to_learn, words_to_learn_per_day)
+  total_days = total_words_to_learn.to_f / words_to_learn_per_day
+  total_days / 30
+end
+
+total_words_to_learn = ARGV[0].to_i
+words_to_learn_per_day = ARGV[1].to_i
+total_in_months = how_many_months_to_learn(total_words_to_learn, words_to_learn_per_day)
+
+puts "~ In order to learn #{total_words_to_learn} words while learning #{words_to_learn_per_day} words per day, you need #{total_in_months.round(2)} months."
