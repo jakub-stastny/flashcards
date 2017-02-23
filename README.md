@@ -10,7 +10,13 @@ Learning a language is easier than most people think.
 >
 > Source: [HowLearnSpanish.com](http://howlearnspanish.com/2010/08/how-many-words-do-you-need-to-know/)
 
-- So all you have to do to be able to understand nearly 90% of spoken Spanish is to learn 10 Spanish words for a little over 3 months. Whaaat?
+So all you have to do to be able to understand nearly 90% of spoken Spanish is to learn 10 Spanish words for a little over 3 months. Whaaat?
+
+Besides, if you're reading this, you're probably a programmer, right? I bet you
+know a bunch of languages already. And no, I don't think it's all that different.
+Figuring out with little knowledge based on context, learning bunch of words,
+whether commands, methods or vocabulary, learning grammar ... what's the difference?
+There's a reason why we call programming languages programming *languages*.
 
 # Tutorial
 
