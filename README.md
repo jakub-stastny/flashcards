@@ -20,9 +20,9 @@ is to learn **10 Spanish words** for **3 months and 10 days**. Whaaat?
 
 Besides, if you're reading this, you're probably a programmer, right? I bet **you
 know a bunch of languages already**. And no, I don't think it's all that different.
-Figuring out with little knowledge based on context, learning bunch of words,
-whether commands, methods or vocabulary, learning grammar ... what's the difference?
-There's a reason why we call programming languages programming *languages*.
+Figuring out what's going on with little knowledge based on context, learning bunch
+of words, whether commands, methods or vocabulary, learning grammar ... what's the
+difference? There's a reason why programming languages are called *languages*.
 
 # Tutorial
 
