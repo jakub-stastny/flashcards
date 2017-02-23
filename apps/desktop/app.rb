@@ -1,6 +1,8 @@
 #!/usr/bin/env shoes
 # frozen_string_literal: true
 
+$LOAD_PATH.unshift(File.expand_path('../flashcards../lib', __FILE__))
+
 require 'flashcards/commander'
 
 ENV['FF'] ||= '/tmp/test.yml' #File.expand_path('~/.config/flashcards.yml')

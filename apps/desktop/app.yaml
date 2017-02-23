@@ -44,9 +44,3 @@ icons:
 # dmg:
 #   ds_store: path/to/.DS_Store
 #   background: path/to/background.png
-
-# The command to clone the app using git. Note that the prefix included here is
-# an in-package prefix, so unless you know what the inside of your package
-# looks like, this is not a recommended option. This sample is for a Shoes 3 app
-# and WILL NOT WORK on Shoes 4
-#clone: git checkout-index --prefix=dist/app/ -a

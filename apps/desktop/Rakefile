@@ -1,11 +1,11 @@
 desc 'Run the app.'
 task :run do
-  sh 'chruby-exec jruby -- app.rb'
+  sh 'chruby-exec jruby -- ./app.rb'
 end
 
 desc 'Package the app.'
 task :pack do
-  # sh 'cp -R ../.. flashcards'
   sh 'chruby-exec jruby -- shoes -p swt:app -p swt:jar app.yaml'
-  # sh 'rm -rf flashcards'
 end
+
+task default: :run
