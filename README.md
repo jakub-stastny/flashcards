@@ -8,7 +8,7 @@ Learning a language is easier than most people think.
 
     Learning the first 1000 most frequently used words in the entire language will allow you to understand 76.0% of all non-fiction writing, 79.6% of all fiction writing, and an astounding 87.8% of all oral speech.
 
-      ~ Source: [HowLearnSpanish.com](http://howlearnspanish.com/2010/08/how-many-words-do-you-need-to-know/)
+~ Source: [HowLearnSpanish.com](http://howlearnspanish.com/2010/08/how-many-words-do-you-need-to-know/)
 
 - So all you have to do to be able to understand nearly 90% of spoken Spanish is to learn 10 Spanish words for a little over 3 months. Whaaat?
 
@@ -38,22 +38,17 @@ Run `flashcards edit` and paste the following data into the file:
 ---
 - :expression: todavía
   :examples:
-  - - "¿Todavía estás en la cama?"
-    - Are you still in bed?
-  - - Todavía la quiero.
-    - I still love her.
+  - "¿Todavía estás en la cama?": "Are you still in bed?"
+  - "Todavía la quiero.": "I still love her."
   :translation: still
 - :expression: casi
   :translations:
   - almost
   - nearly
   :examples:
-  - - Cuesta casi el doble.
-    - It costs almost twice as much.
-  - - La casi totalidad de la población.
-    - Almost the entire population.
-  - - Ya casi no tiene fiebre.
-    - She hardly has a temperature now.
+  - "Cuesta casi el doble.": "It costs almost twice as much."
+  - "La casi totalidad de la población.": "Almost the entire population."
+  - "Ya casi no tiene fiebre.": "She hardly has a temperature now."
 ```
 
 It's the same as there was, except of the added examples.
@@ -127,7 +122,7 @@ The file `~/.config/flashcards.yml` is an array of flashcards saved in YAML.
 - Key `expression` (`string`, required): the word in the language you're learning.
 - Key `translation` (`string`) or `translations` (`list` of `strings`): translation to English or whatever language you already know. Note that for flashcard will parse `translation` if it's an array and `translations` if it's a string as well (and will format it correctly on save), so don't worry about it too much.
 - Key `silent_translation` (`string`) or `silent_translations` (`list` of `strings`): same as the above, except these won't be listed as synonyms. When asked what veinte is, 20 is a valid answer. Or primer/primera/primero are all valid, but they are not synonyms, just different forms of the same word.
-- Key `example` or `examples` (`list` of examples). Each example is a `list` of `[expression, translation]`.
+- Key `example` or `examples` (`list` of examples). Each example is a `key`: `value` pair of `[expression, translation]`.
 - Key `hint`. _This is currently under review._
 - Key `tag` (`symbol`) or `tags` (`list` of `symbols`). It can contain anything, currently flashcards support `:verb` tag to ask for conjugations. Only Spanish is supported at the moment, although adding new rules is easy, check out `lib/flashcards/verb.rb`.
 - Key `note` (`string`). Note to be displayed after the word is answered. It's meant to mention irregular forms, differences from the translation (for instance to be can be either `ser` or `estar`, they are used differently, so the note would explain where to use which one).
@@ -138,10 +133,8 @@ The file `~/.config/flashcards.yml` is an array of flashcards saved in YAML.
 - :expression: todavía
   :translation: still
   :examples:
-  - - "¿Todavía estás en la cama?"
-    - Are you still in bed?
-  - - Todavía la quiero.
-    - I still love her.
+  - "¿Todavía estás en la cama?": "Are you still in bed?"
+  - "Todavía la quiero.": "I still love her."
 ```
 
 ## The `flashcard` command
@@ -151,16 +144,16 @@ Run `flashcard -h` to see all the options.
 # Testimonials
 
     What is that? I see. Well, the colours are cool.
-    ~ My mum.
+~ My mum.
 
     Why don't you get a real job like your grandpa? I don't know what this freelancing really is, but I don't think it's good for you!
-    ~ My grandmother
+~ My grandmother
 
     Jesus Christ dude, you need to get laid!
-    ~ My best friend.
+~ My best friend.
 
     That's the shit pal!
-    ~ Random homeless guy whom I paid money to review it.
+~ Random homeless guy whom I paid money to review it.
 
 As you can see, the credentials are bullet-proof.
 
