@@ -1,6 +1,6 @@
 # About ![](https://travis-ci.org/botanicus/flashcards.svg?branch=master)
 
-Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but with an *actually* usable interface and support for conjugations.
+Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but with an *actually* usable interface and support for **conjugations**.
 
 ## Motivation
 
@@ -10,10 +10,10 @@ Learning a language is easier than most people think.
 >
 > Source: [HowLearnSpanish.com](http://howlearnspanish.com/2010/08/how-many-words-do-you-need-to-know/)
 
-So all you have to do to be able to understand nearly 90% of spoken Spanish is to learn 10 Spanish words for a little over 3 months. Whaaat?
+*So all you have to do to be able to understand nearly 90% of spoken Spanish is to learn 10 Spanish words for 3 months and 10 days. Whaaat?*
 
-Besides, if you're reading this, you're probably a programmer, right? I bet you
-know a bunch of languages already. And no, I don't think it's all that different.
+Besides, if you're reading this, you're probably a programmer, right? I bet **you
+know a bunch of languages already**. And no, I don't think it's all that different.
 Figuring out with little knowledge based on context, learning bunch of words,
 whether commands, methods or vocabulary, learning grammar ... what's the difference?
 There's a reason why we call programming languages programming *languages*.
