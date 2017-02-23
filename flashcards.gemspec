@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.email       = 'james@101ideas.cz'
   s.homepage    = 'http://github.com/botanicus/flashcards'
   s.summary     = 'Simple flashcards for learning languages.'
-  s.description = "#{s.summary}. Supports conjugations."
+  s.description = "#{s.summary}. Supports conjugations of regular and irregular verbs."
   s.license     = 'MIT'
 
   s.files       = Dir.glob('{bin,lib}/**/*.rb') + ['README.md']
