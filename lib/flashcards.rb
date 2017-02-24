@@ -2,7 +2,7 @@ require 'yaml'
 require 'pathname'
 require 'flashcards/flashcard'
 require 'flashcards/core_exts'
-require 'flashcards/verb'
+require 'flashcards/language'
 require 'flashcards/config'
 
 module Flashcards

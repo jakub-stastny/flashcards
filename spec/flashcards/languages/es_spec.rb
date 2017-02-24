@@ -1,4 +1,4 @@
-require 'flashcards/verb'
+require 'flashcards/language'
 
 describe 'Present tense' do
   describe 'verbs ending with -ar' do

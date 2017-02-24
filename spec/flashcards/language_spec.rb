@@ -1,4 +1,4 @@
-require 'flashcards/verb'
+require 'flashcards/language'
 
 describe Flashcards do
   describe '.language' do
