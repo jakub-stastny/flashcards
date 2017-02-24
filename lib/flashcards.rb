@@ -63,8 +63,8 @@ module Flashcards
       flashcards_to_review = all_flashcards.select { |flashcard| flashcard.time_to_review? }
       new_flashcards = all_flashcards.select { |flashcard| flashcard.new? }
 
-      limit = ENV['FLASHCARDS_LIMIT'] ? ENV['FLASHCARDS_LIMIT'].to_i : 25 # TODO: Change name so it can't conflict and document it.
-      abort 'FLASHCARDS_LIMIT=0 for obtaining everything is not yet supported.' if limit == 0
+      limit = self.config.limit_per_run
+      abort 'limit_per_run cannot be nil or false at the moment. Hold tight, it is planned.' unless limit
 
       # p [:limit, limit] ####
       # p [:to_review________, flashcards_to_review.map(&:translations)]

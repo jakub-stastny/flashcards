@@ -1,6 +1,7 @@
 require 'yaml'
 require 'ostruct'
 
+# TODO: Keys symbols vs. strings.
 module Flashcards
   class Config
     def config_path
@@ -9,6 +10,10 @@ module Flashcards
 
     def data
       @data ||= YAML.load_file(self.config_path)
+    end
+
+    def limit_per_run
+      @data.has_key?('limit_per_run') ? @data['limit_per_run'] : 25
     end
 
     def language(language_name = nil)

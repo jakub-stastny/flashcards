@@ -1,6 +1,5 @@
 Tasks:
   Configuration:
-  - Move $FLASHCARDS_LIMIT here.
   - Make SCHEDULE configurable.
 
   Verbs:

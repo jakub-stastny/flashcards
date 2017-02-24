@@ -49,5 +49,4 @@ flashcards <green>edit</green>
 flashcards <green>edit</green> es
 <blue.bold>EDITOR=vim</blue.bold> flashcards <green>edit</green> # Edit your flashcards in $EDITOR.</bright_black>
 
-flashcards <bright_black># Run it! Default FLASHCARDS_LIMIT is 25.</bright_black>
-<blue.bold>FLASHCARDS_LIMIT=50</blue.bold> flashcards <bright_black># Set how many cards you want to show and run it.</bright_black>
+flashcards <bright_black># Run it!</bright_black>
