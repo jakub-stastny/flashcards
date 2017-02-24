@@ -1,23 +1,18 @@
 Tasks:
 - Deprecate FF, implement what's described in help and load load exts/lang.rb
 - Implement test_me_on.
+- Make schedule configurable.
 - Mnemotechnic aid: garfield / la gare .. + What to do about .hint?
 - Add irregular verb rules. (+ !, would like and reflectives). Refactor verb to use proper terminology, reflective is not tense.
 - Test exceptions more frequently (or always).
 - It should be possible to add irregular forms directly to the YAML.
 - flashcards merge (another yaml file), add pack attribute. Only allow names such as <lang>.<pack>.yml
 - Verify command: unknown attrs, check conjugations agains wiktionary.
+- Switch sides (ask in EN or in ES) (and deal with synonyms again).
+  1st run: ask what does todavia mean
+  2nd run: ask how do you say todavia
+  Change both translations and expression(s) to be either string or an array in the data,
+  but always array after being parsed. If it's array with only one item, save as a string.
+  (possibly use translation/translations keys)?
 - Full tests coverage including integration tests.
 - Tag (git) and publish the gem.
-
-v12:
-  - Switch sides (ask in EN or in ES) (and deal with synonyms again).
-    Change both translations and expression(s) to be either string or an array in the data,
-    but always array after being parsed. If it's array with only one item, save as a string.
-    (possibly use translation/translations keys)?
-
-v2:
-  Change to topics ?
-  ~/.config/flashcards/es/base.yml
-  ~/.config/flashcards/es/dancing.yml
-  ~/.config/flashcards/es/ordinary_numbers.yml
