@@ -80,12 +80,15 @@ module Flashcards
       self.correct_answers.empty?
     end
 
-    SCHEDULE = [1, 5, 25, 125]
+    def schedule
+      Flashcard.app.config.schedule
+    end
+
     def time_to_review?
       return false if self.new?
 
       correct_answers = (self.metadata[:correct_answers] || Array.new)
-      number_of_days = SCHEDULE[correct_answers.length - 1] || (365 * 2)
+      number_of_days = self.schedule[correct_answers.length - 1] || (365 * 2)
 
       tolerance = (5 * 60 * 60) # 5 hours.
       correct_answers.last < (Time.now - ((number_of_days * 24 * 60 * 60) - tolerance))

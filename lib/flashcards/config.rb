@@ -16,6 +16,10 @@ module Flashcards
       @data.has_key?('limit_per_run') ? @data['limit_per_run'] : 25
     end
 
+    def schedule
+      @data['schedule'] || [1, 5, 25, 125]
+    end
+
     def language(language_name = nil)
       if language_name.nil? && data['learning'].keys.length == 1
         OpenStruct.new(data['learning'].values.first.merge(name: data['learning'].keys.first.to_sym))

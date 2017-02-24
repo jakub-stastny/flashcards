@@ -1,7 +1,4 @@
 Tasks:
-  Configuration:
-  - Make SCHEDULE configurable.
-
   Verbs:
   - Implement test_me_on.
   - Use say to pronunce languages.
