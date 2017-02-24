@@ -13,7 +13,8 @@ module Flashcards
     end
 
     def limit_per_run
-      @data.has_key?('limit_per_run') ? @data['limit_per_run'] : 25
+      limit = @data.has_key?('limit_per_run') ? @data['limit_per_run'] : 25
+      (limit == 0) ? false : limit
     end
 
     def schedule
