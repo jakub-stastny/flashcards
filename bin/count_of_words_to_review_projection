@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require 'date'
+
+NEW_PER_DAY = 10
+SCHEDULE = [1, 5, 25, 125]
+
+# Doesn't include cojugations.
+
+def count(all_correct_answers, day, schedule)
+  number_of_items_for_today = all_correct_answers.reduce(0) do |count, correct_answers|
+
+    schedule.each.with_index do |number_of_days, index|
+      if correct_answers.length == index + 1 && correct_answers.last <= day - number_of_days
+        correct_answers << day
+        count += 1
+      end
+    end
+
+    count
+  end
+
+
+  [all_correct_answers.count, number_of_items_for_today]
+end
+
+all_correct_answers = Array.new
+
+335.times do |day_number|
+  day_number = day_number + 1
+  day = Date.new(2017, 1, 1) + day_number
+  NEW_PER_DAY.times { all_correct_answers << [day] }
+  vocabulary_size, number_of_items_for_today = count(all_correct_answers, day, SCHEDULE)
+  puts "Day #{day_number}: #{number_of_items_for_today} words to be reviewed today, altogether #{number_of_items_for_today + NEW_PER_DAY} (vocabulary size: #{vocabulary_size})."
+end
