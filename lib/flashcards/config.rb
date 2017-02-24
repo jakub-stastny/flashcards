@@ -2,21 +2,13 @@ require 'yaml'
 require 'ostruct'
 
 module Flashcards
-  def self.config_path
-    File.expand_path('~/.config/flashcards.yml')
-  end
-
-  def self.config
-    @config ||= Config.new(self.config_path)
-  end
-
   class Config
-    def initialize(path)
-      @path = path
+    def config_path
+      File.expand_path(ENV['FLASHCARDS_CONFIG'] || '~/.config/flashcards.yml')
     end
 
     def data
-      @data ||= YAML.load_file(@path)
+      @data ||= YAML.load_file(self.config_path)
     end
 
     def language(language_name = nil)

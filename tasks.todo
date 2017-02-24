@@ -1,5 +1,7 @@
 Tasks:
-- Deprecate FF, implement what's described in help and load load exts/lang.rb
+- Vypocet kdyz n slovicek every day, jak to vychazi s poctama reviews etc (plus if different schedule).
+- correct_answers for different forms, past etc.
+- Use say to pronunce languages. say -v Zuzana "Co chceš pičo?", say -v Anna "Guten Tag\!"
 - Implement test_me_on.
 - Make schedule configurable.
 - Mnemotechnic aid: garfield / la gare .. + What to do about .hint?

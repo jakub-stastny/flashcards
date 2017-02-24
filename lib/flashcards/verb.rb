@@ -1,47 +1,34 @@
-# At the moment this is Spanish-only.
-# It's easy to add different set of rules, but since we got rid off <lang>: flashcards,
-# we don't really know which set of rules to apply.
+require 'flashcards/config'
 
 # verb = Flashcards.language.verb.new('hablar')
 # puts verb.present.nosotros
 module Flashcards
   class Language
-    def initialize(name)
-      @name = name
+    def initialize(name, config)
+      @name, @config, @grammar_rules = name, config, Hash.new
     end
 
-    def verb
-      # TODO:
+    def conjugation_group(name, &block)
+      # conjugation_group = block.call
+      # raise ArgumentError unless conjugation_group.is_a?(Tense)
+      @grammar_rules[:conjugation_groups] ||= Hash.new
+      @grammar_rules[:conjugation_groups][name] = block
     end
-  end
 
-  def self.languages
-    @languages ||= Hash.new
-  end
-
-  def self.language(language_name = nil)
-    language_config = self.config.language(language_name)
-    require "flashcards/languages/#{language_config.name}"
-    self.languages[language_config.name]
-  rescue LoadError # Unsupported language.
-    Language.new
-  end
-
-  def self.define_language(name, &block)
-    self.languages[name] = Language.new(name)
-    self.languages[name].instance_eval(&block)
+    def verb(infinitive)
+      Verb.new(infinitive, @grammar_rules[:conjugation_groups])
+    end
   end
 
   class Verb
-    def initialize(infinitive)
-      @infinitive = infinitive
-    end
-
-    def tenses
-      [self.present, self.past]
-    end
-
-    def present
+    attr_reader :infinitive, :conjugation_groups
+    def initialize(infinitive, conjugation_groups)
+      @infinitive, @conjugation_groups = infinitive, conjugation_groups
+      @conjugation_groups.each do |group_name, callable|
+        define_singleton_method(group_name) do
+          callable.call(infinitive)
+        end
+      end
     end
   end
 
