@@ -5,7 +5,8 @@ require 'date'
 NEW_PER_DAY = 10
 SCHEDULE = [1, 5, 25, 125]
 
-# Doesn't include cojugations.
+# Doesn't include conjugations and errors.
+# It doesn't work with LIMIT either.
 
 def count(all_correct_answers, day, schedule)
   number_of_items_for_today = all_correct_answers.reduce(0) do |count, correct_answers|

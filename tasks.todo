@@ -1,20 +1,35 @@
 Tasks:
-- Vypocet kdyz n slovicek every day, jak to vychazi s poctama reviews etc (plus if different schedule).
-- correct_answers for different forms, past etc.
-- Use say to pronunce languages. say -v Zuzana "Co chceš pičo?", say -v Anna "Guten Tag\!"
-- Implement test_me_on.
-- Make schedule configurable.
-- Mnemotechnic aid: garfield / la gare .. + What to do about .hint?
-- Add irregular verb rules. (+ !, would like and reflectives). Refactor verb to use proper terminology, reflective is not tense.
-- Test exceptions more frequently (or always).
-- It should be possible to add irregular forms directly to the YAML.
-- flashcards merge (another yaml file), add pack attribute. Only allow names such as <lang>.<pack>.yml
-- Verify command: unknown attrs, check conjugations agains wiktionary.
-- Switch sides (ask in EN or in ES) (and deal with synonyms again).
-  1st run: ask what does todavia mean
-  2nd run: ask how do you say todavia
-  Change both translations and expression(s) to be either string or an array in the data,
-  but always array after being parsed. If it's array with only one item, save as a string.
-  (possibly use translation/translations keys)?
-- Full tests coverage including integration tests.
-- Tag (git) and publish the gem.
+  Configuration:
+  - Move $FLASHCARDS_LIMIT here.
+  - Make SCHEDULE configurable.
+
+  Verbs:
+  - Implement test_me_on.
+  - Use say to pronunce languages.
+  - Correct_answers for different forms, past etc.
+  - Test exceptions more frequently (or always).
+  - Mnemotechnic aid: garfield / la gare .. + What to do about .hint?
+  - It should be possible to add irregular forms directly to the YAML.
+  - Switch sides (ask in EN or in ES) (and deal with synonyms again).
+    1st run: ask what does todavia mean
+    2nd run: ask how do you say todavia
+    Change both translations and expression(s) to be either string or an array in the data,
+    but always array after being parsed. If it's array with only one item, save as a string.
+    (possibly use translation/translations keys)?
+
+  The `flashcards` command:
+  - Add `merge` (another yaml file), add pack attribute. Only allow names such as <lang>.<pack>.yml
+  - Add `verify`: unknown attrs, check conjugations agains wiktionary.
+
+  ES:
+  - Add irregular verb rules. (+ !, would like and reflectives). Refactor verb to use proper terminology, reflective is not tense.
+
+  Publish:
+  - Tag (git) and publish the gem.
+
+  After:
+  - Full tests coverage including integration tests.
+
+say -v Anna 'Guten Tag!'
+say -v Zuzana 'Co chceš pičo?'
+say -v Thomas "Bonjour. Je m'appelle Thomas."
