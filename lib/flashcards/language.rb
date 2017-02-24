@@ -1,5 +1,3 @@
-require 'flashcards/config'
-
 # verb = Flashcards.language.verb.new('hablar')
 # puts verb.present.nosotros
 module Flashcards
@@ -39,19 +37,18 @@ module Flashcards
       @root, @conjugations = self.instance_eval(&block)
       @forms = @conjugations.keys
       @exceptions = Hash.new
+      @forms.each do |form|
+        define_singleton_method(form) do
+          self.forms[form]
+        end
+      end
     end
 
-    PERSONS = [:yo, :tú, :él, :nosotros, :vosotros, :ellos, :ustedes]
+    # TODO: first_person_of_singular etc
     # TODO: change to PERSONS = SINGULAR_PERSONS + PLURAL_PERSONS.
 
-    PERSONS.each do |method_name|
-      define_method(method_name) { self.forms[method_name] }
-    end
-    alias_method :usted, :él
-    alias_method :ustedes, :ellos
-
     def regular_forms
-      PERSONS.reduce(Hash.new) do |buffer, person|
+      @forms.reduce(Hash.new) do |buffer, person|
         unless self.irregular_forms.include?(person)
           buffer.merge(person => "#{@root}#{@conjugations[person]}")
         else
