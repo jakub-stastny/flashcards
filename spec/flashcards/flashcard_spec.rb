@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'flashcards/flashcard'
 
-describe Flashcard do
+describe Flashcards::Flashcard do
   let(:required_arguments) do
     {expression: 'hola', translations: ['hi', 'hello']}
   end

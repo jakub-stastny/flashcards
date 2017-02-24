@@ -15,6 +15,9 @@ Tasks:
 
   The `flashcards` command:
   - Add `merge` (another yaml file), add pack attribute. Only allow names such as <lang>.<pack>.yml
+  - Add `unmerge` [pack]: remove items from given pack.
+  - Add `export`: export pack to a file <lang>.<pack>.yml
+  - Add `packs`: list all packs.
   - Add `verify`: unknown attrs, check conjugations agains wiktionary.
 
   ES:

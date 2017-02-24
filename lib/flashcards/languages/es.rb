@@ -1,4 +1,6 @@
 Flashcards.app.define_language(:es) do
+  # say_voice('Pedro')
+
   conjugation_group(:present) do |infinitive|
     tense = Flashcards::Tense.new(:present, infinitive) do
       case infinitive
