@@ -32,3 +32,7 @@ Tasks:
 say -v Anna 'Guten Tag!'
 say -v Zuzana 'Co chceš pičo?'
 say -v Thomas "Bonjour. Je m'appelle Thomas."
+
+https://github.com/dam13n/motion-swipe
+https://github.com/cycloped-io/wiktionary + there are also media wiki APIs that can be used.
+https://en.wiktionary.org/w/api.php

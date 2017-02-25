@@ -37,16 +37,13 @@ flashcards <red>add</red> dar 'to give' <yellow>#verb</yellow> <bright_black># A
 
     flashcards <red>add</red> <yellow>es</yellow> todavía still
 
-
-flashcards <yellow>reset</yellow> <bright_black># Reset metadata.
+flashcards <yellow>reset</yellow> es<bright_black> # Reset metadata for given language.
   # Useful if you got someone else's file, and you want to reset his progress.</bright_black>
 
-  <magenta>Multilingual mode</magenta> If you have more than one language
-    configured, you have to specify which one do you want to reset.
-    Default option is ignored in this case.
+flashcards <blue.bold>stats</blue.bold>
 
 flashcards <green>edit</green>
 flashcards <green>edit</green> es
-<blue.bold>EDITOR=vim</blue.bold> flashcards <green>edit</green> # Edit your flashcards in $EDITOR.</bright_black>
+<magenta.bold>EDITOR=vim</magenta.bold> flashcards <green>edit</green> <bright_black># Edit your flashcards in $EDITOR.</bright_black>
 
 flashcards <bright_black># Run it!</bright_black>

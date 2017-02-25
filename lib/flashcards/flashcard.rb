@@ -81,7 +81,7 @@ module Flashcards
     end
 
     def schedule
-      Flashcard.app.config.schedule
+      Flashcards.app.config.schedule
     end
 
     def time_to_review?
