@@ -36,7 +36,7 @@ Flashcards.app.define_language(:es) do
     tense
   end
 
-  conjugation_group(:past) do |infinitive|
+  conjugation_group(:préterite) do |infinitive|
     @past ||= begin
       tense = Flashcards::Tense.new(:past, infinitive) do
         case infinitive
@@ -70,6 +70,25 @@ Flashcards.app.define_language(:es) do
       })
 
       tense
+    end
+  end
+
+  conjugation_group(:imperative) do |infinitive|
+    tense = Flashcards::Tense.new(:past, infinitive) do
+      case infinitive
+      when /^(.+)ar$/
+        [$1, {
+                      nosotros: '',
+          tú: 'a',    vosotros: '',
+          usted: 'e', ustedes: ''
+        }]
+      when /^(.+)[ei]r$/
+        [$1, {
+                      nosotros: '',
+          tú: 'e',    vosotros: '',
+          usted: 'a', ustedes:    ''
+        }]
+      end
     end
   end
 end
