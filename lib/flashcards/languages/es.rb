@@ -80,13 +80,13 @@ Flashcards.app.define_language(:es) do
         [$1, {
                       nosotros: '',
           tú: 'a',    vosotros: '',
-          usted: 'e', ustedes: ''
+          usted: 'e', ustedes: 'en'
         }]
       when /^(.+)[ei]r$/
         [$1, {
                       nosotros: '',
           tú: 'e',    vosotros: '',
-          usted: 'a', ustedes:    ''
+          usted: 'a', ustedes:  'an'
         }]
       end
     end
