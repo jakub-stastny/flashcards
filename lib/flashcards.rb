@@ -111,8 +111,8 @@ module Flashcards
         if example = flashcard.examples.sample
           puts('', colourise(flashcard.expressions.reduce(example.expression) do |result, expression|
             result.
-              sub(/\b#{expression}\b/, expression.bold).
-              sub(/\b#{expression.titlecase}\b/, expression.titlecase.bold)
+              sub(/\b#{expression}\b/, "<bold>#{expression}</bold>").
+              sub(/\b#{expression.titlecase}\b/, "<bold>#{expression.titlecase}</bold>")
           end))
         else
           puts
@@ -142,26 +142,30 @@ module Flashcards
           list_of_synonyms = (synonyms - [translation]).map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')
 
           puts colourise(<<-EOF, bold: true)
-    <green>✔︎  <yellow>#{flashcard_expressions}</yellow> is indeed <yellow>#{translation_or_first_translation}</yellow>.
-    #{"It can also mean #{list_of_synonyms}." if synonyms.any?}</green>
-    EOF
+  <green>✔︎  <yellow>#{flashcard_expressions}</yellow> is indeed <yellow>#{translation_or_first_translation}</yellow>.</green>
+          EOF
+
+          puts colourise(<<-EOF, bold: true) if synonyms.any?
+     #{"It can also mean #{list_of_synonyms}." }
+          EOF
 
           # Experimental.
           if flashcard.tags.include?(:verb)
             verb = self.language.verb(flashcard.expressions.sample)
+            puts
             all = verb.conjugation_groups.keys.all? do |conjugation_group_name|
               conjugation_group = verb.send(conjugation_group_name)
               person = conjugation_group.forms.keys.sample
               print colourise(<<-EOF, bold: true).chomp + ' '
-    ~ <magenta>#{person.to_s.titlecase} <cyan>form of the</cyan> #{conjugation_group.tense}<cyan> tense is:</cyan></magenta>
+  ~ <magenta>#{person.to_s.titlecase} <cyan>form of the</cyan> #{conjugation_group.tense}<cyan> tense is:</cyan></magenta>
               EOF
               answer = $stdin.readline.chomp
               x = if answer == conjugation_group.send(person)
-                puts colourise("  <green>✔︎  </green>")
+                puts colourise("    <green>✔︎  </green>")
                 true
               else
-                puts colourise("  <red>✘  The correct form is #{conjugation_group.send(person)}</red>.")
-                puts colourise("  <red>   This is an exception.</red>") if conjugation_group.exception?(person)
+                puts colourise("  <red>  ✘  The correct form is #{conjugation_group.send(person)}</red>.")
+                puts colourise("  <red>     This is an exception.</red>") if conjugation_group.exception?(person)
                 flashcard.mark_as_failed
               end
 
@@ -201,14 +205,15 @@ module Flashcards
 
         if flashcard.note
           puts colourise(<<-EOF, bold: true)
-    \n  <blue>ℹ #{flashcard.note}</blue>
+    \n    <blue>ℹ #{flashcard.note}</blue>
           EOF
         end
 
-        # puts unless flashcard.examples.empty?
+        puts unless flashcard.examples.empty?
         flashcard.examples.each do |example|
           puts colourise("     <cyan>#{example.expression}</cyan>")
-          puts colourise("     <magenta>#{example.translation}</magenta>\n\n")
+          puts colourise("     <magenta>#{example.translation}</magenta>\n")
+          puts unless flashcard.examples.last == example
         end
       end
 
