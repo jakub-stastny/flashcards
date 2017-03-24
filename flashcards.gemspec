@@ -14,4 +14,5 @@ Gem::Specification.new do |s|
   s.executables = Dir['bin/*'].map(&File.method(:basename))
 
   s.add_runtime_dependency('term-ansicolor', ['~> 1.4'])
+  s.add_runtime_dependency('refined-refinements', ['~> 0.0'])
 end
