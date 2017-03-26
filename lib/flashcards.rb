@@ -11,6 +11,10 @@ module Flashcards
   end
 
   class App
+    using CoreExts
+    using RR::ColourExts
+    using RR::StringExts
+
     def initialize(language_name = nil)
       @language_name = language_name
     end
@@ -97,7 +101,7 @@ module Flashcards
       flashcards = select_flashcards(new_flashcards, flashcards_to_review)
 
       if flashcards.empty?
-        abort colourise(<<-EOF, bold: true)
+        abort(<<-EOF.colourise(bold: true))
   <red>There are currently no flashcards that are new or pending to review.</red>
       Add new ones by running <bright_black>$ #{File.basename($0)} add expression translation</bright_black>.
       You can also reset all your learning by running <bright_black>$ #{File.basename($0)} reset</bright_black> or just wait until tomorrow.
@@ -109,20 +113,20 @@ module Flashcards
       # Limit count of each.
       flashcards.shuffle.each do |flashcard|
         if example = flashcard.examples.sample
-          puts('', colourise(flashcard.expressions.reduce(example.expression) do |result, expression|
+          puts('', flashcard.expressions.reduce(example.expression) do |result, expression|
             result.
               sub(/\b#{expression}\b/, "<bold>#{expression}</bold>").
               sub(/\b#{expression.titlecase}\b/, "<bold>#{expression.titlecase}</bold>")
-          end))
+          end.colourise)
         else
           puts
         end
 
         synonyms = all_flashcards.select { |f2| ! (flashcard.translations & f2.translations).empty? } - [flashcard]
         if synonyms.empty?
-          print colourise("#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ", bold: true)
+          print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ".colourise(bold: true)
         else
-          print colourise("#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (also can be #{synonyms.map(&:expressions).join(', ')}): ", bold: true)
+          print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (also can be #{synonyms.map(&:expressions).join(', ')}): ".colourise(bold: true)
         end
 
         if flashcard.mark(translation = $stdin.readline.chomp)
@@ -141,11 +145,11 @@ module Flashcards
           flashcard_expressions = flashcard.expressions.map.with_index { |word, index| "<yellow>#{index == 0 ? word.titlecase : word}</yellow>" }.join_with_and('or')
           list_of_synonyms = (synonyms - [translation]).map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')
 
-          puts colourise(<<-EOF, bold: true)
+          puts <<-EOF.colourise(bold: true)
   <green>✔︎  <yellow>#{flashcard_expressions}</yellow> is indeed <yellow>#{translation_or_first_translation}</yellow>.</green>
           EOF
 
-          puts colourise(<<-EOF, bold: true) if synonyms.any?
+          puts <<-EOF.colourise(bold: true) if synonyms.any?
      #{"It can also mean #{list_of_synonyms}." }
           EOF
 
@@ -156,16 +160,16 @@ module Flashcards
             all = verb.conjugation_groups.keys.all? do |conjugation_group_name|
               conjugation_group = verb.send(conjugation_group_name)
               person = conjugation_group.forms.keys.sample
-              print colourise(<<-EOF, bold: true).chomp + ' '
+              print <<-EOF.colourise(bold: true).chomp + ' '
   ~ <magenta>#{person.to_s.titlecase} <cyan>form of the</cyan> #{conjugation_group.tense}<cyan> tense is:</cyan></magenta>
               EOF
               answer = $stdin.readline.chomp
               x = if answer == conjugation_group.send(person)
-                puts colourise("    <green>✔︎  </green>")
+                puts "    <green>✔︎  </green>".colourise
                 true
               else
-                puts colourise("  <red>  ✘  The correct form is #{conjugation_group.send(person)}</red>.")
-                puts colourise("  <red>     This is an exception.</red>") if conjugation_group.exception?(person)
+                puts "  <red>  ✘  The correct form is #{conjugation_group.send(person)}</red>.".colourise
+                puts "  <red>     This is an exception.</red>".colourise if conjugation_group.exception?(person)
                 flashcard.mark_as_failed
               end
 
@@ -178,7 +182,7 @@ module Flashcards
               end
 
               # TODO: Format the lengts so | is always where it's supposed to be (delete tags before calculation).
-              puts colourise(<<-EOF)
+              puts <<-EOF.colourise
 
       All the forms of the #{conjugation_group.tense} are:
         #{_wrap.call(conjugation_group, :yo)} | #{_wrap.call(conjugation_group, :nosotros)}
@@ -200,27 +204,28 @@ module Flashcards
             "<yellow>#{word}</yellow>"
           end.join_with_and('<red>or</red>')
 
-          puts colourise("  <red>✘  #{flashcard.expressions.join_with_and('or').titlecase} is </red>#{list}.\n", bold: true)
+          puts "  <red>✘  #{flashcard.expressions.join_with_and('or').titlecase} is </red>#{list}.\n".colourise(bold: true)
         end
 
         if flashcard.note
-          puts colourise(<<-EOF, bold: true)
+          puts <<-EOF.colourise(bold: true)
     \n    <blue>ℹ #{flashcard.note}</blue>
           EOF
         end
 
         puts unless flashcard.examples.empty?
         flashcard.examples.each do |example|
-          puts colourise("     <cyan>#{example.expression}</cyan>")
-          puts colourise("     <magenta>#{example.translation}</magenta>\n")
+          puts "     <cyan>#{example.expression}</cyan>".colourise
+          puts "     <magenta>#{example.translation}</magenta>\n".colourise
           puts unless flashcard.examples.last == example
         end
       end
 
-      puts colourise("\n<green>Statistics</green>", bold: true)
-      puts colourise("- <bold>Total:</bold> #{$correct + $incorrect} (" +
+      puts "\n<green>Statistics</green>".colourise(bold: true)
+      blob = "- <bold>Total:</bold> #{$correct + $incorrect} (" +
         [("<green>#{$correct} correct</green>" unless $correct == 0),
-          ("<red>#{$incorrect} incorrect</red>" unless $incorrect == 0)].compact.join(' and ') + ').')
+          ("<red>#{$incorrect} incorrect</red>" unless $incorrect == 0)].compact.join(' and ') + ').'
+      puts blob.colourise
       # puts "- Review"
       # puts "- New vocabulary:"
     rescue Interrupt

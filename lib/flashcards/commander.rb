@@ -1,7 +1,11 @@
 require 'flashcards'
+require 'flashcards/core_exts'
 
 module Flashcards
   module Commander
+    using CoreExts
+    using RR::ColourExts
+
     def self.add(argv)
       args, tags = argv.group_by { |x| x.start_with?('#') }.values
       unless args.length == 2 || args.length == 3
@@ -38,7 +42,7 @@ module Flashcards
 
     def self.stats
       Flashcards.app._load do |flashcards|
-        puts colourise(<<-EOF, bold: true)
+        puts <<-EOF.colourise(bold: true)
 <red>Stats:</red>
   Total flashcards: #{flashcards.length}.
   You remember: #{flashcards.count { |flashcard| flashcard.correct_answers.length > 2 }} (ones that you answered correctly 3 times or more).
