@@ -3,6 +3,8 @@
 require 'flashcards/commander'
 require 'flashcards/core_exts'
 
+using RR::ColourExts
+
 case ARGV.shift
 when 'add', '+'
   Flashcards::Commander.add(ARGV)
@@ -14,8 +16,10 @@ when 'stats'
   Flashcards::Commander.stats
 when nil
   Flashcards::Commander.run
-else # -h, --help or anything else.
-  puts(colourise(DATA.read))
+when '-h', '--help'
+  puts(DATA.read.colourise)
+else
+  abort(DATA.read.colourise)
 end
 
 __END__
