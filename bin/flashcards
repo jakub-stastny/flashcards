@@ -14,6 +14,8 @@ when 'edit'
   Flashcards::Commander.edit(ARGV)
 when 'stats'
   Flashcards::Commander.stats
+when 'has-not-run-today'
+  Flashcards::Commander.has_not_run_today
 when nil
   Flashcards::Commander.run
 when '-h', '--help'

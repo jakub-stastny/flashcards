@@ -52,6 +52,20 @@ module Flashcards
       end
     end
 
+    def self.has_not_run_today
+      Flashcards.app._load do |flashcards|
+        to_be_reviewed = flashcards.count(&:time_to_review?)
+        new_flashcards = flashcards.count(&:new?)
+
+        exit 1 if (to_be_reviewed + new_flashcards) == 0
+
+        last_review_at = flashcards.map { |f| (f.metadata[:correct_answers] || Array.new).last }.compact.sort.last
+
+        run_today = last_review_at.to_date == Date.today
+        exit 1 if run_today
+      end
+    end
+
     def self.run
       Flashcards.app.load_do_then_save do |flashcards|
         Flashcards.app.run(flashcards)
