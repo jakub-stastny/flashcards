@@ -44,7 +44,8 @@ module Flashcards
     end
 
     def flashcard_file
-      @flashcard_file ||= Pathname.new("~/.config/flashcards/#{self.language_config.name}.yml").expand_path
+      # @flashcard_file ||= Pathname.new("~/.config/flashcards/#{self.language_config.name}.yml").expand_path
+      @flashcard_file ||= Pathname.new("~/Dropbox/Data/Data/Flashcards/#{self.language_config.name}.yml").expand_path
     end
 
     def flashcards
