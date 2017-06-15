@@ -80,6 +80,7 @@ module Flashcards
     end
 
     def exception(match, forms)
+      match = /^#{match}$/ if match.is_a?(String)
       @exceptions[match] = forms
     end
 

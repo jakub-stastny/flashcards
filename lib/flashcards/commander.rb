@@ -61,7 +61,7 @@ module Flashcards
 
         last_review_at = flashcards.map { |f| (f.metadata[:correct_answers] || Array.new).last }.compact.sort.last
 
-        run_today = last_review_at.to_date == Date.today
+        run_today = last_review_at && last_review_at.to_date == Date.today
         exit 1 if run_today
       end
     end
