@@ -18,8 +18,8 @@ module Flashcards
         translations: args[-1].split(','),
         tags: tags.map { |tag| tag[1..-1].to_sym },
         examples: [
-          Example.new('En castellano.', 'En inglés.'),
-          Example.new('En castellano.', 'En inglés.')
+          Example.new('Expression.', 'Translation.'),
+          Example.new('Expression.', 'Translation.')
         ]
       )
 
@@ -46,18 +46,22 @@ module Flashcards
     end
 
     def self.edit(argv)
-      editor = ENV['EDITOR'] || abort('Please set $EDITOR.')
+      editor = ENV['EDITOR'] || 'vim'
       exec "#{editor} #{Flashcards.app(argv.first).flashcard_file}"
     end
 
     def self.stats
       Flashcards.app._load do |flashcards|
+        x= flashcards.select { |flashcard| flashcard.tags.include?(:irregular) }
+        require 'pry'; binding.pry ###
+
         puts <<-EOF.colourise(bold: true)
 <red>Stats:</red>
   Total flashcards: #{flashcards.length}.
   You remember: #{flashcards.count { |flashcard| flashcard.correct_answers.length > 2 }} (ones that you answered correctly 3 times or more).
   To be reviewed: #{flashcards.count(&:time_to_review?)}.
   Comletely new: #{flashcards.count(&:new?)}.
+  Unsupported irregular verbs: XXXXXXXXX
         EOF
       end
     end

@@ -1,4 +1,4 @@
-# verb = Flashcards.language.verb('hablar')
+# verb = Flashcards.app.language.verb('hablar')
 # puts verb.present.nosotros
 module Flashcards
   class Language
