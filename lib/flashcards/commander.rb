@@ -13,7 +13,7 @@ module Flashcards
         abort "Usage: #{File.basename($0)} [lang] [word] [translation] [tags]"
       end
 
-      flashcard = Flashcard.new(expression: args[-2].split(','), translations: args[-1].split(','), tags: tags)
+      flashcard = Flashcard.new(expression: args[-2].split(','), translations: args[-1].split(','), tags: tags, examples: [Example.new('En castellano.', 'En inglés.'), Example.new('En castellano.', 'En inglés.')])
       self.add_flashcard((args.length == 3) ? args[0] : nil, flashcard)
     end
 
@@ -22,6 +22,7 @@ module Flashcards
         unless flashcards.find { |flashcard| flashcard == new_flashcard }
           flashcards << new_flashcard
         else
+          # FIX: /Users/botanicus/Dropbox/Projects/Software/flashcards/lib/flashcards/commander.rb:25:in `block in add_flashcard': undefined method `titlecase' for "already":String (NoMethodError)
           warn "~ #{new_flashcard.translations.first.titlecase} is already defined." ## TODO: move to the method above, return true/false and if it above.
         end
 
