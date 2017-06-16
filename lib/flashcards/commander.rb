@@ -13,7 +13,16 @@ module Flashcards
         abort "Usage: #{File.basename($0)} [lang] [word] [translation] [tags]"
       end
 
-      flashcard = Flashcard.new(expression: args[-2].split(','), translations: args[-1].split(','), tags: tags, examples: [Example.new('En castellano.', 'En inglés.'), Example.new('En castellano.', 'En inglés.')])
+      flashcard = Flashcard.new(
+        expression: args[-2].split(','),
+        translations: args[-1].split(','),
+        tags: tags.map { |tag| tag[1..-1].to_sym },
+        examples: [
+          Example.new('En castellano.', 'En inglés.'),
+          Example.new('En castellano.', 'En inglés.')
+        ]
+      )
+
       self.add_flashcard((args.length == 3) ? args[0] : nil, flashcard)
     end
 
