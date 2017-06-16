@@ -1,5 +1,8 @@
 # verb = Flashcards.app.language.verb('hablar')
-# puts verb.present.nosotros
+# verb.present.nosotros
+#
+# verb = Flashcards.app.language.verb('tener', present: {yo: 'tengo', tú: 'tienes', él: 'tiene'})
+# verb.present.yo
 module Flashcards
   class Language
     def initialize(name, config)
@@ -13,18 +16,24 @@ module Flashcards
       @grammar_rules[:conjugation_groups][name] = block
     end
 
-    def verb(infinitive)
-      Verb.new(infinitive, @grammar_rules[:conjugation_groups])
+    def verb(infinitive, conjugation_groups = Hash.new)
+      Verb.new(infinitive, @grammar_rules[:conjugation_groups], conjugation_groups)
     end
   end
 
   class Verb
     attr_reader :infinitive, :conjugation_groups
-    def initialize(infinitive, conjugation_groups)
+    def initialize(infinitive, conjugation_groups, conjugation_groups_2 = Array.new)
       @infinitive, @conjugation_groups = infinitive, conjugation_groups
       @conjugation_groups.each do |group_name, callable|
         define_singleton_method(group_name) do
-          callable.call(infinitive)
+          if conjugation_groups_2[group_name]
+            tense = callable.call(infinitive)
+            tense.exception(infinitive, conjugation_groups_2[group_name])
+            tense
+          else
+            callable.call(infinitive)
+          end
         end
       end
     end
@@ -63,7 +72,7 @@ module Flashcards
       when 0 then {}
       when 1
         exceptions[0].reduce(Hash.new) do |conjugations, (conjugation, value)|
-          if @exceptions.select { |match, _| @infinitive.match(match) }.keys[0].is_a?(String) ## refactor
+          if @exceptions.select { |match, _| match.is_a?(String) ? @infinitive.match(/^#{match}$/) : @infinitive.match(match) }.keys[0].is_a?(String) ## refactor
             value = value # If it's a string, we're providing full forms.
           else # regexp
             value = value.is_a?(Proc) ? value.call(@root) : "#{@root}#{value}"
@@ -80,7 +89,6 @@ module Flashcards
     end
 
     def exception(match, forms)
-      match = /^#{match}$/ if match.is_a?(String)
       @exceptions[match] = forms
     end
 

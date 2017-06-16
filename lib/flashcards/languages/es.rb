@@ -25,9 +25,6 @@ Flashcards.app.define_language(:es) do
       end
     end
 
-    # TODO: Rename to #exception to #irregular or somethin'.
-    tense.exception('dar', yo: 'doy', vosotros: 'dais')
-
     (class << tense; self; end).instance_eval do
       alias_method :usted, :él
       alias_method :ustedes, :ellos

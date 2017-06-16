@@ -1,5 +1,8 @@
 irregular verbs
 dar, pedir, dormir
+# TODO: Rename #exception to #irregular or somethin'.
+tense.exception('dar', yo: 'doy', vosotros: 'dais')
+Support irregular verbs through es.yml.
 Flashcards.app.language.verb('tener') -> It has no info about whether it is's a regular verb or not.
   - Change the interface OR ...
   - Get the data from online, comparing our version with what we get from elsewhere.
