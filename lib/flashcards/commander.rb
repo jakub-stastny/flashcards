@@ -107,6 +107,7 @@ module Flashcards
     end
 
     def self.run
+      puts "<blue>~</blue> <green>Writing accents:</green> <red>á</red> ⌥-e a   <blue>ñ</blue> ⌥-n n   <yellow>ü</yellow> ⌥-u u   <magenta>¡</magenta> ⌥-1   <magenta>¿</magenta> ⌥-⇧-?".colourise(bold: true)
       Flashcards.app.load_do_then_save do |flashcards|
         Flashcards.app.run(flashcards)
 
