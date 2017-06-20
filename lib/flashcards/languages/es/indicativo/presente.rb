@@ -26,10 +26,8 @@ vos: 'ís', tú: 'es',  vosotros: 'ís',
     tense.exception(/guir$/, yo: Proc.new { |root| root.sub(/u$/, 'o') })
     tense.exception(/(gir|ger)$/, yo: Proc.new { |root| root.sub(/g$/, 'jo') })
 
-    (class << tense; self; end).instance_eval do
-      alias_method :usted, :él
-      alias_method :ustedes, :ellos
-    end
+    tense.alias_person(:usted, :él)
+    tense.alias_person(:ustedes, :ellos)
 
     tense
   end

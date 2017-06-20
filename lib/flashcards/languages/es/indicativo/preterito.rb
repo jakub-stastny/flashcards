@@ -1,6 +1,6 @@
 Flashcards.app.define_language(:es) do
   conjugation_group(:pretérito) do |infinitive|
-    tense = Flashcards::Tense.new(:past, infinitive) do
+    tense = Flashcards::Tense.new(:pretérito, infinitive) do
       case infinitive
       when /^(.+)ar$/
         [$1, {
@@ -21,20 +21,9 @@ Flashcards.app.define_language(:es) do
     tense.exception(/gar$/, yo: Proc.new { |root| "#{root[0..-2]}gué" })
     tense.exception(/zar$/, yo: Proc.new { |root| "#{root[0..-2]}cé"  })
 
-    # Ver loses accent in the first and third person of singular .
-    tense.exception('ver', yo: 'vi', él: 'vio')
-
-    # Dar loses accent in the first and third person of singular and is conjugated such as -er/-ir verbs.
-    tense.exception('dar', {
-      yo: 'di',    nosotros: 'dimos',
-      tú: 'diste', vosotros: 'disteis',
-      él: 'dio',   ellos:    'dieron'
-    })
-
-    (class << tense; self; end).instance_eval do
-      alias_method :usted, :él
-      alias_method :ustedes, :ellos
-    end
+    tense.alias_person(:vos, :tú)
+    tense.alias_person(:usted, :él)
+    tense.alias_person(:ustedes, :ellos)
 
     tense
   end

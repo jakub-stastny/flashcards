@@ -1,7 +1,6 @@
 require 'flashcards'
 require 'flashcards/language'
 
-
 describe 'Pretérito' do
   let(:spanish) { Flashcards.app.language }
 
@@ -9,6 +8,10 @@ describe 'Pretérito' do
     let(:hablar) { spanish.verb('hablar') }
 
     it 'is regular' do
+      [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
+        expect(hablar.pretérito.exception?(person)).to be(false)
+      end
+
       expect(hablar.pretérito.yo).to eql('hablé')
       expect(hablar.pretérito.tú).to eql('hablaste')
       expect(hablar.pretérito.él).to eql('habló')
@@ -26,6 +29,9 @@ describe 'Pretérito' do
 
     it 'changes c -> qu in the first person only' do
       expect(buscar.pretérito.exception?(:yo)).to be(true)
+      [:tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
+        expect(buscar.pretérito.exception?(person)).to be(false)
+      end
 
       expect(buscar.pretérito.yo).to eql('busqué')
       expect(buscar.pretérito.tú).to eql('buscaste')
@@ -44,6 +50,9 @@ describe 'Pretérito' do
 
     it 'changes c -> gu in the first person only' do
       expect(pagar.pretérito.exception?(:yo)).to be(true)
+      [:tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
+        expect(pagar.pretérito.exception?(person)).to be(false)
+      end
 
       expect(pagar.pretérito.yo).to eql('pagué')
       expect(pagar.pretérito.tú).to eql('pagaste')
@@ -62,6 +71,9 @@ describe 'Pretérito' do
 
     it 'changes c -> c in the first person only' do
       expect(realizar.pretérito.exception?(:yo)).to be(true)
+      [:tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
+        expect(realizar.pretérito.exception?(person)).to be(false)
+      end
 
       expect(realizar.pretérito.yo).to eql('realicé')
       expect(realizar.pretérito.tú).to eql('realizaste')
@@ -79,6 +91,10 @@ describe 'Pretérito' do
     let(:comer) { spanish.verb('comer') }
 
     it 'is regular' do
+      [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
+        expect(comer.pretérito.exception?(person)).to be(false)
+      end
+
       expect(comer.pretérito.yo).to eql('comí')
       expect(comer.pretérito.tú).to eql('comiste')
       expect(comer.pretérito.él).to eql('comió')
@@ -95,6 +111,10 @@ describe 'Pretérito' do
     let(:vivir) { spanish.verb('vivir') }
 
     it 'is regular' do
+      [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
+        expect(vivir.pretérito.exception?(person)).to be(false)
+      end
+
       expect(vivir.pretérito.yo).to eql('viví')
       expect(vivir.pretérito.tú).to eql('viviste')
       expect(vivir.pretérito.él).to eql('vivió')
@@ -107,25 +127,6 @@ describe 'Pretérito' do
     end
   end
 
-  describe 'ver' do
-    let(:ver) { spanish.verb('ver') }
-
-    it 'loses accent in the first and third person of singular' do
-      expect(ver.pretérito.exception?(:yo)).to be(true)
-      expect(ver.pretérito.exception?(:él)).to be(true)
-
-      expect(ver.pretérito.yo).to eql('vi')
-      expect(ver.pretérito.tú).to eql('viste')
-      expect(ver.pretérito.él).to eql('vio')
-      expect(ver.pretérito.usted).to eql('vio')
-
-      expect(ver.pretérito.nosotros).to eql('vimos')
-      expect(ver.pretérito.vosotros).to eql('visteis')
-      expect(ver.pretérito.ellos).to eql('vieron')
-      expect(ver.pretérito.ustedes).to eql('vieron')
-    end
-  end
-
   describe 'dar' do
     let(:dar) do
       spanish.verb('dar', pretérito: {
@@ -134,20 +135,10 @@ describe 'Pretérito' do
         él: 'dio',   ellos:    'dieron'})
     end
 
-    shared_examples do
-      expect(dar.pretérito.exception?(:yo)).to be(true)
-    end
-
     it 'loses accent in the first and third person of singular and is conjugated such as -er/-ir verbs.' do
-      expect(dar.pretérito.exception?(:yo)).to be(true)
-      expect(dar.pretérito.exception?(:tú)).to be(true)
-      expect(dar.pretérito.exception?(:vos)).to be(false)
-      expect(dar.pretérito.exception?(:él)).to be(true)
-      # expect(dar.pretérito.exception?(:usted)).to be(true)
-      expect(dar.pretérito.exception?(:nosotros)).to be(true)
-      expect(dar.pretérito.exception?(:vosotros)).to be(true)
-      expect(dar.pretérito.exception?(:ellos)).to be(true)
-      # expect(dar.pretérito.exception?(:ustedes)).to be(true)
+      [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
+        expect(dar.pretérito.exception?(person)).to be(true)
+      end
 
       expect(dar.pretérito.yo).to eql('di')
       expect(dar.pretérito.tú).to eql('diste')

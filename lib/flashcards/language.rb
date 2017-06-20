@@ -46,15 +46,13 @@ module Flashcards
       @root, @conjugations = self.instance_eval(&block)
       @forms = @conjugations.keys
       @exceptions = Hash.new
+      @aliased_persons = Hash.new
       @forms.each do |form|
         define_singleton_method(form) do
           self.forms[form]
         end
       end
     end
-
-    # TODO: first_person_of_singular etc
-    # TODO: change to PERSONS = SINGULAR_PERSONS + PLURAL_PERSONS.
 
     def regular_forms
       @forms.reduce(Hash.new) do |buffer, person|
@@ -101,9 +99,17 @@ module Flashcards
     end
 
     # Verb.new('buscar').past.exception?(:yo) # => true
-    # TODO: Support usted/ustedes.
     def exception?(form)
+      form = @aliased_persons.invert[form] if @aliased_persons.invert[form]
       !! self.irregular_forms[form]
+    end
+
+    def alias_person(new_person, aliased_person)
+      @aliased_persons[aliased_person] = new_person
+
+      (class << self; self; end).instance_eval do
+        alias_method new_person, aliased_person
+      end
     end
   end
 end
