@@ -53,7 +53,6 @@ module Flashcards
     def self.stats
       Flashcards.app._load do |flashcards|
         x= flashcards.select { |flashcard| flashcard.tags.include?(:irregular) }
-        require 'pry'; binding.pry ###
 
         puts <<-EOF.colourise(bold: true)
 <red>Stats:</red>
@@ -66,6 +65,8 @@ module Flashcards
       end
     end
 
+    # Alternatives:
+    # https://github.com/ghidinelli/fred-jehle-spanish-verbs (database)
     def self.verify
       require 'conjugate'
 
