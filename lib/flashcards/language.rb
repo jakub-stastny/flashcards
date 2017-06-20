@@ -23,7 +23,7 @@ module Flashcards
 
   class Verb
     attr_reader :infinitive
-    def initialize(infinitive, conjugation_groups, conjugation_groups_2 = Array.new)
+    def initialize(infinitive, conjugation_groups, conjugation_groups_2 = Hash.new)
       extra_keys = conjugation_groups_2.keys - conjugation_groups.keys
       unless extra_keys.empty?
         raise ArgumentError.new("The following tenses are not supported: #{extra_keys.inspect}")

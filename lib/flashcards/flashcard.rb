@@ -28,6 +28,7 @@ module Flashcards
       end
 
       deserialise_singular_or_plural_key(:tag, data)
+      @data[:conjugations] ||= Hash.new if self.tags.include?(:verb)
 
       deserialise_singular_or_plural_key(:expression, data)
       if self.expressions.empty?
