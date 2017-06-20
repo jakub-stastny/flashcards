@@ -127,11 +127,27 @@ describe 'Pretérito' do
   end
 
   describe 'dar' do
-    let(:dar) { spanish.verb('dar') }
+    let(:dar) do
+      spanish.verb('dar', pretérito: {
+        yo: 'di',    nosotros: 'dimos',
+        tú: 'diste', vosotros: 'disteis',
+        él: 'dio',   ellos:    'dieron'})
+    end
+
+    shared_examples do
+      expect(dar.pretérito.exception?(:yo)).to be(true)
+    end
 
     it 'loses accent in the first and third person of singular and is conjugated such as -er/-ir verbs.' do
       expect(dar.pretérito.exception?(:yo)).to be(true)
+      expect(dar.pretérito.exception?(:tú)).to be(true)
+      expect(dar.pretérito.exception?(:vos)).to be(false)
       expect(dar.pretérito.exception?(:él)).to be(true)
+      # expect(dar.pretérito.exception?(:usted)).to be(true)
+      expect(dar.pretérito.exception?(:nosotros)).to be(true)
+      expect(dar.pretérito.exception?(:vosotros)).to be(true)
+      expect(dar.pretérito.exception?(:ellos)).to be(true)
+      # expect(dar.pretérito.exception?(:ustedes)).to be(true)
 
       expect(dar.pretérito.yo).to eql('di')
       expect(dar.pretérito.tú).to eql('diste')

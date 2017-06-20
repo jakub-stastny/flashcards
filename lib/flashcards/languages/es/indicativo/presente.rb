@@ -1,6 +1,6 @@
 Flashcards.app.define_language(:es) do
   conjugation_group(:presente) do |infinitive|
-    tense = Flashcards::Tense.new(:present, infinitive) do
+    tense = Flashcards::Tense.new(:presente, infinitive) do
       case infinitive
       when /^(.+)ar$/
         [$1, {

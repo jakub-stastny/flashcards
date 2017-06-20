@@ -39,7 +39,7 @@ module Flashcards
     end
 
     def define_language(name, &block)
-      self.languages[name] = Language.new(name, self.language_config)
+      self.languages[name] ||= Language.new(name, self.language_config)
       self.languages[name].instance_eval(&block)
     end
 

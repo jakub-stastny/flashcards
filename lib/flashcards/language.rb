@@ -1,8 +1,8 @@
 # verb = Flashcards.app.language.verb('hablar')
-# verb.present.nosotros
+# verb.presente.nosotros
 #
 # verb = Flashcards.app.language.verb('tener', present: {yo: 'tengo', tú: 'tienes', él: 'tiene'})
-# verb.present.yo
+# verb.presente.yo
 module Flashcards
   class Language
     def initialize(name, config)

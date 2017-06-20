@@ -107,21 +107,23 @@ describe 'Present tense' do
   end
 
   # Single exceptions are now defined within flashcards.
-  #
-  # describe 'dar' do
-  #   let(:dar) { spanish.verb('dar') }
-  #
-  #   it 'is irregular in the first form of singular and second form of plural' do
-  #     expect(dar.presente.yo).to eql('doy')
-  #     expect(dar.presente.tú).to eql('das')
-  #     expect(dar.presente.vos).to eql('dás')
-  #     expect(dar.presente.él).to eql('da')
-  #     expect(dar.presente.usted).to eql('da')
-  #
-  #     expect(dar.presente.nosotros).to eql('damos')
-  #     expect(dar.presente.vosotros).to eql('dais')
-  #     expect(dar.presente.ellos).to eql('dan')
-  #     expect(dar.presente.ustedes).to eql('dan')
-  #   end
-  # end
+  describe 'dar' do
+    let(:dar) { spanish.verb('dar', presente: {yo: 'doy', vosotros: 'dais'}) }
+
+    it 'is irregular in the first form of singular and second form of plural' do
+      expect(dar.presente.exception?(:yo)).to be(true)
+      expect(dar.presente.exception?(:vosotros)).to be(true)
+
+      expect(dar.presente.yo).to eql('doy')
+      expect(dar.presente.tú).to eql('das')
+      expect(dar.presente.vos).to eql('dás')
+      expect(dar.presente.él).to eql('da')
+      expect(dar.presente.usted).to eql('da')
+
+      expect(dar.presente.nosotros).to eql('damos')
+      expect(dar.presente.vosotros).to eql('dais')
+      expect(dar.presente.ellos).to eql('dan')
+      expect(dar.presente.ustedes).to eql('dan')
+    end
+  end
 end
