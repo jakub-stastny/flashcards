@@ -66,6 +66,32 @@ module Flashcards
       end
     end
 
+    def self.verify
+      require 'conjugate'
+
+      Flashcards.app._load do |flashcards|
+        {present: :presente, past: :pretérito}.each do |tense_en_name, tense_es_name|
+          flashcards.each do |flashcard|
+            if flashcard.tags.include?(:verb)
+              verb = flashcard.verb
+              [:yo, :tú, :él, :nosotros, :vosotros, :ellos].each do |pronoun|
+                begin
+                  asciified_pronoun = pronoun.to_s.tr('éú', 'eu')
+                  v1 = Conjugate::Spanish.conjugate(pronoun: asciified_pronoun, verb: verb.infinitive, tense: tense_en_name)
+                  v2 = verb.send(tense_es_name).send(pronoun)
+                  warn "#{v1} != #{v2}" if v1 != v2
+                  v1 == v2
+                rescue Exception => error
+                  warn "~ Error #{error.class}: #{error.message}. Leaving out #{verb.infinitive} in #{pronoun} form of #{tense_en_name} tense."
+                  true
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
     def self.has_not_run_today
       Flashcards.app._load do |flashcards|
         to_be_reviewed = flashcards.count(&:time_to_review?)

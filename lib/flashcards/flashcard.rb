@@ -84,6 +84,10 @@ module Flashcards
       Flashcards.app.config.schedule
     end
 
+    def verb
+      Flashcards.app.language.verb(self.expressions.first, self.conjugations || Hash.new)
+    end
+
     def time_to_review?
       return false if self.new?
 

@@ -14,6 +14,8 @@ when 'edit'
   Flashcards::Commander.edit(ARGV)
 when 'stats'
   Flashcards::Commander.stats
+when 'verify'
+  Flashcards::Commander.verify
 when 'has-not-run-today'
   Flashcards::Commander.has_not_run_today
 when nil
@@ -47,6 +49,8 @@ flashcards <yellow>reset</yellow> es<bright_black> # Reset metadata for given la
   # Useful if you got someone else's file, and you want to reset his progress.</bright_black>
 
 flashcards <blue.bold>stats</blue.bold>
+
+flashcards <magenta.bold>verify</magenta.bold>
 
 flashcards <green>edit</green>
 flashcards <green>edit</green> es
