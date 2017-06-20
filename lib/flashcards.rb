@@ -156,7 +156,8 @@ module Flashcards
 
           # Experimental.
           if flashcard.tags.include?(:verb)
-            verb = self.language.verb(flashcard.expressions.sample)
+            # FIXME: flashcard.expressions.sample doesn't make sense in this case.
+            verb = self.language.verb(flashcard.expressions.sample, flashcard.conjugations)
             puts
             all = verb.conjugation_groups.keys.all? do |conjugation_group_name|
               conjugation_group = verb.send(conjugation_group_name)

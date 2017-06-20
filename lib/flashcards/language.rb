@@ -22,10 +22,15 @@ module Flashcards
   end
 
   class Verb
-    attr_reader :infinitive, :conjugation_groups
+    attr_reader :infinitive
     def initialize(infinitive, conjugation_groups, conjugation_groups_2 = Array.new)
-      @infinitive, @conjugation_groups = infinitive, conjugation_groups
-      @conjugation_groups.each do |group_name, callable|
+      extra_keys = conjugation_groups_2.keys - conjugation_groups.keys
+      unless extra_keys.empty?
+        raise ArgumentError.new("The following tenses are not supported: #{extra_keys.inspect}")
+      end
+
+      @infinitive = infinitive
+      conjugation_groups.each do |group_name, callable|
         define_singleton_method(group_name) do
           if conjugation_groups_2[group_name]
             tense = callable.call(infinitive)

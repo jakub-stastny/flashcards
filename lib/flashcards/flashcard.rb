@@ -43,7 +43,7 @@ module Flashcards
     end
 
     ATTRIBUTES = [
-      :expressions, :translations, :silent_translations, :note, :hint, :tags, :examples, :metadata
+      :expressions, :translations, :silent_translations, :note, :hint, :tags, :conjugations, :examples, :metadata
     ]
 
     ATTRIBUTES.each do |attribute|
