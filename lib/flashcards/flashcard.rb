@@ -3,12 +3,19 @@ require 'flashcards' # FIXME: Extract Flashcards.app to flashcards/app.rb and ch
 module Flashcards
   class Example
     attr_reader :expression, :translation
-    def initialize(expression, translation)
-      @expression, @translation = expression, translation
+    def initialize(expression:, translation:, label: nil, tags: Array.new)
+      @expression, @translation, @label, @tags = expression, translation, label, tags
     end
 
     def data
-      {@expression => @translation}
+      if @label.nil? && @tags.empty?
+        {@expression => @translation}
+      else
+        data = {expression: @expression, translation: @translation}
+        data.merge!(label: @label) if @label
+        data.merge!(tags: @tags) unless @tags.empty?
+        data
+      end
     end
   end
 
@@ -40,9 +47,11 @@ module Flashcards
         if hash_or_example.is_a?(Example)
           hash_or_example
         elsif hash_or_example.keys.length == 1
-          Example.new(hash_or_example.keys.first, hash_or_example.values.first)
+          expression  = hash_or_example.keys.first
+          translation = hash_or_example.values.first
+          Example.new(expression: expression, translation: translation)
         else
-          raise ArgumentError.new("Incorrect example: #{hash_or_example.inspect}")
+          Example.new(**hash_or_example)
         end
       end
 
