@@ -1,7 +1,6 @@
 require 'yaml'
 require 'pathname'
 require 'flashcards/flashcard'
-require 'flashcards/testers/command_line'
 require 'flashcards/language'
 require 'flashcards/config'
 
@@ -11,10 +10,6 @@ module Flashcards
   end
 
   class App
-    using CoreExts
-    using RR::ColourExts
-    using RR::StringExts
-
     def initialize(language_name = nil)
       @language_name = language_name
     end
@@ -63,10 +58,6 @@ module Flashcards
     def load_do_then_save(&block)
       data = block.call(self.flashcards)
       self.flashcard_file.open('w') { |file| file.puts(data.to_yaml) }
-    end
-
-    def run(all_flashcards)
-      Flashcards::CommnandLineTester.new(all_flashcards, self.config).run
     end
 
     protected

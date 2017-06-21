@@ -12,22 +12,22 @@ module Flashcards
     end
   end
 
-  # flashcard.variants
-  class Variant
-    def initialize(prompt, correct_answer)
-      @prompt, @correct_answer = prompt, correct_answer
-    end
-
-    def mark(answer)
-      answer == @correct_answer
-    end
-
-    def new?
-    end
-
-    def time_to_review?
-    end
-  end
+  # # flashcard.variants
+  # class Variant
+  #   def initialize(prompt, correct_answer)
+  #     @prompt, @correct_answer = prompt, correct_answer
+  #   end
+  #
+  #   def mark(answer)
+  #     answer == @correct_answer
+  #   end
+  #
+  #   def new?
+  #   end
+  #
+  #   def time_to_review?
+  #   end
+  # end
 
   class Flashcard
     attr_reader :data
@@ -81,6 +81,7 @@ module Flashcards
 
         data.delete(:tags) if tags.empty?
         data.delete(:examples) if examples.empty?
+        data.delete(:conjugations) if conjugations.empty?
 
         correct_answers = self.correct_answers.reduce(Hash.new) do |hash, (key, values)|
           hash.merge!(key => values) unless values.empty?
@@ -113,8 +114,16 @@ module Flashcards
       end
     end
 
-    def new?
-      self.correct_answers.all?(&:empty?)
+    def new?(key = nil)
+      key = self.variants.first if self.variants.length == 1
+
+      if key
+        self.correct_answers[key].empty?
+      else
+        self.variants.any? do |key|
+          self.new?(key)
+        end
+      end
     end
 
     def schedule
@@ -122,16 +131,38 @@ module Flashcards
     end
 
     def verb
-      Flashcards.app.language.verb(self.expressions.first, self.conjugations || Hash.new)
+      if self.tags.include?(:verb)
+        Flashcards.app.language.verb(self.expressions.first, self.conjugations || Hash.new)
+      end
     end
 
-    def time_to_review?
-      return false if self.new?
+    def variants
+      if self.verb
+        [:default] + Flashcards.app.language.conjugation_groups
+      else
+        [:default]
+      end
+    end
 
-      number_of_days = self.schedule[self.correct_answers[:default].length - 1] || (365 * 2)
+    def time_to_review?(key = nil)
+      key = self.variants.first if self.variants.length == 1
 
-      tolerance = (5 * 60 * 60) # 5 hours.
-      self.correct_answers[:default].last < (Time.now - ((number_of_days * 24 * 60 * 60) - tolerance))
+      if key
+        return false if self.new?(key)
+
+        number_of_days = self.schedule[self.correct_answers[key].length - 1] || (365 * 2)
+
+        tolerance = (5 * 60 * 60) # 5 hours.
+        self.correct_answers[key].last < (Time.now - ((number_of_days * 24 * 60 * 60) - tolerance))
+      else
+        self.variants.any? do |key|
+          self.time_to_review?(key)
+        end
+      end
+    end
+
+    def should_run?(key = nil)
+      self.new?(key) || self.time_to_review?(key)
     end
 
     def mark(answer, key = :default)

@@ -7,41 +7,27 @@ module Flashcards
     using RR::ColourExts
     using RR::StringExts
 
-    $correct = 0; $incorrect = 0
     def run
-      flashcards_to_review = @all_flashcards.select { |flashcard| flashcard.time_to_review? }
-      new_flashcards = @all_flashcards.select { |flashcard| flashcard.new? }
-
-      flashcards = select_flashcards(new_flashcards, flashcards_to_review)
+      flashcards = self.select_flashcards_to_be_tested_on
 
       if flashcards.empty?
         abort(<<-EOF.colourise(bold: true))
-  <red>There are currently no flashcards that are new or pending to review.</red>
-      Add new ones by running <bright_black>$ #{File.basename($0)} add expression translation</bright_black>.
-      You can also reset all your learning by running <bright_black>$ #{File.basename($0)} reset</bright_black> or just wait until tomorrow.
-          EOF
+<red>There are currently no flashcards that are new or pending to review.</red>
+  Add new ones by running <bright_black>$ #{File.basename($0)} add expression translation</bright_black>.
+  You can also reset all your learning by running <bright_black>$ #{File.basename($0)} reset</bright_black> or just wait until tomorrow.
+        EOF
       end
 
-      # TODO: First test ones that has been tested before and needs refreshing before
-      # they go to the long-term memory. Then test the new ones and finally the remembered ones.
-      # Limit count of each.
+      puts "<blue>~</blue> <green>Writing accents:</green> <red>á</red> ⌥-e a   <blue>ñ</blue> ⌥-n n   <yellow>ü</yellow> ⌥-u u   <magenta>¡</magenta> ⌥-1   <magenta>¿</magenta> ⌥-⇧-?".colourise(bold: true)
+
       flashcards.shuffle.each do |flashcard|
-        self.run_one(flashcard)
+        self.test_flashcard(flashcard)
       end
 
-      puts "\n<green>Statistics</green>".colourise(bold: true)
-      blob = "- <bold>Total:</bold> #{$correct + $incorrect} (" +
-        [("<green>#{$correct} correct</green>" unless $correct == 0),
-          ("<red>#{$incorrect} incorrect</red>" unless $incorrect == 0)].compact.join(' and ') + ').'
-      puts blob.colourise
-      # puts "- Review"
-      # puts "- New vocabulary:"
-    rescue Interrupt
-      # TODO: Save current progress (metadata).
-      puts; exit
+      self.show_stats
     end
 
-    def run_one(flashcard)
+    def test_flashcard(flashcard)
       if example = flashcard.examples.sample
         puts('', flashcard.expressions.reduce(example.expression) do |result, expression|
           result.
@@ -86,7 +72,7 @@ module Flashcards
         # Experimental.
         self.run_conjugation_tests(flashcard)
       else
-        $incorrect += 1
+        @incorrect += 1
         list = flashcard.translations.map do |word|
           word
           "<yellow>#{word}</yellow>"
@@ -109,51 +95,67 @@ module Flashcards
       end
     end
 
+    def show_stats
+      puts "\n<green>Statistics</green>".colourise(bold: true)
+      blob = "- <bold>Total:</bold> #{@correct + @incorrect} (" +
+        [("<green>#{@correct} correct</green>" unless @correct == 0),
+          ("<red>#{@incorrect} incorrect</red>" unless @incorrect == 0)].compact.join(' and ') + ').'
+      puts blob.colourise
+      # puts "- Review"
+      # puts "- New vocabulary:"
+    end
+
     def run_conjugation_tests(flashcard)
       if flashcard.tags.include?(:verb)
         # FIXME: flashcard.expressions.sample doesn't make sense in this case.
-        verb = self.language.verb(flashcard.expressions.sample, flashcard.conjugations)
+        verb = @language.verb(flashcard.expressions.sample, flashcard.conjugations)
         puts
-        Flashcards.app.language.conjugation_groups.each do |conjugation_group_name|
-          conjugation_group = verb.send(conjugation_group_name)
-          person = conjugation_group.forms.keys.sample # FIXME: vos is not present in this.
-          print <<-EOF.colourise(bold: true).chomp + ' '
-~ <magenta>#{person.to_s.titlecase} <cyan>form of the</cyan> #{conjugation_group.tense}<cyan> tense is:</cyan></magenta>
-          EOF
-          answer = $stdin.readline.chomp
-          x = if answer == conjugation_group.send(person)
-            puts "    <green>✔︎  </green>".colourise
-            flashcard.mark_as_correct(conjugation_group_name)
-            $correct += 1
-          else
-            puts "  <red>  ✘  The correct form is #{conjugation_group.send(person)}</red>.".colourise
-            puts "  <red>     This is an exception.</red>".colourise if conjugation_group.exception?(person)
-            flashcard.mark_as_failed(conjugation_group_name)
-            $incorrect += 1
+        @language.conjugation_groups.each do |conjugation_group_name|
+          if flashcard.should_run?(conjugation_group_name)
+            conjugation_group = verb.send(conjugation_group_name)
+            self.run_conjugation_test_for(conjugation_group, flashcard, verb)
           end
-
-          _wrap = Proc.new do |tense, person|
-            if conjugation_group.exception?(person)
-              "<red>#{person} #{conjugation_group.send(person)}</red>"
-            else
-              "<green>#{person} #{conjugation_group.send(person)}</green>"
-            end
-          end
-
-          # TODO: Format the lengts so | is always where it's supposed to be (delete tags before calculation).
-          puts <<-EOF.colourise
-
-  All the forms of the #{conjugation_group.tense} are:
-    #{_wrap.call(conjugation_group, :yo)} | #{_wrap.call(conjugation_group, :nosotros)}
-    #{_wrap.call(conjugation_group, :tú)} | #{_wrap.call(conjugation_group, :vosotros)}
-    #{_wrap.call(conjugation_group, :él)} | #{_wrap.call(conjugation_group, :ellos)}\n
-          EOF
-
-          x
         end
       else
-        $correct += 1
+        @correct += 1
       end
+    end
+
+    def run_conjugation_test_for(conjugation_group, flashcard, verb)
+      person = conjugation_group.forms.keys.sample # FIXME: vos is not present in this.
+      print <<-EOF.colourise(bold: true).chomp + ' '
+~ <magenta>#{person.to_s.titlecase} <cyan>form of the</cyan> #{conjugation_group.tense}<cyan> tense is:</cyan></magenta>
+      EOF
+      answer = $stdin.readline.chomp
+      x = if answer == conjugation_group.send(person)
+        puts "    <green>✔︎  </green>".colourise
+        flashcard.mark_as_correct(conjugation_group.tense)
+        @correct += 1
+      else
+        puts "  <red>  ✘  The correct form is #{conjugation_group.send(person)}</red>.".colourise
+        puts "  <red>     This is an exception.</red>".colourise if conjugation_group.exception?(person)
+        flashcard.mark_as_failed(conjugation_group.tense)
+        @incorrect += 1
+      end
+
+      _wrap = Proc.new do |tense, person|
+        if conjugation_group.exception?(person)
+          "<red>#{person} #{conjugation_group.send(person)}</red>"
+        else
+          "<green>#{person} #{conjugation_group.send(person)}</green>"
+        end
+      end
+
+      # TODO: Format the lengts so | is always where it's supposed to be (delete tags before calculation).
+      puts <<-EOF.colourise
+
+All the forms of the #{conjugation_group.tense} are:
+#{_wrap.call(conjugation_group, :yo)} | #{_wrap.call(conjugation_group, :nosotros)}
+#{_wrap.call(conjugation_group, :tú)} | #{_wrap.call(conjugation_group, :vosotros)}
+#{_wrap.call(conjugation_group, :él)} | #{_wrap.call(conjugation_group, :ellos)}\n
+      EOF
+
+      x
     end
   end
 end

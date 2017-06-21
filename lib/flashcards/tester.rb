@@ -1,14 +1,22 @@
 module Flashcards
   class Tester
-    def initialize(all_flashcards, config)
-      @all_flashcards, @config = all_flashcards, config
+    def initialize(all_flashcards, language, config)
+      @all_flashcards = all_flashcards
+      @language, @config = language, config
+      @correct, @incorrect = 0, 0
     end
 
     def run
       raise NotImplementedError.new('Override this in a subclass.')
     end
 
-    def select_flashcards(new_flashcards, flashcards_to_review)
+    # TODO: First test ones that has been tested before and needs refreshing before
+    # they go to the long-term memory. Then test the new ones and finally the remembered ones.
+    # Limit count of each.
+    def select_flashcards_to_be_tested_on
+      flashcards_to_review = @all_flashcards.select { |flashcard| flashcard.time_to_review? }
+      new_flashcards = @all_flashcards.select { |flashcard| flashcard.new? }
+
       if limit = @config.limit_per_run
         # p [:limit, limit] ####
         # p [:to_review________, flashcards_to_review.map(&:translations)]

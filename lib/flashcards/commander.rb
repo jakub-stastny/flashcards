@@ -1,5 +1,6 @@
 require 'flashcards'
 require 'flashcards/core_exts'
+require 'flashcards/testers/command_line'
 
 module Flashcards
   module Commander
@@ -50,16 +51,20 @@ module Flashcards
       exec "#{editor} #{Flashcards.app(argv.first).flashcard_file}"
     end
 
+    # TODO: Take in consideration conjugations.
     def self.stats
       Flashcards.app._load do |flashcards|
         x= flashcards.select { |flashcard| flashcard.tags.include?(:irregular) }
 
         puts <<-EOF.colourise(bold: true)
-<red>Stats:</red>
-  Total flashcards: #{flashcards.length}.
-  You remember: #{flashcards.count { |flashcard| flashcard.correct_answers[:default].length > 2 }} (ones that you answered correctly 3 times or more).
-  To be reviewed: #{flashcards.count(&:time_to_review?)}.
-  Comletely new: #{flashcards.count(&:new?)}.
+<red>Stats</red>
+
+<bold>Total flashcards</bold>: <green>#{flashcards.length}</green>.
+<bold>You remember</bold>: <green>#{flashcards.count { |flashcard| flashcard.correct_answers[:default].length > 2 }}</green> (ones that you answered correctly 3 times or more).
+
+<bold>Ready for review</bold>: <blue>#{flashcards.count(&:time_to_review?)}</blue>.
+<bold>To be reviewed later</bold>: <blue>#{flashcards.count { |flashcard| ! flashcard.should_run? }}</blue>.
+<bold>Comletely new</bold>: <blue>#{flashcards.count(&:new?)}</blue>.
         EOF
       end
     end
@@ -107,11 +112,18 @@ module Flashcards
     end
 
     def self.run
-      puts "<blue>~</blue> <green>Writing accents:</green> <red>á</red> ⌥-e a   <blue>ñ</blue> ⌥-n n   <yellow>ü</yellow> ⌥-u u   <magenta>¡</magenta> ⌥-1   <magenta>¿</magenta> ⌥-⇧-?".colourise(bold: true)
       Flashcards.app.load_do_then_save do |flashcards|
-        Flashcards.app.run(flashcards)
+        begin
+          Flashcards::CommnandLineTester.new(
+            flashcards,
+            Flashcards.app.language,
+            Flashcards.app.config
+          ).run
+        rescue Interrupt, EOFError
+          puts # Quit the test mode, the progress will be saved.
+        end
 
-        # Save the metadata.
+        # Save the flashcards with updated metadata.
         flashcards.map(&:data)
       end
     end
