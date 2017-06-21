@@ -12,6 +12,23 @@ module Flashcards
     end
   end
 
+  # flashcard.variants
+  class Variant
+    def initialize(prompt, correct_answer)
+      @prompt, @correct_answer = prompt, correct_answer
+    end
+
+    def mark(answer)
+      answer == @correct_answer
+    end
+
+    def new?
+    end
+
+    def time_to_review?
+    end
+  end
+
   class Flashcard
     attr_reader :data
     def initialize(data)
@@ -84,11 +101,6 @@ module Flashcards
       self.expressions.sort == anotherFlashcard.expressions.sort && self.translations.sort == anotherFlashcard.translations.sort
     end
 
-    # TODO: Refactor the code to use it.
-    # Also deal with correct_answers.push. Maybe I have to
-    # do the same as with metadata, bootstrap it and tear down if empty.
-    # self.metadata[:correct_answers] ||= Hash.new { |hash, key| hash[:default] }
-    # self.metadata[:correct_answers][:default] = Array.new
     def correct_answers
       if self.metadata[:correct_answers].is_a?(Array)
         self.metadata[:correct_answers] = {default: self.metadata[:correct_answers]}
@@ -122,11 +134,11 @@ module Flashcards
       self.correct_answers[:default].last < (Time.now - ((number_of_days * 24 * 60 * 60) - tolerance))
     end
 
-    def mark(answer)
+    def mark(answer, key = :default)
       if self.translations.include?(answer) || self.silent_translations.include?(answer)
-        self.mark_as_correct
+        self.mark_as_correct(key)
       else
-        self.mark_as_failed
+        self.mark_as_failed(key)
       end
     end
 
