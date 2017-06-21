@@ -57,10 +57,9 @@ module Flashcards
         puts <<-EOF.colourise(bold: true)
 <red>Stats:</red>
   Total flashcards: #{flashcards.length}.
-  You remember: #{flashcards.count { |flashcard| flashcard.correct_answers.length > 2 }} (ones that you answered correctly 3 times or more).
+  You remember: #{flashcards.count { |flashcard| flashcard.correct_answers[:default].length > 2 }} (ones that you answered correctly 3 times or more).
   To be reviewed: #{flashcards.count(&:time_to_review?)}.
   Comletely new: #{flashcards.count(&:new?)}.
-  Unsupported irregular verbs: XXXXXXXXX
         EOF
       end
     end
@@ -100,7 +99,7 @@ module Flashcards
 
         exit 1 if (to_be_reviewed + new_flashcards) == 0
 
-        last_review_at = flashcards.map { |f| (f.metadata[:correct_answers] || Array.new).last }.compact.sort.last
+        last_review_at = flashcards.map { |f| f.metadata[:correct_answers][:default].last }.compact.sort.last
 
         run_today = last_review_at && last_review_at.to_date == Date.today
         exit 1 if run_today

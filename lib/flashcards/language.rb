@@ -16,6 +16,10 @@ module Flashcards
       @grammar_rules[:conjugation_groups][name] = block
     end
 
+    def conjugation_groups
+      @grammar_rules[:conjugation_groups].keys
+    end
+
     def verb(infinitive, conjugation_groups = Hash.new)
       Verb.new(infinitive, @grammar_rules[:conjugation_groups], conjugation_groups)
     end

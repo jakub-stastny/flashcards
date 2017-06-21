@@ -63,8 +63,20 @@ module Flashcards
         serialise_singular_or_plural_key(:silent_translation, data)
 
         data.delete(:tags) if tags.empty?
-        data.delete(:metadata) if metadata.empty?
         data.delete(:examples) if examples.empty?
+
+        correct_answers = self.correct_answers.reduce(Hash.new) do |hash, (key, values)|
+          hash.merge!(key => values) unless values.empty?
+          hash
+        end
+
+        if correct_answers.keys == [:default]
+          correct_answers = data[:metadata][:correct_answers] = correct_answers[:default]
+        end
+
+        data[:metadata].delete(:correct_answers) if correct_answers.empty?
+
+        data.delete(:metadata) if metadata.empty?
       end
     end
 
@@ -75,12 +87,22 @@ module Flashcards
     # TODO: Refactor the code to use it.
     # Also deal with correct_answers.push. Maybe I have to
     # do the same as with metadata, bootstrap it and tear down if empty.
+    # self.metadata[:correct_answers] ||= Hash.new { |hash, key| hash[:default] }
+    # self.metadata[:correct_answers][:default] = Array.new
     def correct_answers
-      self.metadata[:correct_answers] || Array.new
+      if self.metadata[:correct_answers].is_a?(Array)
+        self.metadata[:correct_answers] = {default: self.metadata[:correct_answers]}
+      else
+        (self.metadata[:correct_answers] ||= Hash.new).tap do |correct_answers|
+          correct_answers.default_proc = Proc.new do |hash, key|
+            hash[key] = Array.new
+          end
+        end
+      end
     end
 
     def new?
-      self.correct_answers.empty?
+      self.correct_answers.all?(&:empty?)
     end
 
     def schedule
@@ -94,17 +116,15 @@ module Flashcards
     def time_to_review?
       return false if self.new?
 
-      correct_answers = (self.metadata[:correct_answers] || Array.new)
-      number_of_days = self.schedule[correct_answers.length - 1] || (365 * 2)
+      number_of_days = self.schedule[self.correct_answers[:default].length - 1] || (365 * 2)
 
       tolerance = (5 * 60 * 60) # 5 hours.
-      correct_answers.last < (Time.now - ((number_of_days * 24 * 60 * 60) - tolerance))
+      correct_answers[:default].last < (Time.now - ((number_of_days * 24 * 60 * 60) - tolerance))
     end
 
     def mark(answer)
       if self.translations.include?(answer) || self.silent_translations.include?(answer)
-        self.metadata[:correct_answers] ||= Array.new
-        self.metadata[:correct_answers].push(Time.now)
+        self.metadata[:correct_answers][:default].push(Time.now)
         return true
       else
         self.mark_as_failed

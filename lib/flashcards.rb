@@ -159,8 +159,7 @@ module Flashcards
             # FIXME: flashcard.expressions.sample doesn't make sense in this case.
             verb = self.language.verb(flashcard.expressions.sample, flashcard.conjugations)
             puts
-            #all = verb.conjugation_groups.keys.all? do |conjugation_group_name|
-            all = [:presente, :pretérito].all? do |conjugation_group_name|
+            all = Flashcards.app.language.conjugation_groups.all? do |conjugation_group_name|
               conjugation_group = verb.send(conjugation_group_name)
               person = conjugation_group.forms.keys.sample
               print <<-EOF.colourise(bold: true).chomp + ' '

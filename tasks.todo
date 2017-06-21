@@ -3,10 +3,8 @@ Tasks:
   Verbs:
   - Implement test_me_on.
   - Use say to pronunce languages.
-  - Correct_answers for different forms, past etc.
   - Test exceptions more frequently (or always).
   - Mnemotechnic aid: garfield / la gare .. + What to do about .hint?
-  - It should be possible to add irregular forms directly to the YAML.
   - Switch sides (ask in EN or in ES) (and deal with synonyms again).
     1st run: ask what does todavia mean
     2nd run: ask how do you say todavia
@@ -19,7 +17,7 @@ Tasks:
   - Add `unmerge` [pack]: remove items from given pack.
   - Add `export`: export pack to a file <lang>.<pack>.yml
   - Add `packs`: list all packs.
-  - Add `verify`: also unknown attrs.
+  - Extend `verify`: also unknown attrs.
 
   ES:
   - Refactor verb to use proper terminology, reflective is not tense.
