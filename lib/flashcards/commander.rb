@@ -71,7 +71,7 @@ module Flashcards
       require 'conjugate'
 
       Flashcards.app._load do |flashcards|
-        {present: :presente, past: :pretérito}.each do |tense_en_name, tense_es_name|
+        {present: :presente, past: :pretérito, future: :futuro}.each do |tense_en_name, tense_es_name|
           flashcards.each do |flashcard|
             if flashcard.tags.include?(:verb)
               verb = flashcard.verb
