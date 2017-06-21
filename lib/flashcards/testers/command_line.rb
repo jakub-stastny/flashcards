@@ -89,8 +89,18 @@ module Flashcards
 
       puts unless flashcard.examples.empty?
       flashcard.examples.each do |example|
-        puts "     <cyan>#{example.expression}</cyan>".colourise
-        puts "     <magenta>#{example.translation}</magenta>\n".colourise
+        @indentation = 2
+        if example.label && example.tags.empty?
+          puts "   <green>#{example.label}</green>:".colourise
+        elsif example.label && ! example.tags.empty?
+          puts "   <green>#{example.label}</green> (<yellow>#{example.tags.join(' ')}</yellow>):".colourise
+        elsif ! example.label && ! example.tags.empty?
+          puts "   <yellow>#{example.tags.join(' ')}</yellow>:".colourise
+        else
+          @indentation = 0
+        end
+        puts "   #{' ' * @indentation}<cyan>#{example.expression}</cyan>".colourise
+        puts "   #{' ' * @indentation}<magenta>#{example.translation}</magenta>\n".colourise
         puts unless flashcard.examples.last == example
       end
     end

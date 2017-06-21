@@ -19,8 +19,8 @@ module Flashcards
         translations: args[-1].split(','),
         tags: (tags || Array.new).map { |tag| tag[1..-1].to_sym },
         examples: [
-          Example.new('Expression.', 'Translation.'),
-          Example.new('Expression.', 'Translation.')
+          Example.new(expression: 'Expression.', translation: 'Translation.'),
+          Example.new(expression: 'Expression.', translation: 'Translation.')
         ]
       )
 

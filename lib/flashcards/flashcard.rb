@@ -2,7 +2,7 @@ require 'flashcards' # FIXME: Extract Flashcards.app to flashcards/app.rb and ch
 
 module Flashcards
   class Example
-    attr_reader :expression, :translation
+    attr_reader :expression, :translation, :label, :tags
     def initialize(expression:, translation:, label: nil, tags: Array.new)
       @expression, @translation, @label, @tags = expression, translation, label, tags
     end
