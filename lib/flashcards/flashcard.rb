@@ -1,3 +1,5 @@
+require 'flashcards' # FIXME: Extract Flashcards.app to flashcards/app.rb and change this.
+
 module Flashcards
   class Example
     attr_reader :expression, :translation

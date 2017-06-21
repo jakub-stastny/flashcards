@@ -4,8 +4,9 @@ require 'ostruct'
 # TODO: Keys symbols vs. strings.
 module Flashcards
   class Config
-    def config_path
-      File.expand_path(ENV['FLASHCARDS_CONFIG'] || '~/.config/flashcards.yml')
+    attr_reader :config_path
+    def initialize(config_path = default_config_path)
+      @config_path = config_path
     end
 
     def data
@@ -13,12 +14,12 @@ module Flashcards
     end
 
     def limit_per_run
-      limit = @data.has_key?('limit_per_run') ? @data['limit_per_run'] : 25
+      limit = self.data.has_key?('limit_per_run') ? self.data['limit_per_run'] : 25
       (limit == 0) ? false : limit
     end
 
     def schedule
-      @data['schedule'] || [1, 5, 25, 125]
+      self.data['schedule'] || [1, 5, 25, 125]
     end
 
     def language(language_name = nil)
@@ -33,6 +34,11 @@ module Flashcards
       else
         raise "You have more than 1 language configured in your #{@path}: #{data['learning'].keys.inspect}. That means you have to specify which language you want to work with as the first argument."
       end
+    end
+
+    private
+    def default_config_path
+      File.expand_path(ENV['FLASHCARDS_CONFIG'] || '~/.config/flashcards.yml')
     end
   end
 end

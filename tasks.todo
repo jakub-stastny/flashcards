@@ -1,10 +1,4 @@
 # TODO: Rename #exception to #irregular or somethin'.
-Support irregular verbs through es.yml.
-Flashcards.app.language.verb('tener') -> It has no info about whether it is's a regular verb or not.
-  - Change the interface OR ...
-  - Get the data from online, comparing our version with what we get from elsewhere.
-stats: list unsupported irregular verbs
-
 Tasks:
   Verbs:
   - Implement test_me_on.
@@ -25,10 +19,10 @@ Tasks:
   - Add `unmerge` [pack]: remove items from given pack.
   - Add `export`: export pack to a file <lang>.<pack>.yml
   - Add `packs`: list all packs.
-  - Add `verify`: unknown attrs, check conjugations agains wiktionary.
+  - Add `verify`: also unknown attrs.
 
   ES:
-  - Add irregular verb rules. (+ !, would like and reflectives). Refactor verb to use proper terminology, reflective is not tense.
+  - Refactor verb to use proper terminology, reflective is not tense.
 
   Publish:
   - Tag (git) and publish the gem.
