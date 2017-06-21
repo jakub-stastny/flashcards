@@ -81,7 +81,7 @@ module Flashcards
 
         data.delete(:tags) if tags.empty?
         data.delete(:examples) if examples.empty?
-        data.delete(:conjugations) if conjugations.empty?
+        data.delete(:conjugations) if conjugations && conjugations.empty?
 
         correct_answers = self.correct_answers.reduce(Hash.new) do |hash, (key, values)|
           hash.merge!(key => values) unless values.empty?

@@ -17,7 +17,7 @@ module Flashcards
       flashcard = Flashcard.new(
         expression: args[-2].split(','),
         translations: args[-1].split(','),
-        tags: tags.map { |tag| tag[1..-1].to_sym },
+        tags: (tags || Array.new).map { |tag| tag[1..-1].to_sym },
         examples: [
           Example.new('Expression.', 'Translation.'),
           Example.new('Expression.', 'Translation.')
