@@ -159,20 +159,22 @@ module Flashcards
             # FIXME: flashcard.expressions.sample doesn't make sense in this case.
             verb = self.language.verb(flashcard.expressions.sample, flashcard.conjugations)
             puts
-            all = Flashcards.app.language.conjugation_groups.all? do |conjugation_group_name|
+            Flashcards.app.language.conjugation_groups.each do |conjugation_group_name|
               conjugation_group = verb.send(conjugation_group_name)
-              person = conjugation_group.forms.keys.sample
+              person = conjugation_group.forms.keys.sample # FIXME: vos is not present in this.
               print <<-EOF.colourise(bold: true).chomp + ' '
   ~ <magenta>#{person.to_s.titlecase} <cyan>form of the</cyan> #{conjugation_group.tense}<cyan> tense is:</cyan></magenta>
               EOF
               answer = $stdin.readline.chomp
               x = if answer == conjugation_group.send(person)
                 puts "    <green>✔︎  </green>".colourise
-                true
+                flashcard.mark_as_correct(conjugation_group_name)
+                $correct += 1
               else
                 puts "  <red>  ✘  The correct form is #{conjugation_group.send(person)}</red>.".colourise
                 puts "  <red>     This is an exception.</red>".colourise if conjugation_group.exception?(person)
-                flashcard.mark_as_failed
+                flashcard.mark_as_failed(conjugation_group_name)
+                $incorrect += 1
               end
 
               _wrap = Proc.new do |tense, person|
@@ -194,8 +196,6 @@ module Flashcards
 
               x
             end
-
-            all ? $correct += 1 : $incorrect += 1
           else
             $correct += 1
           end

@@ -119,21 +119,25 @@ module Flashcards
       number_of_days = self.schedule[self.correct_answers[:default].length - 1] || (365 * 2)
 
       tolerance = (5 * 60 * 60) # 5 hours.
-      correct_answers[:default].last < (Time.now - ((number_of_days * 24 * 60 * 60) - tolerance))
+      self.correct_answers[:default].last < (Time.now - ((number_of_days * 24 * 60 * 60) - tolerance))
     end
 
     def mark(answer)
       if self.translations.include?(answer) || self.silent_translations.include?(answer)
-        self.metadata[:correct_answers][:default].push(Time.now)
-        return true
+        self.mark_as_correct
       else
         self.mark_as_failed
       end
     end
 
-    def mark_as_failed
-      self.metadata.delete(:correct_answers) # Treat as new.
+    def mark_as_failed(key = :default)
+      self.correct_answers.delete(key) # Treat as new.
       return false
+    end
+
+    def mark_as_correct(key = :default)
+      self.metadata[:correct_answers][key].push(Time.now)
+      return true
     end
 
     protected
