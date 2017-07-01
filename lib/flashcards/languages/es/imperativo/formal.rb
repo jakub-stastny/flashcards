@@ -4,13 +4,9 @@ Flashcards.app.define_language(:es) do
     Flashcards::Tense.new(:imperativo_formal, infinitive) do
       case infinitive
       when /^(.+)ar$/
-        [$1, {
-          usted: 'e', ustedes: 'en'
-        }]
+        [$1, {usted: 'e', ustedes: 'en'}]
       when /^(.+)[ei]r$/
-        [$1, {
-           usted: 'a', ustedes: 'an'
-        }]
+        [$1, {usted: 'a', ustedes: 'an'}]
       end
     end
   end

@@ -49,6 +49,9 @@ module Flashcards
   end
 
   class Tense
+    # require 'flashcards/core_exts'
+    # using RR::StringExts
+
     attr_reader :tense, :forms
     def initialize(tense, infinitive, &block)
       @tense, @infinitive = tense, infinitive
