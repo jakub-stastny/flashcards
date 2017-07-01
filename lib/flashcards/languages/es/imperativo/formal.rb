@@ -5,11 +5,11 @@ Flashcards.app.define_language(:es) do
       case infinitive
       when /^(.+)ar$/
         [$1, {
-          usted: 'e', nosotros: 'TODO', ustedes: 'en'
+          usted: 'e', ustedes: 'en'
         }]
       when /^(.+)[ei]r$/
         [$1, {
-           usted: 'a', nosotros: 'TODO', ustedes: 'an'
+           usted: 'a', ustedes: 'an'
         }]
       end
     end
