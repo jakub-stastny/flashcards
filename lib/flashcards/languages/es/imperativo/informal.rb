@@ -1,14 +1,33 @@
 # Positive, negative & vos.
 
 # Are there formal nosotros commands?
+# => Sloucit into one imperative unless nosotros or que commands clashes, but I doubt that.
 # Names of these tenses.
 
 # require 'flashcards/core_exts'
 # using RR::StringExts
 
 # {yo: 'o'} vs. {yo: "#{root}o"} ? Since here we want to proxy, so we don't have to duplicate exceptions.
+# {yo: 'o'} or also(!) {tú: delegate(verb.subjunctive, :él)}
 #   Maybe :o, but 'tengo'.
 #   How to proxy #exception?(person) ?
+
+# Imperative:
+#   ProxyTense.new(Flashcards.app.language.verb('hablar').presente, :él, :tú)
+#
+# class ProxyTense
+#   def initialize(tense, pronoun, pronoun_accessor = pronoun)
+#     @tense, @pronoun = tense, pronoun
+#
+#     define_singleton_method(pronoun_accessor) do
+#       @tense.send(@pronoun)
+#     end
+#   end
+#
+#   def exception?
+#     @tense.exception?(@pronoun)
+#   end
+# end
 
 require_relative './formal'
 
@@ -26,8 +45,13 @@ Flashcards.app.define_language(:es) do
           "#{$`}|#{accented_character}s"
           "#{accented_character}"
         },
+        # trabajar -> trabajemos, trabajAD, trabajen
+        # vivir    -> vivamos, vivID, vivan
+        # comer    -> comamos, comed, coman
+        #   ... with the exception of vosotros, it's the subjunctive.
+        #
         # nosotros: verb.presente.nosotros,
-        # vosotros: verb.presente.vosotros
+        vosotros: "#{root}#{infinitive[-2]}d"
       }]
     end
   end

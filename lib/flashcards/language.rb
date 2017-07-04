@@ -52,13 +52,18 @@ module Flashcards
     # require 'flashcards/core_exts'
     # using RR::StringExts
 
-    attr_reader :tense, :forms
+    attr_reader :tense, :forms, :root
     def initialize(tense, infinitive, &block)
       @tense, @infinitive = tense, infinitive
       @root, @conjugations = self.instance_eval(&block)
+
+      raise ArgumentError.new unless @root.is_a?(String)
+      raise ArgumentError.new unless @conjugations.is_a?(Hash)
+
       @forms = @conjugations.keys
       @exceptions = Hash.new
       @aliased_persons = Hash.new
+
       @forms.each do |form|
         define_singleton_method(form) do
           self.forms[form]
