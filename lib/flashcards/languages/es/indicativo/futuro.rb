@@ -12,6 +12,12 @@ Flashcards.app.define_language(:es) do
     tense.alias_person(:usted, :él)
     tense.alias_person(:ustedes, :ellos)
 
+    tense.define_singleton_method(:pretty_inspect) do
+      super(
+        [:yo, :tú, :él],
+        [:nosotros, :vosotros, :ellos])
+    end
+
     tense
   end
 end

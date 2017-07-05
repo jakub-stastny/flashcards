@@ -29,6 +29,13 @@ vos: 'ís', tú: 'es',  vosotros: 'ís',
     tense.alias_person(:usted, :él)
     tense.alias_person(:ustedes, :ellos)
 
+    tense.define_singleton_method(:pretty_inspect) do
+      super(
+        [nil, :vos, nil],
+        [:yo, :tú, :él],
+        [:nosotros, :vosotros, :ellos])
+    end
+
     tense
   end
 end

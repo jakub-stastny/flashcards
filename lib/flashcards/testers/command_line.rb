@@ -148,22 +148,15 @@ module Flashcards
         @incorrect += 1
       end
 
-      _wrap = Proc.new do |tense, person|
-        if conjugation_group.exception?(person)
-          "<red>#{person} #{conjugation_group.send(person)}</red>"
-        else
-          "<green>#{person} #{conjugation_group.send(person)}</green>"
-        end
-      end
-
       # TODO: Format the lengts so | is always where it's supposed to be (delete tags before calculation).
-      puts <<-EOF.colourise
-
-All the forms of the #{conjugation_group.tense} are:
-#{_wrap.call(conjugation_group, :yo)} | #{_wrap.call(conjugation_group, :nosotros)}
-#{_wrap.call(conjugation_group, :tú)} | #{_wrap.call(conjugation_group, :vosotros)}
-#{_wrap.call(conjugation_group, :él)} | #{_wrap.call(conjugation_group, :ellos)}\n
-      EOF
+      puts "\n    All the forms of the #{conjugation_group.tense} are:"
+      conjugation_group.pretty_inspect.transpose.each do |row_items|
+        puts '    ' + row_items.map.with_index { |item, index|
+          colour = item[:exception] ? 'red' : 'green'
+          width = conjugation_group.pretty_inspect[index].max_by { |item| item[:conjugation].length }[:conjugation].length
+          "<#{colour}>#{item[:conjugation]}#{' ' * (width - item[:conjugation].length)}</#{colour}>"
+        }.join(' | ').colourise
+      end; puts
 
       x
     end

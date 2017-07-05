@@ -57,8 +57,8 @@ module Flashcards
       @tense, @infinitive = tense, infinitive
       @root, @conjugations = self.instance_eval(&block)
 
-      raise ArgumentError.new unless @root.is_a?(String)
-      raise ArgumentError.new unless @conjugations.is_a?(Hash)
+      raise ArgumentError.new("Root has to be present.") unless @root.is_a?(String)
+      raise ArgumentError.new("Conjugations have to be defined.") unless @conjugations.is_a?(Hash)
 
       @forms = @conjugations.keys
       @exceptions = Hash.new
@@ -119,6 +119,17 @@ module Flashcards
     def exception?(form)
       form = @aliased_persons.invert[form] if @aliased_persons.invert[form]
       !! self.irregular_forms[form]
+    end
+
+    def pretty_inspect(*groups)
+      groups.map do |persons|
+        persons.map do |person|
+          {
+            exception: person ? self.exception?(person) : false,
+            conjugation: person ? "#{person} #{self.send(person)}" : ''
+          }
+        end
+      end
     end
 
     def alias_person(new_person, aliased_person)
