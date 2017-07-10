@@ -188,7 +188,7 @@ module Flashcards
     end
 
     def mark_as_correct(key = :default)
-      self.metadata[:correct_answers][key].push(Time.now)
+      self.correct_answers[key].push(Time.now)
       return true
     end
 

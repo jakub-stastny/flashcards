@@ -165,8 +165,13 @@ describe Flashcards::Flashcard do
       end
 
       it 'resets the correct_answers' do
+        # 1. Varianta 1.
         subject.metadata[:correct_answers] = [Time.now]
-        expect { subject.mark('co ja vim vole') }.to change { subject.metadata[:correct_answers] }.to(nil)
+        expect { subject.mark('co ja vim vole') }.to change { subject.correct_answers }.to be_empty
+
+        # 2. Varianta 2. Test with multiple keys.
+        subject.metadata[:correct_answers] = {default: [Time.now]}
+        expect { subject.mark('co ja vim vole') }.to change { subject.correct_answers }.to be_empty
       end
     end
   end
