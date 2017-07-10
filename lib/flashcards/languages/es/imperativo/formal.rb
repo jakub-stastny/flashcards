@@ -13,5 +13,7 @@ Flashcards.app.define_language(:es) do
     tense.define_singleton_method(:pretty_inspect) do
       super([:usted], [:ustedes])
     end
+
+    tense
   end
 end

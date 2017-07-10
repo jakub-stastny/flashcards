@@ -129,6 +129,8 @@ module Flashcards
       else
         @correct += 1
       end
+    rescue Exception => e
+      require 'pry'; binding.pry ###
     end
 
     def run_conjugation_test_for(conjugation_group, flashcard, verb)

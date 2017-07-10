@@ -2,7 +2,6 @@
 
 # Are there formal nosotros commands?
 # => Sloucit into one imperative unless nosotros or que commands clashes, but I doubt that.
-# Names of these tenses.
 
 # require 'flashcards/core_exts'
 # using RR::StringExts
@@ -71,5 +70,7 @@ Flashcards.app.define_language(:es) do
     end
 
     tense.alias_person :vos, :tú
+
+    tense
   end
 end
