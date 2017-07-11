@@ -1,0 +1,1 @@
+# ado/ido, hablado, escribido
