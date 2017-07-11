@@ -21,9 +21,9 @@ describe 'Informal commands' do
     end
 
   #   it 'is regular' do
-  #     expect(hablar.presente.exception?(:tú)).to be(false)
-  #     expect(hablar.presente.exception?(:vos)).to be(false)
-  #     expect(hablar.presente.exception?(:nosotros)).to be(false)
+  #     expect(hablar.presente.irregular?(:tú)).to be(false)
+  #     expect(hablar.presente.irregular?(:vos)).to be(false)
+  #     expect(hablar.presente.irregular?(:nosotros)).to be(false)
   #
   #     expect(hablar.presente.tú).to eql('habla')
   #     expect(hablar.presente.vos).to eql('hablxxxx')
@@ -31,9 +31,9 @@ describe 'Informal commands' do
   #   end
   #
   #   it 'is irregular' do
-  #     expect(hablar.presente.exception?(:tú)).to be(false) # this won't work, since we're not proxying exceptions.
-  #     expect(hablar.presente.exception?(:vos)).to be(false)
-  #     expect(hablar.presente.exception?(:nosotros)).to be(false)
+  #     expect(hablar.presente.irregular?(:tú)).to be(false) # this won't work, since we're not proxying exceptions.
+  #     expect(hablar.presente.irregular?(:vos)).to be(false)
+  #     expect(hablar.presente.irregular?(:nosotros)).to be(false)
   #
   #     expect(hablar.presente.tú).to eql('habla')
   #     expect(hablar.presente.vos).to eql('hablxxxx')

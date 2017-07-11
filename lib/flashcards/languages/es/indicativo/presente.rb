@@ -23,8 +23,8 @@ vos: 'ís', tú: 'es',  vosotros: 'ís',
       end
     end
 
-    tense.exception(/guir$/, yo: Proc.new { |root| root.sub(/u$/, 'o') })
-    tense.exception(/(gir|ger)$/, yo: Proc.new { |root| root.sub(/g$/, 'jo') })
+    tense.irregular(/guir$/, yo: Proc.new { |root| root.sub(/u$/, 'o') })
+    tense.irregular(/(gir|ger)$/, yo: Proc.new { |root| root.sub(/g$/, 'jo') })
 
     tense.alias_person(:usted, :él)
     tense.alias_person(:ustedes, :ellos)

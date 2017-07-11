@@ -47,7 +47,7 @@ module Flashcards
         define_singleton_method(group_name) do
           if conjugation_groups_2[group_name]
             tense = callable.call(infinitive)
-            tense.exception(infinitive, conjugation_groups_2[group_name])
+            tense.irregular(infinitive, conjugation_groups_2[group_name])
             tense
           else
             callable.call(infinitive)
@@ -112,7 +112,7 @@ module Flashcards
       self.regular_forms.merge(self.irregular_forms)
     end
 
-    def exception(match, forms)
+    def irregular(match, forms)
       @exceptions[match] = forms
     end
 
@@ -124,8 +124,8 @@ module Flashcards
       ! self.regular?
     end
 
-    # Verb.new('buscar').past.exception?(:yo) # => true
-    def exception?(form)
+    # Verb.new('buscar').past.irregular?(:yo) # => true
+    def irregular?(form)
       form = @aliased_persons.invert[form] if @aliased_persons.invert[form]
       !! self.irregular_forms[form]
     end
@@ -134,7 +134,7 @@ module Flashcards
       groups.map do |persons|
         persons.map do |person|
           {
-            exception: person ? self.exception?(person) : false,
+            exception: person ? self.irregular?(person) : false,
             conjugation: person ? "#{person} #{self.send(person)}" : ''
           }
         end

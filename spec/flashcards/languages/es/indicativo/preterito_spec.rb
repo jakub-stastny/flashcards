@@ -9,7 +9,7 @@ describe 'Pretérito' do
 
     it 'is regular' do
       [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(hablar.pretérito.exception?(person)).to be(false)
+        expect(hablar.pretérito.irregular?(person)).to be(false)
       end
 
       expect(hablar.pretérito.yo).to eql('hablé')
@@ -28,9 +28,9 @@ describe 'Pretérito' do
     let(:buscar) { spanish.verb('buscar') }
 
     it 'changes c -> qu in the first person only' do
-      expect(buscar.pretérito.exception?(:yo)).to be(true)
+      expect(buscar.pretérito.irregular?(:yo)).to be(true)
       [:tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(buscar.pretérito.exception?(person)).to be(false)
+        expect(buscar.pretérito.irregular?(person)).to be(false)
       end
 
       expect(buscar.pretérito.yo).to eql('busqué')
@@ -49,9 +49,9 @@ describe 'Pretérito' do
     let(:pagar) { spanish.verb('pagar') }
 
     it 'changes c -> gu in the first person only' do
-      expect(pagar.pretérito.exception?(:yo)).to be(true)
+      expect(pagar.pretérito.irregular?(:yo)).to be(true)
       [:tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(pagar.pretérito.exception?(person)).to be(false)
+        expect(pagar.pretérito.irregular?(person)).to be(false)
       end
 
       expect(pagar.pretérito.yo).to eql('pagué')
@@ -70,9 +70,9 @@ describe 'Pretérito' do
     let(:realizar) { spanish.verb('realizar') }
 
     it 'changes c -> c in the first person only' do
-      expect(realizar.pretérito.exception?(:yo)).to be(true)
+      expect(realizar.pretérito.irregular?(:yo)).to be(true)
       [:tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(realizar.pretérito.exception?(person)).to be(false)
+        expect(realizar.pretérito.irregular?(person)).to be(false)
       end
 
       expect(realizar.pretérito.yo).to eql('realicé')
@@ -92,7 +92,7 @@ describe 'Pretérito' do
 
     it 'is regular' do
       [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(comer.pretérito.exception?(person)).to be(false)
+        expect(comer.pretérito.irregular?(person)).to be(false)
       end
 
       expect(comer.pretérito.yo).to eql('comí')
@@ -112,7 +112,7 @@ describe 'Pretérito' do
 
     it 'is regular' do
       [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(vivir.pretérito.exception?(person)).to be(false)
+        expect(vivir.pretérito.irregular?(person)).to be(false)
       end
 
       expect(vivir.pretérito.yo).to eql('viví')
@@ -137,7 +137,7 @@ describe 'Pretérito' do
 
     it 'loses accent in the first and third person of singular and is conjugated such as -er/-ir verbs.' do
       [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(dar.pretérito.exception?(person)).to be(true)
+        expect(dar.pretérito.irregular?(person)).to be(true)
       end
 
       expect(dar.pretérito.yo).to eql('di')

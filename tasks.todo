@@ -9,7 +9,6 @@
 - Add tests such as er vs. estar; por vs. para.
   {prompt: "Voy ____ el autobús. (por 1 para 2)", answer: "por"}
 
-# TODO: Rename #exception to #irregular or somethin'.
 Tasks:
   Verbs:
   - Implement test_me_on.

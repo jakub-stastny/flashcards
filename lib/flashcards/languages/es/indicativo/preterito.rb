@@ -17,9 +17,9 @@ Flashcards.app.define_language(:es) do
       end
     end
 
-    tense.exception(/car$/, yo: Proc.new { |root| "#{root[0..-2]}qué" })
-    tense.exception(/gar$/, yo: Proc.new { |root| "#{root[0..-2]}gué" })
-    tense.exception(/zar$/, yo: Proc.new { |root| "#{root[0..-2]}cé"  })
+    tense.irregular(/car$/, yo: Proc.new { |root| "#{root[0..-2]}qué" })
+    tense.irregular(/gar$/, yo: Proc.new { |root| "#{root[0..-2]}gué" })
+    tense.irregular(/zar$/, yo: Proc.new { |root| "#{root[0..-2]}cé"  })
 
     tense.alias_person(:vos, :tú)
     tense.alias_person(:usted, :él)

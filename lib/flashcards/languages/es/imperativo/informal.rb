@@ -20,8 +20,8 @@
 #     end
 #   end
 #
-#   def exception?
-#     @tense.exception?(@pronoun)
+#   def irregular?
+#     @tense.irregular?(@pronoun)
 #   end
 # end
 

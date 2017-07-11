@@ -9,7 +9,7 @@ describe 'Present tense' do
 
     it 'is regular' do
       [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(hablar.presente.exception?(person)).to be(false)
+        expect(hablar.presente.irregular?(person)).to be(false)
       end
 
       expect(hablar.presente.yo).to eql('hablo')
@@ -30,7 +30,7 @@ describe 'Present tense' do
 
     it 'is regular' do
       [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(comer.presente.exception?(person)).to be(false)
+        expect(comer.presente.irregular?(person)).to be(false)
       end
 
       expect(comer.presente.yo).to eql('como')
@@ -51,7 +51,7 @@ describe 'Present tense' do
 
     it 'is regular' do
       [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(vivir.presente.exception?(person)).to be(false)
+        expect(vivir.presente.irregular?(person)).to be(false)
       end
 
       expect(vivir.presente.yo).to eql('vivo')
@@ -71,9 +71,9 @@ describe 'Present tense' do
     let(:extinguir) { spanish.verb('extinguir') }
 
     it 'is irregular in the first form of singular' do
-      expect(extinguir.presente.exception?(:yo)).to be(true)
+      expect(extinguir.presente.irregular?(:yo)).to be(true)
       [:tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(extinguir.presente.exception?(person)).to be(false)
+        expect(extinguir.presente.irregular?(person)).to be(false)
       end
 
       expect(extinguir.presente.yo).to eql('extingo')
@@ -93,9 +93,9 @@ describe 'Present tense' do
     let(:escoger) { spanish.verb('escoger') }
 
     it 'is irregular in the first form of singular' do
-      expect(escoger.presente.exception?(:yo)).to be(true)
+      expect(escoger.presente.irregular?(:yo)).to be(true)
       [:tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(escoger.presente.exception?(person)).to be(false)
+        expect(escoger.presente.irregular?(person)).to be(false)
       end
 
       expect(escoger.presente.yo).to eql('escojo')
@@ -115,9 +115,9 @@ describe 'Present tense' do
     let(:dirigir) { spanish.verb('dirigir') }
 
     it 'is irregular in the first form of singular' do
-      expect(dirigir.presente.exception?(:yo)).to be(true)
+      expect(dirigir.presente.irregular?(:yo)).to be(true)
       [:tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(dirigir.presente.exception?(person)).to be(false)
+        expect(dirigir.presente.irregular?(person)).to be(false)
       end
 
       expect(dirigir.presente.yo).to eql('dirijo')
@@ -139,11 +139,11 @@ describe 'Present tense' do
 
     it 'is irregular in the first form of singular and second form of plural' do
       [:yo, :vosotros].each do |person|
-        expect(dar.presente.exception?(person)).to be(true)
+        expect(dar.presente.irregular?(person)).to be(true)
       end
 
       [:tú, :vos, :él, :usted, :nosotros, :ellos, :ustedes].each do |person|
-        expect(dar.presente.exception?(person)).to be(false)
+        expect(dar.presente.irregular?(person)).to be(false)
       end
 
       expect(dar.presente.yo).to eql('doy')

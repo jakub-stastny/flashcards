@@ -153,7 +153,7 @@ module Flashcards
         @correct += 1
       else
         puts "  <red>  ✘  The correct form is #{conjugation_group.send(person)}</red>.".colourise
-        puts "  <red>     This is an exception.</red>".colourise if conjugation_group.exception?(person)
+        puts "  <red>     This is an exception.</red>".colourise if conjugation_group.irregular?(person)
         flashcard.mark_as_failed(conjugation_group.tense)
         @incorrect += 1
       end

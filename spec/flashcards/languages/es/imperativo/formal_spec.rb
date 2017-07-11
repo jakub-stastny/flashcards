@@ -8,8 +8,8 @@ describe 'Formal commands' do
     let(:hablar) { spanish.verb('hablar') }
 
     it 'is regular' do
-      expect(hablar.imperativo_formal.exception?(:usted)).to be(false)
-      expect(hablar.imperativo_formal.exception?(:ustedes)).to be(false)
+      expect(hablar.imperativo_formal.irregular?(:usted)).to be(false)
+      expect(hablar.imperativo_formal.irregular?(:ustedes)).to be(false)
 
       expect(hablar.imperativo_formal.usted).to eql('hable')
       expect(hablar.imperativo_formal.ustedes).to eql('hablen')
@@ -20,8 +20,8 @@ describe 'Formal commands' do
     let(:comer) { spanish.verb('comer') }
 
     it 'is regular' do
-      expect(comer.imperativo_formal.exception?(:usted)).to be(false)
-      expect(comer.imperativo_formal.exception?(:ustedes)).to be(false)
+      expect(comer.imperativo_formal.irregular?(:usted)).to be(false)
+      expect(comer.imperativo_formal.irregular?(:ustedes)).to be(false)
 
       expect(comer.imperativo_formal.usted).to eql('coma')
       expect(comer.imperativo_formal.ustedes).to eql('coman')
@@ -32,8 +32,8 @@ describe 'Formal commands' do
     let(:vivir) { spanish.verb('vivir') }
 
     it 'is regular' do
-      expect(vivir.imperativo_formal.exception?(:usted)).to be(false)
-      expect(vivir.imperativo_formal.exception?(:ustedes)).to be(false)
+      expect(vivir.imperativo_formal.irregular?(:usted)).to be(false)
+      expect(vivir.imperativo_formal.irregular?(:ustedes)).to be(false)
 
       expect(vivir.imperativo_formal.usted).to eql('viva')
       expect(vivir.imperativo_formal.ustedes).to eql('vivan')
