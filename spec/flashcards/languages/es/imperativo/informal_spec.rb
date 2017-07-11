@@ -8,7 +8,7 @@ describe 'Informal commands' do
     let(:hablar) { spanish.verb('hablar') }
 
     it do
-      # require 'pry'; binding.pry ###
+      require 'pry'; binding.pry ###
       expect(hablar.imperativo_positivo.tú).to eql('habla')
       expect(hablar.imperativo_positivo.vos).to eql('hablá')
       expect(hablar.imperativo_formal.usted).to eql('hable')

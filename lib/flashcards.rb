@@ -27,9 +27,10 @@ module Flashcards
 
     def language
       require "flashcards/languages/#{self.language_config.name}"
-      self.languages[self.language_config.name]
+      self.languages[self.language_config.name] || raise(
+        "Language #{self.language_config.name} has a definition file, but it's empty.")
     rescue LoadError # Unsupported language.
-      Language.new(self.language_config.name, Config.new)
+      Language.new(self.language_config.name, self.config)
     end
 
     def languages
@@ -68,12 +69,23 @@ module Flashcards
       return Array.new if self.flashcard_file.nil?
 
       # YAML treats an empty string as false.
-      (YAML.load(self.flashcard_file.read) || Array.new).map do |flashcard_data|
+      flashcards = (YAML.load(self.flashcard_file.read) || Array.new).map do |flashcard_data|
         begin
           Flashcard.new(flashcard_data)
         rescue => error
           abort "Loading flashcard #{flashcard_data.inspect} failed: #{error.message}.\n\n#{error.backtrace}"
         end
+      end
+
+      if selected_flashcards_blob = ENV['FLASHCARDS']
+        selected_flashcards = selected_flashcards_blob.split(/\s*,\s*/)
+        flashcards.select do |flashcard|
+          selected_flashcards.any? do |selected_flashcard|
+            flashcard.expressions.include?(selected_flashcard)
+          end
+        end
+      else
+        flashcards
       end
     end
   end
