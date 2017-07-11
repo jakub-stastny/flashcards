@@ -1,5 +1,9 @@
+# say -v '?' | grep es_
+# es_AR: Diego
+# es_ES: Jorge, Monica
+# es_MX: Juan, Paulina
 Flashcards.app.define_language(:es) do
-  # say_voice('Pedro')
+  say_voice('Monica')
 end
 
 require_relative 'es/indicativo/presente'

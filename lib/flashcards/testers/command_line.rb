@@ -109,6 +109,8 @@ module Flashcards
         puts "   #{' ' * @indentation}<magenta>#{example.translation}</magenta>\n".colourise
         puts unless flashcard.examples.last == example
       end
+
+      Flashcards.app.language.say_aloud(flashcard.expressions.first) # !first!
     end
 
     def show_stats

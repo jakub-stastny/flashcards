@@ -24,6 +24,14 @@ module Flashcards
     def verb(infinitive, conjugation_groups = Hash.new)
       Verb.new(infinitive, @grammar_rules[:conjugation_groups], conjugation_groups)
     end
+
+    def say_voice(voice)
+      @voice = voice
+    end
+
+    def say_aloud(text)
+      system("say -v #{@voice} #{text}")
+    end
   end
 
   class Verb
