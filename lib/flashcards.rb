@@ -10,6 +10,9 @@ module Flashcards
   end
 
   class App
+    FLASHCARD_FILE_PATH = '~/Dropbox/Data/Data/Flashcards/%lang%.yml'
+    # "~/.config/flashcards/#{self.language_config.name}.yml",
+
     def initialize(language_name = nil)
       @language_name = language_name
     end
@@ -38,15 +41,15 @@ module Flashcards
       self.languages[name].instance_eval(&block)
     end
 
-    def flashcard_file
-      @flashcard_file ||= [
-        "~/.config/flashcards/#{self.language_config.name}.yml",
-        "~/Dropbox/Data/Data/Flashcards/#{self.language_config.name}.yml"
-      ].map { |path| Pathname.new(path).expand_path }.find { |path| path.exist? }
+
+    def flashcard_file(language = nil)
+      Pathname.new(
+        FLASHCARD_FILE_PATH.sub('%lang%', language || self.language_config.name.to_s)
+      ).expand_path
     end
 
-    def flashcards
-      @flashcards ||= load_flashcards
+    def flashcards(language = nil)
+      @flashcards ||= load_flashcards(language)
     rescue Errno::ENOENT
       Array.new
     end
@@ -55,15 +58,17 @@ module Flashcards
       block.call(self.flashcards)
     end
 
-    def load_do_then_save(&block)
-      data = block.call(self.flashcards)
+    def load_do_then_save(language = nil, &block)
+      data = block.call(self.flashcards(language))
       self.flashcard_file.open('w') { |file| file.puts(data.to_yaml) }
     end
 
     protected
-    def load_flashcards
+    def load_flashcards(language = nil)
+      return Array.new if self.flashcard_file(language).nil?
+
       # YAML treats an empty string as false.
-      (YAML.load(self.flashcard_file.read) || Array.new).map do |flashcard_data|
+      (YAML.load(self.flashcard_file(language).read) || Array.new).map do |flashcard_data|
         begin
           Flashcard.new(flashcard_data)
         rescue => error

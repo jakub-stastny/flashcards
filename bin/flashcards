@@ -5,7 +5,7 @@ require 'flashcards/core_exts'
 
 using RR::ColourExts
 
-case ARGV.shift
+case argument = ARGV.shift
 when 'add', '+'
   Flashcards::Commander.add(ARGV)
 when 'reset'
@@ -18,8 +18,8 @@ when 'verify'
   Flashcards::Commander.verify
 when 'has-not-run-today'
   Flashcards::Commander.has_not_run_today
-when nil
-  Flashcards::Commander.run
+when nil, /^[a-z]{2}$/ # flashcards, flashcards es
+  Flashcards::Commander.run(argument)
 when '-h', '--help'
   puts(DATA.read.colourise)
 else
@@ -57,3 +57,4 @@ flashcards <green>edit</green> es
 <magenta.bold>EDITOR=vim</magenta.bold> flashcards <green>edit</green> <bright_black># Edit your flashcards in $EDITOR.</bright_black>
 
 flashcards <bright_black># Run it!</bright_black>
+flashcards <yellow>pl</yellow> <bright_black># Run it, Polish.</bright_black>

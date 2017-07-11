@@ -111,8 +111,8 @@ module Flashcards
       end
     end
 
-    def self.run
-      Flashcards.app.load_do_then_save do |flashcards|
+    def self.run(language = nil)
+      Flashcards.app.load_do_then_save(language) do |flashcards|
         begin
           Flashcards::CommnandLineTester.new(
             flashcards,
