@@ -1,13 +1,19 @@
+- Implement proxying tenses (see informal.rb).
+- Metadata: tests for regular verbs should not occur as often as for exceptions (and the metadata needs to be stored elsewhere).
+- support multiple documents (so one can have notes).
+- Switch sides (ask in EN or in ES) (and deal with synonyms again).
+  1st run: ask what does todavia mean
+  2nd run: ask how do you say todavia
+- add the posibility to undo.
+- use wordreference or something reliable for the verify command.
+- Add tests such as er vs. estar; por vs. para.
+  {prompt: "Voy ____ el autobús. (por 1 para 2)", answer: "por"}
+
 # TODO: Rename #exception to #irregular or somethin'.
 Tasks:
   Verbs:
   - Implement test_me_on.
-  - Use say to pronunce languages.
-  - Test exceptions more frequently (or always).
   - Mnemotechnic aid: garfield / la gare .. + What to do about .hint?
-  - Switch sides (ask in EN or in ES) (and deal with synonyms again).
-    1st run: ask what does todavia mean
-    2nd run: ask how do you say todavia
     Change both translations and expression(s) to be either string or an array in the data,
     but always array after being parsed. If it's array with only one item, save as a string.
     (possibly use translation/translations keys)?
@@ -27,10 +33,6 @@ Tasks:
 
   After:
   - Full tests coverage including integration tests.
-
-say -v Anna 'Guten Tag!'
-say -v Zuzana 'Co chceš pičo?'
-say -v Thomas "Bonjour. Je m'appelle Thomas."
 
 https://github.com/dam13n/motion-swipe
 https://github.com/cycloped-io/wiktionary + there are also media wiki APIs that can be used.

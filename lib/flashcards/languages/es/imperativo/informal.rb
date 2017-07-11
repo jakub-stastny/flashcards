@@ -2,16 +2,13 @@
 
 # Are there formal nosotros commands?
 # => Sloucit into one imperative unless nosotros or que commands clashes, but I doubt that.
+#   ! Can we do that, considering the negative informal command?
 
 # require 'flashcards/core_exts'
 # using RR::StringExts
 
-# {yo: 'o'} vs. {yo: "#{root}o"} ? Since here we want to proxy, so we don't have to duplicate exceptions.
-# {yo: 'o'} or also(!) {tú: delegate(verb.subjunctive, :él)}
-#   Maybe :o, but 'tengo'.
-#   How to proxy #exception?(person) ?
-
 # Imperative:
+#   {tú: delegate(verb.subjunctive, :él)}
 #   ProxyTense.new(Flashcards.app.language.verb('hablar').presente, :él, :tú)
 #
 # class ProxyTense
