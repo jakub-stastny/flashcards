@@ -18,6 +18,7 @@ module Flashcards
         EOF
       end
 
+      # TODO: Refactor to the language definition.
       case Flashcards.app.language.name
       when :es
         puts "<blue>~</blue> <green>Writing accents:</green> <red>á</red> <bright_black>⌥-e a</bright_black>   <blue>ñ</blue> <bright_black>⌥-n n</bright_black>   <yellow>ü</yellow> <bright_black>⌥-u u</bright_black>   <magenta>¡</magenta> <bright_black>⌥-1</bright_black>   <magenta>¿</magenta> <bright_black>⌥-⇧-?</bright_black>".colourise(bold: true)
