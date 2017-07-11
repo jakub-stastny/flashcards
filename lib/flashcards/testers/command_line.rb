@@ -18,7 +18,12 @@ module Flashcards
         EOF
       end
 
-      puts "<blue>~</blue> <green>Writing accents:</green> <red>á</red> ⌥-e a   <blue>ñ</blue> ⌥-n n   <yellow>ü</yellow> ⌥-u u   <magenta>¡</magenta> ⌥-1   <magenta>¿</magenta> ⌥-⇧-?".colourise(bold: true)
+      case Flashcards.app.language.name
+      when :es
+        puts "<blue>~</blue> <green>Writing accents:</green> <red>á</red> <bright_black>⌥-e a</bright_black>   <blue>ñ</blue> <bright_black>⌥-n n</bright_black>   <yellow>ü</yellow> <bright_black>⌥-u u</bright_black>   <magenta>¡</magenta> <bright_black>⌥-1</bright_black>   <magenta>¿</magenta> <bright_black>⌥-⇧-?</bright_black>".colourise(bold: true)
+      when :pl
+        puts "<blue>~</blue> <green>Writing accents:</green> kreska <red>á</red> <bright_black>⌥-e a</bright_black>   kropka <red>ż</red> <bright_black>⌥-w z</bright_black> ogonek <red>ą</red> <bright_black>⌥-m a</bright_black> stroke <red>ł</red> <bright_black>⌥-l l</bright_black>".colourise(bold: true)
+      end
 
       flashcards.shuffle.each do |flashcard|
         self.test_flashcard(flashcard)

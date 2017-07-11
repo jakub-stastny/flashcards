@@ -29,7 +29,7 @@ module Flashcards
       require "flashcards/languages/#{self.language_config.name}"
       self.languages[self.language_config.name]
     rescue LoadError # Unsupported language.
-      Language.new
+      Language.new(self.language_config.name, Config.new)
     end
 
     def languages
@@ -42,14 +42,14 @@ module Flashcards
     end
 
 
-    def flashcard_file(language = nil)
+    def flashcard_file
       Pathname.new(
-        FLASHCARD_FILE_PATH.sub('%lang%', language || self.language_config.name.to_s)
+        FLASHCARD_FILE_PATH.sub('%lang%', self.language_config.name.to_s)
       ).expand_path
     end
 
-    def flashcards(language = nil)
-      @flashcards ||= load_flashcards(language)
+    def flashcards
+      @flashcards ||= load_flashcards
     rescue Errno::ENOENT
       Array.new
     end
@@ -58,17 +58,17 @@ module Flashcards
       block.call(self.flashcards)
     end
 
-    def load_do_then_save(language = nil, &block)
-      data = block.call(self.flashcards(language))
+    def load_do_then_save(&block)
+      data = block.call(self.flashcards)
       self.flashcard_file.open('w') { |file| file.puts(data.to_yaml) }
     end
 
     protected
-    def load_flashcards(language = nil)
-      return Array.new if self.flashcard_file(language).nil?
+    def load_flashcards
+      return Array.new if self.flashcard_file.nil?
 
       # YAML treats an empty string as false.
-      (YAML.load(self.flashcard_file(language).read) || Array.new).map do |flashcard_data|
+      (YAML.load(self.flashcard_file.read) || Array.new).map do |flashcard_data|
         begin
           Flashcard.new(flashcard_data)
         rescue => error

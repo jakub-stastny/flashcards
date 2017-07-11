@@ -5,6 +5,7 @@
 # verb.presente.yo
 module Flashcards
   class Language
+    attr_reader :name
     def initialize(name, config)
       @name, @config, @grammar_rules = name, config, Hash.new
     end

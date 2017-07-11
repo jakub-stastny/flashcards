@@ -112,7 +112,9 @@ module Flashcards
     end
 
     def self.run(language = nil)
-      Flashcards.app.load_do_then_save(language) do |flashcards|
+      Flashcards.app(language.to_sym) if language
+
+      Flashcards.app.load_do_then_save do |flashcards|
         begin
           Flashcards::CommnandLineTester.new(
             flashcards,
