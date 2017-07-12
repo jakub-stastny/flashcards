@@ -9,15 +9,16 @@ describe 'Informal commands' do
 
     it do
       # require 'pry'; binding.pry ###
-      expect(hablar.imperativo_positivo.tú).to eql('habla')
-      expect(hablar.imperativo_positivo.vos).to eql('hablá')
-      expect(hablar.imperativo_formal.usted).to eql('hable')
-      expect(hablar.imperativo_negativo.tú).to eql('hables')
-      expect(hablar.imperativo_negativo.vos).to eql('hables')
-      # hablar.imperativo_formal.{usted,nosotros?,ustedes}
-      # hablar.imperativo_positivo.{tú,vos,nosotros,vosotros}
-      # hablar.imperativo_negativo.{tú,vos,nosotros,vosotros}
-      # require 'pry'; binding.pry ###
+      # expect(hablar.imperativo_positivo.tú).to eql('habla')
+      # expect(hablar.imperativo_positivo.vos).to eql('hablá')
+      # expect(hablar.imperativo_negativo.tú).to eql('hables')
+      # expect(hablar.imperativo_negativo.vos).to eql('hables')
+
+      # expect(hablar.imperativo_positivo.nosotros).to eql('hablemos')
+      # expect(hablar.imperativo_positivo.vosotros).to eql('habled')
+
+      # expect(hablar.imperativo_negativo.nosotros).to eql('hablemos')
+      # expect(hablar.imperativo_negativo.vosotros).to eql('habled')
     end
 
   #   it 'is regular' do
