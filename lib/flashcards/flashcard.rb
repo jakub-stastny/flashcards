@@ -178,8 +178,21 @@ module Flashcards
       end
     end
 
+    def word_variants # TODO: nouns (plurals), cómodo/cómoda
+      if self.tags.include?(:verb)
+        self.expressions.map { |expression|
+          Flashcards.app.language.conjugation_groups.map do |conjugation_group|
+            verb = Flashcards.app.language.verb(expression)
+            verb.send(conjugation_group).forms.values + [expression] # Don't forget the infinitive.
+          end
+        }.flatten.uniq
+      else
+        self.expressions
+      end
+    end
+
     def mark(answer, key = :default)
-      if self.translations.include?(answer) || self.silent_translations.include?(answer)
+      if self.translations.include?(answer) || self.silent_translations.include?(answer) || self.expressions.include?(answer) ###
         self.mark_as_correct(key)
       else
         self.mark_as_failed(key)

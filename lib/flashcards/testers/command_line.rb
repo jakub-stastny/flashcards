@@ -34,21 +34,40 @@ module Flashcards
     end
 
     def test_flashcard(flashcard)
-      if example = flashcard.examples.sample
-        puts('', flashcard.expressions.reduce(example.expression) do |result, expression|
-          result.
-            sub(/\b#{expression}\b/, "<bold>#{expression}</bold>").
-            sub(/\b#{expression.titlecase}\b/, "<bold>#{expression.titlecase}</bold>")
-        end.colourise)
-      else
-        puts
-      end
+      if flashcard.correct_answers[:default].length >= 1
+        # Switch sides.
+        if example = flashcard.examples.sample
+          puts('', flashcard.word_variants.reduce(example.expression) do |result, expression|
+            result.
+              sub(/\b#{expression}\b/i, '_____')
+          end.colourise)
+        else
+          puts
+        end
 
-      synonyms = @all_flashcards.select { |f2| ! (flashcard.translations & f2.translations).empty? } - [flashcard]
-      if synonyms.empty?
-        print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ".colourise(bold: true)
+        synonyms = @all_flashcards.select { |f2| ! (flashcard.translations & f2.translations).empty? } - [flashcard]
+        if synonyms.empty?
+          print "#{flashcard.translations.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ".colourise(bold: true)
+        else
+          print "#{flashcard.translations.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (also can be #{synonyms.map(&:expressions).join(', ')}): ".colourise(bold: true)
+        end
       else
-        print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (also can be #{synonyms.map(&:expressions).join(', ')}): ".colourise(bold: true)
+        if example = flashcard.examples.sample
+          puts('', flashcard.expressions.reduce(example.expression) do |result, expression|
+            result.
+              sub(/\b#{expression}\b/, "<bold>#{expression}</bold>").
+              sub(/\b#{expression.titlecase}\b/, "<bold>#{expression.titlecase}</bold>")
+          end.colourise)
+        else
+          puts
+        end
+
+        synonyms = @all_flashcards.select { |f2| ! (flashcard.translations & f2.translations).empty? } - [flashcard]
+        if synonyms.empty?
+          print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ".colourise(bold: true)
+        else
+          print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (also can be #{synonyms.map(&:expressions).join(', ')}): ".colourise(bold: true)
+        end
       end
 
       if flashcard.mark(translation = $stdin.readline.chomp)

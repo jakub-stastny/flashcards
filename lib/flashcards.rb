@@ -61,7 +61,9 @@ module Flashcards
 
     def load_do_then_save(&block)
       data = block.call(self.flashcards)
-      self.flashcard_file.open('w') { |file| file.puts(data.to_yaml) }
+      unless ENV['FLASHCARDS'] # Otherwise we save only the selected ones and discard all the rest.
+        self.flashcard_file.open('w') { |file| file.puts(data.to_yaml) }
+      end
     end
 
     protected

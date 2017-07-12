@@ -7,9 +7,6 @@ Core engine:
 - Support multiple documents (so one can have notes and other tests) OR use multiple files (it/README, it/it.yml, it/it.tests.yml).
   # Use: YAML.load_documents
 - Metadata: tests for regular verbs should not occur as often as for exceptions (and the metadata needs to be stored elsewhere).
-- Switch sides (ask in EN or in ES) (and deal with synonyms again).
-  1st run: ask what does todavia mean
-  2nd run: ask how do you say todavia
 - Add the posibility to undo.
 - Add tests such as er vs. estar; por vs. para; me lo (order).
   {prompt: "Voy ____ el autobús. (por 1 para 2)", answer: "por"}
