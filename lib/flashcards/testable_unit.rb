@@ -6,7 +6,7 @@ module Flashcards
       @data[:metadata] ||= Hash.new
     end
 
-    def mark(answer, key, &block)
+    def mark(answer, key = :default, &block)
       if block.call
         self.mark_as_correct(key)
       else

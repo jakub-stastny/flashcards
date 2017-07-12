@@ -4,8 +4,9 @@ Tenses:
 - Write tests and cross-check against Wordreference or something reliable. Mark as checked: true.
 
 Tests:
-- Add tests such as er vs. estar; por vs. para; me lo (order).
-  {prompt: "Voy ____ el autobús. (por 1 para 2)", answer: "por"}
+- Load tests (TestUnit.load, .load_and_save).
+- Save them afterwards (with updated metadata).
+- Add to the command line runner.
 
 Core engine:
 - Metadata: tests for regular verbs should not occur as often as for exceptions (and the metadata needs to be stored elsewhere).
