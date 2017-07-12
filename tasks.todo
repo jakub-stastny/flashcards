@@ -3,14 +3,15 @@ Tenses:
 - Fix commands, add participio, gerundio, condicional and imperfecto.
 - Write tests and cross-check against Wordreference or something reliable. Mark as checked: true.
 
-Core engine:
-- Support multiple documents (so one can have notes and other tests) OR use multiple files (it/README, it/it.yml, it/it.tests.yml).
-  # Use: YAML.load_documents
-- Metadata: tests for regular verbs should not occur as often as for exceptions (and the metadata needs to be stored elsewhere).
-- Add the posibility to undo.
+Tests:
 - Add tests such as er vs. estar; por vs. para; me lo (order).
   {prompt: "Voy ____ el autobús. (por 1 para 2)", answer: "por"}
+
+Core engine:
+- Metadata: tests for regular verbs should not occur as often as for exceptions (and the metadata needs to be stored elsewhere).
+- Add the posibility to undo.
 - Extend `verify`: also unknown attrs.
+- Haber: 3rd person hay OR ha (['hay', 'ha']), change to an array.
 
 Packs:
 - Add `merge` (another yaml file), add pack attribute. Only allow names such as <lang>.<pack>.yml
