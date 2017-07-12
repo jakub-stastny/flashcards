@@ -171,7 +171,11 @@ module Flashcards
     end
 
     def should_run?(key = nil)
-      self.new?(key) || self.time_to_review?(key)
+      if key && test_me_on = Flashcards.app.config.language.test_me_on
+        test_me_on.include?(key) && (self.new?(key) || self.time_to_review?(key))
+      else
+        self.new?(key) || self.time_to_review?(key)
+      end
     end
 
     def mark(answer, key = :default)

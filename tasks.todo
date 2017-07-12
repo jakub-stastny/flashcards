@@ -1,28 +1,25 @@
+Tenses:
 - Implement proxying tenses (see informal.rb).
+- Fix commands, add participio, gerundio, condicional and imperfecto.
+- Write tests and cross-check against Wordreference or something reliable. Mark as checked: true.
+
+Core engine:
+- Support multiple documents (so one can have notes and other tests) OR use multiple files (it/README, it/it.yml, it/it.tests.yml).
+  # Use: YAML.load_documents
 - Metadata: tests for regular verbs should not occur as often as for exceptions (and the metadata needs to be stored elsewhere).
-- support multiple documents (so one can have notes).
 - Switch sides (ask in EN or in ES) (and deal with synonyms again).
   1st run: ask what does todavia mean
   2nd run: ask how do you say todavia
-- add the posibility to undo.
-- use wordreference or something reliable for the verify command.
-- Add tests such as er vs. estar; por vs. para.
+- Add the posibility to undo.
+- Add tests such as er vs. estar; por vs. para; me lo (order).
   {prompt: "Voy ____ el autobús. (por 1 para 2)", answer: "por"}
+- Extend `verify`: also unknown attrs.
 
-Tasks:
-  Verbs:
-  - Implement test_me_on.
-  - Mnemotechnic aid: garfield / la gare .. + What to do about .hint?
-    Change both translations and expression(s) to be either string or an array in the data,
-    but always array after being parsed. If it's array with only one item, save as a string.
-    (possibly use translation/translations keys)?
-
-  The `flashcards` command:
-  - Add `merge` (another yaml file), add pack attribute. Only allow names such as <lang>.<pack>.yml
-  - Add `unmerge` [pack]: remove items from given pack.
-  - Add `export`: export pack to a file <lang>.<pack>.yml
-  - Add `packs`: list all packs.
-  - Extend `verify`: also unknown attrs.
+Packs:
+- Add `merge` (another yaml file), add pack attribute. Only allow names such as <lang>.<pack>.yml
+- Add `unmerge` [pack]: remove items from given pack.
+- Add `export`: export pack to a file <lang>.<pack>.yml
+- Add `packs`: list all packs.
 
   ES:
   - Refactor verb to use proper terminology, reflective is not tense.

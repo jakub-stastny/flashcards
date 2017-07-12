@@ -127,7 +127,7 @@ module Flashcards
       if flashcard.tags.include?(:verb)
         # FIXME: flashcard.expressions.sample doesn't make sense in this case.
         verb = @language.verb(flashcard.expressions.sample, flashcard.conjugations)
-        puts
+        puts # TODO: unless there are no configured/enabled ones.
         @language.conjugation_groups.each do |conjugation_group_name|
           if flashcard.should_run?(conjugation_group_name)
             conjugation_group = verb.send(conjugation_group_name)
