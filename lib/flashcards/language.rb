@@ -57,6 +57,31 @@ module Flashcards
     end
   end
 
+  class VerbForm
+    attr_reader :tense, :forms, :root
+    def initialize(tense, infinitive, &block)
+      @tense, @infinitive = tense, infinitive
+      @root, @ending = self.instance_eval(&block)
+      @exceptions = Hash.new
+
+      # ir is not really root ... so yeah, can be nil.
+      # raise ArgumentError.new("Root for #{@infinitive} has to be present.") unless @root.is_a?(String)
+      # raise ArgumentError.new("XXXX for #{@infinitive} have to be defined.") unless @conjugations.is_a?(String)
+    end
+
+    def irregular(match, forms)
+      @exceptions[match] = forms
+    end
+
+    def irregular?
+      # TODO
+    end
+
+    def to_s
+      "#{@root}#{@ending}"
+    end
+  end
+
   class Tense
     # require 'flashcards/core_exts'
     # using RR::StringExts
@@ -68,7 +93,6 @@ module Flashcards
 
       # ir is not really root ... so yeah, can be nil.
       # raise ArgumentError.new("Root for #{@infinitive} has to be present.") unless @root.is_a?(String)
-      # (require 'pry'; binding.pry) unless @conjugations.is_a?(Hash)
       raise ArgumentError.new("Conjugations for #{@infinitive} have to be defined.") unless @conjugations.is_a?(Hash)
 
       @forms = @conjugations.keys
