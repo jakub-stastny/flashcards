@@ -2,18 +2,19 @@ Flashcards.app.define_language(:es) do
   conjugation_group(:imperfecto) do |infinitive|
     tense = Flashcards::Tense.new(:imperfecto, infinitive) do
       case infinitive
-      when /^(.+)ar$/
+      when /^(.+)ar(se)?$/
         [$1, {
            yo: 'aba',   nosotros: 'ábamos',
            tú: 'abas',  vosotros: 'abais',
            él: 'aba',   ellos: 'aban'
         }]
-      when /^(.+)[ei]r$/
+      when /^(.+)[ei]r(se)?$/
         [$1, {
            yo: 'ía',   nosotros: 'íamos',
            tú: 'ías',  vosotros: 'íais',
            él: 'ía',   ellos: 'ían'
         }]
+      end
     end
 
     tense.alias_person(:vos, :tú)
@@ -21,6 +22,8 @@ Flashcards.app.define_language(:es) do
     tense.alias_person(:ustedes, :ellos)
     tense.alias_person(:nosotras, :nosotros)
     tense.alias_person(:vosotras, :vosotros)
+
+    tense
   end
 end
 

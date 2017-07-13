@@ -1,6 +1,6 @@
 Tenses:
-- Implement proxying tenses (see informal.rb).
-- Fix commands, add participio, gerundio, condicional and imperfecto.
+- Fix the commands and implement proxying tenses (see informal.rb).
+- Implement logic for gerundio/participio; add the rules.
 - Write tests and cross-check against Wordreference or something reliable. Mark as checked: true.
 
 Core engine:
