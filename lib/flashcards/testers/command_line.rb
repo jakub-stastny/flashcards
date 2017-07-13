@@ -8,7 +8,7 @@ module Flashcards
     using RR::StringExts
 
     def run
-      flashcards = self.select_flashcards_to_be_tested_on(@all_flashcards, 1) #@config.limit_per_run
+      flashcards = self.select_flashcards_to_be_tested_on(@all_flashcards, @config.limit_per_run)
 
 #       if flashcards.empty?
 #         abort(<<-EOF.colourise(bold: true))
@@ -32,13 +32,14 @@ module Flashcards
 
       self.show_stats
 
-      puts; puts
       self.run_tests
     end
 
     def run_tests
       all_tests = Flashcards::Test.load(Flashcards.app.language.name)
       selected_tests = self.select_flashcards_to_be_tested_on(all_tests, 3)
+
+      (puts; puts) unless selected_tests.empty?
 
       selected_tests.map! do |test|
         opts = test.options.map.with_index { |item, index| "#{item} <magenta>#{index + 1}</magenta>" }.join(' ').colourise

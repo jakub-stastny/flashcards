@@ -2,13 +2,13 @@ Flashcards.app.define_language(:es) do
   conjugation_group(:pretérito) do |infinitive|
     tense = Flashcards::Tense.new(:pretérito, infinitive) do
       case infinitive
-      when /^(.+)ar$/
+      when /^(.+)ar(se)?$/
         [$1, {
           yo: 'é',    nosotros: 'amos',
           tú: 'aste', vosotros: 'asteis',
           él: 'ó',    ellos: 'aron'
         }]
-      when /^(.+)[ei]r$/
+      when /^(.*)[ei]r(se)?$/ # ir, irse
         [$1, {
           yo: 'í',    nosotros: 'imos',
           tú: 'iste', vosotros: 'isteis',
@@ -17,9 +17,9 @@ Flashcards.app.define_language(:es) do
       end
     end
 
-    tense.irregular(/car$/, yo: Proc.new { |root| "#{root[0..-2]}qué" })
-    tense.irregular(/gar$/, yo: Proc.new { |root| "#{root[0..-2]}gué" })
-    tense.irregular(/zar$/, yo: Proc.new { |root| "#{root[0..-2]}cé"  })
+    tense.irregular(/car(se)?$/, yo: Proc.new { |root| "#{root[0..-2]}qué" })
+    tense.irregular(/gar(se)?$/, yo: Proc.new { |root| "#{root[0..-2]}gué" })
+    tense.irregular(/zar(se)?$/, yo: Proc.new { |root| "#{root[0..-2]}cé"  })
 
     tense.alias_person(:vos, :tú)
     tense.alias_person(:usted, :él)

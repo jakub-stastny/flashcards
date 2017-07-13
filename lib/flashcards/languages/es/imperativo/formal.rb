@@ -3,9 +3,9 @@ Flashcards.app.define_language(:es) do
   conjugation_group(:imperativo_formal) do |infinitive|
     tense = Flashcards::Tense.new(:imperativo_formal, infinitive) do
       case infinitive
-      when /^(.+)ar$/
+      when /^(.+)ar(se)?$/
         [$1, {usted: 'e', ustedes: 'en'}]
-      when /^(.+)[ei]r$/
+      when /^(.*)[ei]r(se)?$/ # ir, irse
         [$1, {usted: 'a', ustedes: 'an'}]
       end
     end

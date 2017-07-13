@@ -40,6 +40,7 @@ module Flashcards
     end
 
     def to_yaml # Array#to_yaml se na to vysere.
+      raise 'it does not work'
       self.data.to_yaml
     end
 
@@ -84,7 +85,9 @@ module Flashcards
         tolerance = (5 * 60 * 60) # 5 hours.
         self.correct_answers[key].last < (Time.now - ((number_of_days * 24 * 60 * 60) - tolerance))
       else
-        self.variants.any? do |key|
+        self.variants.select { |variant|
+          variant == :default || Flashcards.app.language_config.test_me_on.include?(variant)
+        }.any? do |key|
           self.time_to_review?(key)
         end
       end

@@ -66,8 +66,10 @@ module Flashcards
       @tense, @infinitive = tense, infinitive
       @root, @conjugations = self.instance_eval(&block)
 
-      raise ArgumentError.new("Root has to be present.") unless @root.is_a?(String)
-      raise ArgumentError.new("Conjugations have to be defined.") unless @conjugations.is_a?(Hash)
+      # ir is not really root ... so yeah, can be nil.
+      # raise ArgumentError.new("Root for #{@infinitive} has to be present.") unless @root.is_a?(String)
+      # (require 'pry'; binding.pry) unless @conjugations.is_a?(Hash)
+      raise ArgumentError.new("Conjugations for #{@infinitive} have to be defined.") unless @conjugations.is_a?(Hash)
 
       @forms = @conjugations.keys
       @exceptions = Hash.new
