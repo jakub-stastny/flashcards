@@ -68,9 +68,9 @@ module Flashcards
 
         synonyms = @all_flashcards.select { |f2| ! (flashcard.translations & f2.translations).empty? } - [flashcard]
         if synonyms.empty?
-          print "#{flashcard.translations.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ".colourise(bold: true)
+          print "#{flashcard.translations.map { |t| "<underline>#{t}</underline>" }.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ".colourise(bold: true)
         else
-          print "#{flashcard.translations.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (also can be #{synonyms.map(&:expressions).join(', ')}): ".colourise(bold: true)
+          print "#{flashcard.translations.map { |t| "<underline>#{t}</underline>" }.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (also can be #{synonyms.map(&:expressions).flatten.map { |e| "<underline>#{e}</underline>" }.join(', ')}): ".colourise(bold: true)
         end
       else
         if example = flashcard.examples.sample
@@ -177,15 +177,22 @@ module Flashcards
       else
         @correct += 1
       end
-    rescue Exception => e
+    rescue StandardError => e # No signals such as Interrupt.
       require 'pry'; binding.pry ###
     end
 
     def run_conjugation_test_for(conjugation_group, flashcard, verb)
       person = conjugation_group.forms.keys.sample # FIXME: vos is not present in this.
-      print <<-EOF.colourise(bold: true).chomp + ' '
+      if person == :default
+        print <<-EOF.colourise(bold: true).chomp + ' '
+~ <magenta>#{conjugation_group.tense.to_s.titlecase} <cyan>is:</cyan></magenta>
+        EOF
+      else
+        print <<-EOF.colourise(bold: true).chomp + ' '
 ~ <magenta>#{person.to_s.titlecase} <cyan>form of the</cyan> #{conjugation_group.tense}<cyan> tense is:</cyan></magenta>
-      EOF
+        EOF
+      end
+
       answer = $stdin.readline.chomp
       x = if answer == conjugation_group.send(person)
         puts "    <green>✔︎  </green>".colourise
