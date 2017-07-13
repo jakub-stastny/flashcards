@@ -18,7 +18,7 @@ module Flashcards
       new_flashcards = all_flashcards.select { |flashcard| flashcard.new? }
 
       if limit_per_run
-        # p [:limit, limit] ####
+        # p [:limit, limit_per_run] ####
         # p [:to_review________, flashcards_to_review.map(&:translations)]
         # p [:to_review_limited, flashcards_to_review.shuffle[0..(limit - 1)].map(&:translations)]
         # puts ####

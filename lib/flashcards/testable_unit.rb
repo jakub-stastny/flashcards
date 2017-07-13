@@ -85,11 +85,15 @@ module Flashcards
         tolerance = (5 * 60 * 60) # 5 hours.
         self.correct_answers[key].last < (Time.now - ((number_of_days * 24 * 60 * 60) - tolerance))
       else
-        self.variants.select { |variant|
-          variant == :default || Flashcards.app.language_config.test_me_on.include?(variant)
-        }.any? do |key|
+        self.enabled_variants.any? do |key|
           self.time_to_review?(key)
         end
+      end
+    end
+
+    def enabled_variants
+      self.variants.select do |variant|
+        variant == :default || Flashcards.app.language_config.test_me_on.include?(variant)
       end
     end
 
@@ -111,7 +115,7 @@ module Flashcards
       if key
         self.correct_answers[key].empty?
       else
-        self.variants.any? do |key|
+        self.enabled_variants.any? do |key|
           self.new?(key)
         end
       end
