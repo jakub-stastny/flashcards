@@ -8,15 +8,15 @@ module Flashcards
     using RR::StringExts
 
     def run
-      flashcards = self.select_flashcards_to_be_tested_on
+      flashcards = self.select_flashcards_to_be_tested_on(@all_flashcards, 1) #@config.limit_per_run
 
-      if flashcards.empty?
-        abort(<<-EOF.colourise(bold: true))
-<red>There are currently no flashcards that are new or pending to review.</red>
-  Add new ones by running <bright_black>$ #{File.basename($0)} add expression translation</bright_black>.
-  You can also reset all your learning by running <bright_black>$ #{File.basename($0)} reset</bright_black> or just wait until tomorrow.
-        EOF
-      end
+#       if flashcards.empty?
+#         abort(<<-EOF.colourise(bold: true))
+# <red>There are currently no flashcards that are new or pending to review.</red>
+#   Add new ones by running <bright_black>$ #{File.basename($0)} add expression translation</bright_black>.
+#   You can also reset all your learning by running <bright_black>$ #{File.basename($0)} reset</bright_black> or just wait until tomorrow.
+#         EOF
+#       end
 
       # TODO: Refactor to the language definition.
       case Flashcards.app.language.name
@@ -31,6 +31,26 @@ module Flashcards
       end
 
       self.show_stats
+
+      puts; puts
+      self.run_tests
+    end
+
+    def run_tests
+      all_tests = Flashcards::Test.load(Flashcards.app.language.name)
+      selected_tests = self.select_flashcards_to_be_tested_on(all_tests, 3)
+
+      selected_tests.map! do |test|
+        opts = test.options.map.with_index { |item, index| "#{item} <magenta>#{index + 1}</magenta>" }.join(' ').colourise
+        print "#{test.prompt}#{" (#{opts})" unless test.options.empty?}: "
+        if test.mark($stdin.readline.chomp)
+          puts "<green>✔︎</green>\n\n".colourise(bold: true)
+        else
+          puts "<red>✘</red> It is #{test.answer}.\n\n".colourise(bold: true)
+        end
+      end
+
+      Flashcards::Test.save(Flashcards.app.language.name.to_s, all_tests.map(&:data))
     end
 
     def test_flashcard(flashcard)

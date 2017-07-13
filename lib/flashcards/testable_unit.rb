@@ -3,13 +3,13 @@ require 'pathname'
 
 module Flashcards
   class TestableUnit
-    FLASHCARD_FILE_PATH = '~/Dropbox/Data/Data/Flashcards/%lang%.yml'
-    # "~/.config/flashcards/#{self.language_config.name}.yml",
-
     def self.data_file(language_name)
-      Pathname.new(
-        FLASHCARD_FILE_PATH.sub('%lang%', language_name)
-      ).expand_path
+      path = self.data_file_path(language_name)
+      Pathname.new(path).expand_path
+    end
+
+    def self.data_file_path(language_name)
+      raise NotImplementedError.new("Redefine in subclasses.")
     end
 
     def self.load(language_name)
@@ -26,6 +26,8 @@ module Flashcards
     end
 
     def self.save(language_name, items)
+      return if items.empty?
+
       self.data_file(language_name).open('w') do |file|
         file.puts(items.to_yaml)
       end
@@ -35,6 +37,10 @@ module Flashcards
     def initialize(data)
       @data = data
       @data[:metadata] ||= Hash.new
+    end
+
+    def to_yaml # Array#to_yaml se na to vysere.
+      self.data.to_yaml
     end
 
     def mark(answer, key = :default, &block)

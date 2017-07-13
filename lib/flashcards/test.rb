@@ -2,16 +2,24 @@ require 'flashcards/testable_unit'
 
 module Flashcards
   class Test < TestableUnit
+    def self.data_file_path(language_name)
+      "~/Dropbox/Data/Data/Flashcards/#{language_name}.tests.yml"
+    end
+
     ATTRIBUTES = [:prompt, :options, :answer, :metadata]
 
     ATTRIBUTES.each do |attribute|
       define_method(attribute) { @data[attribute] }
     end
 
+    def options
+      @data[:options] || Array.new
+    end
+
     def mark(answer)
       super(answer) do
-        if self.options && answer.match(/^\d+$/)
-          answer = self.options[$1.to_i + 1]
+        if answer.match(/^\d+$/) && ! self.options.empty?
+          answer = self.options[answer.to_i - 1]
         end
 
         self.answer == answer
@@ -19,12 +27,3 @@ module Flashcards
     end
   end
 end
-
-
-__END__
-t = Flashcards::Test.new(prompt: "Voy ____ el autobús.", options: ['por', 'para'], answer: 'por')
-opts = t.options.map.with_index { |item, index| "#{item} <magenta>#{index}</magenta>" }.join(' ').colourise if t.options
-print "#{t.prompt}#{" (#{opts})" if t.options}: "
-t.mark($stdin.readline)
-# require 'pry'; binding.pry ###
-exit

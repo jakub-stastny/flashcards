@@ -38,6 +38,10 @@ module Flashcards
   # end
 
   class Flashcard < TestableUnit
+    def self.data_file_path(language_name)
+      "~/Dropbox/Data/Data/Flashcards/#{language_name}.yml"
+    end
+
     def initialize(data)
       super(data)
 
