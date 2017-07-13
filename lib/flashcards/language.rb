@@ -61,7 +61,7 @@ module Flashcards
     # require 'flashcards/core_exts'
     # using RR::StringExts
 
-    attr_reader :tense, :forms, :root
+    attr_reader :tense, :forms, :root, :infinitive
     def initialize(tense, infinitive, &block)
       @tense, @infinitive = tense, infinitive
       @root, @conjugations = self.instance_eval(&block)

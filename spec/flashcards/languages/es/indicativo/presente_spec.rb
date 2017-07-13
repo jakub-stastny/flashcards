@@ -8,20 +8,38 @@ describe 'Present tense' do
     let(:hablar) { spanish.verb('hablar') }
 
     it 'is regular' do
-      [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(hablar.presente.irregular?(person)).to be(false)
-      end
+      expect(hablar.infinitive).to eql('hablar')
+      expect(hablar.presente.infinitive).to eql('hablar')
+      expect(hablar.presente.root).to eql('habl') # TODO: is it called root or stem?
+
+      expect(hablar.presente.irregular?(:yo)).to be(false)
+      expect(hablar.presente.irregular?(:tú)).to be(false)
+      expect(hablar.presente.irregular?(:vos)).to be(false)
+      expect(hablar.presente.irregular?(:él)).to be(false)
+      expect(hablar.presente.irregular?(:ella)).to be(false)
+      expect(hablar.presente.irregular?(:usted)).to be(false)
+      expect(hablar.presente.irregular?(:nosotros)).to be(false)
+      expect(hablar.presente.irregular?(:nosotras)).to be(false)
+      expect(hablar.presente.irregular?(:vosotros)).to be(false)
+      expect(hablar.presente.irregular?(:vosotras)).to be(false)
+      expect(hablar.presente.irregular?(:ellos)).to be(false)
+      expect(hablar.presente.irregular?(:ellas)).to be(false)
+      expect(hablar.presente.irregular?(:ustedes)).to be(false)
 
       expect(hablar.presente.yo).to eql('hablo')
       expect(hablar.presente.tú).to eql('hablas')
       expect(hablar.presente.vos).to eql('hablás')
       expect(hablar.presente.él).to eql('habla')
-      expect(hablar.presente.usted).to eql('habla')
+      expect(hablar.presente.ella).to eql(hablar.presente.él)
+      expect(hablar.presente.usted).to eql(hablar.presente.él)
 
       expect(hablar.presente.nosotros).to eql('hablamos')
+      expect(hablar.presente.nosotras).to eql(hablar.presente.nosotros)
       expect(hablar.presente.vosotros).to eql('habláis')
+      expect(hablar.presente.vosotras).to eql(hablar.presente.vosotros)
       expect(hablar.presente.ellos).to eql('hablan')
-      expect(hablar.presente.ustedes).to eql('hablan')
+      expect(hablar.presente.ellas).to eql(hablar.presente.ellos)
+      expect(hablar.presente.ustedes).to eql(hablar.presente.ellos)
     end
   end
 
@@ -29,20 +47,38 @@ describe 'Present tense' do
     let(:comer) { spanish.verb('comer') }
 
     it 'is regular' do
-      [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(comer.presente.irregular?(person)).to be(false)
-      end
+      expect(comer.infinitive).to eql('comer')
+      expect(comer.presente.infinitive).to eql('comer')
+      expect(comer.presente.root).to eql('com') # TODO: is it called root or stem?
+
+      expect(comer.presente.irregular?(:yo)).to be(false)
+      expect(comer.presente.irregular?(:tú)).to be(false)
+      expect(comer.presente.irregular?(:vos)).to be(false)
+      expect(comer.presente.irregular?(:él)).to be(false)
+      expect(comer.presente.irregular?(:ella)).to be(false)
+      expect(comer.presente.irregular?(:usted)).to be(false)
+      expect(comer.presente.irregular?(:nosotros)).to be(false)
+      expect(comer.presente.irregular?(:nosotras)).to be(false)
+      expect(comer.presente.irregular?(:vosotros)).to be(false)
+      expect(comer.presente.irregular?(:vosotras)).to be(false)
+      expect(comer.presente.irregular?(:ellos)).to be(false)
+      expect(comer.presente.irregular?(:ellas)).to be(false)
+      expect(comer.presente.irregular?(:ustedes)).to be(false)
 
       expect(comer.presente.yo).to eql('como')
       expect(comer.presente.tú).to eql('comes')
       expect(comer.presente.vos).to eql('comés')
       expect(comer.presente.él).to eql('come')
-      expect(comer.presente.usted).to eql('come')
+      expect(comer.presente.ella).to eql(comer.presente.él)
+      expect(comer.presente.usted).to eql(comer.presente.él)
 
       expect(comer.presente.nosotros).to eql('comemos')
+      expect(comer.presente.nosotras).to eql(comer.presente.nosotros)
       expect(comer.presente.vosotros).to eql('coméis')
+      expect(comer.presente.vosotras).to eql(comer.presente.vosotros)
       expect(comer.presente.ellos).to eql('comen')
-      expect(comer.presente.ustedes).to eql('comen')
+      expect(comer.presente.ellas).to eql(comer.presente.ellos)
+      expect(comer.presente.ustedes).to eql(comer.presente.ellos)
     end
   end
 
@@ -50,20 +86,38 @@ describe 'Present tense' do
     let(:vivir) { spanish.verb('vivir') }
 
     it 'is regular' do
-      [:yo, :tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(vivir.presente.irregular?(person)).to be(false)
-      end
+      expect(vivir.infinitive).to eql('vivir')
+      expect(vivir.presente.infinitive).to eql('vivir')
+      expect(vivir.presente.root).to eql('viv') # TODO: is it called root or stem?
+
+      expect(vivir.presente.irregular?(:yo)).to be(false)
+      expect(vivir.presente.irregular?(:tú)).to be(false)
+      expect(vivir.presente.irregular?(:vos)).to be(false)
+      expect(vivir.presente.irregular?(:él)).to be(false)
+      expect(vivir.presente.irregular?(:ella)).to be(false)
+      expect(vivir.presente.irregular?(:usted)).to be(false)
+      expect(vivir.presente.irregular?(:nosotros)).to be(false)
+      expect(vivir.presente.irregular?(:nosotras)).to be(false)
+      expect(vivir.presente.irregular?(:vosotros)).to be(false)
+      expect(vivir.presente.irregular?(:vosotras)).to be(false)
+      expect(vivir.presente.irregular?(:ellos)).to be(false)
+      expect(vivir.presente.irregular?(:ellas)).to be(false)
+      expect(vivir.presente.irregular?(:ustedes)).to be(false)
 
       expect(vivir.presente.yo).to eql('vivo')
       expect(vivir.presente.tú).to eql('vives')
       expect(vivir.presente.vos).to eql('vivís')
       expect(vivir.presente.él).to eql('vive')
-      expect(vivir.presente.usted).to eql('vive')
+      expect(vivir.presente.ella).to eql(vivir.presente.él)
+      expect(vivir.presente.usted).to eql(vivir.presente.él)
 
       expect(vivir.presente.nosotros).to eql('vivimos')
+      expect(vivir.presente.nosotras).to eql(vivir.presente.nosotros)
       expect(vivir.presente.vosotros).to eql('vivís')
+      expect(vivir.presente.vosotras).to eql(vivir.presente.vosotros)
       expect(vivir.presente.ellos).to eql('viven')
-      expect(vivir.presente.ustedes).to eql('viven')
+      expect(vivir.presente.ellas).to eql(vivir.presente.ellos)
+      expect(vivir.presente.ustedes).to eql(vivir.presente.ellos)
     end
   end
 
@@ -71,21 +125,38 @@ describe 'Present tense' do
     let(:extinguir) { spanish.verb('extinguir') }
 
     it 'is irregular in the first form of singular' do
+      expect(extinguir.infinitive).to eql('extinguir')
+      expect(extinguir.presente.infinitive).to eql('extinguir')
+      expect(extinguir.presente.root).to eql('extingu') # TODO: is it called root or stem? Plus is this the real root/stem?
+
       expect(extinguir.presente.irregular?(:yo)).to be(true)
-      [:tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(extinguir.presente.irregular?(person)).to be(false)
-      end
+      expect(extinguir.presente.irregular?(:tú)).to be(false)
+      expect(extinguir.presente.irregular?(:vos)).to be(false)
+      expect(extinguir.presente.irregular?(:él)).to be(false)
+      expect(extinguir.presente.irregular?(:ella)).to be(false)
+      expect(extinguir.presente.irregular?(:usted)).to be(false)
+      expect(extinguir.presente.irregular?(:nosotros)).to be(false)
+      expect(extinguir.presente.irregular?(:nosotras)).to be(false)
+      expect(extinguir.presente.irregular?(:vosotros)).to be(false)
+      expect(extinguir.presente.irregular?(:vosotras)).to be(false)
+      expect(extinguir.presente.irregular?(:ellos)).to be(false)
+      expect(extinguir.presente.irregular?(:ellas)).to be(false)
+      expect(extinguir.presente.irregular?(:ustedes)).to be(false)
 
       expect(extinguir.presente.yo).to eql('extingo')
       expect(extinguir.presente.tú).to eql('extingues')
       expect(extinguir.presente.vos).to eql('extinguís')
       expect(extinguir.presente.él).to eql('extingue')
-      expect(extinguir.presente.usted).to eql('extingue')
+      expect(extinguir.presente.ella).to eql(extinguir.presente.él)
+      expect(extinguir.presente.usted).to eql(extinguir.presente.él)
 
       expect(extinguir.presente.nosotros).to eql('extinguimos')
+      expect(extinguir.presente.nosotras).to eql(extinguir.presente.nosotros)
       expect(extinguir.presente.vosotros).to eql('extinguís')
+      expect(extinguir.presente.vosotras).to eql(extinguir.presente.vosotros)
       expect(extinguir.presente.ellos).to eql('extinguen')
-      expect(extinguir.presente.ustedes).to eql('extinguen')
+      expect(extinguir.presente.ellas).to eql(extinguir.presente.ellos)
+      expect(extinguir.presente.ustedes).to eql(extinguir.presente.ellos)
     end
   end
 
@@ -93,21 +164,38 @@ describe 'Present tense' do
     let(:escoger) { spanish.verb('escoger') }
 
     it 'is irregular in the first form of singular' do
+      expect(escoger.infinitive).to eql('escoger')
+      expect(escoger.presente.infinitive).to eql('escoger')
+      expect(escoger.presente.root).to eql('escog') # TODO: is it called root or stem? Plus is this the real root/stem?
+
       expect(escoger.presente.irregular?(:yo)).to be(true)
-      [:tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(escoger.presente.irregular?(person)).to be(false)
-      end
+      expect(escoger.presente.irregular?(:tú)).to be(false)
+      expect(escoger.presente.irregular?(:vos)).to be(false)
+      expect(escoger.presente.irregular?(:él)).to be(false)
+      expect(escoger.presente.irregular?(:ella)).to be(false)
+      expect(escoger.presente.irregular?(:usted)).to be(false)
+      expect(escoger.presente.irregular?(:nosotros)).to be(false)
+      expect(escoger.presente.irregular?(:nosotras)).to be(false)
+      expect(escoger.presente.irregular?(:vosotros)).to be(false)
+      expect(escoger.presente.irregular?(:vosotras)).to be(false)
+      expect(escoger.presente.irregular?(:ellos)).to be(false)
+      expect(escoger.presente.irregular?(:ellas)).to be(false)
+      expect(escoger.presente.irregular?(:ustedes)).to be(false)
 
       expect(escoger.presente.yo).to eql('escojo')
       expect(escoger.presente.tú).to eql('escoges')
       expect(escoger.presente.vos).to eql('escogés')
       expect(escoger.presente.él).to eql('escoge')
-      expect(escoger.presente.usted).to eql('escoge')
+      expect(escoger.presente.ella).to eql(escoger.presente.él)
+      expect(escoger.presente.usted).to eql(escoger.presente.él)
 
       expect(escoger.presente.nosotros).to eql('escogemos')
+      expect(escoger.presente.nosotras).to eql(escoger.presente.nosotros)
       expect(escoger.presente.vosotros).to eql('escogéis')
+      expect(escoger.presente.vosotras).to eql(escoger.presente.vosotros)
       expect(escoger.presente.ellos).to eql('escogen')
-      expect(escoger.presente.ustedes).to eql('escogen')
+      expect(escoger.presente.ellas).to eql(escoger.presente.ellos)
+      expect(escoger.presente.ustedes).to eql(escoger.presente.ellos)
     end
   end
 
@@ -115,47 +203,38 @@ describe 'Present tense' do
     let(:dirigir) { spanish.verb('dirigir') }
 
     it 'is irregular in the first form of singular' do
+      expect(dirigir.infinitive).to eql('dirigir')
+      expect(dirigir.presente.infinitive).to eql('dirigir')
+      expect(dirigir.presente.root).to eql('dirig') # TODO: is it called root or stem? Plus is this the real root/stem?
+
       expect(dirigir.presente.irregular?(:yo)).to be(true)
-      [:tú, :vos, :él, :usted, :nosotros, :vosotros, :ellos, :ustedes].each do |person|
-        expect(dirigir.presente.irregular?(person)).to be(false)
-      end
+      expect(dirigir.presente.irregular?(:tú)).to be(false)
+      expect(dirigir.presente.irregular?(:vos)).to be(false)
+      expect(dirigir.presente.irregular?(:él)).to be(false)
+      expect(dirigir.presente.irregular?(:ella)).to be(false)
+      expect(dirigir.presente.irregular?(:usted)).to be(false)
+      expect(dirigir.presente.irregular?(:nosotros)).to be(false)
+      expect(dirigir.presente.irregular?(:nosotras)).to be(false)
+      expect(dirigir.presente.irregular?(:vosotros)).to be(false)
+      expect(dirigir.presente.irregular?(:vosotras)).to be(false)
+      expect(dirigir.presente.irregular?(:ellos)).to be(false)
+      expect(dirigir.presente.irregular?(:ellas)).to be(false)
+      expect(dirigir.presente.irregular?(:ustedes)).to be(false)
 
       expect(dirigir.presente.yo).to eql('dirijo')
       expect(dirigir.presente.tú).to eql('diriges')
       expect(dirigir.presente.vos).to eql('dirigís')
       expect(dirigir.presente.él).to eql('dirige')
-      expect(dirigir.presente.usted).to eql('dirige')
+      expect(dirigir.presente.ella).to eql(dirigir.presente.él)
+      expect(dirigir.presente.usted).to eql(dirigir.presente.él)
 
       expect(dirigir.presente.nosotros).to eql('dirigimos')
+      expect(dirigir.presente.nosotras).to eql(dirigir.presente.nosotros)
       expect(dirigir.presente.vosotros).to eql('dirigís')
+      expect(dirigir.presente.vosotras).to eql(dirigir.presente.vosotros)
       expect(dirigir.presente.ellos).to eql('dirigen')
-      expect(dirigir.presente.ustedes).to eql('dirigen')
-    end
-  end
-
-  # Single exceptions are now defined within flashcards.
-  describe 'dar' do
-    let(:dar) { spanish.verb('dar', presente: {yo: 'doy', vosotros: 'dais'}) }
-
-    it 'is irregular in the first form of singular and second form of plural' do
-      [:yo, :vosotros].each do |person|
-        expect(dar.presente.irregular?(person)).to be(true)
-      end
-
-      [:tú, :vos, :él, :usted, :nosotros, :ellos, :ustedes].each do |person|
-        expect(dar.presente.irregular?(person)).to be(false)
-      end
-
-      expect(dar.presente.yo).to eql('doy')
-      expect(dar.presente.tú).to eql('das')
-      expect(dar.presente.vos).to eql('dás')
-      expect(dar.presente.él).to eql('da')
-      expect(dar.presente.usted).to eql('da')
-
-      expect(dar.presente.nosotros).to eql('damos')
-      expect(dar.presente.vosotros).to eql('dais')
-      expect(dar.presente.ellos).to eql('dan')
-      expect(dar.presente.ustedes).to eql('dan')
+      expect(dirigir.presente.ellas).to eql(dirigir.presente.ellos)
+      expect(dirigir.presente.ustedes).to eql(dirigir.presente.ellos)
     end
   end
 end

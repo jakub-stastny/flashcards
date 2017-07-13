@@ -26,7 +26,11 @@ vos: 'ís', tú: 'es',  vosotros: 'ís',
     tense.irregular(/guir(se)?$/, yo: Proc.new { |root| root.sub(/u$/, 'o') })
     tense.irregular(/(gir|ger)(se)?$/, yo: Proc.new { |root| root.sub(/g$/, 'jo') })
 
+    tense.alias_person(:ella, :él)
     tense.alias_person(:usted, :él)
+    tense.alias_person(:nosotras, :nosotros)
+    tense.alias_person(:vosotras, :vosotros)
+    tense.alias_person(:ellas, :ellos)
     tense.alias_person(:ustedes, :ellos)
 
     tense.define_singleton_method(:pretty_inspect) do
