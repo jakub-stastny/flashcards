@@ -8,7 +8,8 @@ describe 'Gerundio' do
     let(:hablar) { spanish.verb('hablar') }
 
     it 'is regular' do
-      expect(hablar.gerundio.to_s).to eql('hablando')
+      expect(hablar.gerundio.regular?).to be(true)
+      expect(hablar.gerundio.default).to eql('hablando')
     end
   end
 
@@ -17,10 +18,20 @@ describe 'Gerundio' do
     let(:vivir) { spanish.verb('vivir') }
 
     it 'is regular' do
-      expect(comer.gerundio.to_s).to eql('comiendo')
-      expect(vivir.gerundio.to_s).to eql('viviendo')
+      expect(comer.gerundio.regular?).to be(true)
+      expect(vivir.gerundio.regular?).to be(true)
+
+      expect(comer.gerundio.default).to eql('comiendo')
+      expect(vivir.gerundio.default).to eql('viviendo')
     end
   end
 
-  # TODO: exceptions.
+  # TODO: This should return "se vive" etc rather than just "vive".
+  it 'handles reflective verbs' do
+    expect(spanish.verb('hablarse').gerundio.default).to eql(spanish.verb('hablar').gerundio.default)
+    expect(spanish.verb('comerse').gerundio.default).to eql(spanish.verb('comer').gerundio.default)
+    expect(spanish.verb('vivirse').gerundio.default).to eql(spanish.verb('vivir').gerundio.default)
+  end
+
+  # TODO: How about ir? What's the stem of voy?
 end

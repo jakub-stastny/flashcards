@@ -1,8 +1,3 @@
-# hablar = Flashcards.app.language.verb('hablar')
-# hablar.presente.yo
-#
-# hablar.gerundio.irregular?
-# hablar.gerundio.default
 Flashcards.app.define_language(:es) do
   conjugation_group(:gerundio) do |infinitive|
     tense = Flashcards::Tense.new(:gerundio, infinitive) do
