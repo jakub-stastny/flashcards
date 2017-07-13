@@ -53,7 +53,7 @@ module Flashcards
 
     # TODO: Take in consideration conjugations.
     def self.stats
-      Flashcards.app._load do |flashcards|
+      Flashcards.app.load do |flashcards|
         x= flashcards.select { |flashcard| flashcard.tags.include?(:irregular) }
 
         puts <<-EOF.colourise(bold: true)
@@ -74,7 +74,7 @@ module Flashcards
     def self.verify
       require 'conjugate'
 
-      Flashcards.app._load do |flashcards|
+      Flashcards.app.load do |flashcards|
         {present: :presente, past: :pretérito, future: :futuro}.each do |tense_en_name, tense_es_name|
           flashcards.each do |flashcard|
             if flashcard.tags.include?(:verb)
@@ -98,7 +98,7 @@ module Flashcards
     end
 
     def self.has_not_run_today
-      Flashcards.app._load do |flashcards|
+      Flashcards.app.load do |flashcards|
         to_be_reviewed = flashcards.count(&:time_to_review?)
         new_flashcards = flashcards.count(&:new?)
 

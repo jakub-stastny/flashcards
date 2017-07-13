@@ -1,5 +1,36 @@
+require 'yaml'
+require 'pathname'
+
 module Flashcards
   class TestableUnit
+    FLASHCARD_FILE_PATH = '~/Dropbox/Data/Data/Flashcards/%lang%.yml'
+    # "~/.config/flashcards/#{self.language_config.name}.yml",
+
+    def self.data_file(language_name)
+      Pathname.new(
+        FLASHCARD_FILE_PATH.sub('%lang%', language_name)
+      ).expand_path
+    end
+
+    def self.load(language_name)
+      # YAML treats an empty string as false.
+      (YAML.load(self.data_file(language_name).read) || Array.new).map do |flashcard_data|
+        begin
+          self.new(flashcard_data)
+        rescue => error
+          abort "Loading item #{flashcard_data.inspect} failed: #{error.message}.\n\n#{error.backtrace}"
+        end
+      end
+    rescue Errno::ENOENT
+      Array.new
+    end
+
+    def self.save(language_name, items)
+      self.data_file(language_name).open('w') do |file|
+        file.puts(items.to_yaml)
+      end
+    end
+
     attr_reader :data
     def initialize(data)
       @data = data
