@@ -1,5 +1,5 @@
 Tenses:
-- Fix the commands and implement proxying tenses (see informal.rb).
+- Fix the informal commands and implement proxying tenses (see informal.rb).
 - Write tests and cross-check against Wordreference or something reliable. Mark as checked: true.
 
 Core engine:

@@ -71,11 +71,17 @@ module Flashcards
 
     # Alternatives:
     # https://github.com/ghidinelli/fred-jehle-spanish-verbs (database)
+    #
+    # Conjugate doesn't support vos and only supports the indicative mood.
+    # It doesn't support gerundio or the participio either.
     def self.verify
       require 'conjugate'
 
       Flashcards.app.load do |flashcards|
-        {present: :presente, past: :pretérito, future: :futuro}.each do |tense_en_name, tense_es_name|
+        {
+          present: :presente, past: :pretérito, future: :futuro,
+          imperfect: :imperfecto, conditional: :condicional
+        }.each do |tense_en_name, tense_es_name|
           flashcards.each do |flashcard|
             if flashcard.tags.include?(:verb)
               verb = flashcard.verb
@@ -84,7 +90,7 @@ module Flashcards
                   asciified_pronoun = pronoun.to_s.tr('éú', 'eu')
                   v1 = Conjugate::Spanish.conjugate(pronoun: asciified_pronoun, verb: verb.infinitive, tense: tense_en_name)
                   v2 = verb.send(tense_es_name).send(pronoun)
-                  warn "#{v1} != #{v2}" if v1 != v2
+                  warn "#{tense_es_name}: #{v1} != #{v2}" if v1 != v2
                   v1 == v2
                 rescue Exception => error
                   warn "~ Error #{error.class}: #{error.message}. Leaving out #{verb.infinitive} in #{pronoun} form of #{tense_en_name} tense."
