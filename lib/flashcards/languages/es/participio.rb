@@ -1,11 +1,11 @@
 Flashcards.app.define_language(:es) do
   conjugation_group(:participio) do |infinitive|
-    tense = Flashcards::VerbForm.new(:participio, infinitive) do
+    tense = Flashcards::Tense.new(:participio, infinitive) do
       case infinitive
       when /^(.+)ar(se)?$/
-        [$1, 'ado']
+        [$1, default: 'ado']
       when /^(.*)[ei]r(se)?$/
-        [$1, 'ido']
+        [$1, default: 'ido']
       end
     end
 
