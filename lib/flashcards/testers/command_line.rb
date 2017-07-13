@@ -199,14 +199,17 @@ module Flashcards
       end
 
       # TODO: Format the lengts so | is always where it's supposed to be (delete tags before calculation).
-      puts "\n    All the forms of the #{conjugation_group.tense} are:"
-      conjugation_group.pretty_inspect.transpose.each do |row_items|
-        puts '    ' + row_items.map.with_index { |item, index|
-          colour = item[:exception] ? 'red' : 'green'
-          width = conjugation_group.pretty_inspect[index].max_by { |item| item[:conjugation].length }[:conjugation].length
-          "<#{colour}>#{item[:conjugation]}#{' ' * (width - item[:conjugation].length)}</#{colour}>"
-        }.join(' | ').colourise
-      end; puts
+      unless conjugation_group.pretty_inspect.empty? # Gerundio, participio.
+        puts "\n    All the forms of the #{conjugation_group.tense} are:"
+        conjugation_group.pretty_inspect.transpose.each do |row_items|
+          puts '    ' + row_items.map.with_index { |item, index|
+            colour = item[:exception] ? 'red' : 'green'
+            width = conjugation_group.pretty_inspect[index].max_by { |item| item[:conjugation].length }[:conjugation].length
+            "<#{colour}>#{item[:conjugation]}#{' ' * (width - item[:conjugation].length)}</#{colour}>"
+          }.join(' | ').colourise
+        end
+      end
+      puts
 
       x
     end

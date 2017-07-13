@@ -8,7 +8,7 @@ Flashcards.app.define_language(:es) do
            tú: 'abas',  vosotros: 'abais',
            él: 'aba',   ellos: 'aban'
         }]
-      when /^(.+)[ei]r(se)?$/
+      when /^(.*)[ei]r(se)?$/
         [$1, {
            yo: 'ía',   nosotros: 'íamos',
            tú: 'ías',  vosotros: 'íais',
