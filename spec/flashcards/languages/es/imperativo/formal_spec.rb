@@ -39,4 +39,13 @@ describe 'Formal commands' do
       expect(vivir.imperativo_formal.ustedes).to eql('vivan')
     end
   end
+
+  # TODO: This should return "se vive" etc rather than just "vive".
+  it 'handles reflective verbs' do
+    expect(spanish.verb('hablarse').imperativo_formal.usted).to eql(spanish.verb('hablar').imperativo_formal.usted)
+    expect(spanish.verb('comerse').imperativo_formal.usted).to eql(spanish.verb('comer').imperativo_formal.usted)
+    expect(spanish.verb('vivirse').imperativo_formal.usted).to eql(spanish.verb('vivir').imperativo_formal.usted)
+  end
+
+  # TODO: How about ir? What's the stem of voy?
 end
