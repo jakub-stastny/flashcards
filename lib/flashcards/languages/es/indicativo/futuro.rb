@@ -1,6 +1,9 @@
 Flashcards.app.define_language(:es) do
   conjugation_group(:futuro) do |infinitive|
+    infinitive = infinitive.sub(/se$/, '')
+
     tense = Flashcards::Tense.new(:futuro, infinitive) do
+      # NOTE: Here we don't really need to know the root since we're adding to the infinitive.
       [infinitive, {
          yo: 'é',   nosotros: 'emos',
          tú: 'ás',  vosotros: 'éis',
@@ -9,7 +12,11 @@ Flashcards.app.define_language(:es) do
     end
 
     tense.alias_person(:vos, :tú)
+    tense.alias_person(:ella, :él)
     tense.alias_person(:usted, :él)
+    tense.alias_person(:nosotras, :nosotros)
+    tense.alias_person(:vosotras, :vosotros)
+    tense.alias_person(:ellas, :ellos)
     tense.alias_person(:ustedes, :ellos)
 
     tense.define_singleton_method(:pretty_inspect) do

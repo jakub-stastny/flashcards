@@ -237,4 +237,13 @@ describe 'Present tense' do
       expect(dirigir.presente.ustedes).to eql(dirigir.presente.ellos)
     end
   end
+
+  # TODO: This should return "se vive" etc rather than just "vive".
+  it 'handles reflective verbs' do
+    expect(spanish.verb('hablarse').presente.él).to eql(spanish.verb('hablar').presente.él)
+    expect(spanish.verb('comerse').presente.él).to eql(spanish.verb('comer').presente.él)
+    expect(spanish.verb('vivirse').presente.él).to eql(spanish.verb('vivir').presente.él)
+  end
+
+  # TODO: How about ir? What's the stem of voy?
 end
