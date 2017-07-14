@@ -46,6 +46,13 @@ module Flashcards
       end
     end
 
+    def self.console
+      flashcards = Flashcards::Flashcard.load(:es)
+      tests = Flashcards::Test.load(:es)
+      # Flashcards::Flashcard.save(:es, flashcards)
+      require 'pry'; binding.pry
+    end
+
     def self.edit(argv)
       editor = ENV['EDITOR'] || 'vim'
       exec "#{editor} #{Flashcards.app(argv.first).flashcard_file}"
