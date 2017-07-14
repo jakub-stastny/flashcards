@@ -5,7 +5,6 @@ Tenses:
 - Add subjunctive. #get_online
 - Add rules of irregularity. #get_online
 - Add exceptions.
-- Fix the informal commands and implement proxying tenses (see informal.rb).
 - Write tests and cross-check against Wordreference or something reliable. Mark as checked: true.
 - (Vos) das, (vos) vas.
 
