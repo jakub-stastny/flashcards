@@ -64,11 +64,22 @@ module Flashcards
     attr_reader :tense, :forms, :root, :infinitive
     def initialize(tense, infinitive, &block)
       @tense, @infinitive = tense, infinitive
+      @delegations = Hash.new
       @root, @conjugations = self.instance_eval(&block)
 
       # ir is not really root ... so yeah, can be nil.
       # raise ArgumentError.new("Root for #{@infinitive} has to be present.") unless @root.is_a?(String)
-      raise ArgumentError.new("Conjugations for #{@infinitive} have to be defined.") unless @conjugations.is_a?(Hash)
+      unless @conjugations.is_a?(Hash)
+        raise ArgumentError.new("Conjugations for #{@infinitive} have to be defined.")
+      end
+
+      unless @conjugations.keys.all? { |key| key.is_a?(Symbol) }
+        raise TypeError.new(@conjugations.keys.inspect)
+      end
+
+      unless @conjugations.values.all? { |key| key.is_a?(String) || key == :delegated }
+        raise TypeError.new(@conjugations.values.inspect)
+      end
 
       @forms = @conjugations.keys
       @exceptions = Hash.new
@@ -81,10 +92,21 @@ module Flashcards
       end
     end
 
+    def delegate(person, tense, pronoun, &transformation)
+      @delegations[person] = [tense, pronoun, transformation]
+      return :delegated
+    end
+
     def regular_forms
       @forms.reduce(Hash.new) do |buffer, person|
         unless self.irregular_forms.include?(person)
-          buffer.merge(person => "#{@root}#{@conjugations[person]}")
+          if delegation = @delegations[person]
+            tense, pronoun, transformation = *delegation
+            form = tense.send(pronoun)
+            buffer.merge(person => transformation ? transformation.call(form) : form)
+          else
+            buffer.merge(person => "#{@root}#{@conjugations[person]}")
+          end
         else
           buffer
         end

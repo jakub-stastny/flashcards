@@ -1,13 +1,14 @@
-# Affirmative and negative commands are the same (¡Hable! and ¡No hable!).
+require_relative '../subjuntivo/presente'
+
 Flashcards.app.define_language(:es) do
   conjugation_group(:imperativo_formal) do |infinitive|
     tense = Flashcards::Tense.new(:imperativo_formal, infinitive) do
-      case infinitive
-      when /^(.+)ar(se)?$/
-        [$1, {usted: 'e', ustedes: 'en'}]
-      when /^(.*)[ei]r(se)?$/ # ir, irse
-        [$1, {usted: 'a', ustedes: 'an'}]
-      end
+      verb = Flashcards.app.language.verb(infinitive)
+
+      [infinitive, {
+        usted:   delegate(:usted,   verb.subjunctivo, :usted),
+        ustedes: delegate(:ustedes, verb.subjunctivo, :ustedes)
+      }]
     end
 
     tense.define_singleton_method(:pretty_inspect) do
