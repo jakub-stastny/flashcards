@@ -90,7 +90,7 @@ module Flashcards
                   asciified_pronoun = pronoun.to_s.tr('éú', 'eu')
                   v1 = Conjugate::Spanish.conjugate(pronoun: asciified_pronoun, verb: verb.infinitive, tense: tense_en_name)
                   v2 = verb.send(tense_es_name).send(pronoun)
-                  warn "#{tense_es_name}: #{v1} != #{v2}" if v1 != v2
+                  warn "#{verb.infinitive} (#{tense_es_name}): #{v1} != #{v2}" if v1 != v2
                   v1 == v2
                 rescue Exception => error
                   warn "~ Error #{error.class}: #{error.message}. Leaving out #{verb.infinitive} in #{pronoun} form of #{tense_en_name} tense."

@@ -37,6 +37,11 @@ module Flashcards
       end
     end
 
+    def should_be_tested_on?(tense)
+      self.language.test_me_on.nil? ||
+      self.language.test_me_on.include?(tense)
+    end
+
     private
     def default_config_path
       File.expand_path(ENV['FLASHCARDS_CONFIG'] || '~/.config/flashcards.yml')

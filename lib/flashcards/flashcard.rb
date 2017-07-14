@@ -129,9 +129,7 @@ module Flashcards
     end
 
     def should_run?(key = nil)
-      if key && test_me_on = Flashcards.app.config.language.test_me_on
-        test_me_on.include?(key) && (super(key))
-      else
+      if (key && Flashcards.app.config.should_be_tested_on?(key)) || key.nil?
         super(key)
       end
     end

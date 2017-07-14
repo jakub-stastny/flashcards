@@ -92,9 +92,12 @@ module Flashcards
     end
 
     def enabled_variants
-      self.variants.select do |variant|
-        variant == :default || Flashcards.app.language_config.test_me_on.include?(variant)
-      end
+      Flashcards.app.language.conjugation_groups.select do |tense| # TODO: This is just for verbs at the moment.
+        Flashcards.app.config.should_be_tested_on?(tense)
+      end + [:default]
+      # self.variants.select do |variant|
+      #   variant == :default || Flashcards.app.language_config.test_me_on.include?(variant)
+      # end
     end
 
     def correct_answers

@@ -1,18 +1,17 @@
-- Core exts: syllabification and the like. #get_online
-- Verify if vos negative informal commands are same as tú.
-
 Tenses:
-- Add subjunctive. #get_online
-- Add rules of irregularity. #get_online
-- Add exceptions.
-- Write tests and cross-check against Wordreference or something reliable. Mark as checked: true.
-- (Vos) das, (vos) vas.
+- Add rules of irregularity for all the tenses. #get_online
+- Add exceptions for flashcards that I already have (run verify).
+- Core exts: syllabification and the like. #get_online
+  -> (Vos) das, (vos) vas.
+- Haber: 3rd person hay OR ha (['hay', 'ha']), change to an array.
+________________________________________________________________________________
 
 Core engine:
+- Add console, so one can for instance reset correct answers.
+- Write tests and cross-check against Wordreference or something reliable. Mark as checked: true.
 - Metadata: tests for regular verbs should not occur as often as for exceptions (and the metadata needs to be stored elsewhere).
 - Add the posibility to undo.
 - Extend `verify`: also unknown attrs.
-- Haber: 3rd person hay OR ha (['hay', 'ha']), change to an array.
 
 Packs:
 - Add `merge` (another yaml file), add pack attribute. Only allow names such as <lang>.<pack>.yml

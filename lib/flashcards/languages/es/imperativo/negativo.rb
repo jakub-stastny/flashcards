@@ -19,9 +19,7 @@ Flashcards.app.define_language(:es) do
     tense.alias_person :vosotras, :vosotros
 
     tense.define_singleton_method(:pretty_inspect) do
-      super(
-        [nil, :tú, nil],
-        [:nosotros, :vosotros, nil])
+      super([nil, :tú], [:nosotros, :vosotros])
     end
 
     tense
