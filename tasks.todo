@@ -2,7 +2,7 @@ Tenses:
 - subjunctivo imperfect, imperfect 2 and future (no preterite).
 - Add rules of irregularity for all the tenses. #get_online
 - Add exceptions for flashcards that I already have (run verify).
-- Core exts: syllabification and the like. #get_online
+- Syllabification and the like.
   -> (Vos) das, (vos) vas.
 - Haber: 3rd person hay OR ha (['hay', 'ha']), change to an array.
 ________________________________________________________________________________
