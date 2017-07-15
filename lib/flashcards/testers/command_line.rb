@@ -30,7 +30,7 @@ module Flashcards
         self.test_flashcard(flashcard)
       end
 
-      self.show_stats
+      self.show_stats unless (@correct + @incorrect) == 0
 
       self.run_tests
     end
