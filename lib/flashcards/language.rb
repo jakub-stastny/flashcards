@@ -77,7 +77,7 @@ module Flashcards
         raise TypeError.new(@conjugations.keys.inspect)
       end
 
-      unless @conjugations.values.all? { |key| key.is_a?(String) || key == :delegated }
+      unless @conjugations.values.all? { |key| key.is_a?(String) || (key.is_a?(Array) && key.all? { |i| i.is_a?(String) }) || key == :delegated }
         raise TypeError.new(@conjugations.values.inspect)
       end
 
@@ -105,7 +105,12 @@ module Flashcards
             form = tense.send(pronoun)
             buffer.merge(person => transformation ? transformation.call(form) : form)
           else
-            buffer.merge(person => "#{@root}#{@conjugations[person]}")
+            ending_or_endings = @conjugations[person]
+            if ending_or_endings.is_a?(Array)
+              buffer.merge(person => ending_or_endings.map { |ending| "#{@root}#{ending}" })
+            else
+              buffer.merge(person => "#{@root}#{ending_or_endings}")
+            end
           end
         else
           buffer
