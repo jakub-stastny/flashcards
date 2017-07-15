@@ -1,15 +1,20 @@
+require_relative '../indicativo/presente'
+
 Flashcards.app.define_language(:es) do
   conjugation_group(:subjunctivo) do |infinitive|
     tense = Flashcards::Tense.new(:subjunctivo, infinitive) do
+      verb = Flashcards.app.language.verb(infinitive)
+      root = verb.presente.yo[0..-2]
+
       case infinitive
       when /^(.+)ar(se)?$/
-        [$1, {
+        [root, {
            yo: 'e',   nosotros: 'emos',
 vos: 'és', tú: 'es',  vosotros: 'éis',
            él: 'e',   ellos: 'en'
         }]
       when /^(.*)[ei]r(se)?$/ # ir, irse
-        [$1, {
+        [root, {
            yo: 'a',   nosotros: 'amos',
 vos: 'ás', tú: 'as',  vosotros: 'áis',
            él: 'a',   ellos: 'an'

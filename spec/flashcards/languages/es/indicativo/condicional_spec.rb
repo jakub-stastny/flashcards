@@ -1,7 +1,7 @@
 require 'flashcards'
 require 'flashcards/language'
 
-describe 'condicional' do
+describe 'Condicional' do
   let(:spanish) { Flashcards.app.language }
 
   describe 'verbs ending with -ar' do

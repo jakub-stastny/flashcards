@@ -1,7 +1,7 @@
 require 'flashcards'
 require 'flashcards/language'
 
-describe 'Present tense' do
+describe 'Presente' do
   let(:spanish) { Flashcards.app.language }
 
   describe 'verbs ending with -ar' do
