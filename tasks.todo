@@ -1,4 +1,5 @@
 Tenses:
+- Subjunctivo_futuro and subjunctivo_imperfecto: nosotros accents.
 - Add rules of irregularity for all the tenses. #get_online
 - Add exceptions for flashcards that I already have (run verify).
 - Syllabification and the like.
@@ -6,7 +7,6 @@ Tenses:
 ________________________________________________________________________________
 
 Core engine:
-- Add console, so one can for instance reset correct answers.
 - Write tests and cross-check against Wordreference or something reliable. Mark as checked: true.
 - Metadata: tests for regular verbs should not occur as often as for exceptions (and the metadata needs to be stored elsewhere).
 - Add the posibility to undo.

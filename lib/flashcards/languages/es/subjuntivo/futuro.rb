@@ -7,7 +7,7 @@ Flashcards.app.define_language(:es) do
       root = verb.pretérito.ellos[0..-4]
 
       [root, {
-         yo: 're',   nosotros: 'remos',
+         yo: 're',   nosotros: 'remos', # TODO: accent is common: hubiéremos, supiéremos
          tú: 'res',  vosotros: 'reis',
          él: 're',   ellos: 'ren'
       }]
