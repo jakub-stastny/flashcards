@@ -7,7 +7,7 @@ Flashcards.app.define_language(:es) do
       root = verb.pretérito.ellos[0..-4]
 
       [root, {
-         yo: ['ra', 'se'],   nosotros: ['ramos', 'semos'],
+         yo: ['ra', 'se'],   nosotros: ['ramos', 'semos'], # There is often an accent on the previous vowel (extrañásemos).
          tú: ['ras', 'ses'], vosotros: ['rais', 'seis'],
          él: ['ra', 'se'],   ellos: ['ran', 'sen']
       }]

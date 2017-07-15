@@ -177,12 +177,12 @@ module Flashcards
       else
         @correct += 1
       end
-    rescue StandardError => e # No signals such as Interrupt.
-      require 'pry'; binding.pry ###
+    # rescue StandardError => e # No signals such as Interrupt.
+    #   require 'pry'; binding.pry ###
     end
 
     def run_conjugation_test_for(conjugation_group, flashcard, verb)
-      person = conjugation_group.forms.keys.sample # FIXME: vos is not present in this.
+      person = conjugation_group.forms.keys.sample
       if person == :default
         print <<-EOF.colourise(bold: true).chomp + ' '
 ~ <magenta>#{conjugation_group.tense.to_s.titlecase} <cyan>is:</cyan></magenta>
@@ -194,12 +194,13 @@ module Flashcards
       end
 
       answer = $stdin.readline.chomp
-      x = if answer == conjugation_group.send(person)
+      answers = [conjugation_group.send(person)].flatten
+      x = if answers.include?(answer)
         puts "    <green>✔︎  </green>".colourise
         flashcard.mark_as_correct(conjugation_group.tense)
         @correct += 1
       else
-        puts "  <red>  ✘  The correct form is #{conjugation_group.send(person)}</red>.".colourise
+        puts "  <red>  ✘  The correct form is #{[conjugation_group.send(person)].flatten.join_with_and('or')}</red>.".colourise
         puts "  <red>     This is an exception.</red>".colourise if conjugation_group.irregular?(person)
         flashcard.mark_as_failed(conjugation_group.tense)
         @incorrect += 1
