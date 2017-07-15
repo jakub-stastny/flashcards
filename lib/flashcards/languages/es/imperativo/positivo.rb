@@ -9,8 +9,8 @@ Flashcards.app.define_language(:es) do
 
       [root, {
         tú: delegate(:tú, verb.presente, :él),
-        vos: infinitive.sub(/^(.*?)(.)r(se)?$/) {
-          accented_character = {'a' => 'á', 'e' => 'é', 'i' => 'í'}[$2] # TODO: Use core exts.
+        vos: infinitive.sub(/(.)r(se)?$/) {
+          accented_character = {'a' => 'á', 'e' => 'é', 'i' => 'í'}[$1] # TODO: Use core exts.
           "#{accented_character}"
         },
         # trabajar -> trabajemos, trabajAD, trabajen

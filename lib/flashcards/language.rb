@@ -161,7 +161,7 @@ module Flashcards
     def pretty_inspect(*groups)
       groups.map do |persons|
         persons.map do |person|
-          text = [self.send(person)].flatten.join(', ')
+          text = person && [self.send(person)].flatten.join(', ')
           {
             exception: person ? self.irregular?(person) : false,
             conjugation: person ? "#{person} #{text}" : ''
