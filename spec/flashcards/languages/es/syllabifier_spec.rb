@@ -70,4 +70,18 @@ describe Flashcards do
       expect(Flashcards.syllables('creer')).to eql(['cre', 'er'])
     end
   end
+
+  describe '#deaccentuate' do
+    it 'xxxxx' do
+      expect(Flashcards.deaccentuate('sábana')).to eql('sabana')
+    end
+  end
+
+  describe '#accentuate' do
+    it 'xxxxx' do
+      expect(Flashcards.accentuate('sábana', 0)).to eql('sábana')
+      expect(Flashcards.accentuate('sábana', 1)).to eql('sabána')
+      expect(Flashcards.accentuate('sábana', 2)).to eql('sabaná')
+    end
+  end
 end

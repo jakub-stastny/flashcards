@@ -79,33 +79,38 @@ module Flashcards
       raise [:else, syllable, sound].inspect
     end
   end
+
+  # word = 'dás'
+  #
+  # if word.sylables.length == 1 # ... and if it is not an exception.
+  #   word.deaccentuate(/(.)s$/)
+  #   # => 'das'
+  # end
+  def self.deaccentuate(word, syllable_index = nil)
+    word.tr('áéíóú', 'aeiou')
+    # if syllable_index.nil?
+    # else
+    #   self.syllables.map.with_index do |syllable, index|
+    #     if index == syllable_index
+    #       syllable.sub(/[:vowel:]/) do |match|
+    #         {'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u'}
+    #       end
+    #     else
+    #       syllable
+    #     end
+    #   end.join('')
+    # end
+  end
+
+  def self.accentuate(word, syllable_index)
+    self.syllables(self.deaccentuate(word)).map.with_index { |syllable, index|
+      if index == syllable_index
+        syllable.sub(/[aeiou]/) do
+          {'a' => 'á', 'e' => 'é', 'i' => 'í', 'o' => 'ó', 'u' => 'ú'}[$&]
+        end
+      else
+        syllable
+      end
+    }.join('')
+  end
 end
-
-__END__
-      # word = 'dás'
-      #
-      # if word.sylables.length == 1 # ... and if it is not an exception.
-      #   word.deaccentuate(/(.)s$/)
-      #   # => 'das'
-      # end
-      def deaccentuate(syllable_index = nil)
-        if syllable_index.nil?
-          self.tr('áéíóú', 'aeiou')
-        else
-          self.syllables.map.with_index do |syllable, index|
-            if index == syllable_index
-              syllable.sub(/[:vowel:]/) do |match|
-                {'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u'}
-              end
-            else
-              syllable
-            end
-          end.join('')
-        end
-      end
-
-      def accentuate(syllable_index)
-        self.sub(regexp) do
-          $1.tr('aeiou', 'áéíóú')
-        end
-      end
