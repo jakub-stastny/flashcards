@@ -12,7 +12,7 @@ Flashcards.app.define_language(:es) do
         vos: infinitive.sub(/^.*(.)r(se)?$/) {
           Flashcards.accentuate($1, 0)
         },
-        nosotros: delegate(:nosotros, verb.subjunctivo, :nosotros),
+        nosotros: delegate(:nosotros, verb.subjuntivo, :nosotros),
         vosotros: "#{infinitive[-2]}d"
       }]
     end

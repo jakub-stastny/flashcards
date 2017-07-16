@@ -46,8 +46,8 @@ module Flashcards
         {
           presente: ['presente', 0], pretérito: ['pretérito', 0],
           imperfecto: ['imperfecto', 0], futuro: ['futuro', 0],
-          condicional: ['condicional', 0], subjunctivo: ['presente', 1],
-          subjunctivo_futuro: ['futuro', 1]
+          condicional: ['condicional', 0], subjuntivo: ['presente', 1],
+          subjuntivo_futuro: ['futuro', 1]
         }.each do |flashcards_tense_name, (wr_tense_name, index)|
           results = conjugations(groups, wr_tense_name, index)
           tense = @flashcard.verb.send(flashcards_tense_name)
@@ -61,7 +61,7 @@ module Flashcards
         end
 
         {
-          subjunctivo_imperfecto: ['imperfecto', 1]
+          subjuntivo_imperfecto: ['imperfecto', 1]
         }.each do |flashcards_tense_name, (wr_tense_name, index)|
           results = conjugations(groups, wr_tense_name, index)
           tense = @flashcard.verb.send(flashcards_tense_name)

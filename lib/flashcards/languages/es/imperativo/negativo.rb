@@ -9,8 +9,8 @@ Flashcards.app.define_language(:es) do
 
       [root, {
         tú: delegate(:tú, verb.imperativo_formal, :usted) { |command| "#{command}s" },
-        nosotros: delegate(:nosotros, verb.subjunctivo, :nosotros),
-        vosotros: delegate(:vosotros, verb.subjunctivo, :vosotros)
+        nosotros: delegate(:nosotros, verb.subjuntivo, :nosotros),
+        vosotros: delegate(:vosotros, verb.subjuntivo, :vosotros)
       }]
     end
 

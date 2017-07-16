@@ -1,8 +1,8 @@
 require_relative '../indicativo/preterito'
 
 Flashcards.app.define_language(:es) do
-  conjugation_group(:subjunctivo_imperfecto) do |infinitive|
-    tense = Flashcards::Tense.new(:subjunctivo_imperfecto, infinitive) do
+  conjugation_group(:subjuntivo_imperfecto) do |infinitive|
+    tense = Flashcards::Tense.new(:subjuntivo_imperfecto, infinitive) do
       verb = Flashcards.app.language.load_verb(infinitive)
       root = verb.pretérito.ellos[0..-4]
 

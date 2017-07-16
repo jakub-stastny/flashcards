@@ -123,36 +123,36 @@ vosotros #{self.imperativo_positivo.vosotros}
 ustedes #{self.imperativo_formal.ustedes}
 
 # Subjunctive
-yo #{self.subjunctivo.yo}
-tú #{self.subjunctivo.tú}
-él #{self.subjunctivo.él}
-nosotros #{self.subjunctivo.nosotros}
-vosotros #{self.subjunctivo.vosotros}
-ellos #{self.subjunctivo.ellos}
+yo #{self.subjuntivo.yo}
+tú #{self.subjuntivo.tú}
+él #{self.subjuntivo.él}
+nosotros #{self.subjuntivo.nosotros}
+vosotros #{self.subjuntivo.vosotros}
+ellos #{self.subjuntivo.ellos}
 
 # Subjunctive Imperfect
-yo #{self.subjunctivo_imperfecto.yo[0]}
-tú #{self.subjunctivo_imperfecto.tú[0]}
-él #{self.subjunctivo_imperfecto.él[0]}
-nosotros #{self.subjunctivo_imperfecto.nosotros[0]}
-vosotros #{self.subjunctivo_imperfecto.vosotros[0]}
-ellos #{self.subjunctivo_imperfecto.ellos[0]}
+yo #{self.subjuntivo_imperfecto.yo[0]}
+tú #{self.subjuntivo_imperfecto.tú[0]}
+él #{self.subjuntivo_imperfecto.él[0]}
+nosotros #{self.subjuntivo_imperfecto.nosotros[0]}
+vosotros #{self.subjuntivo_imperfecto.vosotros[0]}
+ellos #{self.subjuntivo_imperfecto.ellos[0]}
 
 # Subjunctive Imperfect 2
-yo #{self.subjunctivo_imperfecto.yo[1]}
-tú #{self.subjunctivo_imperfecto.tú[1]}
-él #{self.subjunctivo_imperfecto.él[1]}
-nosotros #{self.subjunctivo_imperfecto.nosotros[1]}
-vosotros #{self.subjunctivo_imperfecto.vosotros[1]}
-ellos #{self.subjunctivo_imperfecto.ellos[1]}
+yo #{self.subjuntivo_imperfecto.yo[1]}
+tú #{self.subjuntivo_imperfecto.tú[1]}
+él #{self.subjuntivo_imperfecto.él[1]}
+nosotros #{self.subjuntivo_imperfecto.nosotros[1]}
+vosotros #{self.subjuntivo_imperfecto.vosotros[1]}
+ellos #{self.subjuntivo_imperfecto.ellos[1]}
 
 # Subjunctive Future
-yo #{self.subjunctivo_futuro.yo}
-tú #{self.subjunctivo_futuro.tú}
-él #{self.subjunctivo_futuro.él}
-nosotros #{self.subjunctivo_futuro.nosotros}
-vosotros #{self.subjunctivo_futuro.vosotros}
-ellos #{self.subjunctivo_futuro.ellos}
+yo #{self.subjuntivo_futuro.yo}
+tú #{self.subjuntivo_futuro.tú}
+él #{self.subjuntivo_futuro.él}
+nosotros #{self.subjuntivo_futuro.nosotros}
+vosotros #{self.subjuntivo_futuro.vosotros}
+ellos #{self.subjuntivo_futuro.ellos}
       EOF
     end
   end

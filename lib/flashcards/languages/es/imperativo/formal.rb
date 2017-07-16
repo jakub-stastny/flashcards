@@ -6,8 +6,8 @@ Flashcards.app.define_language(:es) do
       verb = Flashcards.app.language.load_verb(infinitive)
 
       [infinitive, {
-        usted:   delegate(:usted,   verb.subjunctivo, :usted),
-        ustedes: delegate(:ustedes, verb.subjunctivo, :ustedes)
+        usted:   delegate(:usted,   verb.subjuntivo, :usted),
+        ustedes: delegate(:ustedes, verb.subjuntivo, :ustedes)
       }]
     end
 
