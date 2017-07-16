@@ -86,7 +86,7 @@ module Flashcards
   #   word.deaccentuate(/(.)s$/)
   #   # => 'das'
   # end
-  def self.deaccentuate(word, syllable_index = nil)
+  def self.deaccentuate(word)
     word.tr('áéíóú', 'aeiou')
     # if syllable_index.nil?
     # else
@@ -103,6 +103,14 @@ module Flashcards
   end
 
   def self.accentuate(word, syllable_index)
+    s1= syllable_index
+    syllables = self.syllables(word)
+    syllable_index = syllables.length + syllable_index if syllable_index < 0
+
+    # if (0..(syllables.length)).include?(syllable_index)
+    #   raise IndexError.new("#{syllable_index} is out of #{(0..(syllables.length))}.")
+    # end
+
     self.syllables(self.deaccentuate(word)).map.with_index { |syllable, index|
       if index == syllable_index
         syllable.sub(/[aeiou]/) do

@@ -10,14 +10,8 @@ Flashcards.app.define_language(:es) do
       [root, {
         tú: delegate(:tú, verb.presente, :él),
         vos: infinitive.sub(/(.)r(se)?$/) {
-          accented_character = {'a' => 'á', 'e' => 'é', 'i' => 'í'}[$1] # TODO: Use core exts.
-          "#{accented_character}"
+          (root.syllables.length == 1) ? $1 : Flashcards.accentuate($1, 0)
         },
-        # trabajar -> trabajemos, trabajAD, trabajen
-        # vivir    -> vivamos, vivID, vivan
-        # comer    -> comamos, comed, coman
-        #   ... with the exception of vosotros, it's the subjunctive.
-        #
         nosotros: delegate(:nosotros, verb.subjunctivo, :nosotros),
         vosotros: "#{infinitive[-2]}d"
       }]

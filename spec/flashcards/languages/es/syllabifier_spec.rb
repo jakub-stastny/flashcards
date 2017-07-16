@@ -82,6 +82,14 @@ describe Flashcards do
       expect(Flashcards.accentuate('sábana', 0)).to eql('sábana')
       expect(Flashcards.accentuate('sábana', 1)).to eql('sabána')
       expect(Flashcards.accentuate('sábana', 2)).to eql('sabaná')
+      # expect { Flashcards.accentuate('sábana', 3) }.to raise_error(IndexError)
+    end
+
+    it 'xxxxx' do
+      expect(Flashcards.accentuate('sábana', -1)).to eql('sabaná')
+      expect(Flashcards.accentuate('sábana', -2)).to eql('sabána')
+      expect(Flashcards.accentuate('sábana', -3)).to eql('sábana')
+      # expect { Flashcards.accentuate('sábana', -4) }.to raise_error(IndexError)
     end
   end
 end

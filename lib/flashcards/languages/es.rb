@@ -6,6 +6,8 @@ Flashcards.app.define_language(:es) do
   say_voice('Monica')
 end
 
+require_relative 'es/syllabifier'
+
 require_relative 'es/gerundio'
 require_relative 'es/participio'
 

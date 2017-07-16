@@ -1,9 +1,7 @@
 Tenses:
-- Subjunctivo_futuro and subjunctivo_imperfecto: nosotros accents.
 - Add rules of irregularity for all the tenses. #get_online
 - Add exceptions for flashcards that I already have (run verify).
-- Syllabification and the like.
-  -> (Vos) das, (vos) vas.
+- Subjunctivo_futuro and subjunctivo_imperfecto: nosotros accents; (Vos) das, (vos) vas.
 ________________________________________________________________________________
 
 Core engine:
