@@ -9,8 +9,8 @@ Flashcards.app.define_language(:es) do
 
       [root, {
         tú: delegate(:tú, verb.presente, :él),
-        vos: infinitive.sub(/(.)r(se)?$/) {
-          (root.syllables.length == 1) ? $1 : Flashcards.accentuate($1, 0)
+        vos: infinitive.sub(/^.*(.)r(se)?$/) {
+          Flashcards.accentuate($1, 0)
         },
         nosotros: delegate(:nosotros, verb.subjunctivo, :nosotros),
         vosotros: "#{infinitive[-2]}d"

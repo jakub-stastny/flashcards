@@ -74,7 +74,7 @@ module Flashcards
     elsif VOWELS.include?(sound)
       return true
     else
-      # return false
+      return false
       require 'pry'; binding.pry ###
       raise [:else, syllable, sound].inspect
     end

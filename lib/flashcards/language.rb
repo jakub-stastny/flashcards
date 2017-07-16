@@ -107,15 +107,19 @@ module Flashcards
           else
             ending_or_endings = @conjugations[person]
             if ending_or_endings.is_a?(Array)
-              buffer.merge(person => ending_or_endings.map { |ending| "#{@root}#{ending}" })
+              buffer.merge(person => ending_or_endings.map { |ending| xxxxx("#{@root}#{ending}") })
             else
-              buffer.merge(person => "#{@root}#{ending_or_endings}")
+              buffer.merge(person => xxxxx("#{@root}#{ending_or_endings}"))
             end
           end
         else
           buffer
         end
       end
+    end
+
+    def xxxxx(word) # TODO: Unless it's an exception, like dé.
+      Flashcards.syllables(word).length == 1 ? Flashcards.deaccentuate(word) : word
     end
 
     def irregular_forms
