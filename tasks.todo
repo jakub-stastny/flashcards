@@ -1,11 +1,10 @@
 Tenses:
 - Review voseo rules (ir -> vas/va!).
 - Add rules of irregularity for all the tenses. #get_online
+- Mark as verified if verified after WR.
 ________________________________________________________________________________
 
 Core engine:
-- Write tests and cross-check against Wordreference or something reliable. Mark as checked: true.
-- Metadata: tests for regular verbs should not occur as often as for exceptions (and the metadata needs to be stored elsewhere).
 - Add the posibility to undo.
 - Extend `verify`: also unknown attrs.
 
