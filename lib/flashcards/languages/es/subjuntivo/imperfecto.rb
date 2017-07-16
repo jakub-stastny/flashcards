@@ -6,10 +6,11 @@ Flashcards.app.define_language(:es) do
       verb = Flashcards.app.language.load_verb(infinitive)
       root = verb.pretérito.ellos[0..-4]
 
-      [root, {
-         yo: ['ra', 'se'],   nosotros: ['ramos', 'semos'], # TODO: There is an accent on the previous vowel (extrañásemos).
-         tú: ['ras', 'ses'], vosotros: ['rais', 'seis'],
-         él: ['ra', 'se'],   ellos: ['ran', 'sen']
+      # NOTE: It might or might not be the right stem, but anyhow, I don't think it matters.
+      [root[0..-2], {
+         yo: ["#{root[-1]}ra", "#{root[-1]}se"],   nosotros: ["#{Flashcards.accentuate(root[-1], 0)}ramos", "#{Flashcards.accentuate(root[-1], 0)}semos"],
+         tú: ["#{root[-1]}ras", "#{root[-1]}ses"], vosotros: ["#{root[-1]}rais", "#{root[-1]}seis"],
+         él: ["#{root[-1]}ra", "#{root[-1]}se"],   ellos: ["#{root[-1]}ran", "#{root[-1]}sen"]
       }]
     end
 

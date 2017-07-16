@@ -6,10 +6,11 @@ Flashcards.app.define_language(:es) do
       verb = Flashcards.app.language.load_verb(infinitive)
       root = verb.pretérito.ellos[0..-4]
 
-      [root, {
-         yo: 're',   nosotros: 'remos', # TODO: accent is common: hubiéremos, supiéremos
-         tú: 'res',  vosotros: 'reis',
-         él: 're',   ellos: 'ren'
+      # NOTE: It might or might not be the right stem, but anyhow, I don't think it matters.
+      [root[0..-2], {
+         yo: "#{root[-1]}re",   nosotros: "#{Flashcards.accentuate(root[-1], 0)}remos",
+         tú: "#{root[-1]}res",  vosotros: "#{root[-1]}reis",
+         él: "#{root[-1]}re",   ellos: "#{root[-1]}ren"
       }]
     end
 
