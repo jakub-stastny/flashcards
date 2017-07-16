@@ -7,7 +7,7 @@ module Flashcards
     using RR::ColourExts
 
     def self.run(all_flashcards)
-      flashcards = all_flashcards.select { |flashcard| flashcard.tags.include?(:verb) && ! flashcard.tags.include?(:correct) }
+      flashcards = all_flashcards.select { |flashcard| flashcard.tags.include?(:verb) && ! flashcard.tags.include?(:verified) }
       flashcards.each do |flashcard|
         checker = self.new(flashcard)
         checker.run

@@ -4,7 +4,6 @@ ________________________________________________________________________________
 
 Core engine:
 - Add checksums of conjugations. Warn if anything changed.
-- Mark as verified if verified after WR.
 - Warn if regular forms are listed as exceptions in the flashcard file.
 - Add the posibility to undo.
 - Extend `verify`: also unknown attrs.
