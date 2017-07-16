@@ -55,6 +55,95 @@ module Flashcards
         end
       end
     end
+
+    def show_forms
+      puts <<-EOF
+Participle: #{self.participio.default}
+Gerund: #{self.gerundio.default}
+
+Vos presente: #{self.presente.vos}
+Vos imperativo: #{self.imperativo_positivo.vos}
+
+# Present
+yo #{self.presente.yo}
+tú #{self.presente.tú}
+él #{self.presente.él}
+nosotros #{self.presente.nosotros}
+vosotros #{self.presente.vosotros}
+ellos #{self.presente.ellos}
+
+# Preterit
+yo #{self.pretérito.yo}
+tú #{self.pretérito.tú}
+él #{self.pretérito.él}
+nosotros #{self.pretérito.nosotros}
+vosotros #{self.pretérito.vosotros}
+ellos #{self.pretérito.ellos}
+
+# Imperfect
+yo #{self.imperfecto.yo}
+tú #{self.imperfecto.tú}
+él #{self.imperfecto.él}
+nosotros #{self.imperfecto.nosotros}
+vosotros #{self.imperfecto.vosotros}
+ellos #{self.imperfecto.ellos}
+
+# Conditional
+yo #{self.condicional.yo}
+tú #{self.condicional.tú}
+él #{self.condicional.él}
+nosotros #{self.condicional.nosotros}
+vosotros #{self.condicional.vosotros}
+ellos #{self.condicional.ellos}
+
+# Future
+yo #{self.futuro.yo}
+tú #{self.futuro.tú}
+él #{self.futuro.él}
+nosotros #{self.futuro.nosotros}
+vosotros #{self.futuro.vosotros}
+ellos #{self.futuro.ellos}
+
+# Imperative
+tú #{self.imperativo_positivo.tú}
+usted #{self.imperativo_formal.usted}
+nosotros #{self.imperativo_positivo.nosotros}
+vosotros #{self.imperativo_positivo.vosotros}
+ustedes #{self.imperativo_formal.ustedes}
+
+# Subjunctive
+yo #{self.subjunctivo.yo}
+tú #{self.subjunctivo.tú}
+él #{self.subjunctivo.él}
+nosotros #{self.subjunctivo.nosotros}
+vosotros #{self.subjunctivo.vosotros}
+ellos #{self.subjunctivo.ellos}
+
+# Subjunctive Imperfect
+yo #{self.subjunctivo_imperfecto.yo[0]}
+tú #{self.subjunctivo_imperfecto.tú[0]}
+él #{self.subjunctivo_imperfecto.él[0]}
+nosotros #{self.subjunctivo_imperfecto.nosotros[0]}
+vosotros #{self.subjunctivo_imperfecto.vosotros[0]}
+ellos #{self.subjunctivo_imperfecto.ellos[0]}
+
+# Subjunctive Imperfect 2
+yo #{self.subjunctivo_imperfecto.yo[1]}
+tú #{self.subjunctivo_imperfecto.tú[1]}
+él #{self.subjunctivo_imperfecto.él[1]}
+nosotros #{self.subjunctivo_imperfecto.nosotros[1]}
+vosotros #{self.subjunctivo_imperfecto.vosotros[1]}
+ellos #{self.subjunctivo_imperfecto.ellos[1]}
+
+# Subjunctive Future
+yo #{self.subjunctivo_futuro.yo}
+tú #{self.subjunctivo_futuro.tú}
+él #{self.subjunctivo_futuro.él}
+nosotros #{self.subjunctivo_futuro.nosotros}
+vosotros #{self.subjunctivo_futuro.vosotros}
+ellos #{self.subjunctivo_futuro.ellos}
+      EOF
+    end
   end
 
   class Tense
@@ -119,7 +208,8 @@ module Flashcards
     end
 
     def xxxxx(word) # TODO: Unless it's an exception, like dé.
-      Flashcards.syllables(word).length == 1 ? Flashcards.deaccentuate(word) : word
+      # We have to use deaccentuate, because deis/déis. The latter is 2 syllables.
+      Flashcards.syllables(Flashcards.deaccentuate(word)).length == 1 ? Flashcards.deaccentuate(word) : word
     end
 
     def irregular_forms

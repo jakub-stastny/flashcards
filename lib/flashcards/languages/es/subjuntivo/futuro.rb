@@ -3,7 +3,7 @@ require_relative '../indicativo/preterito'
 Flashcards.app.define_language(:es) do
   conjugation_group(:subjunctivo_futuro) do |infinitive|
     tense = Flashcards::Tense.new(:subjunctivo_futuro, infinitive) do
-      verb = Flashcards.app.language.verb(infinitive)
+      verb = Flashcards.app.language.verb(infinitive) # This way no exceptions. We have to access the flashcards data.
       root = verb.pretérito.ellos[0..-4]
 
       [root, {
