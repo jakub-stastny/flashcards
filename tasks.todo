@@ -2,6 +2,7 @@ Tenses:
 - Add rules of irregularity for all the tenses. #get_online
 
 Core engine:
+- Finish https://www.spanishdict.com/guide/spanish-syllables-and-syllabification-rules
 - Add checksums of conjugations. Warn if anything changed.
 - Warn if regular forms are listed as exceptions in the flashcard file.
 - Add the posibility to undo.
