@@ -46,6 +46,7 @@ module Flashcards
 
     def load_do_then_save(&block)
       flashcards = Flashcards::Flashcard.load(self.language.name.to_s)
+      flashcards = filter_selected_flashcards(flashcards) if ENV['FLASHCARDS']
       data = block.call(flashcards)
       unless ENV['FLASHCARDS'] # Otherwise we save only the selected ones and discard all the rest.
         Flashcards::Flashcard.save(self.language.name.to_s, data)
@@ -55,6 +56,7 @@ module Flashcards
     protected
     def filter_selected_flashcards(flashcards)
       selected_flashcards = ENV['FLASHCARDS'].split(/\s*,\s*/)
+      puts "~ Applying filter #{selected_flashcards}"
       flashcards.select do |flashcard|
         selected_flashcards.any? do |selected_flashcard|
           flashcard.expressions.include?(selected_flashcard)
