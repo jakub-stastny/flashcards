@@ -1,9 +1,10 @@
 Tenses:
 - Add rules of irregularity for all the tenses. #get_online
-- Mark as verified if verified after WR.
 ________________________________________________________________________________
 
 Core engine:
+- Add checksums of conjugations. Warn if anything changed.
+- Mark as verified if verified after WR.
 - Add the posibility to undo.
 - Extend `verify`: also unknown attrs.
 

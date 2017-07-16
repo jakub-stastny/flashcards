@@ -4,7 +4,7 @@ Flashcards.app.define_language(:es) do
   conjugation_group(:subjunctivo) do |infinitive|
     tense = Flashcards::Tense.new(:subjunctivo, infinitive) do
       verb = Flashcards.app.language.load_verb(infinitive)
-      root = verb.presente.yo[0..-2]
+      root = verb.presente.yo.sub(/^(.+)oy?$/, '\1')
 
       case infinitive
       when /^(.+)ar(se)?$/
