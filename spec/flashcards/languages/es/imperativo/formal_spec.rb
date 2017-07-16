@@ -5,7 +5,7 @@ describe 'Formal commands' do
   let(:spanish) { Flashcards.app.language }
 
   describe 'verbs ending with -ar' do
-    let(:hablar) { spanish.verb('hablar') }
+    let(:hablar) { spanish._verb('hablar') }
 
     it 'is regular' do
       expect(hablar.imperativo_formal.irregular?(:usted)).to be(false)
@@ -17,7 +17,7 @@ describe 'Formal commands' do
   end
 
   describe 'verbs ending with -er' do
-    let(:comer) { spanish.verb('comer') }
+    let(:comer) { spanish._verb('comer') }
 
     it 'is regular' do
       expect(comer.imperativo_formal.irregular?(:usted)).to be(false)
@@ -29,7 +29,7 @@ describe 'Formal commands' do
   end
 
   describe 'verbs ending with -ir' do
-    let(:vivir) { spanish.verb('vivir') }
+    let(:vivir) { spanish._verb('vivir') }
 
     it 'is regular' do
       expect(vivir.imperativo_formal.irregular?(:usted)).to be(false)
@@ -42,9 +42,9 @@ describe 'Formal commands' do
 
   # TODO: This should return "se vive" etc rather than just "vive".
   it 'handles reflective verbs' do
-    expect(spanish.verb('hablarse').imperativo_formal.usted).to eql(spanish.verb('hablar').imperativo_formal.usted)
-    expect(spanish.verb('comerse').imperativo_formal.usted).to eql(spanish.verb('comer').imperativo_formal.usted)
-    expect(spanish.verb('vivirse').imperativo_formal.usted).to eql(spanish.verb('vivir').imperativo_formal.usted)
+    expect(spanish._verb('hablarse').imperativo_formal.usted).to eql(spanish._verb('hablar').imperativo_formal.usted)
+    expect(spanish._verb('comerse').imperativo_formal.usted).to eql(spanish._verb('comer').imperativo_formal.usted)
+    expect(spanish._verb('vivirse').imperativo_formal.usted).to eql(spanish._verb('vivir').imperativo_formal.usted)
   end
 
   # TODO: How about ir? What's the stem of voy?

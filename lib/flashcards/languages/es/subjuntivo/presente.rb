@@ -3,7 +3,7 @@ require_relative '../indicativo/presente'
 Flashcards.app.define_language(:es) do
   conjugation_group(:subjunctivo) do |infinitive|
     tense = Flashcards::Tense.new(:subjunctivo, infinitive) do
-      verb = Flashcards.app.language.verb(infinitive)
+      verb = Flashcards.app.language.load_verb(infinitive)
       root = verb.presente.yo[0..-2]
 
       case infinitive

@@ -116,7 +116,7 @@ module Flashcards
 
     def verb
       if self.tags.include?(:verb)
-        Flashcards.app.language.verb(self.expressions.first, self.conjugations || Hash.new)
+        Flashcards.app.language._verb(self.expressions.first, self.conjugations || Hash.new)
       end
     end
 
@@ -138,7 +138,7 @@ module Flashcards
       if self.tags.include?(:verb)
         self.expressions.map { |expression|
           Flashcards.app.language.conjugation_groups.map do |conjugation_group|
-            verb = Flashcards.app.language.verb(expression)
+            verb = Flashcards.app.language.load_verb(expression)
             verb.send(conjugation_group).forms.values + [expression] # Don't forget the infinitive.
           end
         }.flatten.uniq

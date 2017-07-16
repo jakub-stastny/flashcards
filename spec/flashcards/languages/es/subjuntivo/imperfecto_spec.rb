@@ -5,7 +5,7 @@ describe 'Subjunctivo imperfecto' do
   let(:spanish) { Flashcards.app.language }
 
   describe 'verbs ending with -ar' do
-    let(:hablar) { spanish.verb('hablar') }
+    let(:hablar) { spanish._verb('hablar') }
 
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
@@ -44,7 +44,7 @@ describe 'Subjunctivo imperfecto' do
   end
 
   describe 'verbs ending with -er' do
-    let(:comer) { spanish.verb('comer') }
+    let(:comer) { spanish._verb('comer') }
 
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
@@ -83,7 +83,7 @@ describe 'Subjunctivo imperfecto' do
   end
 
   describe 'verbs ending with -ir' do
-    let(:vivir) { spanish.verb('vivir') }
+    let(:vivir) { spanish._verb('vivir') }
 
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
@@ -123,9 +123,9 @@ describe 'Subjunctivo imperfecto' do
 
   # TODO: This should return "se vive" etc rather than just "vive".
   it 'handles reflective verbs' do
-    expect(spanish.verb('hablarse').subjunctivo_imperfecto.él).to eql(spanish.verb('hablar').subjunctivo_imperfecto.él)
-    expect(spanish.verb('comerse').subjunctivo_imperfecto.él).to eql(spanish.verb('comer').subjunctivo_imperfecto.él)
-    expect(spanish.verb('vivirse').subjunctivo_imperfecto.él).to eql(spanish.verb('vivir').subjunctivo_imperfecto.él)
+    expect(spanish._verb('hablarse').subjunctivo_imperfecto.él).to eql(spanish._verb('hablar').subjunctivo_imperfecto.él)
+    expect(spanish._verb('comerse').subjunctivo_imperfecto.él).to eql(spanish._verb('comer').subjunctivo_imperfecto.él)
+    expect(spanish._verb('vivirse').subjunctivo_imperfecto.él).to eql(spanish._verb('vivir').subjunctivo_imperfecto.él)
   end
 
   # TODO: How about ir? What's the stem of voy?

@@ -1,7 +1,7 @@
-# verb = Flashcards.app.language.verb('hablar')
+# verb = Flashcards.app.language.load_verb('hablar')
 # verb.presente.nosotros
 #
-# verb = Flashcards.app.language.verb('tener', present: {yo: 'tengo', tú: 'tienes', él: 'tiene'})
+# verb = Flashcards.app.language._verb('tener', present: {yo: 'tengo', tú: 'tienes', él: 'tiene'})
 # verb.presente.yo
 module Flashcards
   class Language
@@ -21,8 +21,19 @@ module Flashcards
       @grammar_rules[:conjugation_groups].keys
     end
 
-    def verb(infinitive, conjugation_groups = Hash.new)
+    # You probably want to use load_verb instead.
+    def _verb(infinitive, conjugation_groups = Hash.new)
       Verb.new(infinitive, @grammar_rules[:conjugation_groups], conjugation_groups)
+    end
+
+    def flashcards
+      @flashcards ||= Flashcards::Flashcard.load(@name)
+    end
+
+    def load_verb(infinitive)
+      self.flashcards.find do |flashcard|
+        flashcard.expressions.include?(infinitive)
+      end.verb
     end
 
     def say_voice(voice)

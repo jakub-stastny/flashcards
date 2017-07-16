@@ -166,7 +166,7 @@ module Flashcards
     def run_conjugation_tests(flashcard)
       if flashcard.tags.include?(:verb)
         # FIXME: flashcard.expressions.sample doesn't make sense in this case.
-        verb = @language.verb(flashcard.expressions.sample, flashcard.conjugations)
+        verb = @language.load_verb(flashcard.expressions.sample)
         puts # TODO: unless there are no configured/enabled ones.
         @language.conjugation_groups.each do |conjugation_group_name|
           if flashcard.should_run?(conjugation_group_name)

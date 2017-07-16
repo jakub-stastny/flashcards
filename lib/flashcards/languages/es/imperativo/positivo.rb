@@ -4,7 +4,7 @@ require_relative '../subjuntivo/presente'
 Flashcards.app.define_language(:es) do
   conjugation_group(:imperativo_positivo) do |infinitive|
     tense = Flashcards::Tense.new(:imperativo_positivo, infinitive) do
-      verb = Flashcards.app.language.verb(infinitive)
+      verb = Flashcards.app.language.load_verb(infinitive)
       root = infinitive[0..-3]
 
       [root, {
