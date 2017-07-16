@@ -13,11 +13,10 @@ module Flashcards
         checker.run
         if checker.correct?
           puts "<green>✔︎</green> #{flashcard.expressions.first}".colourise(bold: true)
-          flashcard.tags << [:correct]
+          flashcard.tags << :verified
         else
           puts "<red>✘</red> #{flashcard.expressions.first}".colourise(bold: true)
           puts checker.warnings.map { |warning| "- #{warning}" }
-          flashcard.tags << [:incorrect]
         end
       end
     end

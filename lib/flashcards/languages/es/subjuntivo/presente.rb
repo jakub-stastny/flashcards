@@ -8,7 +8,7 @@ Flashcards.app.define_language(:es) do
 
       case infinitive
       when /^(.+)ar(se)?$/
-        [root, { # Using root here produces do- instead of d- for dar.
+        [root, {
            yo: 'e',   nosotros: 'emos',
 vos: 'és', tú: 'es',  vosotros: 'éis',
            él: 'e',   ellos: 'en'

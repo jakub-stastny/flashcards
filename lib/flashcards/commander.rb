@@ -79,8 +79,11 @@ module Flashcards
     def self.verify
       require 'flashcards/wordreference'
 
-      Flashcards.app.load do |flashcards| # TODO: Save once it's stable.
+      Flashcards.app.load_do_then_save do |flashcards| # TODO: Save once it's stable.
         Flashcards::WordReference.run(flashcards)
+
+        # Save the flashcards with updated metadata.
+        flashcards.map(&:data)
       end
     end
 
