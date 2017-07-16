@@ -1,6 +1,5 @@
 Tenses:
 - Add rules of irregularity for all the tenses. #get_online
-________________________________________________________________________________
 
 Core engine:
 - Add checksums of conjugations. Warn if anything changed.
