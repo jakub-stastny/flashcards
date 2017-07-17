@@ -9,7 +9,10 @@ Flashcards.app.define_language(:es) do
       end
     end
 
-    # tense.irregular(/^(.*[:vowel:])[ei]r(se)?$/, '') # => yendo
+    vowels = Flashcards.app.language.syllabifier.vowels
+    tense.irregular(/^(.*[#{vowels.join('')}])[ei]r(se)?$/, default: Proc.new { |stem| "#{stem}yendo" })
+
+    tense.irregular(/(ll|ñ)[ei]r(se)?$/, default: Proc.new { |stem| "#{stem}endo" })
 
     tense
   end

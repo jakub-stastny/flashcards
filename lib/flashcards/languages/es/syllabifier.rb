@@ -8,6 +8,14 @@ module Flashcards
                                           ['Ll', 'Rr', 'Ch'] +
                   (('a'..'z').to_a + ['ñ', 'll', 'rr', 'ch'] - VOWELS).map(&:upcase)
 
+      def self.vowels
+        VOWELS
+      end
+
+      def self.consonants
+        CONSONANTS
+      end
+
       def self.sounds(word)
         word.each_char.reduce(Array.new) do |sounds, character|
           if "#{sounds.last}#{character}".match(/(ll|rr|ch)$/i)
