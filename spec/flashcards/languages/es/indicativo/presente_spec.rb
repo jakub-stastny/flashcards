@@ -13,7 +13,7 @@ describe 'Presente' do
   end
 
   describe 'verbs ending with -ar' do
-    let(:hablar) { spanish._verb('hablar', Hash.new) }
+    let(:hablar) { spanish.load_verb('hablar') }
 
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
@@ -52,7 +52,7 @@ describe 'Presente' do
   end
 
   describe 'verbs ending with -er' do
-    let(:comer) { spanish._verb('comer', Hash.new) }
+    let(:comer) { spanish.load_verb('comer') }
 
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
@@ -91,7 +91,7 @@ describe 'Presente' do
   end
 
   describe 'verbs ending with -ir' do
-    let(:vivir) { spanish._verb('vivir', Hash.new) }
+    let(:vivir) { spanish.load_verb('vivir') }
 
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
@@ -130,7 +130,7 @@ describe 'Presente' do
   end
 
   describe 'extinguir' do
-    let(:extinguir) { spanish._verb('extinguir', Hash.new) }
+    let(:extinguir) { spanish.load_verb('extinguir') }
 
     it 'is irregular in the first form of singular' do
       expect(extinguir.infinitive).to eql('extinguir')
@@ -169,7 +169,7 @@ describe 'Presente' do
   end
 
   describe 'escoger' do
-    let(:escoger) { spanish._verb('escoger', Hash.new) }
+    let(:escoger) { spanish.load_verb('escoger') }
 
     it 'is irregular in the first form of singular' do
       expect(escoger.infinitive).to eql('escoger')
@@ -208,7 +208,7 @@ describe 'Presente' do
   end
 
   describe 'dirigir' do
-    let(:dirigir) { spanish._verb('dirigir', Hash.new) }
+    let(:dirigir) { spanish.load_verb('dirigir') }
 
     it 'is irregular in the first form of singular' do
       expect(dirigir.infinitive).to eql('dirigir')
@@ -248,9 +248,9 @@ describe 'Presente' do
 
   # TODO: This should return "se vive" etc rather than just "vive".
   it 'handles reflective verbs' do
-    expect(spanish._verb('hablarse', Hash.new).presente.él).to eql(spanish._verb('hablar', Hash.new).presente.él)
-    expect(spanish._verb('comerse', Hash.new).presente.él).to eql(spanish._verb('comer', Hash.new).presente.él)
-    expect(spanish._verb('vivirse', Hash.new).presente.él).to eql(spanish._verb('vivir', Hash.new).presente.él)
+    expect(spanish.load_verb('hablarse').presente.él).to eql(spanish.load_verb('hablar').presente.él)
+    expect(spanish.load_verb('comerse').presente.él).to eql(spanish.load_verb('comer').presente.él)
+    expect(spanish.load_verb('vivirse').presente.él).to eql(spanish.load_verb('vivir').presente.él)
   end
 
   # TODO: How about ir? What's the stem of voy?

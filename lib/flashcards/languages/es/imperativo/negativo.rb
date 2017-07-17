@@ -1,14 +1,12 @@
-require_relative './formal'
 require_relative '../subjuntivo/presente'
 
 Flashcards.app.define_language(:es) do
   conjugation_group(:imperativo_negativo) do |infinitive|
     tense = Flashcards::Tense.new(:imperativo_negativo, infinitive) do
       verb = Flashcards.app.language.load_verb(infinitive)
-      stem = infinitive[0..-3]
 
-      [stem, {
-        tú: delegate(:tú, verb.imperativo_formal, :usted) { |command| "#{command}s" },
+      [verb.subjuntivo.stem, {
+        tú: delegate(:tú, verb.subjuntivo, :usted) { |command| "#{command}s" },
         nosotros: delegate(:nosotros, verb.subjuntivo, :nosotros),
         vosotros: delegate(:vosotros, verb.subjuntivo, :vosotros)
       }]

@@ -13,7 +13,7 @@ describe 'Gerundio' do
   end
 
   describe 'verbs ending with -ar' do
-    let(:hablar) { spanish._verb('hablar', Hash.new) }
+    let(:hablar) { spanish.load_verb('hablar') }
 
     it 'is regular' do
       expect(hablar.gerundio.regular?).to be(true)
@@ -22,8 +22,8 @@ describe 'Gerundio' do
   end
 
   describe 'verbs ending with -er and -ir' do
-    let(:comer) { spanish._verb('comer', Hash.new) }
-    let(:vivir) { spanish._verb('vivir', Hash.new) }
+    let(:comer) { spanish.load_verb('comer') }
+    let(:vivir) { spanish.load_verb('vivir') }
 
     it 'is regular' do
       expect(comer.gerundio.regular?).to be(true)
@@ -36,9 +36,9 @@ describe 'Gerundio' do
 
   # TODO: This should return "se vive" etc rather than just "vive".
   it 'handles reflective verbs' do
-    expect(spanish._verb('hablarse', Hash.new).gerundio.default).to eql(spanish._verb('hablar', Hash.new).gerundio.default)
-    expect(spanish._verb('comerse', Hash.new).gerundio.default).to eql(spanish._verb('comer', Hash.new).gerundio.default)
-    expect(spanish._verb('vivirse', Hash.new).gerundio.default).to eql(spanish._verb('vivir', Hash.new).gerundio.default)
+    expect(spanish.load_verb('hablarse').gerundio.default).to eql(spanish.load_verb('hablar').gerundio.default)
+    expect(spanish.load_verb('comerse').gerundio.default).to eql(spanish.load_verb('comer').gerundio.default)
+    expect(spanish.load_verb('vivirse').gerundio.default).to eql(spanish.load_verb('vivir').gerundio.default)
   end
 
   # TODO: How about ir? What's the stem of voy?

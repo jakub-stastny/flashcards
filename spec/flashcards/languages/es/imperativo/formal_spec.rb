@@ -8,12 +8,13 @@ describe 'Formal commands' do
     Flashcards.app.language.flashcards = [
       Flashcards::Flashcard.new(expressions: ['hablar', 'hablarse'], translation: 'to speak', tags: [:verb]),
       Flashcards::Flashcard.new(expressions: ['comer', 'comerse'], translation: 'to eat', tags: [:verb]),
-      Flashcards::Flashcard.new(expressions: ['vivir', 'vivirse'], translation: 'to live', tags: [:verb])
+      Flashcards::Flashcard.new(expressions: ['vivir', 'vivirse'], translation: 'to live', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['tener'], translation: 'to have', tags: [:verb], conjugations: {subjuntivo: {él: 'tenga', ellos: 'tengan'}})
     ]
   end
 
   describe 'verbs ending with -ar' do
-    let(:hablar) { spanish._verb('hablar', Hash.new) }
+    let(:hablar) { spanish.load_verb('hablar') }
 
     it 'is regular' do
       expect(hablar.imperativo_formal.irregular?(:usted)).to be(false)
@@ -25,7 +26,7 @@ describe 'Formal commands' do
   end
 
   describe 'verbs ending with -er' do
-    let(:comer) { spanish._verb('comer', Hash.new) }
+    let(:comer) { spanish.load_verb('comer') }
 
     it 'is regular' do
       expect(comer.imperativo_formal.irregular?(:usted)).to be(false)
@@ -37,7 +38,7 @@ describe 'Formal commands' do
   end
 
   describe 'verbs ending with -ir' do
-    let(:vivir) { spanish._verb('vivir', Hash.new) }
+    let(:vivir) { spanish.load_verb('vivir') }
 
     it 'is regular' do
       expect(vivir.imperativo_formal.irregular?(:usted)).to be(false)
@@ -48,11 +49,28 @@ describe 'Formal commands' do
     end
   end
 
+  describe 'verbs with an irregular subjunctive' do
+    let(:tener) { spanish.load_verb('tener') }
+
+    # TODO: Is it regular or irregular?
+    # It is regular as in "it does not differ from the subjunctive".
+    # However since no verb differs from the subjunctive, it is the subjunctive
+    # rather than a "proxy-with-tweaks" as is the positive command which has
+    # its own exceptions ("ten!") or the negative command which has an extra "-s".
+    it 'is regular' do
+      expect(tener.imperativo_formal.irregular?(:usted)).to be(false)
+      expect(tener.imperativo_formal.irregular?(:ustedes)).to be(false)
+
+      expect(tener.imperativo_formal.usted).to eql('tenga')
+      expect(tener.imperativo_formal.ustedes).to eql('tengan')
+    end
+  end
+
   # TODO: This should return "se vive" etc rather than just "vive".
   it 'handles reflective verbs' do
-    expect(spanish._verb('hablarse', Hash.new).imperativo_formal.usted).to eql(spanish._verb('hablar', Hash.new).imperativo_formal.usted)
-    expect(spanish._verb('comerse', Hash.new).imperativo_formal.usted).to eql(spanish._verb('comer', Hash.new).imperativo_formal.usted)
-    expect(spanish._verb('vivirse', Hash.new).imperativo_formal.usted).to eql(spanish._verb('vivir', Hash.new).imperativo_formal.usted)
+    expect(spanish.load_verb('hablarse').imperativo_formal.usted).to eql(spanish.load_verb('hablar').imperativo_formal.usted)
+    expect(spanish.load_verb('comerse').imperativo_formal.usted).to eql(spanish.load_verb('comer').imperativo_formal.usted)
+    expect(spanish.load_verb('vivirse').imperativo_formal.usted).to eql(spanish.load_verb('vivir').imperativo_formal.usted)
   end
 
   # TODO: How about ir? What's the stem of voy?

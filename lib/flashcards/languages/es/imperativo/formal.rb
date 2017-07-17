@@ -5,7 +5,7 @@ Flashcards.app.define_language(:es) do
     tense = Flashcards::Tense.new(:imperativo_formal, infinitive) do
       verb = Flashcards.app.language.load_verb(infinitive)
 
-      [infinitive, {
+      [verb.subjuntivo.stem, {
         usted:   delegate(:usted,   verb.subjuntivo, :usted),
         ustedes: delegate(:ustedes, verb.subjuntivo, :ustedes)
       }]

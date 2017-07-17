@@ -13,7 +13,7 @@ describe 'Condicional' do
   end
 
   describe 'verbs ending with -ar' do
-    let(:hablar) { spanish._verb('hablar', Hash.new) }
+    let(:hablar) { spanish.load_verb('hablar') }
 
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
@@ -52,7 +52,7 @@ describe 'Condicional' do
   end
 
   describe 'verbs ending with -er' do
-    let(:comer) { spanish._verb('comer', Hash.new) }
+    let(:comer) { spanish.load_verb('comer') }
 
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
@@ -91,7 +91,7 @@ describe 'Condicional' do
   end
 
   describe 'verbs ending with -ir' do
-    let(:vivir) { spanish._verb('vivir', Hash.new) }
+    let(:vivir) { spanish.load_verb('vivir') }
 
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
@@ -131,9 +131,9 @@ describe 'Condicional' do
 
   # TODO: This should return "se vive" etc rather than just "vive".
   it 'handles reflective verbs' do
-    expect(spanish._verb('hablarse', Hash.new).condicional.él).to eql(spanish._verb('hablar', Hash.new).condicional.él)
-    expect(spanish._verb('comerse', Hash.new).condicional.él).to eql(spanish._verb('comer', Hash.new).condicional.él)
-    expect(spanish._verb('vivirse', Hash.new).condicional.él).to eql(spanish._verb('vivir', Hash.new).condicional.él)
+    expect(spanish.load_verb('hablarse').condicional.él).to eql(spanish.load_verb('hablar').condicional.él)
+    expect(spanish.load_verb('comerse').condicional.él).to eql(spanish.load_verb('comer').condicional.él)
+    expect(spanish.load_verb('vivirse').condicional.él).to eql(spanish.load_verb('vivir').condicional.él)
   end
 
   # TODO: How about ir? What's the stem of voy?

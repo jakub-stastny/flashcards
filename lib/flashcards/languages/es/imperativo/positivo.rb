@@ -5,9 +5,8 @@ Flashcards.app.define_language(:es) do
   conjugation_group(:imperativo_positivo) do |infinitive|
     tense = Flashcards::Tense.new(:imperativo_positivo, infinitive) do
       verb = Flashcards.app.language.load_verb(infinitive)
-      stem = infinitive[0..-3]
 
-      [stem, {
+      [verb.subjuntivo.stem, {
         tú: delegate(:tú, verb.presente, :él),
         vos: infinitive.sub(/^.*(.)r(se)?$/) {
           Flashcards.accentuate($1, 0)
