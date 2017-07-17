@@ -22,11 +22,11 @@ module Flashcards
     end
 
     # You probably want to use load_verb instead.
-    # conjugation_groups are (no longer) optional, to prevent forgetting irregular forms.
     def _verb(infinitive, conjugation_groups)
       Verb.new(infinitive, @grammar_rules[:conjugation_groups], conjugation_groups)
     end
 
+    attr_accessor :flashcards
     def flashcards
       @flashcards ||= Flashcards::Flashcard.load(@name)
     end

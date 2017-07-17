@@ -4,6 +4,14 @@ require 'flashcards/language'
 describe 'Subjunctivo imperfecto' do
   let(:spanish) { Flashcards.app.language }
 
+  before do
+    Flashcards.app.language.flashcards = [
+      Flashcards::Flashcard.new(expressions: ['hablar', 'hablarse'], translation: 'to speak', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['comer', 'comerse'], translation: 'to eat', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['vivir', 'vivirse'], translation: 'to live', tags: [:verb])
+    ]
+  end
+
   describe 'verbs ending with -ar' do
     let(:hablar) { spanish._verb('hablar', Hash.new) }
 
@@ -33,7 +41,7 @@ describe 'Subjunctivo imperfecto' do
       expect(hablar.subjuntivo_imperfecto.ella).to eql(hablar.subjuntivo_imperfecto.él)
       expect(hablar.subjuntivo_imperfecto.usted).to eql(hablar.subjuntivo_imperfecto.él)
 
-      expect(hablar.subjuntivo_imperfecto.nosotros).to eql(['hablaramos', 'hablasemos'])
+      expect(hablar.subjuntivo_imperfecto.nosotros).to eql(['habláramos', 'hablásemos'])
       expect(hablar.subjuntivo_imperfecto.nosotras).to eql(hablar.subjuntivo_imperfecto.nosotros)
       expect(hablar.subjuntivo_imperfecto.vosotros).to eql(['hablarais', 'hablaseis'])
       expect(hablar.subjuntivo_imperfecto.vosotras).to eql(hablar.subjuntivo_imperfecto.vosotros)
@@ -72,7 +80,7 @@ describe 'Subjunctivo imperfecto' do
       expect(comer.subjuntivo_imperfecto.ella).to eql(comer.subjuntivo_imperfecto.él)
       expect(comer.subjuntivo_imperfecto.usted).to eql(comer.subjuntivo_imperfecto.él)
 
-      expect(comer.subjuntivo_imperfecto.nosotros).to eql(['comieramos', 'comiesemos'])
+      expect(comer.subjuntivo_imperfecto.nosotros).to eql(['comiéramos', 'comiésemos'])
       expect(comer.subjuntivo_imperfecto.nosotras).to eql(comer.subjuntivo_imperfecto.nosotros)
       expect(comer.subjuntivo_imperfecto.vosotros).to eql(['comierais', 'comieseis'])
       expect(comer.subjuntivo_imperfecto.vosotras).to eql(comer.subjuntivo_imperfecto.vosotros)
@@ -111,7 +119,7 @@ describe 'Subjunctivo imperfecto' do
       expect(vivir.subjuntivo_imperfecto.ella).to eql(vivir.subjuntivo_imperfecto.él)
       expect(vivir.subjuntivo_imperfecto.usted).to eql(vivir.subjuntivo_imperfecto.él)
 
-      expect(vivir.subjuntivo_imperfecto.nosotros).to eql(['vivieramos', 'viviesemos'])
+      expect(vivir.subjuntivo_imperfecto.nosotros).to eql(['viviéramos', 'viviésemos'])
       expect(vivir.subjuntivo_imperfecto.nosotras).to eql(vivir.subjuntivo_imperfecto.nosotros)
       expect(vivir.subjuntivo_imperfecto.vosotros).to eql(['vivierais', 'vivieseis'])
       expect(vivir.subjuntivo_imperfecto.vosotras).to eql(vivir.subjuntivo_imperfecto.vosotros)

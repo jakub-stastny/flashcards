@@ -4,6 +4,14 @@ require 'flashcards/language'
 describe 'Gerundio' do
   let(:spanish) { Flashcards.app.language }
 
+  before do
+    Flashcards.app.language.flashcards = [
+      Flashcards::Flashcard.new(expressions: ['hablar', 'hablarse'], translation: 'to speak', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['comer', 'comerse'], translation: 'to eat', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['vivir', 'vivirse'], translation: 'to live', tags: [:verb])
+    ]
+  end
+
   describe 'verbs ending with -ar' do
     let(:hablar) { spanish._verb('hablar', Hash.new) }
 

@@ -4,6 +4,14 @@ require 'flashcards/language'
 describe 'Subjunctivo futuro' do
   let(:spanish) { Flashcards.app.language }
 
+  before do
+    Flashcards.app.language.flashcards = [
+      Flashcards::Flashcard.new(expressions: ['hablar', 'hablarse'], translation: 'to speak', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['comer', 'comerse'], translation: 'to eat', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['vivir', 'vivirse'], translation: 'to live', tags: [:verb])
+    ]
+  end
+
   describe 'verbs ending with -ar' do
     let(:hablar) { spanish._verb('hablar', Hash.new) }
 
@@ -33,7 +41,7 @@ describe 'Subjunctivo futuro' do
       expect(hablar.subjuntivo_futuro.ella).to eql(hablar.subjuntivo_futuro.él)
       expect(hablar.subjuntivo_futuro.usted).to eql(hablar.subjuntivo_futuro.él)
 
-      expect(hablar.subjuntivo_futuro.nosotros).to eql('hablaremos')
+      expect(hablar.subjuntivo_futuro.nosotros).to eql('habláremos')
       expect(hablar.subjuntivo_futuro.nosotras).to eql(hablar.subjuntivo_futuro.nosotros)
       expect(hablar.subjuntivo_futuro.vosotros).to eql('hablareis')
       expect(hablar.subjuntivo_futuro.vosotras).to eql(hablar.subjuntivo_futuro.vosotros)
@@ -72,7 +80,7 @@ describe 'Subjunctivo futuro' do
       expect(comer.subjuntivo_futuro.ella).to eql(comer.subjuntivo_futuro.él)
       expect(comer.subjuntivo_futuro.usted).to eql(comer.subjuntivo_futuro.él)
 
-      expect(comer.subjuntivo_futuro.nosotros).to eql('comieremos')
+      expect(comer.subjuntivo_futuro.nosotros).to eql('comiéremos')
       expect(comer.subjuntivo_futuro.nosotras).to eql(comer.subjuntivo_futuro.nosotros)
       expect(comer.subjuntivo_futuro.vosotros).to eql('comiereis')
       expect(comer.subjuntivo_futuro.vosotras).to eql(comer.subjuntivo_futuro.vosotros)
@@ -111,7 +119,7 @@ describe 'Subjunctivo futuro' do
       expect(vivir.subjuntivo_futuro.ella).to eql(vivir.subjuntivo_futuro.él)
       expect(vivir.subjuntivo_futuro.usted).to eql(vivir.subjuntivo_futuro.él)
 
-      expect(vivir.subjuntivo_futuro.nosotros).to eql('vivieremos')
+      expect(vivir.subjuntivo_futuro.nosotros).to eql('viviéremos')
       expect(vivir.subjuntivo_futuro.nosotras).to eql(vivir.subjuntivo_futuro.nosotros)
       expect(vivir.subjuntivo_futuro.vosotros).to eql('viviereis')
       expect(vivir.subjuntivo_futuro.vosotras).to eql(vivir.subjuntivo_futuro.vosotros)
