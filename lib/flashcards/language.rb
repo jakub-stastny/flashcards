@@ -225,7 +225,7 @@ ellos #{self.subjuntivo_futuro.ellos}
 
     def xxxxx(word) # TODO: Unless it's an exception, like dé.
       # We have to use deaccentuate, because deis/déis. The latter is 2 syllables.
-      Flashcards.syllables(Flashcards.deaccentuate(word)).length == 1 ? Flashcards.deaccentuate(word) : word
+      Flashcards.app.language.syllabifier.syllables(Flashcards.app.language.syllabifier.deaccentuate(word)).length == 1 ? Flashcards.app.language.syllabifier.deaccentuate(word) : word
     end
 
     def irregular_forms

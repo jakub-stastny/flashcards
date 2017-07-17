@@ -8,7 +8,7 @@ Flashcards.app.define_language(:es) do
 
       # NOTE: It might or might not be the right stem, but anyhow, I don't think it matters.
       [stem[0..-2], {
-         yo: "#{stem[-1]}re",   nosotros: "#{Flashcards.accentuate(stem[-1], 0)}remos",
+         yo: "#{stem[-1]}re",   nosotros: "#{Flashcards.app.language.syllabifier.accentuate(stem[-1], 0)}remos",
          tú: "#{stem[-1]}res",  vosotros: "#{stem[-1]}reis",
          él: "#{stem[-1]}re",   ellos: "#{stem[-1]}ren"
       }]
