@@ -8,7 +8,10 @@ describe 'Pretérito' do
     Flashcards.app.language.flashcards = [
       Flashcards::Flashcard.new(expressions: ['hablar', 'hablarse'], translation: 'to speak', tags: [:verb]),
       Flashcards::Flashcard.new(expressions: ['comer', 'comerse'], translation: 'to eat', tags: [:verb]),
-      Flashcards::Flashcard.new(expressions: ['vivir', 'vivirse'], translation: 'to live', tags: [:verb])
+      Flashcards::Flashcard.new(expressions: ['vivir', 'vivirse'], translation: 'to live', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['buscar'], translation: 'to look for', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['pagar'], translation: 'to pay', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['realizar'], translation: 'to carry out', tags: [:verb])
     ]
   end
 

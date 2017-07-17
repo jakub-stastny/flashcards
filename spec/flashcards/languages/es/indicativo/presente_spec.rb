@@ -8,7 +8,10 @@ describe 'Presente' do
     Flashcards.app.language.flashcards = [
       Flashcards::Flashcard.new(expressions: ['hablar', 'hablarse'], translation: 'to speak', tags: [:verb]),
       Flashcards::Flashcard.new(expressions: ['comer', 'comerse'], translation: 'to eat', tags: [:verb]),
-      Flashcards::Flashcard.new(expressions: ['vivir', 'vivirse'], translation: 'to live', tags: [:verb])
+      Flashcards::Flashcard.new(expressions: ['vivir', 'vivirse'], translation: 'to live', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['extinguir'], translation: 'to extinguish', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['escoger'], translation: 'to choose', tags: [:verb]),
+      Flashcards::Flashcard.new(expressions: ['dirigir'], translation: 'to manage', tags: [:verb])
     ]
   end
 
