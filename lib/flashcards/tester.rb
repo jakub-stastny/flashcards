@@ -16,19 +16,26 @@ module Flashcards
       raise NotImplementedError.new('Override this in a subclass.')
     end
 
-    # TODO: First test ones that has been tested before and needs refreshing before
-    # they go to the long-term memory. Then test the new ones and finally the remembered ones.
-    # Limit count of each.
-    def select_flashcards_to_be_tested_on(all_flashcards, limit_per_run)
+    def filter_out_unverified_verbs(all_flashcards)
+      return all_flashcards if ENV['FLASHCARDS']
+
       without_unverified_verbs = all_flashcards.reject { |flashcard| flashcard.tags.include?(:verb) && ! flashcard.tags.include?(:verified) }
+
       unless without_unverified_verbs == all_flashcards
         unverified_verbs = all_flashcards - without_unverified_verbs
         warn "<blue.bold>~</blue.bold> <yellow.bold>You have unverified verbs:</yellow.bold> #{unverified_verbs.map { |flashcard| flashcard.expressions.first}.join_with_and }.".colourise
         warn "  You will not be tested on these. Run <underline>flashcards verify</underline> first to check the conjugations against an online dictionary.\n\n".colourise
       end
 
-      flashcards_to_review = without_unverified_verbs.select { |flashcard| flashcard.time_to_review? }
-      new_flashcards = without_unverified_verbs.select { |flashcard| flashcard.new? }
+      without_unverified_verbs
+    end
+
+    # TODO: First test ones that has been tested before and needs refreshing before
+    # they go to the long-term memory. Then test the new ones and finally the remembered ones.
+    # Limit count of each.
+    def select_flashcards_to_be_tested_on(all_flashcards, limit_per_run)
+      flashcards_to_review = all_flashcards.select { |flashcard| flashcard.time_to_review? }
+      new_flashcards = all_flashcards.select { |flashcard| flashcard.new? }
 
       if limit_per_run
         # p [:limit, limit_per_run] ####

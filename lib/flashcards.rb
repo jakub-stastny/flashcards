@@ -2,6 +2,7 @@ require 'flashcards/flashcard'
 require 'flashcards/test'
 require 'flashcards/language'
 require 'flashcards/config'
+require 'flashcards/core_exts'
 
 module Flashcards
   def self.app(language_name = nil)
@@ -9,6 +10,9 @@ module Flashcards
   end
 
   class App
+    using CoreExts
+    using RR::ColourExts
+
     def initialize(language_name = nil)
       @language_name = language_name
     end
@@ -56,7 +60,7 @@ module Flashcards
     protected
     def filter_selected_flashcards(flashcards)
       selected_flashcards = ENV['FLASHCARDS'].split(/\s*,\s*/)
-      puts "~ Applying filter #{selected_flashcards}"
+      puts "<blue.bold>~</blue.bold> <green>Applying filter #{selected_flashcards.map { |selected_flashcard| "<yellow>#{selected_flashcard}</yellow>" }.join_with_and}.</green>".colourise
       flashcards.select do |flashcard|
         selected_flashcards.any? do |selected_flashcard|
           flashcard.expressions.include?(selected_flashcard)
