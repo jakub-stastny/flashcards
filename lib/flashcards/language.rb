@@ -41,6 +41,10 @@ module Flashcards
       @voice = voice
     end
 
+    def syllabifier(syllabifier = nil)
+      syllabifier ? @syllabifier = syllabifier : @syllabifier
+    end
+
     def say_aloud(text)
       system("say -v #{@voice} #{text}")
     end

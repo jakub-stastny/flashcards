@@ -4,9 +4,11 @@
 # es_MX: Juan, Paulina
 Flashcards.app.define_language(:es) do
   say_voice('Monica')
+
+  require_relative 'es/syllabifier'
+  syllabifier(Flashcards::ES::Syllabifier)
 end
 
-require_relative 'es/syllabifier'
 
 require_relative 'es/gerundio'
 require_relative 'es/participio'
