@@ -5,9 +5,9 @@ Flashcards.app.define_language(:es) do
   conjugation_group(:imperativo_negativo) do |infinitive|
     tense = Flashcards::Tense.new(:imperativo_negativo, infinitive) do
       verb = Flashcards.app.language.load_verb(infinitive)
-      root = infinitive[0..-3]
+      stem = infinitive[0..-3]
 
-      [root, {
+      [stem, {
         tú: delegate(:tú, verb.imperativo_formal, :usted) { |command| "#{command}s" },
         nosotros: delegate(:nosotros, verb.subjuntivo, :nosotros),
         vosotros: delegate(:vosotros, verb.subjuntivo, :vosotros)

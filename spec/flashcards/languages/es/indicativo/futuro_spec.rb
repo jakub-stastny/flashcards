@@ -18,7 +18,7 @@ describe 'Futuro' do
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
       expect(hablar.futuro.infinitive).to eql('hablar')
-      # expect(hablar.futuro.root).to eql('habl') # TODO: is it called root or stem?
+      # expect(hablar.futuro.stem).to eql('habl')
 
       expect(hablar.futuro.irregular?(:yo)).to be(false)
       expect(hablar.futuro.irregular?(:tú)).to be(false)
@@ -57,7 +57,7 @@ describe 'Futuro' do
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
       expect(comer.futuro.infinitive).to eql('comer')
-      # expect(comer.futuro.root).to eql('com') # TODO: is it called root or stem?
+      # expect(comer.futuro.stem).to eql('com')
 
       expect(comer.futuro.irregular?(:yo)).to be(false)
       expect(comer.futuro.irregular?(:tú)).to be(false)
@@ -96,7 +96,7 @@ describe 'Futuro' do
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
       expect(vivir.futuro.infinitive).to eql('vivir')
-      # expect(vivir.futuro.root).to eql('viv') # TODO: is it called root or stem?
+      # expect(vivir.futuro.stem).to eql('viv')
 
       expect(vivir.futuro.irregular?(:yo)).to be(false)
       expect(vivir.futuro.irregular?(:tú)).to be(false)

@@ -18,7 +18,7 @@ describe 'Negative informal commands' do
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
       expect(hablar.imperativo_negativo.infinitive).to eql('hablar')
-      expect(hablar.imperativo_negativo.root).to eql('habl') # TODO: is it called root or stem?
+      expect(hablar.imperativo_negativo.stem).to eql('habl')
 
       expect(hablar.imperativo_negativo.irregular?(:tú)).to be(false)
       expect(hablar.imperativo_negativo.irregular?(:vos)).to be(false)
@@ -43,7 +43,7 @@ describe 'Negative informal commands' do
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
       expect(comer.imperativo_negativo.infinitive).to eql('comer')
-      expect(comer.imperativo_negativo.root).to eql('com') # TODO: is it called root or stem?
+      expect(comer.imperativo_negativo.stem).to eql('com')
 
       expect(comer.imperativo_negativo.irregular?(:tú)).to be(false)
       expect(comer.imperativo_negativo.irregular?(:vos)).to be(false)
@@ -68,7 +68,7 @@ describe 'Negative informal commands' do
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
       expect(vivir.imperativo_negativo.infinitive).to eql('vivir')
-      expect(vivir.imperativo_negativo.root).to eql('viv') # TODO: is it called root or stem?
+      expect(vivir.imperativo_negativo.stem).to eql('viv')
 
       expect(vivir.imperativo_negativo.irregular?(:tú)).to be(false)
       expect(vivir.imperativo_negativo.irregular?(:vos)).to be(false)

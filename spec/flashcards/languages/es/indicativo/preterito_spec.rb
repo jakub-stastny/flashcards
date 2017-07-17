@@ -18,7 +18,7 @@ describe 'Pretérito' do
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
       expect(hablar.pretérito.infinitive).to eql('hablar')
-      expect(hablar.pretérito.root).to eql('habl') # TODO: is it called root or stem?
+      expect(hablar.pretérito.stem).to eql('habl')
 
       expect(hablar.pretérito.irregular?(:yo)).to be(false)
       expect(hablar.pretérito.irregular?(:tú)).to be(false)
@@ -57,7 +57,7 @@ describe 'Pretérito' do
     it 'changes c -> qu in the first person only' do
       expect(buscar.infinitive).to eql('buscar')
       expect(buscar.pretérito.infinitive).to eql('buscar')
-      expect(buscar.pretérito.root).to eql('busc') # TODO: is it called root or stem?
+      expect(buscar.pretérito.stem).to eql('busc')
 
       expect(buscar.pretérito.irregular?(:yo)).to be(true)
       expect(buscar.pretérito.irregular?(:tú)).to be(false)
@@ -96,7 +96,7 @@ describe 'Pretérito' do
     it 'changes c -> gu in the first person only' do
       expect(pagar.infinitive).to eql('pagar')
       expect(pagar.pretérito.infinitive).to eql('pagar')
-      expect(pagar.pretérito.root).to eql('pag') # TODO: is it called root or stem?
+      expect(pagar.pretérito.stem).to eql('pag')
 
       expect(pagar.pretérito.irregular?(:yo)).to be(true)
       expect(pagar.pretérito.irregular?(:tú)).to be(false)
@@ -136,7 +136,7 @@ describe 'Pretérito' do
     it 'changes c -> c in the first person only' do
       expect(realizar.infinitive).to eql('realizar')
       expect(realizar.pretérito.infinitive).to eql('realizar')
-      expect(realizar.pretérito.root).to eql('realiz') # TODO: is it called root or stem?
+      expect(realizar.pretérito.stem).to eql('realiz')
 
       expect(realizar.pretérito.irregular?(:yo)).to be(true)
       expect(realizar.pretérito.irregular?(:tú)).to be(false)
@@ -175,7 +175,7 @@ describe 'Pretérito' do
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
       expect(comer.pretérito.infinitive).to eql('comer')
-      expect(comer.pretérito.root).to eql('com') # TODO: is it called root or stem?
+      expect(comer.pretérito.stem).to eql('com')
 
       expect(comer.pretérito.irregular?(:yo)).to be(false)
       expect(comer.pretérito.irregular?(:tú)).to be(false)
@@ -214,7 +214,7 @@ describe 'Pretérito' do
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
       expect(vivir.pretérito.infinitive).to eql('vivir')
-      expect(vivir.pretérito.root).to eql('viv') # TODO: is it called root or stem?
+      expect(vivir.pretérito.stem).to eql('viv')
 
       expect(vivir.pretérito.irregular?(:yo)).to be(false)
       expect(vivir.pretérito.irregular?(:tú)).to be(false)

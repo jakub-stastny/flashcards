@@ -18,7 +18,7 @@ describe 'Presente' do
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
       expect(hablar.presente.infinitive).to eql('hablar')
-      expect(hablar.presente.root).to eql('habl') # TODO: is it called root or stem?
+      expect(hablar.presente.stem).to eql('habl')
 
       expect(hablar.presente.irregular?(:yo)).to be(false)
       expect(hablar.presente.irregular?(:tú)).to be(false)
@@ -57,7 +57,7 @@ describe 'Presente' do
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
       expect(comer.presente.infinitive).to eql('comer')
-      expect(comer.presente.root).to eql('com') # TODO: is it called root or stem?
+      expect(comer.presente.stem).to eql('com')
 
       expect(comer.presente.irregular?(:yo)).to be(false)
       expect(comer.presente.irregular?(:tú)).to be(false)
@@ -96,7 +96,7 @@ describe 'Presente' do
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
       expect(vivir.presente.infinitive).to eql('vivir')
-      expect(vivir.presente.root).to eql('viv') # TODO: is it called root or stem?
+      expect(vivir.presente.stem).to eql('viv')
 
       expect(vivir.presente.irregular?(:yo)).to be(false)
       expect(vivir.presente.irregular?(:tú)).to be(false)
@@ -135,7 +135,7 @@ describe 'Presente' do
     it 'is irregular in the first form of singular' do
       expect(extinguir.infinitive).to eql('extinguir')
       expect(extinguir.presente.infinitive).to eql('extinguir')
-      expect(extinguir.presente.root).to eql('extingu') # TODO: is it called root or stem? Plus is this the real root/stem?
+      expect(extinguir.presente.stem).to eql('extingu') # Plus is this the real stem?
 
       expect(extinguir.presente.irregular?(:yo)).to be(true)
       expect(extinguir.presente.irregular?(:tú)).to be(false)
@@ -174,7 +174,7 @@ describe 'Presente' do
     it 'is irregular in the first form of singular' do
       expect(escoger.infinitive).to eql('escoger')
       expect(escoger.presente.infinitive).to eql('escoger')
-      expect(escoger.presente.root).to eql('escog') # TODO: is it called root or stem? Plus is this the real root/stem?
+      expect(escoger.presente.stem).to eql('escog') # Plus is this the real stem?
 
       expect(escoger.presente.irregular?(:yo)).to be(true)
       expect(escoger.presente.irregular?(:tú)).to be(false)
@@ -213,7 +213,7 @@ describe 'Presente' do
     it 'is irregular in the first form of singular' do
       expect(dirigir.infinitive).to eql('dirigir')
       expect(dirigir.presente.infinitive).to eql('dirigir')
-      expect(dirigir.presente.root).to eql('dirig') # TODO: is it called root or stem? Plus is this the real root/stem?
+      expect(dirigir.presente.stem).to eql('dirig') # Plus is this the real stem?
 
       expect(dirigir.presente.irregular?(:yo)).to be(true)
       expect(dirigir.presente.irregular?(:tú)).to be(false)

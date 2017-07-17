@@ -17,9 +17,9 @@ Flashcards.app.define_language(:es) do
       end
     end
 
-    tense.irregular(/car(se)?$/, yo: Proc.new { |root| "#{root[0..-2]}qué" })
-    tense.irregular(/gar(se)?$/, yo: Proc.new { |root| "#{root[0..-2]}gué" })
-    tense.irregular(/zar(se)?$/, yo: Proc.new { |root| "#{root[0..-2]}cé"  })
+    tense.irregular(/car(se)?$/, yo: Proc.new { |stem| "#{stem[0..-2]}qué" })
+    tense.irregular(/gar(se)?$/, yo: Proc.new { |stem| "#{stem[0..-2]}gué" })
+    tense.irregular(/zar(se)?$/, yo: Proc.new { |stem| "#{stem[0..-2]}cé"  })
 
     tense.alias_person(:vos, :tú)
     tense.alias_person(:ella, :él)

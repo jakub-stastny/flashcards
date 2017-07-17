@@ -13,8 +13,8 @@ Flashcards.app.define_language(:es) do
       }]
     end
 
-    # tense.irregular(/guir(se)?$/, yo: Proc.new { |root| root.sub(/u$/, 'o') })
-    # tense.irregular(/(gir|ger)(se)?$/, yo: Proc.new { |root| root.sub(/g$/, 'jo') })
+    # tense.irregular(/guir(se)?$/, yo: Proc.new { |stem| stem.sub(/u$/, 'o') })
+    # tense.irregular(/(gir|ger)(se)?$/, yo: Proc.new { |stem| stem.sub(/g$/, 'jo') })
 
     tense.alias_person(:vos, :tú)
     tense.alias_person(:ella, :él)

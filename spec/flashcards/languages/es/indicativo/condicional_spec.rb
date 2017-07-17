@@ -18,7 +18,7 @@ describe 'Condicional' do
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
       expect(hablar.condicional.infinitive).to eql('hablar')
-      # expect(hablar.condicional.root).to eql('habl') # TODO: is it called root or stem?
+      # expect(hablar.condicional.stem).to eql('habl')
 
       expect(hablar.condicional.irregular?(:yo)).to be(false)
       expect(hablar.condicional.irregular?(:tú)).to be(false)
@@ -57,7 +57,7 @@ describe 'Condicional' do
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
       expect(comer.condicional.infinitive).to eql('comer')
-      # expect(comer.condicional.root).to eql('com') # TODO: is it called root or stem?
+      # expect(comer.condicional.stem).to eql('com')
 
       expect(comer.condicional.irregular?(:yo)).to be(false)
       expect(comer.condicional.irregular?(:tú)).to be(false)
@@ -96,7 +96,7 @@ describe 'Condicional' do
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
       expect(vivir.condicional.infinitive).to eql('vivir')
-      # expect(vivir.condicional.root).to eql('viv') # TODO: is it called root or stem?
+      # expect(vivir.condicional.stem).to eql('viv')
 
       expect(vivir.condicional.irregular?(:yo)).to be(false)
       expect(vivir.condicional.irregular?(:tú)).to be(false)

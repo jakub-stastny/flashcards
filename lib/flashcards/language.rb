@@ -162,14 +162,14 @@ ellos #{self.subjuntivo_futuro.ellos}
     # require 'flashcards/core_exts'
     # using RR::StringExts
 
-    attr_reader :tense, :forms, :root, :infinitive
+    attr_reader :tense, :forms, :stem, :infinitive
     def initialize(tense, infinitive, &block)
       @tense, @infinitive = tense, infinitive
       @delegations = Hash.new
-      @root, @conjugations = self.instance_eval(&block)
+      @stem, @conjugations = self.instance_eval(&block)
 
-      # ir is not really root ... so yeah, can be nil.
-      # raise ArgumentError.new("Root for #{@infinitive} has to be present.") unless @root.is_a?(String)
+      # ir is not really stem ... so yeah, can be nil.
+      # raise ArgumentError.new("Root for #{@infinitive} has to be present.") unless @stem.is_a?(String)
       unless @conjugations.is_a?(Hash)
         raise ArgumentError.new("Conjugations for #{@infinitive} have to be defined.")
       end
@@ -208,9 +208,9 @@ ellos #{self.subjuntivo_futuro.ellos}
           else
             ending_or_endings = @conjugations[person]
             if ending_or_endings.is_a?(Array)
-              buffer.merge(person => ending_or_endings.map { |ending| xxxxx("#{@root}#{ending}") })
+              buffer.merge(person => ending_or_endings.map { |ending| xxxxx("#{@stem}#{ending}") })
             else
-              buffer.merge(person => xxxxx("#{@root}#{ending_or_endings}"))
+              buffer.merge(person => xxxxx("#{@stem}#{ending_or_endings}"))
             end
           end
         else
@@ -233,7 +233,7 @@ ellos #{self.subjuntivo_futuro.ellos}
           if @exceptions.select { |match, _| match.is_a?(String) ? @infinitive.match(/^#{match}$/) : @infinitive.match(match) }.keys[0].is_a?(String) ## refactor
             value = value # If it's a string, we're providing full forms.
           else # regexp
-            value = value.is_a?(Proc) ? value.call(@root) : "#{@root}#{value}"
+            value = value.is_a?(Proc) ? value.call(@stem) : "#{@stem}#{value}"
           end
           conjugations.merge(conjugation => value)
         end

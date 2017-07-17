@@ -18,7 +18,7 @@ describe 'Imperfecto' do
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
       expect(hablar.imperfecto.infinitive).to eql('hablar')
-      # expect(hablar.imperfecto.root).to eql('habl') # TODO: is it called root or stem?
+      # expect(hablar.imperfecto.stem).to eql('habl')
 
       expect(hablar.imperfecto.irregular?(:yo)).to be(false)
       expect(hablar.imperfecto.irregular?(:tú)).to be(false)
@@ -57,7 +57,7 @@ describe 'Imperfecto' do
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
       expect(comer.imperfecto.infinitive).to eql('comer')
-      # expect(comer.imperfecto.root).to eql('com') # TODO: is it called root or stem?
+      # expect(comer.imperfecto.stem).to eql('com')
 
       expect(comer.imperfecto.irregular?(:yo)).to be(false)
       expect(comer.imperfecto.irregular?(:tú)).to be(false)
@@ -96,7 +96,7 @@ describe 'Imperfecto' do
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
       expect(vivir.imperfecto.infinitive).to eql('vivir')
-      # expect(vivir.imperfecto.root).to eql('viv') # TODO: is it called root or stem?
+      # expect(vivir.imperfecto.stem).to eql('viv')
 
       expect(vivir.imperfecto.irregular?(:yo)).to be(false)
       expect(vivir.imperfecto.irregular?(:tú)).to be(false)

@@ -18,7 +18,7 @@ describe 'Subjunctivo futuro' do
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
       expect(hablar.subjuntivo_futuro.infinitive).to eql('hablar')
-      # expect(hablar.subjuntivo_futuro.root).to eql('habl') # TODO: is it called root or stem?
+      # expect(hablar.subjuntivo_futuro.stem).to eql('habl')
 
       expect(hablar.subjuntivo_futuro.irregular?(:yo)).to be(false)
       expect(hablar.subjuntivo_futuro.irregular?(:tú)).to be(false)
@@ -57,7 +57,7 @@ describe 'Subjunctivo futuro' do
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
       expect(comer.subjuntivo_futuro.infinitive).to eql('comer')
-      # expect(comer.subjuntivo_futuro.root).to eql('com') # TODO: is it called root or stem?
+      # expect(comer.subjuntivo_futuro.stem).to eql('com')
 
       expect(comer.subjuntivo_futuro.irregular?(:yo)).to be(false)
       expect(comer.subjuntivo_futuro.irregular?(:tú)).to be(false)
@@ -96,7 +96,7 @@ describe 'Subjunctivo futuro' do
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
       expect(vivir.subjuntivo_futuro.infinitive).to eql('vivir')
-      # expect(vivir.subjuntivo_futuro.root).to eql('viv') # TODO: is it called root or stem?
+      # expect(vivir.subjuntivo_futuro.stem).to eql('viv')
 
       expect(vivir.subjuntivo_futuro.irregular?(:yo)).to be(false)
       expect(vivir.subjuntivo_futuro.irregular?(:tú)).to be(false)

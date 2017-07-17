@@ -18,7 +18,7 @@ describe 'Subjunctivo' do
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
       expect(hablar.subjuntivo.infinitive).to eql('hablar')
-      expect(hablar.subjuntivo.root).to eql('habl') # TODO: is it called root or stem?
+      expect(hablar.subjuntivo.stem).to eql('habl')
 
       expect(hablar.subjuntivo.irregular?(:yo)).to be(false)
       expect(hablar.subjuntivo.irregular?(:tú)).to be(false)
@@ -57,7 +57,7 @@ describe 'Subjunctivo' do
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
       expect(comer.subjuntivo.infinitive).to eql('comer')
-      expect(comer.subjuntivo.root).to eql('com') # TODO: is it called root or stem?
+      expect(comer.subjuntivo.stem).to eql('com')
 
       expect(comer.subjuntivo.irregular?(:yo)).to be(false)
       expect(comer.subjuntivo.irregular?(:tú)).to be(false)
@@ -96,7 +96,7 @@ describe 'Subjunctivo' do
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
       expect(vivir.subjuntivo.infinitive).to eql('vivir')
-      expect(vivir.subjuntivo.root).to eql('viv') # TODO: is it called root or stem?
+      expect(vivir.subjuntivo.stem).to eql('viv')
 
       expect(vivir.subjuntivo.irregular?(:yo)).to be(false)
       expect(vivir.subjuntivo.irregular?(:tú)).to be(false)

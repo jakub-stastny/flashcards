@@ -4,17 +4,17 @@ Flashcards.app.define_language(:es) do
   conjugation_group(:subjuntivo) do |infinitive|
     tense = Flashcards::Tense.new(:subjuntivo, infinitive) do
       verb = Flashcards.app.language.load_verb(infinitive)
-      root = verb.presente.yo.sub(/^(.+)oy?$/, '\1')
+      stem = verb.presente.yo.sub(/^(.+)oy?$/, '\1')
 
       case infinitive
       when /^(.+)ar(se)?$/
-        [root, {
+        [stem, {
            yo: 'e',   nosotros: 'emos',
 vos: 'és', tú: 'es',  vosotros: 'éis',
            él: 'e',   ellos: 'en'
         }]
       when /^(.*)[ei]r(se)?$/ # ir, irse
-        [root, {
+        [stem, {
            yo: 'a',   nosotros: 'amos',
 vos: 'ás', tú: 'as',  vosotros: 'áis',
            él: 'a',   ellos: 'an'

@@ -20,7 +20,7 @@ describe Flashcards::Language do
         end
       end
 
-      expect(subject.verb('šukat').přací.já).to eql('šukal')
+      expect(subject._verb('šukat', Hash.new).přací.já).to eql('šukal')
     end
   end
 end
