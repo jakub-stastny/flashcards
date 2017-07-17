@@ -5,7 +5,7 @@ describe 'Pretérito' do
   let(:spanish) { Flashcards.app.language }
 
   describe 'verbs ending with -ar' do
-    let(:hablar) { spanish._verb('hablar') }
+    let(:hablar) { spanish._verb('hablar', Hash.new) }
 
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
@@ -44,7 +44,7 @@ describe 'Pretérito' do
   end
 
   describe 'verbs ending with -car' do
-    let(:buscar) { spanish._verb('buscar') }
+    let(:buscar) { spanish._verb('buscar', Hash.new) }
 
     it 'changes c -> qu in the first person only' do
       expect(buscar.infinitive).to eql('buscar')
@@ -83,7 +83,7 @@ describe 'Pretérito' do
   end
 
   describe 'verbs ending with -gar' do
-    let(:pagar) { spanish._verb('pagar') }
+    let(:pagar) { spanish._verb('pagar', Hash.new) }
 
     it 'changes c -> gu in the first person only' do
       expect(pagar.infinitive).to eql('pagar')
@@ -123,7 +123,7 @@ describe 'Pretérito' do
   end
 
   describe 'verbs ending with -zar' do
-    let(:realizar) { spanish._verb('realizar') }
+    let(:realizar) { spanish._verb('realizar', Hash.new) }
 
     it 'changes c -> c in the first person only' do
       expect(realizar.infinitive).to eql('realizar')
@@ -162,7 +162,7 @@ describe 'Pretérito' do
   end
 
   describe 'verbs ending with -er' do
-    let(:comer) { spanish._verb('comer') }
+    let(:comer) { spanish._verb('comer', Hash.new) }
 
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
@@ -201,7 +201,7 @@ describe 'Pretérito' do
   end
 
   describe 'verbs ending with -ir' do
-    let(:vivir) { spanish._verb('vivir') }
+    let(:vivir) { spanish._verb('vivir', Hash.new) }
 
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
@@ -241,9 +241,9 @@ describe 'Pretérito' do
 
   # TODO: This should return "se vive" etc rather than just "vive".
   it 'handles reflective verbs' do
-    expect(spanish._verb('hablarse').pretérito.él).to eql(spanish._verb('hablar').pretérito.él)
-    expect(spanish._verb('comerse').pretérito.él).to eql(spanish._verb('comer').pretérito.él)
-    expect(spanish._verb('vivirse').pretérito.él).to eql(spanish._verb('vivir').pretérito.él)
+    expect(spanish._verb('hablarse', Hash.new).pretérito.él).to eql(spanish._verb('hablar', Hash.new).pretérito.él)
+    expect(spanish._verb('comerse', Hash.new).pretérito.él).to eql(spanish._verb('comer', Hash.new).pretérito.él)
+    expect(spanish._verb('vivirse', Hash.new).pretérito.él).to eql(spanish._verb('vivir', Hash.new).pretérito.él)
   end
 
   # TODO: How about ir? What's the stem of voy?

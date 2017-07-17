@@ -138,8 +138,7 @@ module Flashcards
       if self.tags.include?(:verb)
         self.expressions.map { |expression|
           Flashcards.app.language.conjugation_groups.map do |conjugation_group|
-            verb = Flashcards.app.language.load_verb(expression)
-            verb.send(conjugation_group).forms.values + [expression] # Don't forget the infinitive.
+            self.verb.send(conjugation_group).forms.values + [expression] # Don't forget the infinitive.
           end
         }.flatten.uniq
       else

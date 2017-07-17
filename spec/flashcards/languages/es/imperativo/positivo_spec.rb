@@ -5,7 +5,7 @@ describe 'Affirmative informal commands' do
   let(:spanish) { Flashcards.app.language }
 
   describe 'verbs ending with -ar' do
-    let(:hablar) { spanish._verb('hablar') }
+    let(:hablar) { spanish._verb('hablar', Hash.new) }
 
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
@@ -30,7 +30,7 @@ describe 'Affirmative informal commands' do
   end
 
   describe 'verbs ending with -er' do
-    let(:comer) { spanish._verb('comer') }
+    let(:comer) { spanish._verb('comer', Hash.new) }
 
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
@@ -55,7 +55,7 @@ describe 'Affirmative informal commands' do
   end
 
   describe 'verbs ending with -ir' do
-    let(:vivir) { spanish._verb('vivir') }
+    let(:vivir) { spanish._verb('vivir', Hash.new) }
 
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
@@ -81,9 +81,9 @@ describe 'Affirmative informal commands' do
 
   # TODO: This should return "se vive" etc rather than just "vive".
   it 'handles reflective verbs' do
-    expect(spanish._verb('hablarse').imperativo_positivo.tú).to eql(spanish._verb('hablar').imperativo_positivo.tú)
-    expect(spanish._verb('comerse').imperativo_positivo.tú).to eql(spanish._verb('comer').imperativo_positivo.tú)
-    expect(spanish._verb('vivirse').imperativo_positivo.tú).to eql(spanish._verb('vivir').imperativo_positivo.tú)
+    expect(spanish._verb('hablarse', Hash.new).imperativo_positivo.tú).to eql(spanish._verb('hablar', Hash.new).imperativo_positivo.tú)
+    expect(spanish._verb('comerse', Hash.new).imperativo_positivo.tú).to eql(spanish._verb('comer', Hash.new).imperativo_positivo.tú)
+    expect(spanish._verb('vivirse', Hash.new).imperativo_positivo.tú).to eql(spanish._verb('vivir', Hash.new).imperativo_positivo.tú)
   end
 
   # TODO: How about ir? What's the stem of voy?

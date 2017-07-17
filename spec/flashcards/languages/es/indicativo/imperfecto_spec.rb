@@ -5,7 +5,7 @@ describe 'Imperfecto' do
   let(:spanish) { Flashcards.app.language }
 
   describe 'verbs ending with -ar' do
-    let(:hablar) { spanish._verb('hablar') }
+    let(:hablar) { spanish._verb('hablar', Hash.new) }
 
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
@@ -44,7 +44,7 @@ describe 'Imperfecto' do
   end
 
   describe 'verbs ending with -er' do
-    let(:comer) { spanish._verb('comer') }
+    let(:comer) { spanish._verb('comer', Hash.new) }
 
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
@@ -83,7 +83,7 @@ describe 'Imperfecto' do
   end
 
   describe 'verbs ending with -ir' do
-    let(:vivir) { spanish._verb('vivir') }
+    let(:vivir) { spanish._verb('vivir', Hash.new) }
 
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
@@ -123,9 +123,9 @@ describe 'Imperfecto' do
 
   # TODO: This should return "se vive" etc rather than just "vive".
   it 'handles reflective verbs' do
-    expect(spanish._verb('hablarse').imperfecto.él).to eql(spanish._verb('hablar').imperfecto.él)
-    expect(spanish._verb('comerse').imperfecto.él).to eql(spanish._verb('comer').imperfecto.él)
-    expect(spanish._verb('vivirse').imperfecto.él).to eql(spanish._verb('vivir').imperfecto.él)
+    expect(spanish._verb('hablarse', Hash.new).imperfecto.él).to eql(spanish._verb('hablar', Hash.new).imperfecto.él)
+    expect(spanish._verb('comerse', Hash.new).imperfecto.él).to eql(spanish._verb('comer', Hash.new).imperfecto.él)
+    expect(spanish._verb('vivirse', Hash.new).imperfecto.él).to eql(spanish._verb('vivir', Hash.new).imperfecto.él)
   end
 
   # TODO: How about ir? What's the stem of voy?
