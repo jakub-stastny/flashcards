@@ -1,8 +1,8 @@
 require_relative '../subjuntivo/presente'
 
 Flashcards.app.define_language(:es) do
-  conjugation_group(:imperativo_formal) do |verb|
-    tense = Flashcards::Tense.new(:imperativo_formal, verb.infinitive) do
+  conjugation_group(:imperativo_formal) do |verb, infinitive|
+    tense = Flashcards::Tense.new(:imperativo_formal, infinitive) do
       [verb.subjuntivo.stem, {
         usted:   delegate(:usted,   verb.subjuntivo, :usted),
         ustedes: delegate(:ustedes, verb.subjuntivo, :ustedes)

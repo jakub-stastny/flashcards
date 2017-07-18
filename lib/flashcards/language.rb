@@ -75,13 +75,12 @@ module Flashcards
             # As for the present conjugations of ir, we use the infinitive var.
             # This way only voy is irregular.
             # TODO: Should ve store both?
-            infinitive = conjugation_groups_2[group_name][:infinitive] || infinitive
-            p [group_name, infinitive, conjugation_groups_2[group_name]] ####
-            tense = callable.call(self)
+            infinitive = conjugation_groups_2[group_name][:infinitive] || @infinitive
+            tense = callable.call(self, infinitive)
             tense.irregular(infinitive, conjugation_groups_2[group_name].except(:infinitive))
             tense
           else
-            callable.call(self)
+            callable.call(self, @infinitive)
           end
         end
       end

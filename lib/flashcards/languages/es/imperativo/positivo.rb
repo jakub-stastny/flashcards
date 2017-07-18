@@ -2,8 +2,8 @@ require_relative '../indicativo/presente'
 require_relative '../subjuntivo/presente'
 
 Flashcards.app.define_language(:es) do
-  conjugation_group(:imperativo_positivo) do |verb|
-    tense = Flashcards::Tense.new(:imperativo_positivo, verb.infinitive) do
+  conjugation_group(:imperativo_positivo) do |verb, infinitive|
+    tense = Flashcards::Tense.new(:imperativo_positivo, infinitive) do
       [verb.subjuntivo.stem, {
         tú: delegate(:tú, verb.presente, :él),
         vos: infinitive.sub(/^.*(.)r(se)?$/) {

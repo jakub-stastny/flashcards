@@ -1,8 +1,8 @@
 require_relative '../indicativo/preterito'
 
 Flashcards.app.define_language(:es) do
-  conjugation_group(:subjuntivo_futuro) do |verb|
-    tense = Flashcards::Tense.new(:subjuntivo_futuro, verb.infinitive) do
+  conjugation_group(:subjuntivo_futuro) do |verb, infinitive|
+    tense = Flashcards::Tense.new(:subjuntivo_futuro, infinitive) do
       stem = verb.pretérito.ellos[0..-4]
 
       # NOTE: It might or might not be the right stem, but anyhow, I don't think it matters.

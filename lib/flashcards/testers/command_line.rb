@@ -211,7 +211,7 @@ module Flashcards
       # TODO: Format the lengts so | is always where it's supposed to be (delete tags before calculation).
       unless conjugation_group.pretty_inspect.empty? # Gerundio, participio.
         puts "\n    All the forms of the #{conjugation_group.tense} are:"
-        puts conjugation_group.tense.show_forms.map { |line| "    #{line}"  }
+        puts conjugation_group.show_forms.map { |line| "    #{line}"  }
       end
       puts
 

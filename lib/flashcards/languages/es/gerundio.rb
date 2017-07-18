@@ -19,8 +19,8 @@ require_relative 'indicativo/presente'
 #   yo: voy
 
 Flashcards.app.define_language(:es) do
-  conjugation_group(:gerundio) do |verb|
-    tense = Flashcards::Tense.new(:gerundio, verb.infinitive) do
+  conjugation_group(:gerundio) do |verb, infinitive|
+    tense = Flashcards::Tense.new(:gerundio, infinitive) do
       stem = verb.pretérito.él.sub(/i?ó/, '')
 
       case self.infinitive
