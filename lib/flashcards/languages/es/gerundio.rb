@@ -1,5 +1,23 @@
 require_relative 'indicativo/presente'
 
+# Irregular:
+# 1/ Direct exception.
+#   a) In the stem (i. e. ir -> v-).
+#   b) In the ending (i. e. ten-go).
+#   c) In the ending and the stem (i. e. v-oy).
+# 2/ Exception defined by a rule.
+#   a) In the stem (i. e. buscar: busqu- instead of busc-).
+#   b) In the ending (i. e. _______________).
+#   c) In the ending and the stem (i. e. _______________). tense.stem won't reflect.
+#
+# Types of changes:
+# 1/ change (dormir -> duermo, busc- -> busqu-).
+# 2/ addition (tengo).
+#
+# presente:
+#   stem: v
+#   yo: voy
+
 Flashcards.app.define_language(:es) do
   conjugation_group(:gerundio) do |infinitive|
     tense = Flashcards::Tense.new(:gerundio, infinitive) do

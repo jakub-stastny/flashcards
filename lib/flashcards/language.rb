@@ -32,9 +32,11 @@ module Flashcards
     end
 
     def load_verb(infinitive)
-      self.flashcards.find do |flashcard|
+      flashcard = self.flashcards.find do |flashcard|
         flashcard.expressions.include?(infinitive)
-      end.verb
+      end
+
+      flashcard.verb if flashcard
     end
 
     def say_voice(voice)
@@ -62,6 +64,11 @@ module Flashcards
       conjugation_groups.each do |group_name, callable|
         define_singleton_method(group_name) do
           if conjugation_groups_2[group_name]
+            # OK, this is controversial ... here we're allowing to redefine the infinitive.
+            # As for the present conjugations of ir, we use the infinitive var.
+            # This way only voy is irregular.
+            # TODO: Should ve store both?
+            infinitive = conjugation_groups_2[group_name].delete(:infinitive) || infinitive
             tense = callable.call(infinitive)
             tense.irregular(infinitive, conjugation_groups_2[group_name])
             tense
