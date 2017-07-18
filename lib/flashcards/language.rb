@@ -56,6 +56,7 @@ module Flashcards
 
   class Verb
     using CoreExts
+    using RR::ColourExts
 
     attr_reader :infinitive
     def initialize(infinitive, conjugation_groups, conjugation_groups_2 = Hash.new)
@@ -65,6 +66,8 @@ module Flashcards
       end
 
       @infinitive = infinitive
+      @conjugation_groups = conjugation_groups.keys
+
       conjugation_groups.each do |group_name, callable|
         define_singleton_method(group_name) do
           if conjugation_groups_2[group_name]
@@ -85,98 +88,16 @@ module Flashcards
     end
 
     def show_forms
-      puts <<-EOF
-Participle: #{self.participio.default}
-Gerund: #{self.gerundio.default}
-
-Vos presente: #{self.presente.vos}
-Vos imperativo: #{self.imperativo_positivo.vos}
-
-# Present
-yo #{self.presente.yo}
-tú #{self.presente.tú}
-él #{self.presente.él}
-nosotros #{self.presente.nosotros}
-vosotros #{self.presente.vosotros}
-ellos #{self.presente.ellos}
-
-# Preterit
-yo #{self.pretérito.yo}
-tú #{self.pretérito.tú}
-él #{self.pretérito.él}
-nosotros #{self.pretérito.nosotros}
-vosotros #{self.pretérito.vosotros}
-ellos #{self.pretérito.ellos}
-
-# Imperfect
-yo #{self.imperfecto.yo}
-tú #{self.imperfecto.tú}
-él #{self.imperfecto.él}
-nosotros #{self.imperfecto.nosotros}
-vosotros #{self.imperfecto.vosotros}
-ellos #{self.imperfecto.ellos}
-
-# Conditional
-yo #{self.condicional.yo}
-tú #{self.condicional.tú}
-él #{self.condicional.él}
-nosotros #{self.condicional.nosotros}
-vosotros #{self.condicional.vosotros}
-ellos #{self.condicional.ellos}
-
-# Future
-yo #{self.futuro.yo}
-tú #{self.futuro.tú}
-él #{self.futuro.él}
-nosotros #{self.futuro.nosotros}
-vosotros #{self.futuro.vosotros}
-ellos #{self.futuro.ellos}
-
-# Imperative
-tú #{self.imperativo_positivo.tú}
-usted #{self.imperativo_formal.usted}
-nosotros #{self.imperativo_positivo.nosotros}
-vosotros #{self.imperativo_positivo.vosotros}
-ustedes #{self.imperativo_formal.ustedes}
-
-# Subjunctive
-yo #{self.subjuntivo.yo}
-tú #{self.subjuntivo.tú}
-él #{self.subjuntivo.él}
-nosotros #{self.subjuntivo.nosotros}
-vosotros #{self.subjuntivo.vosotros}
-ellos #{self.subjuntivo.ellos}
-
-# Subjunctive Imperfect
-yo #{self.subjuntivo_imperfecto.yo[0]}
-tú #{self.subjuntivo_imperfecto.tú[0]}
-él #{self.subjuntivo_imperfecto.él[0]}
-nosotros #{self.subjuntivo_imperfecto.nosotros[0]}
-vosotros #{self.subjuntivo_imperfecto.vosotros[0]}
-ellos #{self.subjuntivo_imperfecto.ellos[0]}
-
-# Subjunctive Imperfect 2
-yo #{self.subjuntivo_imperfecto.yo[1]}
-tú #{self.subjuntivo_imperfecto.tú[1]}
-él #{self.subjuntivo_imperfecto.él[1]}
-nosotros #{self.subjuntivo_imperfecto.nosotros[1]}
-vosotros #{self.subjuntivo_imperfecto.vosotros[1]}
-ellos #{self.subjuntivo_imperfecto.ellos[1]}
-
-# Subjunctive Future
-yo #{self.subjuntivo_futuro.yo}
-tú #{self.subjuntivo_futuro.tú}
-él #{self.subjuntivo_futuro.él}
-nosotros #{self.subjuntivo_futuro.nosotros}
-vosotros #{self.subjuntivo_futuro.vosotros}
-ellos #{self.subjuntivo_futuro.ellos}
-      EOF
+      @conjugation_groups.map do |group_name|
+        "<magenta.bold>#{group_name}</magenta.bold>\n#{self.send(group_name).show_forms}".colourise
+      end.join("\n\n")
     end
   end
 
   class Tense
     # require 'flashcards/core_exts'
     # using RR::StringExts
+    using RR::ColourExts
 
     attr_reader :tense, :forms, :stem, :infinitive
     def initialize(tense, infinitive, &block)
@@ -278,6 +199,18 @@ ellos #{self.subjuntivo_futuro.ellos}
     def irregular?(form)
       form = @aliased_persons.invert[form] if @aliased_persons.invert[form]
       !! self.irregular_forms[form]
+    end
+
+    def show_forms
+      lines = Array.new
+      self.pretty_inspect.transpose.each do |row_items|
+        lines << row_items.map.with_index { |item, index|
+          colour = item[:exception] ? 'red' : 'green'
+          width = self.pretty_inspect[index].max_by { |item| item[:conjugation].length }[:conjugation].length
+          "<#{colour}>#{item[:conjugation]}#{' ' * (width - item[:conjugation].length)}</#{colour}>"
+        }.join(' | ').colourise
+      end
+      lines
     end
 
     def pretty_inspect(*groups)
