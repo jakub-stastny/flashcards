@@ -1,8 +1,7 @@
 Flashcards.app.define_language(:es) do
   conjugation_group(:futuro) do |verb|
     tense = Flashcards::Tense.new(:futuro, verb.infinitive) do
-      infinitive = infinitive.sub(/se$/, '')
-      [infinitive, {
+      [self.infinitive, {
          yo: 'é',   nosotros: 'emos',
          tú: 'ás',  vosotros: 'éis',
          él: 'á',   ellos: 'án'

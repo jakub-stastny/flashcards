@@ -108,7 +108,7 @@ module Flashcards
       # ir is not really stem ... so yeah, can be nil.
       # raise ArgumentError.new("Root for #{@infinitive} has to be present.") unless @stem.is_a?(String)
       unless @conjugations.is_a?(Hash)
-        raise ArgumentError.new("Conjugations for #{@infinitive} have to be defined.")
+        raise ArgumentError.new("Conjugations for #{@infinitive} have to be defined.\nInspect: #{@conjugations.inspect}")
       end
 
       unless @conjugations.keys.all? { |key| key.is_a?(Symbol) }
@@ -128,6 +128,11 @@ module Flashcards
           self.forms[form]
         end
       end
+    end
+
+    # Is it where we should do this - (-se)?
+    def infinitive
+      @infinitive.sub(/se$/, '')
     end
 
     def delegate(person, tense, pronoun, &transformation)
@@ -203,6 +208,7 @@ module Flashcards
 
     def show_forms
       lines = Array.new
+
       self.pretty_inspect.transpose.each do |row_items|
         lines << row_items.map.with_index { |item, index|
           colour = item[:exception] ? 'red' : 'green'
@@ -210,6 +216,7 @@ module Flashcards
           "<#{colour}>#{item[:conjugation]}#{' ' * (width - item[:conjugation].length)}</#{colour}>"
         }.join(' | ').colourise
       end
+
       lines
     end
 

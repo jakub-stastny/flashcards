@@ -1,7 +1,7 @@
 Flashcards.app.define_language(:es) do
   conjugation_group(:imperfecto) do |verb|
     tense = Flashcards::Tense.new(:imperfecto, verb.infinitive) do
-      case infinitive
+      case self.infinitive
       when /^(.+)ar(se)?$/
         [$1, {
            yo: 'aba',   nosotros: 'ábamos',

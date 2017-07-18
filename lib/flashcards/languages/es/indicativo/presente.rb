@@ -1,7 +1,7 @@
 Flashcards.app.define_language(:es) do
   conjugation_group(:presente) do |verb|
     tense = Flashcards::Tense.new(:presente, verb.infinitive) do
-      case infinitive
+      case self.infinitive
       when /^(.+)ar(se)?$/
         [$1, {
            yo: 'o',   nosotros: 'amos',

@@ -4,9 +4,7 @@ Flashcards.app.define_language(:es) do
       # The endings for the conditional tense are the same as those for the -er
       # and -ir forms of the imperfect tense. However, conditional endings are
       # attached to the infinitive, while imperfect endings are attached to the stem.
-      infinitive = infinitive.sub(/se$/, '')
-
-      [infinitive, {
+      [self.infinitive, {
          yo: 'ía',   nosotros: 'íamos',
          tú: 'ías',  vosotros: 'íais',
          él: 'ía',   ellos: 'ían'

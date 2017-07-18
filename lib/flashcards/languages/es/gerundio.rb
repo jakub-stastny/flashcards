@@ -21,10 +21,9 @@ require_relative 'indicativo/presente'
 Flashcards.app.define_language(:es) do
   conjugation_group(:gerundio) do |verb|
     tense = Flashcards::Tense.new(:gerundio, verb.infinitive) do
-      verb = Flashcards.app.language.load_verb(infinitive)
       stem = verb.pretérito.él.sub(/i?ó/, '')
 
-      case infinitive
+      case self.infinitive
       when /^(.+)ar(se)?$/
         [stem, default: 'ando']
       when /^(.*)[ei]r(se)?$/
