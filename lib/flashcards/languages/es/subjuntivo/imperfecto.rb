@@ -3,7 +3,11 @@ require_relative '../indicativo/preterito'
 Flashcards.app.define_language(:es) do
   conjugation_group(:subjuntivo_imperfecto) do |verb, infinitive|
     tense = Flashcards::Tense.new(:subjuntivo_imperfecto, infinitive) do
-      stem = verb.pretérito.ellos[0..-4]
+      if verb.infinitive != infinitive # Irregular infinitive.
+        stem = self.infinitive[0..-4]
+      else
+        stem = verb.pretérito.ellos[0..-4]
+      end
 
       # NOTE: It might or might not be the right stem, but anyhow, I don't think it matters.
       [stem[0..-2], {
