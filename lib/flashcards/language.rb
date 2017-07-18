@@ -1,3 +1,5 @@
+require 'flashcards/core_exts'
+
 # verb = Flashcards.app.language.load_verb('hablar')
 # verb.presente.nosotros
 #
@@ -53,6 +55,8 @@ module Flashcards
   end
 
   class Verb
+    using CoreExts
+
     attr_reader :infinitive
     def initialize(infinitive, conjugation_groups, conjugation_groups_2 = Hash.new)
       extra_keys = conjugation_groups_2.keys - conjugation_groups.keys
@@ -68,12 +72,13 @@ module Flashcards
             # As for the present conjugations of ir, we use the infinitive var.
             # This way only voy is irregular.
             # TODO: Should ve store both?
-            infinitive = conjugation_groups_2[group_name].delete(:infinitive) || infinitive
-            tense = callable.call(infinitive)
-            tense.irregular(infinitive, conjugation_groups_2[group_name])
+            infinitive = conjugation_groups_2[group_name][:infinitive] || infinitive
+            p [group_name, infinitive, conjugation_groups_2[group_name]] ####
+            tense = callable.call(self)
+            tense.irregular(infinitive, conjugation_groups_2[group_name].except(:infinitive))
             tense
           else
-            callable.call(infinitive)
+            callable.call(self)
           end
         end
       end

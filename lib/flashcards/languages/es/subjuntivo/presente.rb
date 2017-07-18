@@ -1,8 +1,8 @@
 require_relative '../indicativo/presente'
 
 Flashcards.app.define_language(:es) do
-  conjugation_group(:subjuntivo) do |infinitive|
-    tense = Flashcards::Tense.new(:subjuntivo, infinitive) do
+  conjugation_group(:subjuntivo) do |verb|
+    tense = Flashcards::Tense.new(:subjuntivo, verb.infinitive) do
       verb = Flashcards.app.language.load_verb(infinitive)
       stem = verb.presente.yo.sub(/^(.+)oy?$/, '\1')
 

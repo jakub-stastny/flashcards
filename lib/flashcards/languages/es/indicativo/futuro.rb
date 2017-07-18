@@ -1,6 +1,6 @@
 Flashcards.app.define_language(:es) do
-  conjugation_group(:futuro) do |infinitive|
-    tense = Flashcards::Tense.new(:futuro, infinitive) do
+  conjugation_group(:futuro) do |verb|
+    tense = Flashcards::Tense.new(:futuro, verb.infinitive) do
       infinitive = infinitive.sub(/se$/, '')
       [infinitive, {
          yo: 'é',   nosotros: 'emos',

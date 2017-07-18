@@ -6,6 +6,14 @@ module Flashcards
         "#{self[0..-2].join(delimiter)} #{xxx} #{self[-1]}"
       end
     end
+
+    refine Hash do
+      def except(*keys)
+        (self.keys - keys).reduce(self.class.new) do |buffer, key|
+          buffer.merge(key => self[key])
+        end
+      end
+    end
   end
 end
 
