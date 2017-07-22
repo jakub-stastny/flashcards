@@ -94,6 +94,9 @@ module Flashcards
       end
 
       if flashcard.mark(translation = $stdin.readline.chomp)
+        # This is for silents and (maybe, but not sure) when the sides are switched?
+        Flashcards.app.language.say_aloud(flashcard.expressions.include?(translation) ? translation : flashcard.expressions.first)
+
         if flashcard.translations.length == 1
           synonyms = [] # This is so if we have one main translation and one silent one, we don't show it as a synonym.
           # In case there actually are more (non-silent) synonyms, we will just show them all.
@@ -151,8 +154,6 @@ module Flashcards
         puts "   #{' ' * @indentation}<magenta>#{example.translation}</magenta>\n".colourise
         puts unless flashcard.examples.last == example
       end
-
-      Flashcards.app.language.say_aloud(flashcard.expressions.first) # !first!
     end
 
     def show_stats
@@ -170,11 +171,16 @@ module Flashcards
         # FIXME: flashcard.expressions.sample doesn't make sense in this case.
         verb = @language.load_verb(flashcard.expressions.sample)
         puts # TODO: unless there are no configured/enabled ones.
-        @language.conjugation_groups.each do |conjugation_group_name|
-          if flashcard.should_run?(conjugation_group_name)
-            conjugation_group = verb.send(conjugation_group_name)
-            self.run_conjugation_test_for(conjugation_group, flashcard, verb)
-          end
+
+        conjugation_groups_to_run = @language.conjugation_groups.select do |conjugation_group_name|
+          flashcard.should_run?(conjugation_group_name)
+        end
+
+        conjugation_groups_to_run = conjugation_groups_to_run.shuffle.sample(3)
+
+        conjugation_groups_to_run.each do |conjugation_group_name|
+          conjugation_group = verb.send(conjugation_group_name)
+          self.run_conjugation_test_for(conjugation_group, flashcard, verb)
         end
       else
         @correct += 1
@@ -198,7 +204,8 @@ module Flashcards
       answer = $stdin.readline.chomp
       answers = [conjugation_group.send(person)].flatten
       x = if answers.include?(answer)
-        puts "    <green>✔︎  </green>".colourise
+        puts "    <green>✔︎  Correct.</green>".colourise
+        Flashcards.app.language.say_aloud(answer)
         flashcard.mark_as_correct(conjugation_group.tense)
         @correct += 1
       else
