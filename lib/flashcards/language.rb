@@ -91,6 +91,12 @@ module Flashcards
         "<magenta.bold>#{group_name}</magenta.bold>\n#{self.send(group_name).show_forms}".colourise
       end.join("\n\n")
     end
+
+    def forms
+      @conjugation_groups.reduce(Hash.new) do |forms, group_name|
+        forms.merge(group_name => self.send(group_name).forms)
+      end
+    end
   end
 
   class Tense

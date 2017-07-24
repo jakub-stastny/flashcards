@@ -123,7 +123,7 @@ module Flashcards
 
     def verify
       if self.verb && (checksum = self.metadata[:checksum])
-        return Digest::MD5.hexdigest(self.verb.show_forms) == checksum
+        return Digest::MD5.hexdigest(self.verb.forms.to_yaml) == checksum
       elsif self.verb && self.metadata[:checksum].nil?
         # nil
       else
@@ -132,7 +132,7 @@ module Flashcards
     end
 
     def set_checksum
-      self.metadata[:checksum] = Digest::MD5.hexdigest(self.verb.show_forms)
+      self.metadata[:checksum] = Digest::MD5.hexdigest(self.verb.forms.to_yaml)
     end
 
     def verified? # Verified against a dictionary.
