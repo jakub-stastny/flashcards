@@ -7,16 +7,17 @@ module Flashcards
     using RR::ColourExts
 
     def self.run(all_flashcards)
-      flashcards = all_flashcards.select { |flashcard| flashcard.tags.include?(:verb) && ! flashcard.tags.include?(:verified) }
+      flashcards = all_flashcards.select { |flashcard| flashcard.tags.include?(:verb) && ! flashcard.verified? }
       flashcards.each do |flashcard|
         checker = self.new(flashcard)
         checker.run
         if checker.correct?
           puts "<green>✔︎</green> #{flashcard.expressions.first}".colourise(bold: true)
-          flashcard.tags << :verified
+          flashcard.set_checksum
         else
           puts "<red>✘</red> #{flashcard.expressions.first}".colourise(bold: true)
           puts checker.warnings.map { |warning| "- #{warning}" }
+          flashcard.metadata.delete(:checksum)
         end
       end
     end

@@ -9,7 +9,7 @@ module Flashcards
 
     def run
       flashcards = self.select_flashcards_to_be_tested_on(
-        self.filter_out_unverified_verbs(@all_flashcards),
+        self.filter_out_verbs_with_changed_conjugations(self.filter_out_unverified_verbs(@all_flashcards)),
         @config.limit_per_run)
 
 #       if flashcards.empty?

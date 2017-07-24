@@ -19,7 +19,7 @@ module Flashcards
     def filter_out_unverified_verbs(all_flashcards)
       return all_flashcards if ENV['FLASHCARDS']
 
-      without_unverified_verbs = all_flashcards.reject { |flashcard| flashcard.tags.include?(:verb) && ! flashcard.tags.include?(:verified) }
+      without_unverified_verbs = all_flashcards.reject { |flashcard| flashcard.tags.include?(:verb) && ! flashcard.verified? }
 
       unless without_unverified_verbs == all_flashcards
         unverified_verbs = all_flashcards - without_unverified_verbs
@@ -28,6 +28,20 @@ module Flashcards
       end
 
       without_unverified_verbs
+    end
+
+    def filter_out_verbs_with_changed_conjugations(all_flashcards)
+      return all_flashcards if ENV['FLASHCARDS']
+
+      without_changed_verbs = all_flashcards.reject { |flashcard| flashcard.tags.include?(:verb) && ! flashcard.verify }
+
+      unless without_changed_verbs == all_flashcards
+        changed_verbs = all_flashcards - without_changed_verbs
+        warn "<blue.bold>~</blue.bold> <yellow.bold>Conjugations of these verbs has changed:</yellow.bold> #{changed_verbs.map { |flashcard| flashcard.expressions.first}.join_with_and }.".colourise
+        warn "  They are most likely incorrect. Run <underline>flashcards verify</underline> first to check the conjugations against an online dictionary. In the meantime, you will not be tested on these.\n\n".colourise
+      end
+
+      without_changed_verbs
     end
 
     # TODO: First test ones that has been tested before and needs refreshing before

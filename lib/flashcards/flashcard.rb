@@ -1,5 +1,6 @@
 require 'flashcards' # FIXME: Extract Flashcards.app to flashcards/app.rb and change this.
 require 'flashcards/testable_unit'
+require 'digest/md5'
 
 module Flashcards
   class Example
@@ -118,6 +119,24 @@ module Flashcards
       if self.tags.include?(:verb)
         Flashcards.app.language._verb(self.expressions.first, self.conjugations || Hash.new)
       end
+    end
+
+    def verify
+      if self.verb && (checksum = self.metadata[:checksum])
+        return Digest::MD5.hexdigest(self.verb.show_forms) == checksum
+      elsif self.verb && self.metadata[:checksum].nil?
+        # nil
+      else
+        true
+      end
+    end
+
+    def set_checksum
+      self.metadata[:checksum] = Digest::MD5.hexdigest(self.verb.show_forms)
+    end
+
+    def verified? # Verified against a dictionary.
+      !! self.metadata[:checksum]
     end
 
     def variants
