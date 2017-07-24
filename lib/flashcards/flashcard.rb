@@ -172,5 +172,11 @@ module Flashcards
         self.expressions.include?(answer) ###
       end
     end
+
+    def unknown_attributes
+      self.data.keys.reject do |key|
+        ATTRIBUTES.include?(key) || ATTRIBUTES.include?("#{key}s".to_sym)
+      end
+    end
   end
 end

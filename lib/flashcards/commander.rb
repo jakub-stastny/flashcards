@@ -80,7 +80,22 @@ module Flashcards
       require 'flashcards/wordreference'
 
       Flashcards.app.load_do_then_save do |flashcards| # TODO: Save once it's stable.
-        Flashcards::WordReference.run(flashcards)
+        flashcards_with_unknown_attributes = flashcards.select do |flashcard|
+          ! flashcard.unknown_attributes.empty?
+        end
+
+        unless flashcards_with_unknown_attributes.empty?
+          flashcards_with_unknown_attributes.each do |flashcard|
+            warn "~ <yellow>#{flashcard.expressions.first}</yellow> has these unknown attributes: <yellow>#{flashcard.unknown_attributes.join_with_and}</yellow>.".colourise
+          end
+          puts;
+        end
+
+        begin
+          Flashcards::WordReference.run(flashcards)
+        rescue SocketError
+          abort "<red>Internet connection is required for this command to run.</red>".colourise
+        end
 
         # Save the flashcards with updated metadata.
         flashcards.map(&:data)

@@ -4,7 +4,6 @@ Tenses:
 Core engine:
 - Finish https://www.spanishdict.com/guide/spanish-syllables-and-syllabification-rules
 - Warn if regular forms are listed as exceptions in the flashcard file.
-- Extend `verify`: also unknown attrs.
 
 Curses:
 - Add the posibility to undo.
