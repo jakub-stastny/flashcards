@@ -87,7 +87,7 @@ module Flashcards
     end
 
     def show_forms
-      @conjugation_groups.map do |group_name|
+      self.forms.map do |group_name, conjugations|
         "<magenta.bold>#{group_name}</magenta.bold>\n#{self.send(group_name).show_forms}".colourise
       end.join("\n\n")
     end
