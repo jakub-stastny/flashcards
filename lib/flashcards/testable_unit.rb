@@ -142,6 +142,8 @@ module Flashcards
     end
 
     def serialise_singular_or_plural_key(key, data)
+      data["#{key}s".to_sym].uniq!
+
       if data["#{key}s".to_sym].length == 1
         data[key] = data["#{key}s".to_sym][0]
         data.delete("#{key}s".to_sym)
