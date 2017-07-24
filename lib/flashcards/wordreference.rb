@@ -6,8 +6,15 @@ module Flashcards
   class WordReference
     using RR::ColourExts
 
+    def self.unverified_verbs(all_flashcards)
+      all_flashcards.select do |flashcard|
+        flashcard.tags.include?(:verb) && ! flashcard.verified?
+      end
+    end
+
     def self.run(all_flashcards)
-      flashcards = all_flashcards.select { |flashcard| flashcard.tags.include?(:verb) && ! flashcard.verified? }
+      flashcards = self.unverified_verbs(all_flashcards)
+
       flashcards.each do |flashcard|
         checker = self.new(flashcard)
         checker.run
