@@ -4,6 +4,7 @@ gemspec
 
 gem 'pry'
 gem 'nokogiri'
+gem 'curses'
 
 group(:test) do
   gem 'rspec'
