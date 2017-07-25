@@ -7,24 +7,35 @@ module Flashcards
     using CoreExts
     using RR::ColourExts
 
+    # TODO: Open (the single YAML) in Vim to force me to add the examples immediately.
     def self.add(argv)
       args, tags = argv.group_by { |x| x.start_with?('#') }.values
-      unless args.length == 2 || args.length == 3
+      if args.length == 1 # TODO: Also can be flashcards pl kurwa, 2 args, clashes with the following. Test if the first argument is the language code.
+        flashcards = Flashcards::Flashcard.load(:es) # FIXME
+        matching_flashcards = flashcards.select do |flashcard|
+          flashcard.expressions.include?(args[0])
+        end
+        if matching_flashcards.empty?
+          puts "There is no definition for #{args[0]} yet."
+        else
+          puts "<magenta>Matching flashcards:</magenta>\n- #{matching_flashcards.map { |f| "<yellow>#{f.expressions.join_with_and}</yellow>: #{f.translations.join_with_and}" }.join("\n- ")}".colourise
+        end
+      elsif args.length == 2 || args.length == 3
+        flashcard = Flashcard.new(
+          expression: args[-2].split(','),
+          translations: args[-1].split(','),
+          tags: (tags || Array.new).map { |tag| tag[1..-1].to_sym },
+          examples: [
+            Example.new(expression: 'Expression.', translation: 'Translation.'),
+            Example.new(expression: 'Expression.', translation: 'Translation.')
+          ]
+        )
+
+        self.add_flashcard((args.length == 3) ? args[0] : nil, flashcard)
+      else
         # TODO: Commander::HELP_ITEMS[:add]
         abort "Usage: #{File.basename($0)} [lang] [word] [translation] [tags]"
       end
-
-      flashcard = Flashcard.new(
-        expression: args[-2].split(','),
-        translations: args[-1].split(','),
-        tags: (tags || Array.new).map { |tag| tag[1..-1].to_sym },
-        examples: [
-          Example.new(expression: 'Expression.', translation: 'Translation.'),
-          Example.new(expression: 'Expression.', translation: 'Translation.')
-        ]
-      )
-
-      self.add_flashcard((args.length == 3) ? args[0] : nil, flashcard)
     end
 
     def self.add_flashcard(language_name, new_flashcard)

@@ -46,6 +46,7 @@ flashcards <red>add</red> dar 'to give' <yellow>#verb</yellow> <bright_black># A
     langugage marked as the default one, but you always can.
 
     flashcards <red>add</red> <yellow>es</yellow> todavía still
+    flashcards <red>add</red> todavía<bright_black> # Check if a flashcard is defined.</bright_black>
 
 flashcards <yellow>reset</yellow> es<bright_black> # Reset metadata for given language.
   # Useful if you got someone else's file, and you want to reset his progress.</bright_black>
