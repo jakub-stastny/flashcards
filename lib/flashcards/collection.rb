@@ -37,11 +37,16 @@ module Flashcards
     end
 
     def run_filter(filter_name, items)
-      items.reject { |item| @activity_filters[filter_name].call(item) }
+      items.select { |item| @activity_filters[filter_name].call(item) }
     end
 
     def filter(filter_name, &block)
       @activity_filters[filter_name] = block if block
+      self
+    end
+
+    def filter_out(filter_name, &block)
+      @activity_filters[filter_name] = Proc.new { |item| ! block.call(item) } if block
       self
     end
 

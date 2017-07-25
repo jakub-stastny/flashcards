@@ -17,11 +17,7 @@ module Flashcards
 #         EOF
 #       end
 
-      if Flashcards.app.language.accents_help
-        puts Flashcards.app.language.accents_help.colourise
-      end
-
-      flashcards.active_items.shuffle.each do |flashcard|
+      flashcards.active_items.shuffle.each.with_index do |flashcard, index|
         original_metadata = flashcard.metadata.dup
         self.test_flashcard(flashcard)
         print "\n(Press enter to confirm or anything else to skip saving). "
@@ -34,12 +30,12 @@ module Flashcards
           @all_flashcards.save
         end
 
-        system 'clear'
+        system 'clear' unless index == (flashcards.active_items.length - 1)
       end
 
       self.show_stats unless (@correct + @incorrect) == 0
 
-      self.run_tests
+      self.run_tests unless ENV['FLASHCARDS']
     end
 
     def run_tests
@@ -62,6 +58,10 @@ module Flashcards
     end
 
     def test_flashcard(flashcard)
+      if Flashcards.app.language.accents_help
+        puts Flashcards.app.language.accents_help.colourise
+      end
+
       if flashcard.correct_answers[:default].length >= 1
         # Switch sides.
         if example = flashcard.examples.sample

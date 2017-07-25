@@ -50,8 +50,8 @@ module Flashcards
     def flashcards
       collection = Flashcards::Collection.new(Flashcard, self.language.name.to_s)
       collection.filter(:env) do |flashcard|
-        ENV['FLASHCARDS'] && ENV['FLASHCARDS'].split(/,\s*/).any? do |expression|
-          ! flashcard.expressions.include?(expression)
+        ENV['FLASHCARDS'].nil? || ENV['FLASHCARDS'].split(/,\s*/).any? do |expression|
+          flashcard.expressions.include?(expression)
         end
       end
     end

@@ -19,7 +19,7 @@ module Flashcards
     def filter_out_unverified_verbs(all_flashcards)
       return all_flashcards if ENV['FLASHCARDS']
 
-      all_flashcards.filter(:unverified_verbs) do |flashcard|
+      all_flashcards.filter_out(:unverified_verbs) do |flashcard|
         flashcard.tags.include?(:verb) && ! flashcard.verified?
       end
 
@@ -34,7 +34,7 @@ module Flashcards
     def filter_out_verbs_with_changed_conjugations(all_flashcards)
       return all_flashcards if ENV['FLASHCARDS']
 
-      all_flashcards.filter(:verbs_with_changed_conjugations) do |flashcard|
+      all_flashcards.filter_out(:verbs_with_changed_conjugations) do |flashcard|
         flashcard.tags.include?(:verb) && ! flashcard.verify
       end
 
@@ -52,8 +52,8 @@ module Flashcards
     def select_flashcards_to_be_tested_on(all_flashcards, limit_per_run)
       return all_flashcards if ENV['FLASHCARDS']
 
-      all_flashcards.filter(:without_recently_reviewed) do |flashcard|
-        not flashcard.should_run?
+      all_flashcards.filter(:recently_reviewed) do |flashcard|
+        flashcard.should_run?
       end
 
       flashcards_to_review = all_flashcards.select { |flashcard|  }
