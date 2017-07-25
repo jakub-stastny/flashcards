@@ -20,12 +20,15 @@ module Flashcards
       flashcards.shuffle.each.with_index do |flashcard, index|
         original_metadata = flashcard.data[:metadata] # since flashcard.metadata.dup isn't a deep copy; this is.
         self.test_flashcard(flashcard)
-        print "\n(Press enter to confirm or anything else to skip saving). "
+        puts "\n<green>Flashcard #{index + 1} out of #{flashcards.length}.</green>".colourise
+        print "\n<bright_black>Press enter to confirm or anything else to skip saving. </bright_black>".colourise
 
-        if ENV['FLASHCARDS'] || $stdin.readline.chomp != '' # Do not change if say ! was pressed, a way not to be penalised for typos.
+        if ! ENV['FLASHCARDS'] && $stdin.readline.chomp != '' # Do not change if say ! was pressed, a way not to be penalised for typos.
           puts "\n\n<blue>OK, not saving ...</blue>\n\n".colourise(bold: true)
           flashcard.metadata = original_metadata
-          sleep 3
+          sleep 4
+        elsif ENV['FLASHCARDS']
+          flashcard.metadata = original_metadata
         else
           @all_flashcards.save
         end

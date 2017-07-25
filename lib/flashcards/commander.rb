@@ -144,23 +144,29 @@ module Flashcards
     end
 
     # TODO: Take in consideration conjugations.
+    # TODO: Test class.
     def self.stats(argv)
-      self.set_language(argv[0]) if argv[0]
-      puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
+      languages = argv.empty? ? Flashcards.defined_languages : argv
+      languages.each do |language_name|
+        Flashcards.app(language_name)
+        flashcards = Flashcards.app.flashcards
 
-      flashcards = Flashcards.app.flashcards
-
-      puts <<-EOF.colourise(bold: true)
-
-<red>Stats</red>
-
-<bold>Total flashcards</bold>: <green>#{flashcards.length}</green>.
+        body = <<-EOF
+<bold>Total flashcards</bold>: <green>#{flashcards.items.length}</green>.
 <bold>You remember</bold>: <green>#{flashcards.count { |flashcard| flashcard.correct_answers[:default].length > 2 }}</green> (ones that you answered correctly 3 times or more).
 
 <bold>Ready for review</bold>: <blue>#{flashcards.count(&:time_to_review?)}</blue>.
 <bold>To be reviewed later</bold>: <blue>#{flashcards.count { |flashcard| ! flashcard.should_run? }}</blue>.
 <bold>Comletely new</bold>: <blue>#{flashcards.count(&:new?)}</blue>.
         EOF
+
+        puts <<-EOF.colourise(bold: true)
+
+<red>Stats for #{language_name.to_s.upcase}</red>
+
+#{flashcards.items.length == 0 ? '<bold>Empty.</bold>' : body}
+        EOF
+      end
     end
 
     def self.verify(argv)
