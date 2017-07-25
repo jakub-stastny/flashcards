@@ -8,6 +8,7 @@
 module Flashcards
   module CoreExts
     # TODO: warn & abort of Kernel. "<yellow>~</yellow> #{message}", "<red>Error: </red> #{message}"
+    # Allow multiline, i. e. for abort "<red>ERROR:</red> You have to specify the language explicitly.\n       Your defined languages are #{Flashcards.defined_languages.join_with_and { |lang| "<yellow.bold>#{lang}</yellow.bold>" }}.".colourise
 
     refine Array do
       def join_with_and(xxx = 'and', delimiter = ', ', &block)

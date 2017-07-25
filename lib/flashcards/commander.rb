@@ -130,7 +130,7 @@ module Flashcards
 
     def self.reset(argv)
       if argv.empty?
-        abort "<red>ERROR:</red> You have to specify the language explicitly. Your languages are #{Flashcards.defined_languages.join_with_and { |lang| "<yellow.bold>#{lang}</yellow.bold>" }}.".colourise
+        abort "<red>ERROR:</red> You have to <bold>specify the language explicitly</bold>.\n       Your defined languages are #{Flashcards.defined_languages.join_with_and { |lang| "<yellow.bold>#{lang}</yellow.bold>" }}.".colourise
       end
 
       argv.each.with_index do |language_name, index|
