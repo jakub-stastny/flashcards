@@ -10,7 +10,7 @@ Flashcards.app.define_language(:es) do
           Flashcards.app.language.syllabifier.accentuate($1, 0)
         },
         nosotros: delegate(:nosotros, verb.subjuntivo, :nosotros),
-        vosotros: "#{infinitive[-2]}d"
+        vosotros: "#{infinitive[-2]}d" # This uses stem from the infinitive (tened).
       }]
     end
 
