@@ -6,15 +6,38 @@ module Flashcards
   module Commander
     using CoreExts
     using RR::ColourExts
+    using RR::StringExts # #titlecase
 
-    # TODO: Open (the single YAML) in Vim to force me to add the examples immediately.
+    # This is definitely not bullet-proof, (but at the moment it is sufficient for our needs).
+    #
+    # For instance: flashcards add de
+    #
+    # 1. Add to the German flashcards (de), incomplete arguments.
+    # 2. Add to the default flashcards the word de (can be Spanish, from).
+    def self.get_args(args)
+      if Flashcards.defined_languages.include?(args[0])
+        self.set_language(args[0]) # This is a setter (maybe it shouldn't be and we should just return it?)
+        args[1..-1]
+      else
+        args
+      end
+    end
+
+    def self.set_language(language)
+      if Flashcards.defined_languages.include?(language.to_sym)
+        Flashcards.app(language) # This is a setter (maybe it shouldn't be and we should just return it?)
+      end
+    end
+
     def self.add(argv)
-      args, tags = argv.group_by { |x| x.start_with?('#') }.values
+      args = self.get_args(argv)
+      args, tags = args.group_by { |x| x.start_with?('#') }.values
       if args.length == 1 # TODO: Also can be flashcards pl kurwa, 2 args, clashes with the following. Test if the first argument is the language code.
         flashcards = Flashcards::Flashcard.load(:es) # FIXME
         matching_flashcards = flashcards.select do |flashcard|
           flashcard.expressions.include?(args[0])
         end
+
         if matching_flashcards.empty?
           puts "There is no definition for #{args[0]} yet."
         else
@@ -26,24 +49,26 @@ module Flashcards
           translations: args[-1].split(','),
           tags: (tags || Array.new).map { |tag| tag[1..-1].to_sym },
           examples: [
-            Example.new(expression: 'Expression.', translation: 'Translation.'),
-            Example.new(expression: 'Expression.', translation: 'Translation.')
+            Example.new(expression: 'Expression 1.', translation: 'Translation 1.'),
+            Example.new(expression: 'Expression 2.', translation: 'Translation 2.')
           ]
         )
 
-        self.add_flashcard((args.length == 3) ? args[0] : nil, flashcard)
+        flashcard = self.edit_flashcard(flashcard)
+
+        self.add_flashcard(flashcard)
+        File.unlink(path)
       else
         # TODO: Commander::HELP_ITEMS[:add]
         abort "Usage: #{File.basename($0)} [lang] [word] [translation] [tags]"
       end
     end
 
-    def self.add_flashcard(language_name, new_flashcard)
-      Flashcards.app(language_name).load_do_then_save do |flashcards|
+    def self.add_flashcard(new_flashcard)
+      Flashcards.app.load_do_then_save do |flashcards|
         unless flashcards.find { |flashcard| flashcard == new_flashcard }
           flashcards << new_flashcard
         else
-          # FIX: /Users/botanicus/Dropbox/Projects/Software/flashcards/lib/flashcards/commander.rb:25:in `block in add_flashcard': undefined method `titlecase' for "already":String (NoMethodError)
           warn "~ #{new_flashcard.translations.first.titlecase} is already defined." ## TODO: move to the method above, return true/false and if it above.
         end
 
@@ -51,16 +76,57 @@ module Flashcards
       end
     end
 
-    def self.reset
+    def self.edit_flashcard(flashcard)
+      path = "/tmp/#{flashcard.expressions.first.tr(' ', '_')}.yml"
+
+      unless File.exist?(path) # Give a chance to edit incorrect data.
+        File.open(path, 'w') do |file|
+          file.puts(flashcard.data.to_yaml)
+        end
+      end
+
+      system("vim #{path}")
+
+      flashcard_data = YAML.load_file(path)
+      Flashcard.new(flashcard_data)
+    end
+
+    # TODO: Change flashcards into a collection and use #save after every change.
+    def self.review(argv)
+      args = self.get_args(argv)
+      Flashcards.app.load_do_then_save do |flashcards|
+        flashcards.map do |flashcard|
+          if (args[0] && flashcard.expressions.include?(args[0])) || args.empty?
+            # NOTE: This is why we want to have load_do_then_save defined the way it is, so we don't have to do this:
+            # new_flashcard = self.edit_flashcard(flashcard)
+            # index = flashcards.index(flashcard)
+            # flashcards.delete(flashcard)
+            # flashcards.insert(index, new_flashcard)
+            flashcard = self.edit_flashcard(flashcard)
+          end
+
+          flashcard.data
+        end
+      end
+    end
+
+    def self.reset(argv)
+      self.set_language(argv[0]) if argv[0]
+      puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
+
       Flashcards.app.load_do_then_save do |flashcards|
         flashcards.each { |flashcard| flashcard.metadata.clear }.map(&:data)
       end
     end
 
-    def self.console
-      flashcards = Flashcards::Flashcard.load(:es)
+    def self.console(argv)
+      self.set_language(argv[0]) if argv[0]
+      puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
+
+      # flashcards = Flashcards::Flashcard.load(:es)
+      flashcards = Flashcards.app.load # This is preferred over Flashcards::Flashcard.load(:es).
       tests = Flashcards::Test.load(:es)
-      # Flashcards::Flashcard.save(:es, flashcards)
+      # Flashcards::Flashcard.save(:es, flashcards) # TODO: Maybe we should have a flashcard collection that responds to #save and #to_yaml.
       require 'pry'; binding.pry
     end
 
@@ -70,7 +136,10 @@ module Flashcards
     end
 
     # TODO: Take in consideration conjugations.
-    def self.stats
+    def self.stats(argv)
+      self.set_language(argv[0]) if argv[0]
+      puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
+
       Flashcards.app.load do |flashcards|
         x= flashcards.select { |flashcard| flashcard.tags.include?(:irregular) }
 
@@ -87,7 +156,10 @@ module Flashcards
       end
     end
 
-    def self.verify
+    def self.verify(argv)
+      self.set_language(argv[0]) if argv[0]
+      puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
+
       require 'flashcards/wordreference'
 
       Flashcards.app.load_do_then_save do |flashcards| # TODO: Save once it's stable.

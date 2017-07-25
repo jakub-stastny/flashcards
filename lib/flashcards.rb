@@ -9,12 +9,16 @@ module Flashcards
     @app ||= App.new(language_name)
   end
 
+  def self.defined_languages
+    Dir.glob("#{File.expand_path(Flashcard.data_file_dir)}/*.yml").map { |path| File.basename(path).split('.').first.to_sym }.uniq
+  end
+
   class App
     using CoreExts
     using RR::ColourExts
 
     def initialize(language_name = nil)
-      @language_name = language_name
+      @language_name = language_name.to_sym
     end
 
     def config
@@ -45,7 +49,7 @@ module Flashcards
     def load(&block)
       flashcards = Flashcards::Flashcard.load(self.language.name.to_s)
       flashcards = filter_selected_flashcards(flashcards) if ENV['FLASHCARDS']
-      block.call(flashcards)
+      block ? block.call(flashcards) : flashcards
     end
 
     def load_do_then_save(&block)

@@ -8,16 +8,18 @@ using RR::ColourExts
 case argument = ARGV.shift
 when 'add', '+'
   Flashcards::Commander.add(ARGV)
+when 'review'
+  Flashcards::Commander.review(ARGV)
 when 'reset'
-  Flashcards::Commander.reset
+  Flashcards::Commander.reset(ARGV)
 when 'edit'
   Flashcards::Commander.edit(ARGV)
 when 'stats'
-  Flashcards::Commander.stats
+  Flashcards::Commander.stats(ARGV)
 when 'verify'
-  Flashcards::Commander.verify
+  Flashcards::Commander.verify(ARGV)
 when 'console'
-  Flashcards::Commander.console
+  Flashcards::Commander.console(ARGV)
 when 'has-not-run-today'
   Flashcards::Commander.has_not_run_today
 when nil, /^[a-z]{2}$/ # flashcards, flashcards es
@@ -48,6 +50,9 @@ flashcards <red>add</red> dar 'to give' <yellow>#verb</yellow> <bright_black># A
     flashcards <red>add</red> <yellow>es</yellow> todavía still
     flashcards <red>add</red> todavía<bright_black> # Check if a flashcard is defined.</bright_black>
 
+flashcards <yellow>review</yellow><bright_black> # Review all the flashcards.
+flashcards <yellow>review</yellow> todavía<bright_black> # Review given flashcard.
+
 flashcards <yellow>reset</yellow> es<bright_black> # Reset metadata for given language.
   # Useful if you got someone else's file, and you want to reset his progress.</bright_black>
 
@@ -56,6 +61,7 @@ flashcards <blue.bold>stats</blue.bold>
 flashcards <magenta.bold>verify</magenta.bold>
 
 flashcards <magenta.bold>console</magenta.bold>
+flashcards <magenta.bold>console</magenta.bold> es
 
 flashcards <green>edit</green>
 flashcards <green>edit</green> es
