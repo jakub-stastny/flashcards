@@ -9,7 +9,6 @@ module Flashcards
 
     def run
       flashcards = self.flashcards_to_be_tested_on
-
 #       if flashcards.empty?
 #         abort(<<-EOF.colourise(bold: true))
 # <red>There are currently no flashcards that are new or pending to review.</red>
@@ -22,15 +21,19 @@ module Flashcards
         puts Flashcards.app.language.accents_help.colourise
       end
 
-      flashcards.shuffle.each do |flashcard|
+      flashcards.active_items.shuffle.each do |flashcard|
         original_metadata = flashcard.metadata.dup
         self.test_flashcard(flashcard)
         print "\n(Press enter to confirm or anything else to skip saving). "
-        unless $stdin.readline.chomp == '' # Do not change if say ! was pressed, a way not to be penalised for typos.
+
+        if ENV['FLASHCARDS'] || $stdin.readline.chomp != '' # Do not change if say ! was pressed, a way not to be penalised for typos.
           puts "OK, not saving ..."
           flashcard.metadata = original_metadata
           sleep 0.1
+        else
+          @all_flashcards.save
         end
+
         system 'clear'
       end
 
@@ -40,7 +43,7 @@ module Flashcards
     end
 
     def run_tests
-      all_tests = Flashcards::Test.load(Flashcards.app.language.name)
+      all_tests = Flashcards.app.tests
       selected_tests = self.select_flashcards_to_be_tested_on(all_tests, 3)
 
       (puts; puts) unless selected_tests.empty?
@@ -55,7 +58,7 @@ module Flashcards
         end
       end
 
-      Flashcards::Test.save(Flashcards.app.language.name.to_s, all_tests.map(&:data))
+      all_tests.save
     end
 
     def test_flashcard(flashcard)
@@ -156,9 +159,6 @@ module Flashcards
         puts "   #{' ' * @indentation}<magenta>#{example.translation}</magenta>\n".colourise
         puts unless flashcard.examples.last == example
       end
-
-      puts "DBG: saving"
-      @all_flashcards.save
     end
 
     def show_stats

@@ -206,6 +206,7 @@ module Flashcards
 
     def self.run(language = nil)
       self.set_language(language) if language
+      puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.\n\n".colourise
 
       begin
         Flashcards::CommnandLineTester.new(

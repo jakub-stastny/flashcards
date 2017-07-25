@@ -91,7 +91,7 @@ module Flashcards
 
       results[:metadata] = self.metadata.dup
 
-      if self.correct_answers.empty?
+      if self.correct_answers.empty? || self.correct_answers == {default: Array.new}
         results[:metadata].delete(:correct_answers)
       else
         correct_answers = self.correct_answers.reduce(Hash.new) do |hash, (key, values)|

@@ -13,9 +13,9 @@ module Flashcards
       Pathname.new("~/Dropbox/Data/Data/Flashcards").expand_path
     end
 
-    def initialize(item_class, basename, &activity_filter)
+    def initialize(item_class, basename)
       @path = self.class.data_file_dir.join("#{basename}.yml")
-      @item_class, @activity_filter = item_class, activity_filter
+      @item_class, @activity_filters = item_class, Hash.new
     end
 
     def items
@@ -29,11 +29,32 @@ module Flashcards
     end
 
     def active_items
-      return self.items unless @activity_filter
+      return self.items if @activity_filters.empty?
 
-      self.items.select do |item|
-        @activity_filter.call(item)
+      @activity_filters.keys.reduce(self.items) do |items, filter_name|
+        self.run_filter(filter_name, items)
       end
+    end
+
+    def run_filter(filter_name, items)
+      items.reject { |item| @activity_filters[filter_name].call(item) }
+    end
+
+    def filter(filter_name, &block)
+      @activity_filters[filter_name] = block if block
+      self
+    end
+
+    def filters
+      @activity_filters.keys
+    end
+
+    def has_filter?(filter_name)
+      @activity_filters.has_key?(filter_name)
+    end
+
+    def filtered_out_items(filter_name)
+      self.items - self.run_filter(filter_name, self.items)
     end
 
     # flashcards[:expression, 'hacer']
@@ -45,7 +66,8 @@ module Flashcards
 
     extend Forwardable
 
-    def_delegator :items, :length
+    # Generally we want to avoid proxying methods, unless
+    # it is clear whether they would be performed on items or active_items.
     def_delegator :items, :<<
 
     def replace(original_item, new_item)
@@ -63,6 +85,9 @@ module Flashcards
 
       self.save_to(@path)
       self.save_to(self.back_up_path)
+
+      @loaded_at = Time.now # Otherwise the next save call with fail.
+      true
     end
 
     def save_to(path)

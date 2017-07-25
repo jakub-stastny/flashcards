@@ -48,22 +48,17 @@ module Flashcards
     end
 
     def flashcards
-      collection = Flashcards::Collection.new(Flashcard, self.language.name.to_s) do |flashcard|
-        ENV['FLASHCARDS'].nil? || ENV['FLASHCARDS'].split(/,\s*/).any? do |expression|
-          flashcard.expressions.include?(expression)
+      collection = Flashcards::Collection.new(Flashcard, self.language.name.to_s)
+      collection.filter(:env) do |flashcard|
+        ENV['FLASHCARDS'] && ENV['FLASHCARDS'].split(/,\s*/).any? do |expression|
+          ! flashcard.expressions.include?(expression)
         end
       end
-
-      if ENV['FLASHCARDS']
-        puts "<blue.bold>~</blue.bold> <green>Applying filter #{collection.active_items.map { |selected_flashcard| "<yellow>#{selected_flashcard.expressions.first}</yellow>" }.join_with_and}.</green>".colourise
-      end
-
-      collection
     end
 
     def tests
       basename = "#{self.language.name.to_s}.tests"
-      Flashcards::Collection.new(Flashcard, basename)
+      Flashcards::Collection.new(Test, basename)
     end
   end
 end

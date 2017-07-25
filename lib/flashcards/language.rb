@@ -30,7 +30,7 @@ module Flashcards
 
     attr_accessor :flashcards
     def flashcards
-      @flashcards ||= Flashcards::Flashcard.load(@name)
+      @flashcards ||= Flashcards::Collection.new(Flashcard, @name.to_s) # Without any filters.
     end
 
     def load_verb(infinitive)
