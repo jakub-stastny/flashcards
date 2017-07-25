@@ -1,26 +1,9 @@
 require 'flashcards' # FIXME: Extract Flashcards.app to flashcards/app.rb and change this.
+require 'flashcards/example'
 require 'flashcards/testable_unit'
 require 'digest/md5'
 
 module Flashcards
-  class Example
-    attr_reader :expression, :translation, :label, :tags
-    def initialize(expression:, translation:, label: nil, tags: Array.new)
-      @expression, @translation, @label, @tags = expression, translation, label, tags.uniq
-    end
-
-    def data
-      if @label.nil? && @tags.empty?
-        {@expression => @translation}
-      else
-        data = {expression: @expression, translation: @translation}
-        data.merge!(label: @label) if @label
-        data.merge!(tags: @tags.uniq) unless @tags.empty?
-        data
-      end
-    end
-  end
-
   # # flashcard.variants
   # class Variant
   #   def initialize(prompt, correct_answer)

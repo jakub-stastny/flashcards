@@ -18,7 +18,7 @@ module Flashcards
     using RR::ColourExts
 
     def initialize(language_name = nil)
-      @language_name = language_name.to_sym
+      @language_name = language_name.to_sym if language_name
     end
 
     def config
