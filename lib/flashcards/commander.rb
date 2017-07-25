@@ -29,6 +29,7 @@ module Flashcards
       end
     end
 
+    # TODO: This could get data from WR.
     def self.add(argv)
       args = self.get_args(argv)
       args, tags = args.group_by { |x| x.start_with?('#') }.values
@@ -123,15 +124,23 @@ module Flashcards
     end
 
     def self.reset(argv)
-      self.set_language(argv[0]) if argv[0]
-      puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
+      if argv.empty?
+        abort "~ You have to specify the language explicitly."
+      end
 
-      flashcards = Flashcards.app.flashcards
-      flashcards.save # Make a back-up.
-      flashcards.each { |flashcard| flashcard.metadata.clear }
-      flashcards.save
-
-      puts "~ Metadata has been reset. Back-up has been created beforehands."
+      argv.each.with_index do |language_name, index|
+        Flashcards.app(language_name)
+        print "#{index > 0 ? "\n" : ""}~ Do you want to reset metadata of <red.bold>#{Flashcards.app.language.name}</red.bold>? [<red>y</red>/<green>n</green>] ".colourise
+        if $stdin.readline.chomp.upcase == 'Y'
+          flashcards = Flashcards.app.flashcards
+          flashcards.save # Make a back-up.
+          flashcards.each { |flashcard| flashcard.metadata.clear }
+          flashcards.save
+          puts "~ Metadata of <yellow>#{Flashcards.app.language.name}</yellow> has been reset. Back-up has been created beforehands.".colourise
+        else
+          puts "~ Skipping language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
+        end
+      end
     end
 
     def self.console(argv)
