@@ -1,6 +1,7 @@
 require 'flashcards' # FIXME: Extract Flashcards.app to flashcards/app.rb and change this.
 require 'flashcards/example'
 require 'flashcards/testable_unit'
+require 'flashcards/core_exts'
 require 'digest/md5'
 
 module Flashcards
@@ -22,6 +23,8 @@ module Flashcards
   # end
 
   class Flashcard < TestableUnit
+    using CoreExts
+
     def initialize(data)
       super(data)
 
@@ -64,31 +67,52 @@ module Flashcards
     end
 
     def data
-      @data.dup.tap do |data|
-        serialise_singular_or_plural_key(:tag, data)
-        self.examples.map!(&:data)
-        serialise_singular_or_plural_key(:example, data)
-        serialise_singular_or_plural_key(:expression, data)
-        serialise_singular_or_plural_key(:translation, data)
-        serialise_singular_or_plural_key(:silent_translation, data)
+      results = Hash.new # This is to avoid #deep_copy issues.
+      # Hash#deep_copy wouldn't call Array#deep_copy within the same refinement
+      # module and Array#deep_copy from refinements wouldn't go very deep on
+      # nested array either.
+      #
+      # This approach has the disadvantage that any new attribute has to be added
+      # here, lest they get lost.
+      #
+      # On the plus side, we're able to determine order of the keys, as it seems.
 
-        data.delete(:tags) if tags.empty?
-        data.delete(:examples) if examples.empty?
-        data.delete(:conjugations) if conjugations && conjugations.empty?
+      serialise_singular_or_plural_key(:expression, @data, results)
+      serialise_singular_or_plural_key(:translation, @data, results)
+      serialise_singular_or_plural_key(:silent_translation, @data, results)
+      serialise_singular_or_plural_key(:tag, @data, results)
+      results[:note] = self.note if self.note
+      results[:hint] = self.hint if self.hint
+      serialise_singular_or_plural_key(:example, {examples: self.examples.map(&:data)}, results)
 
+      unless self.conjugations.nil? || self.conjugations.empty?
+        results[:conjugations] = self.conjugations.dup
+      end
+
+      results[:metadata] = self.metadata.dup
+
+      if self.correct_answers.empty?
+        results[:metadata].delete(:correct_answers)
+      else
         correct_answers = self.correct_answers.reduce(Hash.new) do |hash, (key, values)|
           hash.merge!(key => values) unless values.empty?
           hash
         end
 
         if correct_answers.keys == [:default]
-          correct_answers = data[:metadata][:correct_answers] = correct_answers[:default]
+          correct_answers = correct_answers[:default]
         end
 
-        data[:metadata].delete(:correct_answers) if correct_answers.empty?
-
-        data.delete(:metadata) if metadata.empty?
+        results[:metadata][:correct_answers] = correct_answers
       end
+
+      results.delete(:metadata) if results[:metadata].empty?
+
+      results
+    end
+
+    def to_s
+      "<yellow>#{self.expressions.join(',')}</yellow> (<green>#{self.translations.join(',')}</green>)"
     end
 
     def ==(anotherFlashcard)

@@ -65,14 +65,5 @@ module Flashcards
       basename = "#{self.language.name.to_s}.tests"
       Flashcards::Collection.new(Flashcard, basename)
     end
-
-    def load_do_then_save(&block)
-      flashcards = Flashcards::Flashcard.load(self.language.name.to_s)
-      flashcards = filter_selected_flashcards(flashcards) if ENV['FLASHCARDS']
-      data = block.call(flashcards)
-      unless ENV['FLASHCARDS'] # Otherwise we save only the selected ones and discard all the rest.
-        Flashcards::Flashcard.save(self.language.name.to_s, data)
-      end
-    end
   end
 end

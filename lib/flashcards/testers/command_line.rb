@@ -156,6 +156,9 @@ module Flashcards
         puts "   #{' ' * @indentation}<magenta>#{example.translation}</magenta>\n".colourise
         puts unless flashcard.examples.last == example
       end
+
+      puts "DBG: saving"
+      @all_flashcards.save
     end
 
     def show_stats

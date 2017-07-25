@@ -1,4 +1,5 @@
 require 'yaml'
+require 'forwardable'
 
 # flashcards = Collection.new(Flashcard, 'es.yml')
 # flashcards << flashcard
@@ -35,10 +36,6 @@ module Flashcards
       end
     end
 
-    def inactive_items
-      self.items - self.active_items
-    end
-
     # flashcards[:expression, 'hacer']
     def [](key, value)
       self.items.select do |item|
@@ -46,8 +43,15 @@ module Flashcards
       end
     end
 
-    def <<(item)
-      self.items << item
+    extend Forwardable
+
+    def_delegator :items, :length
+    def_delegator :items, :<<
+
+    def replace(original_item, new_item)
+      index = self.items.index(original_item)
+      self.items.delete(original_item)
+      self.items.insert(index, new_item)
     end
 
     def save
@@ -57,9 +61,22 @@ module Flashcards
         raise "Cannot be saved #{File.mtime(@path.to_s).inspect} vs. #{@loaded_at.inspect}"
       end
 
-      @path.open('w') do |file|
+      self.save_to(@path)
+      self.save_to(self.back_up_path)
+    end
+
+    def save_to(path)
+      path.open('w') do |file|
         file.puts(self.to_yaml)
       end
+    end
+
+    def back_up_path
+      chunks    = @path.basename.to_s.split('.')
+      timestamp = Time.now.strftime('%Y-%m-%d-%H-%M')
+      basename  = chunks.insert(-2, timestamp).join('.')
+
+      self.class.data_file_dir.join('Backups', basename)
     end
 
     def to_yaml

@@ -110,14 +110,18 @@ module Flashcards
       end
     end
 
-    def serialise_singular_or_plural_key(key, data)
-      data["#{key}s".to_sym].uniq!
+    def serialise_singular_or_plural_key(key, data, results)
+      collection = data["#{key}s".to_sym] || data[key.to_sym]
+      return unless collection
 
-      if data["#{key}s".to_sym].length == 1
-        data[key] = data["#{key}s".to_sym][0]
-        data.delete("#{key}s".to_sym)
-      elsif data["#{key}s".to_sym].empty?
-        data.delete("#{key}s".to_sym)
+      collection.uniq! # The only modifying change.
+
+      if collection.length == 1
+        results[key] = collection[0]
+      elsif collection.empty?
+        # void
+      elsif collection.length > 1
+        results["#{key}s".to_sym] = collection
       end
     end
   end
