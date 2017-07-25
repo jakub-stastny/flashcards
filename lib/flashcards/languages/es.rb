@@ -4,6 +4,7 @@
 # es_MX: Juan, Paulina
 Flashcards.app.define_language(:es) do
   say_voice('Monica')
+  accents_help("<blue.bold>~</blue.bold> <green>Writing accents:</green> <red>á</red> <bright_black>⌥-e a</bright_black>   <blue>ñ</blue> <bright_black>⌥-n n</bright_black>   <yellow>ü</yellow> <bright_black>⌥-u u</bright_black>   <magenta>¡</magenta> <bright_black>⌥-1</bright_black>   <magenta>¿</magenta> <bright_black>⌥-⇧-?</bright_black>")
 
   require_relative 'es/syllabifier'
   syllabifier(Flashcards::ES::Syllabifier)

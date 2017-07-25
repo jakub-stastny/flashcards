@@ -52,6 +52,10 @@ module Flashcards
     def say_aloud(text)
       system("say -v #{@voice} #{text}")
     end
+
+    def accents_help(text = nil)
+      @text ||= text
+    end
   end
 
   class Verb

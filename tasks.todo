@@ -6,6 +6,8 @@ Core engine:
 - Warn if regular forms are listed as exceptions in the flashcard file.
 
 Curses:
+- Progress line.
+- History.
 - Add the posibility to undo.
 - Make it more compact (marking correct incorrect, just x/v and change colour of what was written).
 

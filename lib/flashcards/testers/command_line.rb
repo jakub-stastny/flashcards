@@ -8,9 +8,7 @@ module Flashcards
     using RR::StringExts
 
     def run
-      flashcards = self.select_flashcards_to_be_tested_on(
-        self.filter_out_verbs_with_changed_conjugations(self.filter_out_unverified_verbs(@all_flashcards)),
-        @config.limit_per_run)
+      flashcards = self.flashcards_to_be_tested_on
 
 #       if flashcards.empty?
 #         abort(<<-EOF.colourise(bold: true))
@@ -20,12 +18,8 @@ module Flashcards
 #         EOF
 #       end
 
-      # TODO: Refactor to the language definition.
-      case Flashcards.app.language.name
-      when :es
-        puts "<blue.bold>~</blue.bold> <green>Writing accents:</green> <red>á</red> <bright_black>⌥-e a</bright_black>   <blue>ñ</blue> <bright_black>⌥-n n</bright_black>   <yellow>ü</yellow> <bright_black>⌥-u u</bright_black>   <magenta>¡</magenta> <bright_black>⌥-1</bright_black>   <magenta>¿</magenta> <bright_black>⌥-⇧-?</bright_black>".colourise
-      when :pl
-        puts "<blue.bold>~</blue.bold> <green>Writing accents:</green> kreska <red>á</red> <bright_black>⌥-e a</bright_black>   kropka <red>ż</red> <bright_black>⌥-w z</bright_black> ogonek <red>ą</red> <bright_black>⌥-m a</bright_black> stroke <red>ł</red> <bright_black>⌥-l l</bright_black>".colourise
+      if Flashcards.app.language.accents_help
+        puts Flashcards.app.language.accents_help.colourise
       end
 
       flashcards.shuffle.each do |flashcard|
