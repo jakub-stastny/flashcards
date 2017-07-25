@@ -43,14 +43,14 @@ module Flashcards
         else
           puts "<magenta>Matching flashcards:</magenta>\n- #{matching_flashcards.map { |f| "<yellow>#{f.expressions.join_with_and}</yellow>: #{f.translations.join_with_and}" }.join("\n- ")}".colourise
         end
-      elsif args.length == 2 || args.length == 3
+      elsif args.length == 2
         flashcard = Flashcard.new(
           expression: args[-2].split(','),
           translations: args[-1].split(','),
           tags: (tags || Array.new).map { |tag| tag[1..-1].to_sym },
           examples: [
             Example.new(expression: 'Expression 1.', translation: 'Translation 1.'),
-            Example.new(expression: 'Expression 2.', translation: 'Translation 2.')
+            Example.new(expression: 'Expression 2.', translation: 'Translation 2.', label: 'Usage XYZ', tags: ['Spain'])
           ]
         )
 
@@ -79,7 +79,13 @@ module Flashcards
     def self.edit_flashcard(flashcard)
       path = "/tmp/#{flashcard.expressions.first.tr(' ', '_')}.yml"
 
-      unless File.exist?(path) # Give a chance to edit incorrect data.
+      if File.exist?(path) # Give a chance to edit incorrect data.
+        # TODO: Compare if anything changed.
+        File.open(path, 'a') do |file|
+          file.rewind
+          file.puts("# NOTE: This file has been created at #{File.mtime(file)}.")
+        end
+      else
         File.open(path, 'w') do |file|
           file.puts(flashcard.data.to_yaml)
         end
@@ -97,11 +103,6 @@ module Flashcards
       Flashcards.app.load_do_then_save do |flashcards|
         flashcards.map do |flashcard|
           if (args[0] && flashcard.expressions.include?(args[0])) || args.empty?
-            # NOTE: This is why we want to have load_do_then_save defined the way it is, so we don't have to do this:
-            # new_flashcard = self.edit_flashcard(flashcard)
-            # index = flashcards.index(flashcard)
-            # flashcards.delete(flashcard)
-            # flashcards.insert(index, new_flashcard)
             flashcard = self.edit_flashcard(flashcard)
           end
 
@@ -123,10 +124,8 @@ module Flashcards
       self.set_language(argv[0]) if argv[0]
       puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
 
-      # flashcards = Flashcards::Flashcard.load(:es)
-      flashcards = Flashcards.app.load # This is preferred over Flashcards::Flashcard.load(:es).
-      tests = Flashcards::Test.load(:es)
-      # Flashcards::Flashcard.save(:es, flashcards) # TODO: Maybe we should have a flashcard collection that responds to #save and #to_yaml.
+      fs = Flashcards.app.flashcards
+      ts = Flashcards.app.tests
       require 'pry'; binding.pry
     end
 

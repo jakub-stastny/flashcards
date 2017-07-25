@@ -3,44 +3,13 @@ require 'pathname'
 
 module Flashcards
   class TestableUnit
-    def self.data_file(language_name)
-      path = self.data_file_path(language_name)
-      Pathname.new(path).expand_path
-    end
-
-    def self.data_file_path(language_name)
-      raise NotImplementedError.new("Redefine in subclasses.")
-    end
-
-    def self.load(language_name)
-      # YAML treats an empty string as false.
-      (YAML.load(self.data_file(language_name).read) || Array.new).map do |flashcard_data|
-        begin
-          self.new(flashcard_data)
-        rescue => error
-          abort "Loading item #{flashcard_data.inspect} failed: #{error.message}.\n\n#{error.backtrace}"
-        end
-      end
-    rescue Errno::ENOENT
-      Array.new
-    end
-
-    def self.save(language_name, items)
-      return if items.empty?
-
-      self.data_file(language_name).open('w') do |file|
-        file.puts(items.to_yaml)
-      end
-    end
-
     attr_reader :data
     def initialize(data)
       @data = data
       @data[:metadata] ||= Hash.new
     end
 
-    def to_yaml # Array#to_yaml se na to vysere.
-      raise 'it does not work'
+    def to_yaml # Array#to_yaml would ignore this, fortunately our custom collection deals with it.
       self.data.to_yaml
     end
 

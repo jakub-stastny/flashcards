@@ -3,6 +3,7 @@ require 'flashcards/test'
 require 'flashcards/language'
 require 'flashcards/config'
 require 'flashcards/core_exts'
+require 'flashcards/collection'
 
 module Flashcards
   def self.app(language_name = nil)
@@ -10,7 +11,7 @@ module Flashcards
   end
 
   def self.defined_languages
-    Dir.glob("#{File.expand_path(Flashcard.data_file_dir)}/*.yml").map { |path| File.basename(path).split('.').first.to_sym }.uniq
+    Dir.glob("#{Collection.data_file_dir}/*.yml").map { |path| File.basename(path).split('.').first.to_sym }.uniq
   end
 
   class App
@@ -46,10 +47,23 @@ module Flashcards
       self.languages[name].instance_eval(&block)
     end
 
-    def load(&block)
-      flashcards = Flashcards::Flashcard.load(self.language.name.to_s)
-      flashcards = filter_selected_flashcards(flashcards) if ENV['FLASHCARDS']
-      block ? block.call(flashcards) : flashcards
+    def flashcards
+      collection = Flashcards::Collection.new(Flashcard, self.language.name.to_s) do |flashcard|
+        ENV['FLASHCARDS'].nil? || ENV['FLASHCARDS'].split(/,\s*/).any? do |expression|
+          flashcard.expressions.include?(expression)
+        end
+      end
+
+      if ENV['FLASHCARDS']
+        puts "<blue.bold>~</blue.bold> <green>Applying filter #{collection.active_items.map { |selected_flashcard| "<yellow>#{selected_flashcard.expressions.first}</yellow>" }.join_with_and}.</green>".colourise
+      end
+
+      collection
+    end
+
+    def tests
+      basename = "#{self.language.name.to_s}.tests"
+      Flashcards::Collection.new(Flashcard, basename)
     end
 
     def load_do_then_save(&block)
@@ -58,17 +72,6 @@ module Flashcards
       data = block.call(flashcards)
       unless ENV['FLASHCARDS'] # Otherwise we save only the selected ones and discard all the rest.
         Flashcards::Flashcard.save(self.language.name.to_s, data)
-      end
-    end
-
-    protected
-    def filter_selected_flashcards(flashcards)
-      selected_flashcards = ENV['FLASHCARDS'].split(/\s*,\s*/)
-      puts "<blue.bold>~</blue.bold> <green>Applying filter #{selected_flashcards.map { |selected_flashcard| "<yellow>#{selected_flashcard}</yellow>" }.join_with_and}.</green>".colourise
-      flashcards.select do |flashcard|
-        selected_flashcards.any? do |selected_flashcard|
-          flashcard.expressions.include?(selected_flashcard)
-        end
       end
     end
   end
