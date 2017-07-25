@@ -7,10 +7,13 @@
 # p [h1[:c][:d].object_id, h2[:c][:d].object_id, h1[:c][:d].object_id == h2[:c][:d].object_id]
 module Flashcards
   module CoreExts
+    # TODO: warn & abort of Kernel. "<yellow>~</yellow> #{message}", "<red>Error: </red> #{message}"
+
     refine Array do
-      def join_with_and(xxx = 'and', delimiter = ', ')
-        return self[0] if self.length == 1
-        "#{self[0..-2].join(delimiter)} #{xxx} #{self[-1]}"
+      def join_with_and(xxx = 'and', delimiter = ', ', &block)
+        block = Proc.new { |item| item } if block.nil?
+        return block.call(self[0]) if self.length == 1
+        "#{self[0..-2].map(&block).join(delimiter)} #{xxx} #{block.call(self[-1])}"
       end
 
       def deep_copy

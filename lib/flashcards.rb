@@ -7,7 +7,7 @@ require 'flashcards/collection'
 
 module Flashcards
   def self.app(language_name = nil)
-    language_name ? @app = App.new(language_name) : @app
+    language_name ? @app = App.new(language_name) : @app ||= App.new
   end
 
   def self.defined_languages

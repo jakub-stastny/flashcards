@@ -78,9 +78,9 @@ module Flashcards
 
         synonyms = @all_flashcards.select { |f2| ! (flashcard.translations & f2.translations).empty? } - [flashcard]
         if synonyms.empty?
-          print "#{flashcard.translations.map { |t| "<underline>#{t}</underline>" }.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ".colourise(bold: true)
+          print "#{flashcard.translations.join_with_and('or') { |t| "<underline>#{t}</underline>" }}#{" (#{flashcard.hint})" if flashcard.hint}: ".colourise(bold: true)
         else
-          print "#{flashcard.translations.map { |t| "<underline>#{t}</underline>" }.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint} (also can be #{synonyms.map(&:expressions).flatten.map { |e| "<underline>#{e}</underline>" }.join(', ')}): ".colourise(bold: true)
+          print "#{flashcard.translations.join_with_and('or') { |t| "<underline>#{t}</underline>" }}#{" (#{flashcard.hint})" if flashcard.hint} (also can be #{synonyms.map(&:expressions).flatten.map { |e| "<underline>#{e}</underline>" }.join(', ')}): ".colourise(bold: true)
         end
       else
         if example = flashcard.examples.sample

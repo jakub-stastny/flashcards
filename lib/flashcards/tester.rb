@@ -26,7 +26,8 @@ module Flashcards
       unverified_verbs = all_flashcards.filtered_out_items(:unverified_verbs)
 
       unless unverified_verbs.empty?
-        warn "<blue.bold>~</blue.bold> <yellow.bold>You have unverified verbs:</yellow.bold> #{unverified_verbs.map { |flashcard| flashcard.expressions.first}.join_with_and }.".colourise
+        unverified_verbs_text = unverified_verbs.join_with_and { |flashcard| flashcard.expressions.first }
+        warn "<blue.bold>~</blue.bold> <yellow.bold>You have unverified verbs:</yellow.bold> #{unverified_verbs_text}.".colourise
         warn "  You will not be tested on these. Run <underline>flashcards verify</underline> first to check the conjugations against an online dictionary.\n\n".colourise
       end
     end
@@ -41,7 +42,8 @@ module Flashcards
       changed_verbs = all_flashcards.filtered_out_items(:verbs_with_changed_conjugations)
 
       unless changed_verbs.empty?
-        warn "<blue.bold>~</blue.bold> <yellow.bold>Conjugations of these verbs has changed:</yellow.bold> #{changed_verbs.map { |flashcard| flashcard.expressions.first}.join_with_and }.".colourise
+        changed_verbs_text = changed_verbs.join_with_and { |flashcard| flashcard.expressions.first }
+        warn "<blue.bold>~</blue.bold> <yellow.bold>Conjugations of these verbs has changed:</yellow.bold> #{changed_verbs_text}.".colourise
         warn "  They are most likely incorrect. Run <underline>flashcards verify</underline> first to check the conjugations against an online dictionary. In the meantime, you will not be tested on these.\n\n".colourise
       end
     end
@@ -91,7 +93,8 @@ module Flashcards
 
     def flashcards_to_be_tested_on
       if ENV['FLASHCARDS'] && @all_flashcards.has_filter?(:env)
-        puts "<blue.bold>~</blue.bold> <green>Applying the env filter #{@all_flashcards.active_items.map { |selected_flashcard| "<yellow>#{selected_flashcard.expressions.first}</yellow>" }.join_with_and}.</green>".colourise
+        filtered_items_text = @all_flashcards.active_items.join_with_and { |flashcard| "<yellow>#{flashcard.expressions.first}</yellow>" }
+        puts "<blue.bold>~</blue.bold> <green>Applying the env filter #{filtered_items_text}.</green>".colourise
       end
 
       self.filter_out_verbs_with_changed_conjugations(@all_flashcards)

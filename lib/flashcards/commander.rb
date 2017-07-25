@@ -41,9 +41,14 @@ module Flashcards
         end
 
         if matching_flashcards.empty?
-          puts "There is no definition for #{args[0]} yet."
+          puts "There is no definition for <yellow>#{args[0]}</yellow> yet."
         else
-          puts "<magenta>Matching flashcards:</magenta>\n- #{matching_flashcards.map { |f| "<yellow>#{f.expressions.join_with_and}</yellow>: #{f.translations.join_with_and}" }.join("\n- ")}".colourise
+          matching_flashcards_text = matching_flashcards.map { |f|
+            a = f.expressions.join_with_and  { |word| "<yellow>#{word}</yellow>" }
+            b = f.translations.join_with_and { |word| "<green>#{word}</green>" }
+            "#{a}: #{b}"
+          }.join("\n- ")
+          puts "<magenta>Matching flashcards:</magenta>\n- #{matching_flashcards_text}".colourise
         end
       elsif args.length == 2
         flashcards = Flashcards.app.flashcards
@@ -125,7 +130,7 @@ module Flashcards
 
     def self.reset(argv)
       if argv.empty?
-        abort "~ You have to specify the language explicitly."
+        abort "<red>ERROR:</red> You have to specify the language explicitly. Your languages are #{Flashcards.defined_languages.join_with_and { |lang| "<yellow.bold>#{lang}</yellow.bold>" }}.".colourise
       end
 
       argv.each.with_index do |language_name, index|
@@ -191,7 +196,8 @@ module Flashcards
 
       unless flashcards_with_unknown_attributes.empty?
         flashcards_with_unknown_attributes.each do |flashcard|
-          warn "~ <yellow>#{flashcard.expressions.first}</yellow> has these unknown attributes: <yellow>#{flashcard.unknown_attributes.join_with_and}</yellow>.".colourise
+          unknown_attributes_text = flashcard.unknown_attributes.join_with_and { |attribute| "<yellow>#{attribute}</yellow>" }
+          warn "~ <yellow>#{flashcard.expressions.first}</yellow> has these unknown attributes: #{unknown_attributes_text}.".colourise
         end
         puts;
       end
