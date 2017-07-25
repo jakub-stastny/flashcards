@@ -113,6 +113,8 @@ module Flashcards
       self.items.map(&:data).to_yaml
     end
 
+    # TODO: Should we deprecate this?
+    # It's best to use explicit .items/.active_items calls.
     include Enumerable
 
     def each(&block)

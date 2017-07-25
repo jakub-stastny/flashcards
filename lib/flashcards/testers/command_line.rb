@@ -17,20 +17,20 @@ module Flashcards
 #         EOF
 #       end
 
-      flashcards.active_items.shuffle.each.with_index do |flashcard, index|
-        original_metadata = flashcard.metadata.dup
+      flashcards.shuffle.each.with_index do |flashcard, index|
+        original_metadata = flashcard.data[:metadata] # since flashcard.metadata.dup isn't a deep copy; this is.
         self.test_flashcard(flashcard)
         print "\n(Press enter to confirm or anything else to skip saving). "
 
         if ENV['FLASHCARDS'] || $stdin.readline.chomp != '' # Do not change if say ! was pressed, a way not to be penalised for typos.
-          puts "OK, not saving ..."
+          puts "\n\n<blue>OK, not saving ...</blue>\n\n".colourise(bold: true)
           flashcard.metadata = original_metadata
-          sleep 0.1
+          sleep 3
         else
           @all_flashcards.save
         end
 
-        system 'clear' unless index == (flashcards.active_items.length - 1)
+        system 'clear' unless index == (flashcards.length - 1)
       end
 
       self.show_stats unless (@correct + @incorrect) == 0

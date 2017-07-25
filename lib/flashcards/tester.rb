@@ -50,7 +50,7 @@ module Flashcards
     # they go to the long-term memory. Then test the new ones and finally the remembered ones.
     # Limit count of each.
     def select_flashcards_to_be_tested_on(all_flashcards, limit_per_run)
-      return all_flashcards if ENV['FLASHCARDS']
+      return all_flashcards.active_items if ENV['FLASHCARDS']
 
       all_flashcards.filter(:recently_reviewed) do |flashcard|
         flashcard.should_run?
