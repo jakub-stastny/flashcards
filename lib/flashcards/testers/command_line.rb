@@ -23,7 +23,15 @@ module Flashcards
       end
 
       flashcards.shuffle.each do |flashcard|
+        original_metadata = flashcard.metadata.dup
         self.test_flashcard(flashcard)
+        print "\n(Press enter to confirm or anything else to skip saving). "
+        unless $stdin.readline.chomp == '' # Do not change if say ! was pressed, a way not to be penalised for typos.
+          puts "OK, not saving ..."
+          flashcard.metadata = original_metadata
+          sleep 0.1
+        end
+        system 'clear'
       end
 
       self.show_stats unless (@correct + @incorrect) == 0

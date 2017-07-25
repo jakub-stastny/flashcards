@@ -79,6 +79,7 @@ module Flashcards
       :expressions, :translations, :silent_translations, :note, :hint, :tags, :conjugations, :examples, :metadata
     ]
 
+    attr_accessor :metadata
     ATTRIBUTES.each do |attribute|
       define_method(attribute) { @data[attribute] }
     end
