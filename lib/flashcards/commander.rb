@@ -2,6 +2,7 @@ require 'flashcards'
 require 'flashcards/core_exts'
 require 'flashcards/testers/command_line'
 
+# TODO: Any command invocation should call auto_gc before to remove old backups.
 module Flashcards
   module Commander
     using CoreExts
@@ -107,10 +108,13 @@ module Flashcards
 
       flashcard_data = YAML.load_file(path)
 
-      File.unlink(path)
+      if flashcard_data.nil?
+        File.unlink(path) && return
+      end
 
-      return unless flashcard_data
       flashcard = Flashcard.new(flashcard_data)
+
+      File.unlink(path)
 
       flashcard
     end
@@ -142,7 +146,7 @@ module Flashcards
         print "#{index > 0 ? "\n" : ""}~ Do you want to reset metadata of <red.bold>#{Flashcards.app.language.name}</red.bold>? [<red>y</red>/<green>n</green>] ".colourise
         if $stdin.readline.chomp.upcase == 'Y'
           flashcards = Flashcards.app.flashcards
-          flashcards.save # Make a back-up.
+          flashcards.save # Make a back-up. # FIXME: This won't work, as back-ups don't have seconds or rand in their names, so after the next save it will be overwritten.
           flashcards.each { |flashcard| flashcard.metadata.clear }
           flashcards.save
           puts "~ Metadata of <yellow>#{Flashcards.app.language.name}</yellow> has been reset. Back-up has been created beforehands.".colourise

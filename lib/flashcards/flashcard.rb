@@ -65,6 +65,10 @@ module Flashcards
       define_method(attribute) { @data[attribute] }
     end
 
+    def last_review_time
+      self.metadata[:last_review_time]
+    end
+
     def data
       results = Hash.new # This is to avoid #deep_copy issues.
       # Hash#deep_copy wouldn't call Array#deep_copy within the same refinement

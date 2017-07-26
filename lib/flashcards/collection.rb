@@ -4,9 +4,6 @@ require 'forwardable'
 # flashcards = Collection.new(Flashcard, 'es.yml')
 # flashcards << flashcard
 # flashcards.save
-#
-# TODO: Don't save if this version is older than mtime of the file.
-# TODO: Backups.
 module Flashcards
   class Collection
     def self.data_file_dir

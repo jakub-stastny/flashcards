@@ -41,8 +41,9 @@ module Flashcards
       self.run_tests unless ENV['FLASHCARDS']
     end
 
+    # TODO: r for updating reviewed_at.
     def commander_mode(flashcard, original_metadata)
-      print "\n<bright_black>Press <green.bold>Enter</green.bold> to move on, <magenta>e</magenta> to edit, <yellow>c</yellow> for console and <blue.bold>d</blue.bold> to discard. </bright_black>".colourise
+      print "\n<bright_black>Press <green.bold>Enter</green.bold> to move on, <magenta>e</magenta> to edit, <yellow>c</yellow> for console and <blue.bold>d</blue.bold> to discard. Last review: #{flashcard.last_review_time ? flashcard.last_review_time.strftime("%d/%m/%Y") : 'never'}. </bright_black>".colourise
       case $stdin.readline.chomp
       when ''
         @all_flashcards.save
@@ -61,10 +62,8 @@ module Flashcards
         require 'pry'; binding.pry
       when 'd'
         puts "\n\n<blue>OK, not saving ...</blue>\n\n".colourise(bold: true)
-        puts "Replacing #{flashcard.metadata.inspect} with #{original_metadata.inspect}"
-        puts "  => #{flashcard.metadata.inspect}"
-        flashcard.metadata.replace(original_metadata)
-        sleep 5#4
+        flashcard.metadata.replace(original_metadata) if original_metadata
+        sleep 3
       else
         puts "~ Invalid input."
         self.commander_mode(flashcard)
