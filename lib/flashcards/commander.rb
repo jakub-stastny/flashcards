@@ -95,6 +95,7 @@ module Flashcards
         File.open(path, 'a') do |file|
           file.rewind
           file.puts("# NOTE: This file has been created at #{File.mtime(file)}.")
+          file.puts("# The data here may not be up to date with the current version.")
         end
       else
         File.open(path, 'w') do |file|
@@ -119,10 +120,13 @@ module Flashcards
       flashcards = Flashcards.app.flashcards
       flashcards.each do |flashcard|
         if (args[0] && flashcard.expressions.include?(args[0])) || args.empty?
+          original_last_review_time = flashcard.metadata[:last_review_time]
+          flashcard.metadata[:last_review_time] = Time.now # Do it here, so we have chance to remove it in the YAML.
           if new_flashcard = self.edit_flashcard(flashcard)
-            new_flashcard.metadata[:last_review_time] = Time.now
             flashcards.replace(flashcard, new_flashcard)
             flashcards.save
+          else
+            flashcard.metadata[:last_review_time] = original_last_review_time
           end
         end
       end
@@ -144,6 +148,29 @@ module Flashcards
           puts "~ Metadata of <yellow>#{Flashcards.app.language.name}</yellow> has been reset. Back-up has been created beforehands.".colourise
         else
           puts "~ Skipping language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
+        end
+      end
+    end
+
+    def self.inspect(argv)
+      args = self.get_args(argv)
+      if args.empty?
+        abort "Args cannot be empty."
+      end
+
+      puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
+      flashcards = Flashcards.app.flashcards
+      flashcards.each do |flashcard|
+        if expression = args.find { |arg| flashcard.expressions.include?(arg.split('.').first) }
+          object = expression.split('.')[1..-1].reduce(flashcard) do |object, method|
+            object.send(method)
+          end
+          if object.is_a?(Numeric) || object.is_a?(Symbol) || [true, false, nil].include?(object)
+            puts "<green>#{expression}</green>: <blue.bold>#{object.inspect}</blue.bold>".colourise
+          else
+            puts "\n<green>#{expression}</green>:".colourise(bold: true)
+            puts object.to_yaml
+          end
         end
       end
     end

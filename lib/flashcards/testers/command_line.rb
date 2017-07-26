@@ -21,17 +21,17 @@ module Flashcards
         original_metadata = flashcard.data[:metadata] # since flashcard.metadata.dup isn't a deep copy; this is.
         self.test_flashcard(flashcard)
         puts "\n<green>Flashcard #{index + 1} out of #{flashcards.length}.</green>".colourise
-        print "\n<bright_black>Press enter to confirm or anything else to skip saving. </bright_black>".colourise
+        self.commander_mode(flashcard, original_metadata)
 
-        if ! ENV['FLASHCARDS'] && $stdin.readline.chomp != '' # Do not change if say ! was pressed, a way not to be penalised for typos.
-          puts "\n\n<blue>OK, not saving ...</blue>\n\n".colourise(bold: true)
-          flashcard.metadata = original_metadata
-          sleep 4
-        elsif ENV['FLASHCARDS']
-          flashcard.metadata = original_metadata
-        else
-          @all_flashcards.save
-        end
+        # if ! ENV['FLASHCARDS'] && $stdin.readline.chomp != '' # Do not change if say ! was pressed, a way not to be penalised for typos.
+        #   puts "\n\n<blue>OK, not saving ...</blue>\n\n".colourise(bold: true)
+        #   flashcard.metadata = original_metadata
+        #   sleep 4
+        # elsif ENV['FLASHCARDS']
+        #   flashcard.metadata = original_metadata
+        # else
+        #   @all_flashcards.save
+        # end
 
         system 'clear' unless index == (flashcards.length - 1)
       end
@@ -39,6 +39,36 @@ module Flashcards
       self.show_stats unless (@correct + @incorrect) == 0
 
       self.run_tests unless ENV['FLASHCARDS']
+    end
+
+    def commander_mode(flashcard, original_metadata)
+      print "\n<bright_black>Press <green.bold>Enter</green.bold> to move on, <magenta>e</magenta> to edit, <yellow>c</yellow> for console and <blue.bold>d</blue.bold> to discard. </bright_black>".colourise
+      case $stdin.readline.chomp
+      when ''
+        @all_flashcards.save
+      when 'e'
+        # Copied from the review command.
+        original_last_review_time = flashcard.metadata[:last_review_time]
+        flashcard.metadata[:last_review_time] = Time.now # Do it here, so we have chance to remove it in the YAML.
+        if new_flashcard = Commander.edit_flashcard(flashcard) # I don't think we should depend on this, move to utils?
+          @all_flashcards.replace(flashcard, new_flashcard)
+          @all_flashcards.save
+        else
+          flashcard.metadata[:last_review_time] = original_last_review_time
+        end
+      when 'c'
+        # Use @all_flashcards, flashcard and original_metadata.
+        require 'pry'; binding.pry
+      when 'd'
+        puts "\n\n<blue>OK, not saving ...</blue>\n\n".colourise(bold: true)
+        puts "Replacing #{flashcard.metadata.inspect} with #{original_metadata.inspect}"
+        puts "  => #{flashcard.metadata.inspect}"
+        flashcard.metadata.replace(original_metadata)
+        sleep 5#4
+      else
+        puts "~ Invalid input."
+        self.commander_mode(flashcard)
+      end
     end
 
     def run_tests

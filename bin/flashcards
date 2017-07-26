@@ -5,6 +5,7 @@ require 'flashcards/core_exts'
 
 using RR::ColourExts
 
+# TODO: if (commander responds to (ARGV.first || :run)) || abort(help).
 case argument = ARGV.shift
 when 'add', '+'
   Flashcards::Commander.add(ARGV)
@@ -14,6 +15,8 @@ when 'reset'
   Flashcards::Commander.reset(ARGV)
 when 'stats'
   Flashcards::Commander.stats(ARGV)
+when 'inspect'
+  Flashcards::Commander.inspect(ARGV)
 when 'verify'
   Flashcards::Commander.verify(ARGV)
 when 'console'
@@ -56,6 +59,11 @@ flashcards <green>reset</green> es<bright_black> # Reset metadata for given lang
   # Useful if you got someone else's file, and you want to reset his progress.</bright_black>
 
 flashcards <blue.bold>stats</blue.bold>
+
+flashcards <blue.bold>inspect</blue.bold>
+flashcards <blue.bold>inspect</blue.bold> casi
+flashcards <blue.bold>inspect</blue.bold> casi.correct_answers.length ya.metadata
+flashcards inspect casi.correct_answers.values.flatten.length 'el problema.correct_answers.values.flatten.length' ya.correct_answers.values.flatten.length
 
 flashcards <red.bold>verify</red.bold>
 
