@@ -29,15 +29,17 @@ module Flashcards
       super(data)
 
       deserialise_singular_or_plural_key(:example, data)
-      self.examples.map! do |hash_or_example|
-        if hash_or_example.is_a?(Example)
-          hash_or_example
-        elsif hash_or_example.keys.length == 1
-          expression  = hash_or_example.keys.first
-          translation = hash_or_example.values.first
+      self.examples.map! do |hash_string_or_example|
+        if hash_string_or_example.is_a?(Example)
+          hash_string_or_example
+        elsif hash_string_or_example.is_a?(String)
+          Example.new(expression: hash_string_or_example, translation: nil)
+        elsif hash_string_or_example.keys.length == 1
+          expression  = hash_string_or_example.keys.first
+          translation = hash_string_or_example.values.first
           Example.new(expression: expression, translation: translation)
         else
-          Example.new(**hash_or_example)
+          Example.new(**hash_string_or_example)
         end
       end
 
@@ -58,7 +60,7 @@ module Flashcards
     end
 
     ATTRIBUTES = [
-      :expressions, :translations, :silent_translations, :note, :hint, :tags, :conjugations, :examples, :metadata
+      :expressions, :translations, :silent_translations, :note, :hint, :tags, :conjugations, :examples, :metadata, :_
     ]
 
     ATTRIBUTES.each do |attribute|
@@ -79,6 +81,7 @@ module Flashcards
       results[:hint] = self.hint.dup
       results[:examples] = self.examples.map(&:expanded_data)
       results[:conjugations] = self.conjugations.dup if self.tags.include?(:verb)
+      results[:_] = self._.dup
       results[:metadata] = self.data[:metadata].dup
       results
     end
@@ -105,6 +108,8 @@ module Flashcards
       unless self.conjugations.nil? || self.conjugations.empty?
         results[:conjugations] = self.conjugations.dup
       end
+
+      results[:_] = self._.dup if self._
 
       results[:metadata] = self.metadata.dup
 

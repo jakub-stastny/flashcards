@@ -42,12 +42,35 @@ module Flashcards
 
       args.default_proc = Proc.new { |hash, key| hash[key] = Array.new }
 
-      if args[:values].length == 1
-        flashcards = Flashcards.app.flashcards
-
-        matching_flashcards = flashcards.select do |flashcard|
-          flashcard.expressions.include?(args[:values][0])
+      if args[:values].empty?
+        puts "<blue.bold>Usage</blue.bold>: <green>expression 1, expression 2</green> <magenta>=</magenta> <green>translation 1, translation 2</green> <yellow>#tags</yellow>\n\n".colourise
+        loop do
+          print "> "
+          line = $stdin.readline.chomp
+          values, tags = line.split(/\s+/).group_by { |word| word.match(/^#/) }.values
+          values = values.join(' ').split(/\s*=\s*/)
+          tags = args[:tags] | (tags || Array.new)
+          if values.length == 1
+            matching_flashcards = self.matching_flashcards(values[0].split(/,\s*/), Array.new)
+            if matching_flashcards.empty?
+              puts "~ There is no definition yet.\n\n".colourise
+            else
+              puts "~ Flashcard #{matching_flashcards.join_with_and(&:to_s)} already exists.\n\n".colourise
+            end
+          elsif values.length == 2
+            matching_flashcards = self.matching_flashcards(values[0].split(/,\s*/), values[1].split(/,\s*/))
+            if matching_flashcards.empty?
+              puts "~ Adding <green>#{values.inspect}</green>#{" with tags #{tags.join_with_and { |tag| "<yellow>#{tag}</yellow>" }}" unless tags.empty?}.\n\n".colourise
+              self.add([values, tags, '--no-edit'].flatten)
+            else
+              puts "~ Flashcard #{matching_flashcards.join_with_and(&:to_s)} already exists.\n\n".colourise
+            end
+          else
+            puts "<red>!</red> Invalid input, try again.".colourise
+          end
         end
+      elsif args[:values].length == 1
+        matching_flashcards = self.matching_flashcards(args[:values][0].split(/,\s*/), Array.new)
 
         if matching_flashcards.empty?
           puts "There is no definition for <yellow>#{args[:values][0]}</yellow> yet.".colourise
@@ -77,7 +100,7 @@ module Flashcards
           tags: (args[:tags] || Array.new).map { |tag| tag[1..-1].to_sym },
           examples: [
             Example.new(expression: 'Expression 1.', translation: 'Translation 1.'),
-            Example.new(expression: 'Expression 2.', translation: 'Translation 2.', label: 'Usage XYZ', tags: ['Spain'])
+            Example.new(expression: 'Expression 2.', translation: 'Translation 2.', label: '', tags: [''])
           ],
           metadata: {
             last_review_time: Time.now
@@ -101,6 +124,15 @@ module Flashcards
       else
         # TODO: Commander::HELP_ITEMS[:add]
         abort "Usage: #{File.basename($0)} [lang] [word] [translation] [tags]"
+      end
+    end
+
+    def self.matching_flashcards(expressions, translations)
+      flashcards = Flashcards.app.flashcards # !
+
+      flashcards.select do |flashcard|
+        ! (flashcard.expressions & expressions).empty? &&
+        (! (flashcard.translations & translations).empty? || translations.empty?)
       end
     end
 

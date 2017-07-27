@@ -189,7 +189,7 @@ module Flashcards
           @indentation = 0
         end
         puts "   #{' ' * @indentation}<cyan>#{example.expression}</cyan>".colourise
-        puts "   #{' ' * @indentation}<magenta>#{example.translation}</magenta>\n".colourise
+        puts "   #{' ' * @indentation}<magenta>#{example.translation}</magenta>\n".colourise if example.translation
         puts unless flashcard.examples.last == example
       end
     end

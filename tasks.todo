@@ -2,7 +2,10 @@ Tenses:
 - Add rules of irregularity for all the tenses. #get_online
 
 Core engine:
-- Commander mode: c -> console, e -> edit.
+- History in commander adding mode.
+- Lowercased label.
+- synonym – indicate what is and what is not a synonym (ser and estar are not synonyms). What exactly is a synonym?
+- :_: Internal note.
 - Learnt mode: common words, in the commander mode press l/u to learn or unlearn, then only show them, don't ask.
 - Finish https://www.spanishdict.com/guide/spanish-syllables-and-syllabification-rules
 - Warn if regular forms are listed as exceptions in the flashcard file.

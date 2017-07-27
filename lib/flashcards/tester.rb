@@ -48,6 +48,22 @@ module Flashcards
       end
     end
 
+    def filter_out_new_flashcards(all_flashcards)
+      return all_flashcards if ENV['FLASHCARDS']
+
+      all_flashcards.filter_out(:new_flashcards) do |flashcard|
+        flashcard.tags.include?(:new)
+      end
+
+      new_flashcards = all_flashcards.filtered_out_items(:new_flashcards)
+
+      unless new_flashcards.empty?
+        new_flashcards_text = new_flashcards.join_with_and { |flashcard| flashcard.expressions.first }
+        warn "<blue.bold>~</blue.bold> <yellow.bold>Definition of these flashcards needs to be finished:</yellow.bold> #{new_flashcards_text}.".colourise
+        warn "  Complete their definition and remove the <underline>new</underline> tag.\n\n".colourise
+      end
+    end
+
     # TODO: First test ones that has been tested before and needs refreshing before
     # they go to the long-term memory. Then test the new ones and finally the remembered ones.
     # Limit count of each.
@@ -97,6 +113,7 @@ module Flashcards
         puts "<blue.bold>~</blue.bold> <green>Applying the env filter #{filtered_items_text}.</green>".colourise
       end
 
+      self.filter_out_new_flashcards(@all_flashcards)
       self.filter_out_verbs_with_changed_conjugations(@all_flashcards)
       self.filter_out_unverified_verbs(@all_flashcards)
 
