@@ -85,16 +85,21 @@ module Flashcards
         raise "Cannot be saved #{File.mtime(@path.to_s).inspect} vs. #{@loaded_at.inspect}"
       end
 
-      self.save_to(@path)
-      self.save_to(self.back_up_path)
+      self.save_to(@path) && self.save_to(self.back_up_path)
 
       @loaded_at = Time.now # Otherwise the next save call with fail.
       true
     end
 
     def save_to(path)
-      path.open('w') do |file|
-        file.puts(self.to_yaml)
+      updated_data = self.to_yaml
+      if (! File.exist?(path)) || File.read(path) != updated_data
+        path.open('w') do |file|
+          file.write(updated_data)
+        end
+        return true
+      else
+        return false
       end
     end
 

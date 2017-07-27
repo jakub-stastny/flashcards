@@ -3,6 +3,10 @@ Tenses:
 - doplnit el/la to all the nouns, tag as noun
   ! Sometimes they are nouns and adjectives, nouns and werbs (poder
 
+testing llamame, traigalo etc (accents there etc).
+Support reflective in flashcards (also flashcard.expression.FIRST).
+support highlights/cyan in flashcards - used in aun asi and notes in ninth etc.
+
 Core engine:
 - flashcards set ver.test true; add; remove; ver. new_hash key value
 - flashcards console (es) planear
