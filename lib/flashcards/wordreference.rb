@@ -13,18 +13,24 @@ module Flashcards
     end
 
     def self.run(all_flashcards)
+      RR::CachedHttp.offline = true
+      RR::CachedHttp.cache_dir = 'tmp/cache' # if $DEBUG or sth ...
       flashcards = self.unverified_verbs(all_flashcards)
 
       flashcards.each do |flashcard|
-        checker = self.new(flashcard)
-        checker.run
-        if checker.correct?
-          puts "<green>✔︎</green> #{flashcard.expressions.first}".colourise(bold: true)
-          flashcard.set_checksum
-        else
-          puts "<red>✘</red> #{flashcard.expressions.first}".colourise(bold: true)
-          puts checker.warnings.map { |warning| "- #{warning}" }
-          flashcard.metadata.delete(:checksum)
+        begin
+          checker = self.new(flashcard)
+          checker.run
+          if checker.correct?
+            puts "<green>✔︎</green> #{flashcard.expressions.first}".colourise(bold: true)
+            flashcard.set_checksum
+          else
+            puts "<red>✘</red> #{flashcard.expressions.first}".colourise(bold: true)
+            puts checker.warnings.map { |warning| "- #{warning}" }
+            flashcard.metadata.delete(:checksum)
+          end
+        rescue => error
+          warn "<red>ERROR:</red> Verifying <yellow>#{flashcard.expressions.first}</yellow> failed: <yellow>#{error}</yellow>.".colourise(bold: true)
         end
       end
     end

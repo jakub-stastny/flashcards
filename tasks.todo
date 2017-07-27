@@ -1,8 +1,13 @@
 Tenses:
 - Add rules of irregularity for all the tenses. #get_online
+- doplnit el/la to all the nouns, tag as noun
+  ! Sometimes they are nouns and adjectives, nouns and werbs (poder
 
 Core engine:
-- History in commander adding mode.
+- flashcards set ver.test true; add; remove; ver. new_hash key value
+- flashcards console (es) planear
+- interactive add: add also 'e' to edit the previous flashcard.
+- History in commander adding mode. -> CURSES
 - Lowercased label.
 - synonym – indicate what is and what is not a synonym (ser and estar are not synonyms). What exactly is a synonym?
 - :_: Internal note.
