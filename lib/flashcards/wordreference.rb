@@ -1,5 +1,5 @@
 require 'nokogiri'
-require 'open-uri'
+require 'refined-refinements/cached_http'
 require 'flashcards/core_exts'
 
 module Flashcards
@@ -41,80 +41,78 @@ module Flashcards
     end
 
     def run
-      open(self.url) do |stream|
-        document = Nokogiri::HTML(stream.read)
+      data = RR::CachedHttp.get(self.url)
+      document = Nokogiri::HTML(data)
+      _, gerundio, participio = document.css('#cheader td:nth-child(2)').inner_html.gsub(/<\/?\w+>/, ' ').scan(/\S+/)
 
-        _, gerundio, participio = document.css('#cheader td:nth-child(2)').inner_html.gsub(/<\/?\w+>/, ' ').scan(/\S+/)
+      test('gerundio', gerundio, @flashcard.verb.gerundio.default)
+      test('participio', participio, @flashcard.verb.participio.default)
 
-        test('gerundio', gerundio, @flashcard.verb.gerundio.default)
-        test('participio', participio, @flashcard.verb.participio.default)
+      groups = document.css('.neoConj')
 
-        groups = document.css('.neoConj')
-
-        {
-          presente: ['presente', 0], pretérito: ['pretérito', 0],
-          imperfecto: ['imperfecto', 0], futuro: ['futuro', 0],
-          condicional: ['condicional', 0], subjuntivo: ['presente', 1],
-          subjuntivo_futuro: ['futuro', 1]
-        }.each do |flashcards_tense_name, (wr_tense_name, index)|
-          results = conjugations(groups, wr_tense_name, index)
-          tense = @flashcard.verb.send(flashcards_tense_name)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.yo", results[0], tense.yo)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.tú", results[1], tense.tú)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.vos", process_vos(results[6]), tense.vos)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.él", results[2], tense.él)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.nosotros", results[3], tense.nosotros)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.vosotros", results[4], tense.vosotros)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.ellos", results[5], tense.ellos)
-        end
-
-        {
-          subjuntivo_imperfecto: ['imperfecto', 1]
-        }.each do |flashcards_tense_name, (wr_tense_name, index)|
-          results = conjugations(groups, wr_tense_name, index)
-          tense = @flashcard.verb.send(flashcards_tense_name)
-          results.map! { |forms| forms.split(/\s+[ou]\s+/) }
-
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.yo", results[0], tense.yo)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.tú", results[1], tense.tú)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.vos", process_vos(results[6]), tense.vos)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.él", results[2], tense.él)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.nosotros", results[3], tense.nosotros)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.vosotros", results[4], tense.vosotros)
-          test("#{@flashcard.verb.infinitive}.#{tense.tense}.ellos", results[5], tense.ellos)
-        end
-
-        {
-          imperativo_positivo: ['afirmativo', 0],
-          imperativo_negativo: ['negativo', 0]
-        }.each do |flashcards_tense_name, (wr_tense_name, index)|
-          results = conjugations(groups, wr_tense_name, index)[1..-1].map { |word| word.sub(/^(no )?(\S+)\!$/, '\2') }
-          tense = @flashcard.verb.send(flashcards_tense_name)
-          test("1 #{@flashcard.verb.infinitive}.#{tense.tense}.tú", results[0], tense.tú)
-          test("1 #{@flashcard.verb.infinitive}.#{tense.tense}.vos", process_vos(results[5]), tense.vos)
-          test("1 #{@flashcard.verb.infinitive}.#{tense.tense}.nosotros", results[2], tense.nosotros)
-          test("1 #{@flashcard.verb.infinitive}.#{tense.tense}.vosotros", results[3], tense.vosotros)
-        end
-
-        {
-          imperativo_formal: ['negativo', 0]
-        }.each do |flashcards_tense_name, (wr_tense_name, index)|
-          results = conjugations(groups, wr_tense_name, index)[1..-1].map { |word| word.sub(/^(no )?(\S+)\!$/, '\2') }
-          tense = @flashcard.verb.send(flashcards_tense_name)
-          test("2 #{@flashcard.verb.infinitive}.#{tense.tense}.usted", results[1], tense.usted)
-          test("2 #{@flashcard.verb.infinitive}.#{tense.tense}.ustedes", results[4], tense.ustedes)
-        end
-
-        {
-          imperativo_formal: ['negativo', 0] # same as above, but hash can't have two same keys ...
-        }.each do |flashcards_tense_name, (wr_tense_name, index)|
-          results = conjugations(groups, wr_tense_name, index)[1..-1].map { |word| word.sub(/^(no )?(\S+)\!$/, '\2') }
-          tense = @flashcard.verb.send(flashcards_tense_name)
-          test("3 #{@flashcard.verb.infinitive}.#{tense.tense}.usted", results[1], tense.usted)
-          test("3 #{@flashcard.verb.infinitive}.#{tense.tense}.ustedes", results[4], tense.ustedes)
-        end
-        puts
+      {
+        presente: ['presente', 0], pretérito: ['pretérito', 0],
+        imperfecto: ['imperfecto', 0], futuro: ['futuro', 0],
+        condicional: ['condicional', 0], subjuntivo: ['presente', 1],
+        subjuntivo_futuro: ['futuro', 1]
+      }.each do |flashcards_tense_name, (wr_tense_name, index)|
+        results = conjugations(groups, wr_tense_name, index)
+        tense = @flashcard.verb.send(flashcards_tense_name)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.yo", results[0], tense.yo)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.tú", results[1], tense.tú)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.vos", process_vos(results[6]), tense.vos)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.él", results[2], tense.él)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.nosotros", results[3], tense.nosotros)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.vosotros", results[4], tense.vosotros)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.ellos", results[5], tense.ellos)
       end
+
+      {
+        subjuntivo_imperfecto: ['imperfecto', 1]
+      }.each do |flashcards_tense_name, (wr_tense_name, index)|
+        results = conjugations(groups, wr_tense_name, index)
+        tense = @flashcard.verb.send(flashcards_tense_name)
+        results.map! { |forms| forms.split(/\s+[ou]\s+/) }
+
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.yo", results[0], tense.yo)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.tú", results[1], tense.tú)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.vos", process_vos(results[6]), tense.vos)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.él", results[2], tense.él)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.nosotros", results[3], tense.nosotros)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.vosotros", results[4], tense.vosotros)
+        test("#{@flashcard.verb.infinitive}.#{tense.tense}.ellos", results[5], tense.ellos)
+      end
+
+      {
+        imperativo_positivo: ['afirmativo', 0],
+        imperativo_negativo: ['negativo', 0]
+      }.each do |flashcards_tense_name, (wr_tense_name, index)|
+        results = conjugations(groups, wr_tense_name, index)[1..-1].map { |word| word.sub(/^(no )?(\S+)\!$/, '\2') }
+        tense = @flashcard.verb.send(flashcards_tense_name)
+        test("1 #{@flashcard.verb.infinitive}.#{tense.tense}.tú", results[0], tense.tú)
+        test("1 #{@flashcard.verb.infinitive}.#{tense.tense}.vos", process_vos(results[5]), tense.vos)
+        test("1 #{@flashcard.verb.infinitive}.#{tense.tense}.nosotros", results[2], tense.nosotros)
+        test("1 #{@flashcard.verb.infinitive}.#{tense.tense}.vosotros", results[3], tense.vosotros)
+      end
+
+      {
+        imperativo_formal: ['negativo', 0]
+      }.each do |flashcards_tense_name, (wr_tense_name, index)|
+        results = conjugations(groups, wr_tense_name, index)[1..-1].map { |word| word.sub(/^(no )?(\S+)\!$/, '\2') }
+        tense = @flashcard.verb.send(flashcards_tense_name)
+        test("2 #{@flashcard.verb.infinitive}.#{tense.tense}.usted", results[1], tense.usted)
+        test("2 #{@flashcard.verb.infinitive}.#{tense.tense}.ustedes", results[4], tense.ustedes)
+      end
+
+      {
+        imperativo_formal: ['negativo', 0] # same as above, but hash can't have two same keys ...
+      }.each do |flashcards_tense_name, (wr_tense_name, index)|
+        results = conjugations(groups, wr_tense_name, index)[1..-1].map { |word| word.sub(/^(no )?(\S+)\!$/, '\2') }
+        tense = @flashcard.verb.send(flashcards_tense_name)
+        test("3 #{@flashcard.verb.infinitive}.#{tense.tense}.usted", results[1], tense.usted)
+        test("3 #{@flashcard.verb.infinitive}.#{tense.tense}.ustedes", results[4], tense.ustedes)
+      end
+      puts
     end
 
     def conjugations(groups, label, index)
