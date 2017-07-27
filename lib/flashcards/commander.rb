@@ -44,6 +44,7 @@ module Flashcards
 
       if args[:values].empty?
         puts "<blue.bold>Usage</blue.bold>: <green>expression 1, expression 2</green> <magenta>=</magenta> <green>translation 1, translation 2</green> <yellow>#tags</yellow>\n\n".colourise
+        puts "Press <bold>Esc</bold> for the command mode.\n\n".colourise
         loop do
           print "> "
           line = $stdin.readline.chomp
