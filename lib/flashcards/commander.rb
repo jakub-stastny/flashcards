@@ -33,16 +33,24 @@ module Flashcards
     # TODO: This could get data from WR.
     def self.add(argv)
       args = self.get_args(argv)
-      args, tags = args.group_by { |x| x.start_with?('#') }.values
-      if args.length == 1
+      args = args.group_by do |item|
+        case item
+        when /^-/ then :args
+        when /^#/ then :tags
+        else :values end
+      end
+
+      args.default_proc = Proc.new { |hash, key| hash[key] = Array.new }
+
+      if args[:values].length == 1
         flashcards = Flashcards.app.flashcards
 
         matching_flashcards = flashcards.select do |flashcard|
-          flashcard.expressions.include?(args[0])
+          flashcard.expressions.include?(args[:values][0])
         end
 
         if matching_flashcards.empty?
-          puts "There is no definition for <yellow>#{args[0]}</yellow> yet."
+          puts "There is no definition for <yellow>#{args[:values][0]}</yellow> yet.".colourise
         else
           matching_flashcards_text = matching_flashcards.map { |f|
             a = f.expressions.join_with_and  { |word| "<yellow>#{word}</yellow>" }
@@ -51,11 +59,11 @@ module Flashcards
           }.join("\n- ")
           puts "<magenta>Matching flashcards:</magenta>\n- #{matching_flashcards_text}".colourise
         end
-      elsif args.length == 2
+      elsif args[:values].length == 2
         flashcards = Flashcards.app.flashcards
 
-        expressions  = args[-2].split(/,\s*/)
-        translations = args[-1].split(/,\s*/)
+        expressions  = args[:values][-2].split(/,\s*/)
+        translations = args[:values][-1].split(/,\s*/)
 
         flashcards.each do |flashcard|
           if (! (flashcard.expressions & expressions).empty?) && (! (flashcard.translations & translations).empty?)
@@ -66,7 +74,7 @@ module Flashcards
         flashcard = Flashcard.new(
           expressions: expressions,
           translations: translations,
-          tags: (tags || Array.new).map { |tag| tag[1..-1].to_sym },
+          tags: (args[:tags] || Array.new).map { |tag| tag[1..-1].to_sym },
           examples: [
             Example.new(expression: 'Expression 1.', translation: 'Translation 1.'),
             Example.new(expression: 'Expression 2.', translation: 'Translation 2.', label: 'Usage XYZ', tags: ['Spain'])
@@ -76,11 +84,19 @@ module Flashcards
           }
         )
 
+        if args[:args].include?('--no-edit')
+          flashcard.examples.clear
+          flashcard.metadata.clear
+          flashcard.tags << :new
+          flashcards << flashcard
+          flashcards.save
+        else
         if flashcard = self.edit_flashcard(flashcard)
           flashcards << flashcard
           flashcards.save
         else
           abort "No data found."
+        end
         end
       else
         # TODO: Commander::HELP_ITEMS[:add]
