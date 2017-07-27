@@ -65,8 +65,9 @@ module Flashcards
         flashcard.metadata.replace(original_metadata) if original_metadata
         sleep 3
       else
+        system('clear')
         puts "~ Invalid input."
-        self.commander_mode(flashcard)
+        self.commander_mode(flashcard, original_metadata)
       end
     end
 

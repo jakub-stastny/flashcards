@@ -100,7 +100,12 @@ module Flashcards
         end
       else
         File.open(path, 'w') do |file|
-          file.puts(flashcard.data.to_yaml)
+          file.puts(
+            "# Verb checklist:",
+            "# - Is it tagged as verb?",
+            "# - Does it have reflexive form?",
+            "# - Is it irregular?")
+          file.puts(flashcard.expanded_data.to_yaml)
         end
       end
 

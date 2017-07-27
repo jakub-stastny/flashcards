@@ -5,14 +5,18 @@ module Flashcards
       @expression, @translation, @label, @tags = expression, translation, label, tags.uniq
     end
 
+    def expanded_data
+      data = {expression: @expression, translation: @translation}
+      data.merge!(label: @label) if @label
+      data.merge!(tags: @tags.uniq) unless @tags.empty?
+      data
+    end
+
     def data
       if @label.nil? && @tags.empty?
         {@expression => @translation}
       else
-        data = {expression: @expression, translation: @translation}
-        data.merge!(label: @label) if @label
-        data.merge!(tags: @tags.uniq) unless @tags.empty?
-        data
+        self.expanded_data
       end
     end
   end

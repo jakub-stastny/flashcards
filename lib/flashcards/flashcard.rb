@@ -69,6 +69,20 @@ module Flashcards
       self.metadata[:last_review_time]
     end
 
+    def expanded_data
+      results = Hash.new
+      results[:expressions] = self.expressions.dup
+      results[:translations] = self.translations.dup
+      results[:silent_translations] = self.silent_translations.dup
+      results[:tags] = self.tags.dup
+      results[:note] = self.note.dup
+      results[:hint] = self.hint.dup
+      results[:examples] = self.examples.map(&:expanded_data)
+      results[:conjugations] = self.conjugations.dup if self.tags.include?(:verb)
+      results[:metadata] = self.data[:metadata].dup
+      results
+    end
+
     def data
       results = Hash.new # This is to avoid #deep_copy issues.
       # Hash#deep_copy wouldn't call Array#deep_copy within the same refinement
