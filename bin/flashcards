@@ -5,72 +5,15 @@ require 'flashcards/core_exts'
 
 using RR::ColourExts
 
-# TODO: if (commander responds to (ARGV.first || :run)) || abort(help).
-case argument = ARGV.shift
-when 'add', '+'
-  Flashcards::Commander.add(ARGV)
-when 'review'
-  Flashcards::Commander.review(ARGV)
-when 'reset'
-  Flashcards::Commander.reset(ARGV)
-when 'stats'
-  Flashcards::Commander.stats(ARGV)
-when 'inspect'
-  Flashcards::Commander.inspect(ARGV)
-when 'verify'
-  Flashcards::Commander.verify(ARGV)
-when 'console'
-  Flashcards::Commander.console(ARGV)
-when 'has-not-run-today'
-  Flashcards::Commander.has_not_run_today
-when nil, /^[a-z]{2}$/ # flashcards, flashcards es
-  Flashcards::Commander.run(argument)
-when '-h', '--help'
-  puts(DATA.read.colourise)
+commander = Flashcards::Commander.new
+command_name = (ARGV.first || 'run').to_sym
+
+if commander.commands.include?(command_name)
+  commander.run(command_name, ARGV[1..-1])
+elsif [:'-h', :'--help'].include?(command_name)
+  puts(commander.help)
+elsif ARGV.first.match(/^[a-z]{2}$/) # flashcards es
+  commander.run(:run, ARGV[1..-1])
 else
-  abort(DATA.read.colourise)
+  abort(commander.help)
 end
-
-__END__
-
-<red.bold>:: Flashcards ::</red.bold>
-
-<cyan.bold>Commands</cyan.bold>
-
-flashcards <red>add</red> [word] [translations]
-flashcards <red>add</red> todavía still
-flashcards <red>add</red> casi almost,nearly  <bright_black># Add multiple translations.</bright_black>
-flashcards <red>add</red> dónde,adónde where  <bright_black># Add multiple expressions.</bright_black>
-flashcards <red>add</red> dar 'to give' <yellow>#verb</yellow> <bright_black># Add with a tag.</bright_black>
-
-  <magenta>Multilingual mode</magenta> If you have more than one language configured in your
-    <bright_black>~/.config/flashcards.yml</bright_black>, you can specify which one you want to add the
-    flashcard into. Note that you don't have to do so if you have one
-    langugage marked as the default one, but you always can.
-
-    flashcards <red>add</red> <yellow>es</yellow> todavía still
-    flashcards <red>add</red> todavía<bright_black> # Check if a flashcard is defined.</bright_black>
-    --no-edit #verb
-
-flashcards <yellow>review</yellow><bright_black> # Review all the flashcards.
-flashcards <yellow>review</yellow> todavía<bright_black> # Review given flashcard.
-<magenta.bold>EDITOR=vim</magenta.bold> flashcards <green>review</green> <bright_black># Edit your flashcards in $EDITOR.</bright_black>
-
-flashcards <green>reset</green> es<bright_black> # Reset metadata for given language.
-  # Useful if you got someone else's file, and you want to reset his progress.</bright_black>
-
-flashcards <blue.bold>stats</blue.bold>
-
-flashcards <blue.bold>inspect</blue.bold>
-flashcards <blue.bold>inspect</blue.bold> casi
-flashcards <blue.bold>inspect</blue.bold> casi.correct_answers.length ya.metadata
-flashcards inspect casi.correct_answers.values.flatten.length 'el problema.correct_answers.values.flatten.length' ya.correct_answers.values.flatten.length
-
-flashcards <red.bold>verify</red.bold>
-
-flashcards <magenta>console</magenta>
-flashcards <magenta>console</magenta> es
-
-flashcards <bright_black># Run it!</bright_black>
-flashcards <yellow>pl</yellow> <bright_black># Run it, Polish.</bright_black>
-<magenta.bold>FLASHCARDS=dar,estar</magenta.bold> flashcards <bright_black># Run it with a subset of defined flashcards.</bright_black>

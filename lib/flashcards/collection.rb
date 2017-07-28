@@ -59,7 +59,8 @@ module Flashcards
       self.items - self.run_filter(filter_name, self.items)
     end
 
-    # flashcards[:expression, 'hacer']
+    # flashcards[:expressions, 'hacer']
+    # flashcards[:translations, :silent_translations, 'to be']
     def [](key, value)
       self.items.select do |item|
         [item.send(key)].flatten.include?(value)

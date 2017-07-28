@@ -1,37 +1,39 @@
-Tenses:
+Tenses & nouns:
 - Add rules of irregularity for all the tenses. #get_online
 - doplnit el/la to all the nouns, tag as noun
-  ! Sometimes they are nouns and adjectives, nouns and werbs (poder
+  ! Sometimes they are nouns and adjectives, nouns and werbs (poder vs. el poder).
 
-testing llamame, traigalo etc (accents there etc).
-Support reflective in flashcards (also flashcard.expression.FIRST).
-support highlights/cyan in flashcards - used in aun asi and notes in ninth etc.
+Decisions:
+- synonym – indicate what is and what is not a synonym (ser and estar are not synonyms).
+  What exactly is a synonym?
 
 Core engine:
+- The add command could get data from WR.
+- testing llamame, traigalo etc (accents there etc).
+- Support reflective in flashcards (also flashcard.expression.FIRST).
+- support highlights/cyan in flashcard defs - used in aun asi and notes in ninth etc.
 - flashcards set ver.test true; add; remove; ver. new_hash key value
-- flashcards console (es) planear
-- interactive add: add also 'e' to edit the previous flashcard.
-- History in commander adding mode. -> CURSES
-- Lowercased label.
-- synonym – indicate what is and what is not a synonym (ser and estar are not synonyms). What exactly is a synonym?
-- :_: Internal note.
+- Define method_missing withing the console, so we can type any word and it will fetch it for us (like how flashcards console ver works now, but for anything, without reloading).
 - Learnt mode: common words, in the commander mode press l/u to learn or unlearn, then only show them, don't ask.
-- Finish https://www.spanishdict.com/guide/spanish-syllables-and-syllabification-rules
 - Warn if regular forms are listed as exceptions in the flashcard file.
 - Show "doing" instead of "gerundio".
+- Conflict resolutions for flashcards. If the YAML was updated in the meantime, try to merge, at least if it's an addition.
+
+ES:
+- Finish https://www.spanishdict.com/guide/spanish-syllables-and-syllabification-rules
 
 Curses:
+- Commander#add: allow history (first term to see if it's defined, then term = xyz, very common use).
 - Progress line.
 - Make it more compact (marking correct incorrect, just x/v and change colour of what was written).
+
+________________________________________________________________________________
 
 Packs:
 - Add `merge` (another yaml file), add pack attribute. Only allow names such as <lang>.<pack>.yml
 - Add `unmerge` [pack]: remove items from given pack.
 - Add `export`: export pack to a file <lang>.<pack>.yml
 - Add `packs`: list all packs.
-
-  ES:
-  - Refactor verb to use proper terminology, reflective is not tense.
 
   Publish:
   - Tag (git) and publish the gem.
