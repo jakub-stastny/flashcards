@@ -23,18 +23,28 @@ class KeyboardInterrupt < StandardError
 end
 
 def get_word_or_kbd_shortcut(window)
+  Curses.noecho
   buffer = ''
 
   until (char = window.getch) == 13
     if char.is_a?(Integer) && char != 127 # Backspace
       raise KeyboardInterrupt.new(char) # TODO: Just return it, it's not really an error.
     elsif char == 127 # Backspace
-      buffer = buffer[0..-2] # TODO: And reset the written text there.
+      buffer = buffer[0..-2] # TODO: This doesn't work with the cursor.
+      window.setpos(window.cury, 2) # TODO: use prompt.length
+      window.addstr(buffer)
+      window.refresh
     else
+      window.addch(char)
       buffer << char
     end
   end
 
+  Curses.echo
+  window.setpos(window.cury + 1, 0)
+  window.addstr([:input, buffer].inspect + "\n")
+  window.refresh
+  sleep 2.5
   return buffer
 rescue KeyboardInterrupt => interrupt
   return interrupt
@@ -49,7 +59,7 @@ end
 
 def commander_mode_loop(commander_window, flashcard)
   Curses.noecho
-  commander_window.setpos(2, 0) # TODO: Do this dynamically. How to access the cursor?
+  commander_window.setpos(commander_window.cury, 0)
   case char = commander_window.getch
   when 'e'
     system "vim"
@@ -78,10 +88,9 @@ begin
 
     # TODO: This should be in the parent window.
     window.addstr("Usage: expression 1, expression 2 = translation 1, translation 2 #tags\n")
-    window.addstr("  Press Esc for the command mode to edit #{@last_flashcard.inspect}.\n\n") if @last_flashcard
+    window.addstr("  Press Esc for the command mode to edit #{@last_flashcard.inspect}.\n") if @last_flashcard
 
-    window.setpos(3, 0)
-
+    window.setpos(window.cury + 1, 0)
     window.addstr("> ")
     window.refresh
 
@@ -90,7 +99,7 @@ begin
       if @last_flashcard
         commander_mode(@last_flashcard)
       else
-        # window.setpos(Curses.lines, 0) # TODO: reset the position to overwrite the ugly char.
+        window.setpos(window.cury, 0)
         window.addstr("! No last flashcard, nothing to do.\n")
         window.refresh
         sleep 2
@@ -98,7 +107,7 @@ begin
     elsif input.is_a?(KeyboardInterrupt) && input.ctrl_d?
       exit
     elsif input.is_a?(KeyboardInterrupt)
-      # window.setpos(Curses.lines, 0) # TODO: reset the position to overwrite the ugly char.
+      window.setpos(window.cury, 0)
       window.addstr("~ Unknown keyboard shortcut #{input.key_code}.")
       window.refresh
       sleep 2
