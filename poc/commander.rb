@@ -1,6 +1,7 @@
 require 'curses'
-# require 'refined-refinements/colours'
-# using RR::ColourExts
+require 'refined-refinements/colours'
+
+using RR::ColourExts
 
 # TODO:
 # - History (up/down keys)
@@ -22,27 +23,77 @@ class KeyboardInterrupt < StandardError
   end
 end
 
+HISTORY = Array.new
+
 def get_word_or_kbd_shortcut(window)
   Curses.noecho
   buffer = ''
+  original_x = window.curx
 
+  cursor = 0
   until (char = window.getch) == 13
-    if char.is_a?(Integer) && char != 127 # Backspace
-      raise KeyboardInterrupt.new(char) # TODO: Just return it, it's not really an error.
-    elsif char == 127 # Backspace
+    case char
+    when 127 # Backspace.
       buffer = buffer[0..-2] # TODO: This doesn't work with the cursor.
-      window.setpos(window.cury, 2) # TODO: use prompt.length
-      window.addstr(buffer)
+      cursor -= 1
+    when 258 # Down arrow
+      window.write("X")
       window.refresh
+    when 259 # Up arrow.
+      history_index ||= HISTORY.length - 1
+
+      window.setpos(window.cury + 1, 0)
+      window.write("DBG: #{history_index}, #{(0..HISTORY.length).include?(history_index)}")
+      window.setpos(window.cury - 1, cursor + original_x)
+      window.refresh
+
+      if (0..HISTORY.length).include?(history_index)
+        HISTORY << buffer # Back it up.
+        buffer = HISTORY[history_index - 1]
+      else
+        window.setpos(window.cury + 1, 0)
+        if HISTORY.empty?
+          window.write("~ The history is empty.")
+        else
+          window.write("~ Already at the first item.")
+        end
+        window.setpos(window.cury - 1, cursor + original_x)
+        window.refresh
+      end
+      cursor = buffer.length
+    when 260 # Left arrow.
+      unless original_x == window.curx
+        # window.setpos(window.cury, window.curx - 1)
+        cursor -= 1
+      end
+    when 261 # Right arrow.
+      unless original_x + buffer.length == window.curx
+        # window.setpos(window.cury, window.curx + 1)
+        cursor += 1
+      end
+    when String
+      # window.addch(char)
+      buffer.insert(cursor, char)
+      cursor += 1
     else
-      window.addch(char)
-      buffer << char
+      raise KeyboardInterrupt.new(char) # TODO: Just return it, it's not really an error.
     end
+
+    HISTORY << buffer
+
+    window.setpos(window.cury, cursor + original_x)
+    window.write(buffer)
+
+    window.setpos(window.cury + 1, 0)
+    window.write("~ DBG: cursor #{cursor}, buffer #{buffer.inspect}, history: #{HISTORY.inspect}")
+    window.setpos(window.cury - 1, cursor + original_x)
+
+    window.refresh
   end
 
   Curses.echo
   window.setpos(window.cury + 1, 0)
-  window.addstr([:input, buffer].inspect + "\n")
+  window.write([:input, buffer].inspect + "\n")
   window.refresh
   sleep 2.5
   return buffer
@@ -52,13 +103,14 @@ end
 
 def commander_mode(flashcard)
   commander_window = Curses::Window.new(Curses.lines / 2 - 1, Curses.cols / 2 - 1, 0, 0)
-  commander_window.addstr("Press e to edit, q to quit, v to tag as a verb ...\n\n")
+  commander_window.write("Press e to edit, q to quit, v to tag as a verb ...\n\n")
   commander_window.refresh
   commander_mode_loop(commander_window, flashcard)
 end
 
 def commander_mode_loop(commander_window, flashcard)
   Curses.noecho
+  commander_window.keypad = true # Interpret characters such as arrows. This one isn't defined on Curses itself apparently.
   commander_window.setpos(commander_window.cury, 0)
   case char = commander_window.getch
   when 'e'
@@ -66,7 +118,7 @@ def commander_mode_loop(commander_window, flashcard)
   when 'q'
     # Void, quit the commander.
   else
-    commander_window.addstr("Unknown command #{char}.")
+    commander_window.write("Unknown command #{char.inspect}.")
     commander_mode_loop(commander_window, flashcard)
   end
   Curses.echo
@@ -85,13 +137,14 @@ Curses.nonl # enter is 13
 begin
   loop do
     window = Curses::Window.new(Curses.lines / 2 - 1, Curses.cols / 2 - 1, 0, 0)
+    window.keypad = true
 
     # TODO: This should be in the parent window.
-    window.addstr("Usage: expression 1, expression 2 = translation 1, translation 2 #tags\n")
-    window.addstr("  Press Esc for the command mode to edit #{@last_flashcard.inspect}.\n") if @last_flashcard
+    window.write("Usage: expression 1, expression 2 = translation 1, translation 2 #tags\n")
+    window.write("  Press Esc for the command mode to edit #{@last_flashcard.inspect}.\n") if @last_flashcard
 
     window.setpos(window.cury + 1, 0)
-    window.addstr("> ")
+    window.write("> ")
     window.refresh
 
     input = get_word_or_kbd_shortcut(window)
@@ -100,7 +153,7 @@ begin
         commander_mode(@last_flashcard)
       else
         window.setpos(window.cury, 0)
-        window.addstr("! No last flashcard, nothing to do.\n")
+        window.write("! No last flashcard, nothing to do.\n")
         window.refresh
         sleep 2
       end
@@ -108,7 +161,7 @@ begin
       exit
     elsif input.is_a?(KeyboardInterrupt)
       window.setpos(window.cury, 0)
-      window.addstr("~ Unknown keyboard shortcut #{input.key_code}.")
+      window.write("~ Unknown keyboard shortcut #{input.key_code}.")
       window.refresh
       sleep 2
     else
