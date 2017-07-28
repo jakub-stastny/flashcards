@@ -8,6 +8,7 @@ Decisions:
   What exactly is a synonym?
 
 Core engine:
+! Do it with noecho a rerender the string every time.
 - The add command could get data from WR.
 - testing llamame, traigalo etc (accents there etc).
 - Support reflective in flashcards (also flashcard.expression.FIRST).
