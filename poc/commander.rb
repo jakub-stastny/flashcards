@@ -1,27 +1,6 @@
-require_relative 'commander_lib'
-require 'refined-refinements/colours'
+require 'refined-refinements/curses/app'
 
 using RR::ColourExts
-
-# TODO:
-# - History (up/down keys)
-# - Colours, so we can use what I already have.
-# - Backspace handling, left/right arrows, Ctrl+a, Ctrl+e, Ctrl+k, delete.
-
-class KeyboardInterrupt < StandardError
-  attr_reader :key_code
-  def initialize(key_code)
-    @key_code = key_code
-  end
-
-  def escape?
-    @key_code == 27
-  end
-
-  def ctrl_d?
-    @key_code == 4
-  end
-end
 
 def main_add(input)
   return if input.empty?
