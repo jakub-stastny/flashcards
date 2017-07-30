@@ -33,25 +33,26 @@ end
 App.new.run do |app, window|
   # TODO: This should be in the parent window.
   window.write("<green.bold>Usage:</green.bold> <white>expression <red>1</red>, expression 2</white> <magenta>=</magenta> translation 1, translation 2 #tags\n")
-  window.write("  Press Esc for the command mode to edit #{@last_flashcard.inspect}.\n") if @last_flashcard
+  window.write("  Press <bright_black>Esc</bright_black> for the command mode to edit #{@last_flashcard.inspect}.\n") if @last_flashcard
 
   window.setpos(window.cury + 1, 0)
   window.write("> ")
   window.refresh
 
   input = app.readline('prompt') do |key|
-    raise key unless key.key_code == 27 # Escape.
+    raise key unless char == 27 # Escape.
 
     if @last_flashcard
-      app.commander("Press e to edit, q to quit, v to tag as a verb ...") do |commander_window, char|
+      app.commander("Press <green>e</green> to edit, <red>q</red> to quit, <magenta>v</magenta> to tag as a verb ...") do |commander_window, char|
         case char
         when 'e'
           system "vim"
         when 'q'
           # Void, quit the commander.
+          raise QuitError
         else
-          commander_window.write("Unknown command #{char.inspect}.")
-          commander_mode_loop(commander_window, flashcard) # TODO: Do it the other way probably, exception/:quit to quit, otherwise continue.
+          commander_window.write("Unknown command #{char}.")
+          commander_window.refresh
         end
       end
     else

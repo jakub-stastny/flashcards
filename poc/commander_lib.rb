@@ -3,6 +3,9 @@ require 'refined-refinements/colours'
 
 using RR::ColourExts
 
+class QuitError < StandardError
+end
+
 class App
   def initialize
     @history = Array.new
@@ -38,13 +41,15 @@ class App
         unknown_key_handler.call(interrupt) if unknown_key_handler
       end
 
-      @current_window.setpos(@current_window.cury, cursor + original_x)
-      @current_window.write(buffer)
+      sp = ' ' * (@current_window.maxx - @current_window.curx - buffer.length - 2)
+      # @current_window.deleteln
+      @current_window.setpos(@current_window.cury, original_x)
+      @current_window.write(buffer + sp)
 
       # DBG
       a, b = @current_window.cury, cursor + original_x
       @current_window.setpos(@current_window.cury + 1, 0)
-      @current_window.write("~ DBG: X position #{original_x}, cursor #{cursor}, buffer #{buffer.inspect}, history: #{@history.inspect} ... writing to #{a} x #{b}")
+      @current_window.write("<blue.bold>~</blue.bold> DBG: X position <green>#{original_x}</green>, cursor <green>#{cursor}</green>, buffer <green>#{buffer.inspect}</green>, history: <green>#{@history.inspect}</green> ... writing to <green>#{a}</green> x <green>#{b}</green>")
       @current_window.setpos(@current_window.cury - 1, cursor + original_x)
 
       @current_window.refresh
@@ -70,9 +75,11 @@ class App
   private
   def commander_mode_loop(commander_window, &handler)
     Curses.noecho
-    commander_window.keypad = true # Interpret characters such as arrows. This one isn't defined on Curses itself apparently.
     commander_window.setpos(commander_window.cury, 0)
-    handler.call(commander_window, char)
+    handler.call(commander_window, commander_window.getch)
+  rescue QuitError
+    # void
+  ensure
     Curses.echo
   end
 
@@ -84,31 +91,31 @@ class App
       end
     when 258 # Down arrow
       # TODO
-      # window.write("X")
-      # window.refresh
+      window.write("X")
+      window.refresh
     when 259 # Up arrow.
       # TODO:
-      # history_index ||= @history.length - 1
-      #
-      # window.setpos(window.cury + 1, 0)
-      # window.write("DBG: #{history_index}, #{(0..@history.length).include?(history_index)}")
-      # window.setpos(window.cury - 1, cursor + original_x)
-      # window.refresh
-      #
-      # if (0..@history.length).include?(history_index)
-      #   @history << buffer # Back it up.
-      #   buffer = @history[history_index - 1]
-      # else
-      #   window.setpos(window.cury + 1, 0)
-      #   if @history.empty?
-      #     window.write("~ The history is empty.")
-      #   else
-      #     window.write("~ Already at the first item.")
-      #   end
-      #   window.setpos(window.cury - 1, cursor + original_x)
-      #   window.refresh
-      # end
-      # cursor = buffer.length
+      @history_index ||= @history.length - 1
+
+      window.setpos(window.cury + 1, 0)
+      window.write("DBG: #{@history_index}, #{(0..@history.length).include?(@history_index)}")
+      window.setpos(window.cury - 1, cursor + original_x)
+      window.refresh
+
+      if (0..@history.length).include?(@history_index)
+        @buffer_before_calling_history = buffer
+        buffer = @history[@history_index - 1]
+      else
+        window.setpos(window.cury, 0)
+        if @history.empty?
+          window.write("~ The history is empty.")
+        else
+          window.write("~ Already at the first item.")
+        end
+        window.setpos(window.cury - 1, original_x)
+        window.refresh
+      end
+      cursor = buffer.length
     when 260 # Left arrow.
       cursor -= 1 unless original_x == window.curx
       # window.setpos(window.cury, window.curx - 1)
