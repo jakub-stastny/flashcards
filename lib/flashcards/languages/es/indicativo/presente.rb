@@ -1,4 +1,4 @@
-Flashcards.app.define_language(:es) do
+Flashcards::Language.define(:es) do
   conjugation_group(:presente) do |verb, infinitive|
     tense = Flashcards::Tense.new(:presente, infinitive) do
       case self.infinitive

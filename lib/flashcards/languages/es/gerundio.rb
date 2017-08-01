@@ -18,7 +18,7 @@ require_relative 'indicativo/presente'
 #   stem: v
 #   yo: voy
 
-Flashcards.app.define_language(:es) do
+Flashcards::Language.define(:es) do
   conjugation_group(:gerundio) do |verb, infinitive|
     tense = Flashcards::Tense.new(:gerundio, infinitive) do
       stem = verb.pretérito.él.sub(/i?ó/, '')

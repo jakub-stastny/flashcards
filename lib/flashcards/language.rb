@@ -7,9 +7,18 @@ require 'flashcards/core_exts'
 # verb.presente.yo
 module Flashcards
   class Language
+    def self.languages
+      @languages ||= Hash.new
+    end
+
+    def self.define(name, &block)
+      self.languages[name] ||= self.new(name)
+      self.languages[name].instance_eval(&block)
+    end
+
     attr_reader :name
-    def initialize(name, config)
-      @name, @config, @grammar_rules = name, config, Hash.new
+    def initialize(name)
+      @name, @grammar_rules = name, Hash.new
     end
 
     def conjugation_group(name, &block)

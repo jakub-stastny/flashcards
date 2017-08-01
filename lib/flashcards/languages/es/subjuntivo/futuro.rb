@@ -1,6 +1,6 @@
 require_relative '../indicativo/preterito'
 
-Flashcards.app.define_language(:es) do
+Flashcards::Language.define(:es) do
   conjugation_group(:subjuntivo_futuro) do |verb, infinitive|
     tense = Flashcards::Tense.new(:subjuntivo_futuro, infinitive) do
       if verb.infinitive != infinitive # Irregular infinitive.

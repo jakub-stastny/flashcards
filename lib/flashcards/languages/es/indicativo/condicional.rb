@@ -1,4 +1,4 @@
-Flashcards.app.define_language(:es) do
+Flashcards::Language.define(:es) do
   conjugation_group(:condicional) do |verb, infinitive|
     tense = Flashcards::Tense.new(:condicional, infinitive) do
       # The endings for the conditional tense are the same as those for the -er

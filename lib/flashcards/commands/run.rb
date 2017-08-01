@@ -2,6 +2,8 @@ require 'flashcards/command'
 
 module Flashcards
   class RunCommand < SingleLanguageCommand
+    using RR::ColourExts
+
     self.help = <<-EOF
       flashcards <bright_black># Run it!</bright_black>
       flashcards <yellow>pl</yellow> <bright_black># Run it, Polish.</bright_black>
@@ -9,14 +11,14 @@ module Flashcards
     EOF
 
     def run
-      self.set_language(language) if language
-      puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.\n\n".colourise
+      app = self.get_app(@args[0])
+      puts "~ Using language <yellow>#{app.language.name}</yellow>.\n\n".colourise
 
       begin
         Flashcards::CommnandLineTester.new(
-          Flashcards.app.flashcards,
-          Flashcards.app.language,
-          Flashcards.app.config
+          app.flashcards,
+          app.language,
+          app.config
         ).run
       rescue Interrupt, EOFError
         puts # Quit the test mode, the progress will be saved.

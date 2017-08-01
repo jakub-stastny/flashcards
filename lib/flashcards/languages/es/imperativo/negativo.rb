@@ -1,6 +1,6 @@
 require_relative '../subjuntivo/presente'
 
-Flashcards.app.define_language(:es) do
+Flashcards::Language.define(:es) do
   conjugation_group(:imperativo_negativo) do |verb, infinitive|
     tense = Flashcards::Tense.new(:imperativo_negativo, infinitive) do
       [verb.subjuntivo.stem, {

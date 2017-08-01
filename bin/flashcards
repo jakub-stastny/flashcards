@@ -9,11 +9,11 @@ commander = Flashcards::Commander.new
 command_name = (ARGV.first || 'run').to_sym
 
 if commander.commands.include?(command_name)
-  commander.run(command_name, ARGV[1..-1])
+  commander.run(command_name, ARGV[1..-1] || Array.new)
 elsif [:'-h', :'--help'].include?(command_name)
   puts(commander.help)
 elsif ARGV.first.match(/^[a-z]{2}$/) # flashcards es
-  commander.run(:run, ARGV[1..-1])
+  commander.run(:run, ARGV[1..-1] || Array.new)
 else
   abort(commander.help)
 end
