@@ -1,6 +1,6 @@
 require 'flashcards/core_exts'
 
-# verb = Flashcards.app.language.load_verb('hablar')
+# verb = Flashcards.app.language.load_verb(app, 'hablar')
 # verb.presente.nosotros
 #
 # verb = Flashcards.app.language._verb('tener', present: {yo: 'tengo', tú: 'tienes', él: 'tiene'})
@@ -42,12 +42,12 @@ module Flashcards
       @flashcards ||= Flashcards::Collection.new(Flashcard, @name.to_s) # Without any filters.
     end
 
-    def load_verb(infinitive)
+    def load_verb(app, infinitive)
       flashcard = self.flashcards.find do |flashcard|
         flashcard.expressions.include?(infinitive)
       end
 
-      flashcard.verb if flashcard
+      flashcard.with(app).verb if flashcard
     end
 
     def say_voice(voice)
@@ -72,7 +72,8 @@ module Flashcards
     using RR::ColourExts
 
     attr_reader :infinitive
-    def initialize(infinitive, conjugation_groups, conjugation_groups_2 = Hash.new)
+    def initialize(language, infinitive, conjugation_groups, conjugation_groups_2 = Hash.new)
+      @language = language
       extra_keys = conjugation_groups_2.keys - conjugation_groups.keys
       unless extra_keys.empty?
         raise ArgumentError.new("The following tenses are not supported: #{extra_keys.inspect}")
@@ -118,7 +119,8 @@ module Flashcards
     using RR::ColourExts
 
     attr_reader :tense, :forms, :stem, :infinitive
-    def initialize(tense, infinitive, &block)
+    def initialize(language, tense, infinitive, &block)
+      @language = language
       @tense, @infinitive = tense, infinitive
       @delegations = Hash.new
       @stem, @conjugations = self.instance_eval(&block)
@@ -181,7 +183,7 @@ module Flashcards
 
     def xxxxx(word) # TODO: Unless it's an exception, like dé.
       # We have to use deaccentuate, because deis/déis. The latter is 2 syllables.
-      Flashcards.app.language.syllabifier.syllables(Flashcards.app.language.syllabifier.deaccentuate(word)).length == 1 ? Flashcards.app.language.syllabifier.deaccentuate(word) : word
+      @language.syllabifier.syllables(@language.syllabifier.deaccentuate(word)).length == 1 ? @language.syllabifier.deaccentuate(word) : word
     end
 
     def irregular_forms

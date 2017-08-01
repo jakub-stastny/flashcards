@@ -16,6 +16,7 @@ module Flashcards
 
       begin
         Flashcards::CommnandLineTester.new(
+          app,
           app.flashcards,
           app.language,
           app.config

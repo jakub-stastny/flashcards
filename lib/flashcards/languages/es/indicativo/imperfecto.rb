@@ -1,6 +1,6 @@
 Flashcards::Language.define(:es) do
   conjugation_group(:imperfecto) do |verb, infinitive|
-    tense = Flashcards::Tense.new(:imperfecto, infinitive) do
+    tense = Flashcards::Tense.new(self, :imperfecto, infinitive) do
       case self.infinitive
       when /^(.+)ar(se)?$/
         [$1, {

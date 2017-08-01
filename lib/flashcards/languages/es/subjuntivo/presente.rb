@@ -2,7 +2,7 @@ require_relative '../indicativo/presente'
 
 Flashcards::Language.define(:es) do
   conjugation_group(:subjuntivo) do |verb, infinitive|
-    tense = Flashcards::Tense.new(:subjuntivo, infinitive) do
+    tense = Flashcards::Tense.new(self, :subjuntivo, infinitive) do
       if verb.infinitive != infinitive # Irregular infinitive.
         stem = self.infinitive[0..-3]
       else

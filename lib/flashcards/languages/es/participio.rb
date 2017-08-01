@@ -1,6 +1,6 @@
 Flashcards::Language.define(:es) do
   conjugation_group(:participio) do |verb, infinitive|
-    tense = Flashcards::Tense.new(:participio, infinitive) do
+    tense = Flashcards::Tense.new(self, :participio, infinitive) do
       case self.infinitive
       when /^(.+)ar(se)?$/
         [$1, default: 'ado']

@@ -6,7 +6,8 @@ module Flashcards
     using RR::StringExts
     using RR::ColourExts
 
-    def initialize(all_flashcards, language, config)
+    def initialize(app, all_flashcards, language, config)
+      @app = app # TODO: Deprecate all_flashcards, language, config since we have this.
       @all_flashcards = all_flashcards
       @language, @config = language, config
       @correct, @incorrect = 0, 0
@@ -36,7 +37,7 @@ module Flashcards
       return all_flashcards if ENV['FLASHCARDS']
 
       all_flashcards.filter_out(:verbs_with_changed_conjugations) do |flashcard|
-        flashcard.tags.include?(:verb) && ! flashcard.verify
+        flashcard.tags.include?(:verb) && ! flashcard.with(@app).verify
       end
 
       changed_verbs = all_flashcards.filtered_out_items(:verbs_with_changed_conjugations)
@@ -71,11 +72,11 @@ module Flashcards
       return all_flashcards.active_items if ENV['FLASHCARDS']
 
       all_flashcards.filter(:recently_reviewed) do |flashcard|
-        flashcard.should_run?
+        flashcard.with(@app).should_run?
       end
 
       flashcards_to_review = all_flashcards.select { |flashcard|  }
-      new_flashcards = all_flashcards.select { |flashcard| flashcard.new? }
+      new_flashcards = all_flashcards.select { |flashcard| flashcard.with(@app).new? }
 
       if limit_per_run
         # p [:limit, limit_per_run] ####
@@ -110,7 +111,7 @@ module Flashcards
     def flashcards_to_be_tested_on
       if ENV['FLASHCARDS'] && @all_flashcards.has_filter?(:env)
         filtered_items_text = @all_flashcards.active_items.join_with_and { |flashcard| "<yellow>#{flashcard.expressions.first}</yellow>" }
-        puts "<blue.bold>~</blue.bold> <green>Applying the env filter #{filtered_items_text}.</green>".colourise
+        puts "<blue.bold>~</blue.bold> <green>@applying the env filter #{filtered_items_text}.</green>".colourise
       end
 
       self.filter_out_new_flashcards(@all_flashcards)

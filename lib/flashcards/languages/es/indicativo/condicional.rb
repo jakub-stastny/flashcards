@@ -1,6 +1,6 @@
 Flashcards::Language.define(:es) do
   conjugation_group(:condicional) do |verb, infinitive|
-    tense = Flashcards::Tense.new(:condicional, infinitive) do
+    tense = Flashcards::Tense.new(self, :condicional, infinitive) do
       # The endings for the conditional tense are the same as those for the -er
       # and -ir forms of the imperfect tense. However, conditional endings are
       # attached to the infinitive, while imperfect endings are attached to the stem.

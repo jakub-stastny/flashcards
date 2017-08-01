@@ -2,7 +2,7 @@ require_relative '../subjuntivo/presente'
 
 Flashcards::Language.define(:es) do
   conjugation_group(:imperativo_negativo) do |verb, infinitive|
-    tense = Flashcards::Tense.new(:imperativo_negativo, infinitive) do
+    tense = Flashcards::Tense.new(self, :imperativo_negativo, infinitive) do
       [verb.subjuntivo.stem, {
         tú: delegate(:tú, verb.subjuntivo, :usted) { |command| "#{command}s" },
         nosotros: delegate(:nosotros, verb.subjuntivo, :nosotros),

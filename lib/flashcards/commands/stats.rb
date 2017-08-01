@@ -20,7 +20,7 @@ module Flashcards
 <bold>You remember</bold>: <green>#{flashcards.count { |flashcard| flashcard.correct_answers[:default].length > 2 }}</green> (ones that you answered correctly 3 times or more).
 
 <bold>Ready for review</bold>: <blue>#{flashcards.count(&:time_to_review?)}</blue>.
-<bold>To be reviewed later</bold>: <blue>#{flashcards.count { |flashcard| ! flashcard.should_run? }}</blue>.
+<bold>To be reviewed later</bold>: <blue>#{flashcards.count { |flashcard| ! flashcard.with(app).should_run? }}</blue>.
 <bold>Comletely new</bold>: <blue>#{flashcards.count(&:new?)}</blue>.
         EOF
 

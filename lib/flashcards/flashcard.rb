@@ -1,11 +1,11 @@
-require 'flashcards' # FIXME: Extract Flashcards.app to flashcards/app.rb and change this.
+require 'flashcards/flashcard_wrapper'
 require 'flashcards/example'
 require 'flashcards/testable_unit'
 require 'flashcards/core_exts'
 require 'digest/md5'
 
 module Flashcards
-  # # flashcard.variants
+  # # flashcard.with(app).variants
   # class Variant
   #   def initialize(prompt, correct_answer)
   #     @prompt, @correct_answer = prompt, correct_answer
@@ -141,22 +141,6 @@ module Flashcards
       self.expressions.sort == anotherFlashcard.expressions.sort && self.translations.sort == anotherFlashcard.translations.sort
     end
 
-    def verb
-      if self.tags.include?(:verb)
-        Flashcards.app.language._verb(self.expressions.first, self.conjugations || Hash.new)
-      end
-    end
-
-    def verify
-      if self.verb && (checksum = self.metadata[:checksum])
-        return Digest::MD5.hexdigest(self.verb.forms.to_yaml) == checksum
-      elsif self.verb && self.metadata[:checksum].nil?
-        # nil
-      else
-        true
-      end
-    end
-
     def set_checksum
       self.metadata[:checksum] = Digest::MD5.hexdigest(self.verb.forms.to_yaml)
     end
@@ -165,30 +149,8 @@ module Flashcards
       !! self.metadata[:checksum]
     end
 
-    def variants
-      if self.verb
-        super + Flashcards.app.language.conjugation_groups
-      else
-        super
-      end
-    end
-
-    def should_run?(key = nil)
-      if (key && Flashcards.app.config.should_be_tested_on?(key)) || key.nil?
-        super(key)
-      end
-    end
-
-    def word_variants # TODO: nouns (plurals), cómodo/cómoda
-      if self.tags.include?(:verb)
-        self.expressions.map { |expression|
-          Flashcards.app.language.conjugation_groups.map do |conjugation_group|
-            self.verb.send(conjugation_group).forms.values + [expression] # Don't forget the infinitive.
-          end
-        }.flatten.uniq
-      else
-        self.expressions
-      end
+    def with(app)
+      @wrapped_flashcard ||= FlashcardWrapper.new(app, self)
     end
 
     def mark(answer, key = :default)

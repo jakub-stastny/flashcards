@@ -20,7 +20,7 @@ require_relative 'indicativo/presente'
 
 Flashcards::Language.define(:es) do
   conjugation_group(:gerundio) do |verb, infinitive|
-    tense = Flashcards::Tense.new(:gerundio, infinitive) do
+    tense = Flashcards::Tense.new(self, :gerundio, infinitive) do
       stem = verb.pretérito.él.sub(/i?ó/, '')
 
       case self.infinitive

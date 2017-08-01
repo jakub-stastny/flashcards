@@ -6,10 +6,6 @@ require 'flashcards/core_exts'
 require 'flashcards/collection'
 
 module Flashcards
-  def self.app(language_name = nil)
-    language_name ? @app = App.new(language_name) : @app ||= App.new
-  end
-
   def self.defined_languages
     Dir.glob("#{Collection.data_file_dir}/*.yml").map { |path| File.basename(path).split('.').first.to_sym }.uniq
   end

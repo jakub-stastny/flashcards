@@ -72,7 +72,7 @@ module Flashcards
     end
 
     def run_tests
-      all_tests = Flashcards.app.tests
+      all_tests = @app.tests
       selected_tests = self.select_flashcards_to_be_tested_on(all_tests, 3)
 
       (puts; puts) unless selected_tests.empty?
@@ -91,14 +91,14 @@ module Flashcards
     end
 
     def test_flashcard(flashcard)
-      if Flashcards.app.language.accents_help
-        puts Flashcards.app.language.accents_help.colourise
+      if @app.language.accents_help
+        puts @app.language.accents_help.colourise
       end
 
       if flashcard.correct_answers[:default].length >= 1
         # Switch sides.
         if example = flashcard.examples.sample
-          puts('', flashcard.word_variants.reduce(example.expression) do |result, expression|
+          puts('', flashcard.with(app).word_variants.reduce(example.expression) do |result, expression|
             result.
               sub(/\b#{expression}\b/i, '_____')
           end.colourise)
@@ -133,7 +133,7 @@ module Flashcards
 
       if flashcard.mark(translation = $stdin.readline.chomp)
         # This is for silents and (maybe, but not sure) when the sides are switched?
-        Flashcards.app.language.say_aloud(flashcard.expressions.include?(translation) ? translation : flashcard.expressions.first)
+        @app.language.say_aloud(flashcard.expressions.include?(translation) ? translation : flashcard.expressions.first)
 
         if flashcard.translations.length == 1
           synonyms = [] # This is so if we have one main translation and one silent one, we don't show it as a synonym.
@@ -207,11 +207,11 @@ module Flashcards
     def run_conjugation_tests(flashcard)
       if flashcard.tags.include?(:verb)
         # FIXME: flashcard.expressions.sample doesn't make sense in this case.
-        verb = @language.load_verb(flashcard.expressions.sample)
+        verb = @language.load_verb(app, flashcard.expressions.sample)
         puts # TODO: unless there are no configured/enabled ones.
 
         conjugation_groups_to_run = @language.conjugation_groups.select do |conjugation_group_name|
-          flashcard.should_run?(conjugation_group_name)
+          flashcard.with(app).should_run?(conjugation_group_name)
         end
 
         conjugation_groups_to_run = conjugation_groups_to_run.shuffle.sample(3)
@@ -243,7 +243,7 @@ module Flashcards
       answers = [conjugation_group.send(person)].flatten
       x = if answers.include?(answer)
         puts "    <green>✔︎  Correct.</green>".colourise
-        Flashcards.app.language.say_aloud(answer)
+        @app.language.say_aloud(answer)
         flashcard.mark_as_correct(conjugation_group.tense)
         @correct += 1
       else
