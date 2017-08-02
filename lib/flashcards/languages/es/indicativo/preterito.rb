@@ -1,5 +1,4 @@
 Flashcards::Language.define(:es) do
-  p [:s, self]
   conjugation_group(:pretérito) do |verb, infinitive|
   p [:s, self]
     tense = Flashcards::Tense.new(self, :pretérito, infinitive) do

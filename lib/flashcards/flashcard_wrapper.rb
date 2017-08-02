@@ -4,6 +4,18 @@ module Flashcards
       @app, @flashcard = app, flashcard
     end
 
+    def new?(key = nil)
+      key = self.variants.first if self.variants.length == 1
+
+      if key
+        @flashcard.correct_answers[key].empty?
+      else
+        self.enabled_variants.any? do |key|
+          self.new?(key)
+        end
+      end
+    end
+
     def should_run?(key = nil)
       self.new?(key) || self.time_to_review?(key)
     end
@@ -67,18 +79,6 @@ module Flashcards
         }.flatten.uniq
       else
         @flashcard.expressions
-      end
-    end
-
-    def new?(key = nil)
-      key = self.variants.first if self.variants.length == 1
-
-      if key
-        @flashcard.correct_answers[key].empty?
-      else
-        self.enabled_variants.any? do |key|
-          self.new?(key)
-        end
       end
     end
 
