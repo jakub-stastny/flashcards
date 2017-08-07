@@ -1,7 +1,10 @@
 require 'flashcards/command'
+require 'refined-refinements/colours'
 
 module Flashcards
   class ConsoleCommand < SingleLanguageCommand
+    using RR::ColourExts
+
     self.help = <<-EOF
       flashcards <magenta>console</magenta>
       flashcards <magenta>console</magenta> es
@@ -10,11 +13,11 @@ module Flashcards
     EOF
 
     def run
-      words = self.get_args(argv)
-      puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
+      app, words = self.get_args(@args)
+      puts "~ Using language <yellow>#{app.language.name}</yellow>.".colourise
 
-      fs = Flashcards.app.flashcards
-      ts = Flashcards.app.tests
+      fs = app.flashcards
+      ts = app.tests
       words.each do |word|
         if fs[:expressions, word].length == 1
           flashcard = fs[:expressions, word].first
