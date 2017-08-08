@@ -98,7 +98,7 @@ module Flashcards
       if flashcard.correct_answers[:default].length >= 1
         # Switch sides.
         if example = flashcard.examples.sample
-          puts('', flashcard.with(app).word_variants.reduce(example.expression) do |result, expression|
+          puts('', flashcard.with(@app).word_variants.reduce(example.expression) do |result, expression|
             result.
               sub(/\b#{expression}\b/i, '_____')
           end.colourise)
@@ -207,11 +207,11 @@ module Flashcards
     def run_conjugation_tests(flashcard)
       if flashcard.tags.include?(:verb)
         # FIXME: flashcard.expressions.sample doesn't make sense in this case.
-        verb = @language.load_verb(app, flashcard.expressions.sample)
+        verb = @language.load_verb(@app, flashcard.expressions.sample)
         puts # TODO: unless there are no configured/enabled ones.
 
         conjugation_groups_to_run = @language.conjugation_groups.select do |conjugation_group_name|
-          flashcard.with(app).should_run?(conjugation_group_name)
+          flashcard.with(@app).should_run?(conjugation_group_name)
         end
 
         conjugation_groups_to_run = conjugation_groups_to_run.shuffle.sample(3)

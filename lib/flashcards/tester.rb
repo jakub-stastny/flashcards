@@ -75,7 +75,7 @@ module Flashcards
         flashcard.with(@app).should_run?
       end
 
-      flashcards_to_review = all_flashcards.select { |flashcard|  }
+      flashcards_to_review = all_flashcards.select { |flashcard| ! flashcard.with(@app).new? }
       new_flashcards = all_flashcards.select { |flashcard| flashcard.with(@app).new? }
 
       if limit_per_run
