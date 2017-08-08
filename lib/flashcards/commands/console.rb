@@ -27,6 +27,7 @@ module Flashcards
           warn '...'
         end
       end
+      puts "Help: app, app.flashcards, app.flashcards.save, app.tests."
       require 'pry'; binding.pry
     end
   end

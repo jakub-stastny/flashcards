@@ -1,18 +1,21 @@
 require 'flashcards/command'
+require 'refined-refinements/colours'
 
 module Flashcards
   class VerifyCommand < SingleLanguageCommand
+    using RR::ColourExts
+
     self.help = <<-EOF
       flashcards <red.bold>verify</red.bold>
     EOF
 
     def run
-      self.set_language(argv[0]) if argv[0]
-      puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
+      app = self.get_app(@args[0])
+      puts "~ Using language <yellow>#{app.language.name}</yellow>.".colourise
 
       require 'flashcards/wordreference'
 
-      flashcards = Flashcards.app.flashcards
+      flashcards = app.flashcards
       flashcards_with_unknown_attributes = flashcards.select do |flashcard|
         ! flashcard.unknown_attributes.empty?
       end
@@ -25,11 +28,11 @@ module Flashcards
         puts;
       end
 
-      begin
-        Flashcards::WordReference.run(flashcards)
-      rescue SocketError
-        abort "<red>Internet connection is required for this command to run.</red>".colourise
-      end
+      # begin
+        Flashcards::WordReference.run(app, flashcards)
+      # rescue SocketError # Undefined.
+      #   abort "<red>Internet connection is required for this command to run.</red>".colourise
+      # end
 
       # Save the flashcards with updated metadata.
       flashcards.save

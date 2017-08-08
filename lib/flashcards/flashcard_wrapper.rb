@@ -2,6 +2,7 @@ module Flashcards
   class TestableUnitWrapper
     def initialize(app, flashcard)
       @app, @flashcard = app, flashcard
+      raise ArgumentError.new("App can't be nil.") if app.nil?
     end
 
     def new?(key = nil)
