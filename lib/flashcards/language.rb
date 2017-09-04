@@ -34,7 +34,7 @@ module Flashcards
 
     # You probably want to use load_verb instead.
     def _verb(infinitive, conjugation_groups)
-      Verb.new(infinitive, @grammar_rules[:conjugation_groups], conjugation_groups)
+      Verb.new(self, infinitive, @grammar_rules[:conjugation_groups], conjugation_groups)
     end
 
     attr_accessor :flashcards

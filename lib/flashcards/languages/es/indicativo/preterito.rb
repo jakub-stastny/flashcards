@@ -1,6 +1,5 @@
 Flashcards::Language.define(:es) do
   conjugation_group(:pretérito) do |verb, infinitive|
-  p [:s, self]
     tense = Flashcards::Tense.new(self, :pretérito, infinitive) do
       case self.infinitive
       when /^(.+)ar(se)?$/

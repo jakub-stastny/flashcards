@@ -30,10 +30,8 @@ module Flashcards
     end
 
     def find_by_expression(flashcards, expression)
-      flashcards.items.each do |flashcard|
-        if flashcard.expressions.include?(expression)
-          self.edit(flashcards, flashcard)
-        end
+      flashcards.items.find do |flashcard|
+        flashcard.expressions.include?(expression)
       end
     end
 

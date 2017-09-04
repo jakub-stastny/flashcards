@@ -3,11 +3,12 @@ require_relative '../subjuntivo/presente'
 
 Flashcards::Language.define(:es) do
   conjugation_group(:imperativo_positivo) do |verb, infinitive|
+    language = self
     tense = Flashcards::Tense.new(self, :imperativo_positivo, infinitive) do
       [verb.subjuntivo.stem, {
         tú: delegate(:tú, verb.presente, :él),
         vos: infinitive.sub(/^.*(.)r(se)?$/) {
-          Flashcards.app.language.syllabifier.accentuate($1, 0)
+          language.syllabifier.accentuate($1, 0)
         },
         nosotros: delegate(:nosotros, verb.subjuntivo, :nosotros),
         vosotros: "#{infinitive[-2]}d" # This uses stem from the infinitive (tened).

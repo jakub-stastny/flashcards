@@ -98,5 +98,9 @@ module Flashcards
         true
       end
     end
+
+    def set_checksum
+      @flashcard.metadata[:checksum] = Digest::MD5.hexdigest(self.verb.forms.to_yaml)
+    end
   end
 end

@@ -141,10 +141,6 @@ module Flashcards
       self.expressions.sort == anotherFlashcard.expressions.sort && self.translations.sort == anotherFlashcard.translations.sort
     end
 
-    def set_checksum
-      self.metadata[:checksum] = Digest::MD5.hexdigest(self.verb.forms.to_yaml)
-    end
-
     def verified? # Verified against a dictionary.
       !! self.metadata[:checksum]
     end
