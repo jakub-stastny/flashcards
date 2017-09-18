@@ -15,7 +15,9 @@ module Flashcards
     def self.run(app, all_flashcards)
       # TODO: Change to .prefer_offline.
       # RR::CachedHttp.offline = true
-      RR::CachedHttp.cache_dir = 'tmp/cache' # if $DEBUG or sth ...
+      RR::CachedHttp.cache_dir = '/tmp/flashcards-cache' # if $DEBUG or sth ...
+      Dir.mkdir(RR::CachedHttp.cache_dir)
+
       flashcards = self.unverified_verbs(all_flashcards)
 
       flashcards.each do |flashcard|
