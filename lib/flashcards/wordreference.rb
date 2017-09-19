@@ -5,10 +5,30 @@ require 'flashcards/core_exts'
 module Flashcards
   class WordReference
     using RR::ColourExts
+    using CoreExts
 
-    def self.unverified_verbs(all_flashcards)
+    HACKS = {
+      'haber.presente.él' => Proc.new do |verb|
+        ha, hay = verb.presente.él
+        "#{ha}, impersonal: #{hay}"
+      end
+    }
+
+    def self.verbs(app, all_flashcards)
       all_flashcards.select do |flashcard|
-        flashcard.tags.include?(:verb) && ! flashcard.verified?
+        flashcard.with(app).verb
+      end
+    end
+
+    def self.unverified_verbs(app, all_flashcards)
+      self.verbs(app, all_flashcards).select do |flashcard|
+        ! flashcard.with(app).verify
+      end
+    end
+
+    def self.already_correct(app, all_flashcards)
+      self.verbs(app, all_flashcards).select do |flashcard|
+        flashcard.with(app).verify
       end
     end
 
@@ -16,9 +36,9 @@ module Flashcards
       # TODO: Change to .prefer_offline.
       # RR::CachedHttp.offline = true
       RR::CachedHttp.cache_dir = '/tmp/flashcards-cache' # if $DEBUG or sth ...
-      Dir.mkdir(RR::CachedHttp.cache_dir)
+      Dir.mkdir(RR::CachedHttp.cache_dir) unless Dir.exist?(RR::CachedHttp.cache_dir)
 
-      flashcards = self.unverified_verbs(all_flashcards)
+      flashcards = self.unverified_verbs(app, all_flashcards)
 
       flashcards.each do |flashcard|
         begin
@@ -36,6 +56,11 @@ module Flashcards
           raise error
           warn "<red>ERROR:</red> Verifying <yellow>#{flashcard.expressions.first}</yellow> failed: <yellow>#{error}</yellow>.".colourise(bold: true)
         end
+      end
+
+      already_correct = self.already_correct(app, all_flashcards)
+      unless already_correct.empty?
+        puts "\n<green>✔︎ Checksum hasn't changed:</green> #{already_correct.map { |f| f.expressions.first }.join_with_and}.".colourise
       end
     end
 
@@ -150,6 +175,10 @@ module Flashcards
     end
 
     def test(label, a, b)
+      if callable = HACKS[label]
+        b = callable.call(@flashcard.with(@app).verb)
+      end
+
       unless a == b || (a.is_a?(Array) && a.include?(b))
         @warnings << "#{label}: '#{a}' (WR) != '#{b}' (flashcards)"
       end

@@ -37,7 +37,7 @@ module Flashcards
       return all_flashcards if ENV['FLASHCARDS']
 
       all_flashcards.filter_out(:verbs_with_changed_conjugations) do |flashcard|
-        flashcard.tags.include?(:verb) && ! flashcard.with(@app).verify
+        flashcard.tags.include?(:verb) && flashcard.verified? && ! flashcard.with(@app).verify
       end
 
       changed_verbs = all_flashcards.filtered_out_items(:verbs_with_changed_conjugations)

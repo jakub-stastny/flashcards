@@ -1,3 +1,4 @@
+require 'socket'
 require 'flashcards/command'
 require 'refined-refinements/colours'
 
@@ -10,7 +11,7 @@ module Flashcards
     EOF
 
     def run
-      app = self.get_app(@args[0])
+      app, args = self.get_args(@args)
       puts "~ Using language <yellow>#{app.language.name}</yellow>.".colourise
 
       require 'flashcards/wordreference'
@@ -28,11 +29,17 @@ module Flashcards
         puts;
       end
 
-      # begin
+      unless args.empty?
+        flashcards.filter(:only_selected) do |flashcard|
+          not (flashcard.expressions & args).empty?
+        end
+      end
+
+      begin
         Flashcards::WordReference.run(app, flashcards)
-      # rescue SocketError # Undefined.
-      #   abort "<red>Internet connection is required for this command to run.</red>".colourise
-      # end
+      rescue SocketError
+        abort "<red>Internet connection is required for this command to run.</red>".colourise
+      end
 
       # Save the flashcards with updated metadata.
       flashcards.save

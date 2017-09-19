@@ -7,11 +7,21 @@ Flashcards::Language.define(:es) do
     tense = Flashcards::Tense.new(self, :imperativo_positivo, infinitive) do
       [verb.subjuntivo.stem, {
         tú: delegate(:tú, verb.presente, :él),
-        vos: infinitive.sub(/^.*(.)r(se)?$/) {
-          language.syllabifier.accentuate($1, 0)
+        vos: {
+          stem: infinitive.sub(/(se)?$/, '')[0..-3],
+          ending: infinitive.sub(/^.*(.)r(se)?$/) {
+            if language.syllabifier.syllables(infinitive[0..-2]).length > 1
+              language.syllabifier.accentuate($1, 0)
+            else
+              $1
+            end
+          }
         },
         nosotros: delegate(:nosotros, verb.subjuntivo, :nosotros),
-        vosotros: "#{infinitive[-2]}d" # This uses stem from the infinitive (tened).
+        vosotros: {
+          stem: infinitive.sub(/(se)?$/, '')[0..-3],
+          ending: "#{infinitive.sub(/(se)?$/, '')[-2]}d"
+        }
       }]
     end
 

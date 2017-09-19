@@ -90,12 +90,12 @@ module Flashcards
     end
 
     def verify
-      if self.verb && (checksum = @flashcard.metadata[:checksum])
+      raise TypeError.new unless self.verb
+
+      if checksum = @flashcard.metadata[:checksum]
         return Digest::MD5.hexdigest(self.verb.forms.to_yaml) == checksum
-      elsif self.verb && @flashcard.metadata[:checksum].nil?
+      elsif @flashcard.metadata[:checksum].nil?
         # nil
-      else
-        true
       end
     end
 

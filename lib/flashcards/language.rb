@@ -82,6 +82,9 @@ module Flashcards
       @infinitive = infinitive
       @conjugation_groups = conjugation_groups.keys
 
+      # For debug.
+      @cg1, @cg2 = conjugation_groups, conjugation_groups_2
+
       conjugation_groups.each do |group_name, callable|
         define_singleton_method(group_name) do
           if conjugation_groups_2[group_name]
@@ -91,7 +94,11 @@ module Flashcards
             # TODO: Should ve store both?
             infinitive = conjugation_groups_2[group_name][:infinitive] || @infinitive
             tense = callable.call(self, infinitive)
-            tense.irregular(infinitive, conjugation_groups_2[group_name].except(:infinitive))
+            # NOTE: In the following line, it really is @infinitive, not infinitive, otherwise we end up with vayir for ir imperativo_positivo.
+            tense.irregular(@infinitive, conjugation_groups_2[group_name].except(:infinitive))
+            # if group_name == :imperativo_positivo
+            #   require 'pry'; binding.pry ###
+            # end
             tense
           else
             callable.call(self, @infinitive)
@@ -135,7 +142,11 @@ module Flashcards
         raise TypeError.new(@conjugations.keys.inspect)
       end
 
-      unless @conjugations.values.all? { |key| key.is_a?(String) || (key.is_a?(Array) && key.all? { |i| i.is_a?(String) }) || key == :delegated }
+      unless @conjugations.values.all? { |key|
+        key.is_a?(String) ||
+        ((key.is_a?(Array) && key.all? { |i| i.is_a?(String) })) ||
+        (key.is_a?(Hash) && key.keys.include?(:stem) && key.keys.include?(:ending)) ||
+        key == :delegated }
         raise TypeError.new(@conjugations.values.inspect)
       end
 
@@ -171,8 +182,12 @@ module Flashcards
             ending_or_endings = @conjugations[person]
             if ending_or_endings.is_a?(Array)
               buffer.merge(person => ending_or_endings.map { |ending| xxxxx("#{@stem}#{ending}") })
-            else
+            elsif ending_or_endings.is_a?(Hash)
+              buffer.merge(person => "#{ending_or_endings[:stem]}#{ending_or_endings[:ending]}")
+            elsif ending_or_endings.is_a?(String)
               buffer.merge(person => xxxxx("#{@stem}#{ending_or_endings}"))
+            else
+              raise TypeError.new("#{@tense}: #{ending_or_endings.inspect}")
             end
           end
         else
