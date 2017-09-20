@@ -94,8 +94,7 @@ module Flashcards
             # TODO: Should ve store both?
             infinitive = conjugation_groups_2[group_name][:infinitive] || @infinitive
             tense = callable.call(self, infinitive)
-            # NOTE: In the following line, it really is @infinitive, not infinitive, otherwise we end up with vayir for ir imperativo_positivo.
-            tense.irregular(@infinitive, conjugation_groups_2[group_name].except(:infinitive))
+            tense.overrides = conjugation_groups_2[group_name].except(:infinitive)
             # if group_name == :imperativo_positivo
             #   require 'pry'; binding.pry ###
             # end
@@ -152,6 +151,7 @@ module Flashcards
 
       @forms = @conjugations.keys
       @exceptions = Hash.new
+      @overrides = Hash.new
       @aliased_persons = Hash.new
 
       @forms.each do |form|
@@ -202,12 +202,14 @@ module Flashcards
     end
 
     def irregular_forms
+      return @overrides unless @overrides.empty?
+
       exceptions = @exceptions.select { |match, _| @infinitive.match(match) }.values
       case exceptions.length
       when 0 then {}
       when 1
         exceptions[0].reduce(Hash.new) do |conjugations, (conjugation, value)|
-          if @exceptions.select { |match, _| match.is_a?(String) ? @infinitive.match(/^#{match}$/) : @infinitive.match(match) }.keys[0].is_a?(String) ## refactor
+          if @exceptions.select { |match, _| match.is_a?(String) ? @infinitive.match(/^#{match}$/) : @infinitive.match(match) }.values[0].is_a?(String) ## refactor
             value = value # If it's a string, we're providing full forms.
           else # regexp
             value = value.is_a?(Proc) ? value.call(@stem) : "#{@stem}#{value}"
@@ -225,6 +227,10 @@ module Flashcards
 
     def irregular(match, forms)
       @exceptions[match] = forms
+    end
+
+    def overrides=(forms)
+      @overrides = forms
     end
 
     def regular?

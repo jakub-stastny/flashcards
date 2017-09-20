@@ -10,37 +10,33 @@ module Flashcards
     HACKS = {
       'haber.presente.él' => Proc.new do |verb|
         ha, hay = verb.presente.él
-        "#{ha}, impersonal: #{hay}"
+        ["#{ha}", "impersonal: #{hay}"]
       end
     }
 
-    def self.verbs(app, all_flashcards)
-      all_flashcards.select do |flashcard|
-        flashcard.with(app).verb
-      end
-    end
-
-    def self.unverified_verbs(app, all_flashcards)
-      self.verbs(app, all_flashcards).select do |flashcard|
-        ! flashcard.with(app).verify
-      end
-    end
-
-    def self.already_correct(app, all_flashcards)
-      self.verbs(app, all_flashcards).select do |flashcard|
+    def self.already_correct(app, selected_flashcards)
+      selected_flashcards.select do |flashcard|
         flashcard.with(app).verify
       end
     end
 
-    def self.run(app, all_flashcards)
+    def self.unverified_verbs(app, selected_flashcards)
+      selected_flashcards.select do |flashcard|
+        ! flashcard.with(app).verify
+      end
+    end
+
+    # We assume the selected flashcards are already verbs and we don't have to test on it.
+    def self.run(app, flashcards)
+      already_correct = self.already_correct(app, flashcards)
+      unverified_verbs = self.unverified_verbs(app, flashcards)
+
       # TODO: Change to .prefer_offline.
       # RR::CachedHttp.offline = true
       RR::CachedHttp.cache_dir = '/tmp/flashcards-cache' # if $DEBUG or sth ...
       Dir.mkdir(RR::CachedHttp.cache_dir) unless Dir.exist?(RR::CachedHttp.cache_dir)
 
-      flashcards = self.unverified_verbs(app, all_flashcards)
-
-      flashcards.each do |flashcard|
+      unverified_verbs.each do |flashcard|
         begin
           checker = self.new(app, flashcard)
           checker.run
@@ -58,7 +54,6 @@ module Flashcards
         end
       end
 
-      already_correct = self.already_correct(app, all_flashcards)
       unless already_correct.empty?
         puts "\n<green>✔︎ Checksum hasn't changed:</green> #{already_correct.map { |f| f.expressions.first }.join_with_and}.".colourise
       end
@@ -122,7 +117,7 @@ module Flashcards
         imperativo_positivo: ['afirmativo', 0],
         imperativo_negativo: ['negativo', 0]
       }.each do |flashcards_tense_name, (wr_tense_name, index)|
-        results = (conjugations(groups, wr_tense_name, index)[1..-1] || Array.new).map { |word| word.sub(/^(no )?(\S+)\!$/, '\2') }
+        results = (conjugations(groups, wr_tense_name, index)[1..-1] || Array.new)
         unless results.empty?
           tense = @flashcard.with(@app).verb.send(flashcards_tense_name)
           test("1 #{@flashcard.with(@app).verb.infinitive}.#{tense.tense}.tú", results[0], tense.tú)
@@ -137,7 +132,7 @@ module Flashcards
       {
         imperativo_formal: ['negativo', 0]
       }.each do |flashcards_tense_name, (wr_tense_name, index)|
-        results = (conjugations(groups, wr_tense_name, index)[1..-1] || Array.new).map { |word| word.sub(/^(no )?(\S+)\!$/, '\2') }
+        results = (conjugations(groups, wr_tense_name, index)[1..-1] || Array.new)
         tense = @flashcard.with(@app).verb.send(flashcards_tense_name)
         test("2 #{@flashcard.with(@app).verb.infinitive}.#{tense.tense}.usted", results[1], tense.usted)
         test("2 #{@flashcard.with(@app).verb.infinitive}.#{tense.tense}.ustedes", results[4], tense.ustedes)
@@ -146,7 +141,7 @@ module Flashcards
       {
         imperativo_formal: ['negativo', 0] # same as above, but hash can't have two same keys ...
       }.each do |flashcards_tense_name, (wr_tense_name, index)|
-        results = (conjugations(groups, wr_tense_name, index)[1..-1] || Array.new).map { |word| word.sub(/^(no )?(\S+)\!$/, '\2') }
+        results = (conjugations(groups, wr_tense_name, index)[1..-1] || Array.new)
         tense = @flashcard.with(@app).verb.send(flashcards_tense_name)
         test("3 #{@flashcard.with(@app).verb.infinitive}.#{tense.tense}.usted", results[1], tense.usted)
         test("3 #{@flashcard.with(@app).verb.infinitive}.#{tense.tense}.ustedes", results[4], tense.ustedes)
@@ -157,7 +152,14 @@ module Flashcards
     def conjugations(groups, label, index)
       tense = groups.select { |group| group.css('tr')[0].text == label }[index]
       return Array.new if tense.nil?
-      tense.children[1..-1].map { |tr| tr.css('td')[0].text } # th is the pronoun
+      conjugation_list = tense.children[1..-1].map { |tr| tr.css('td')[0].text } # th is the pronoun
+
+      conjugation_list.map do |per_pronoun|
+        unless per_pronoun == '-' # Otherwise return nil.
+          per_pronoun.sub!(/^(no )?(.+)\!/, '\2')
+          per_pronoun.match(/, /) ? per_pronoun.split(', ') : per_pronoun
+        end
+      end
     end
 
     def correct?
@@ -178,9 +180,10 @@ module Flashcards
       if callable = HACKS[label]
         b = callable.call(@flashcard.with(@app).verb)
       end
-
-      unless a == b || (a.is_a?(Array) && a.include?(b))
-        @warnings << "#{label}: '#{a}' (WR) != '#{b}' (flashcards)"
+      a.sort! if a.is_a?(Array); b.sort! if b.is_a?(Array)
+      a = Array.new if a.nil?; b = Array.new if b.nil?
+      unless a == b || (a.is_a?(Array) && a.sort == [b])
+        @warnings << "#{label}: #{a.inspect} (WR) != #{b.inspect} (flashcards)"
       end
     end
   end
