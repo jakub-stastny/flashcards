@@ -40,6 +40,7 @@ module Flashcards
 
       if args[0]
         flashcard = self.find_by_expression(app.flashcards, args[0])
+        abort "No such flashcard found." if flashcard.nil?
         self.edit(app.flashcards, flashcard)
       else
         self.edit_all(app.flashcards)

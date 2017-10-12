@@ -145,7 +145,7 @@ module Flashcards
           puts "<red>!</red> Invalid input, try again.".colourise
         end
       end
-    rescue Interrupt
+    rescue Interrupt, EOFError
       puts; exit
     end
   end
