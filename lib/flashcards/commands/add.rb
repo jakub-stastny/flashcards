@@ -127,7 +127,7 @@ module Flashcards
         values = values.join(' ').split(/\s*=\s*/)
         tags = args[:tags] | (tags || Array.new)
         if values.length == 1
-          matching_flashcards = self.matching_flashcards(values[0].split(/,\s*/), Array.new)
+          matching_flashcards = self.matching_flashcards(app, values[0].split(/,\s*/), Array.new)
           if matching_flashcards.empty?
             puts "~ There is no definition yet.\n\n".colourise
           else
