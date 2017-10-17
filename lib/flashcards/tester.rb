@@ -111,7 +111,7 @@ module Flashcards
     def flashcards_to_be_tested_on
       if ENV['FLASHCARDS'] && @all_flashcards.has_filter?(:env)
         filtered_items_text = @all_flashcards.active_items.join_with_and { |flashcard| "<yellow>#{flashcard.expressions.first}</yellow>" }
-        puts "<blue.bold>~</blue.bold> <green>@applying the env filter #{filtered_items_text}.</green>".colourise
+        puts "<blue.bold>~</blue.bold> <green>Applying the env filter #{filtered_items_text}.</green>".colourise
       end
 
       self.filter_out_new_flashcards(@all_flashcards)
