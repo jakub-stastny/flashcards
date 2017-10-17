@@ -8,7 +8,9 @@ module Flashcards
     def expanded_data
       data = {expression: @expression, translation: @translation}
       data.merge!(label: @label) if @label
-      data.merge!(tags: @tags.uniq) unless @tags.empty?
+      @tags.uniq!
+      data.merge!(tag: @tags[0]) if @tags.length == 1
+      data.merge!(tags: @tags) if @tags.length >= 1
       data
     end
 

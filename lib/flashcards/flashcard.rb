@@ -39,6 +39,11 @@ module Flashcards
           translation = hash_string_or_example.values.first
           Example.new(expression: expression, translation: translation)
         else
+          if hash_string_or_example[:tag]
+            tag = hash_string_or_example.delete(:tag)
+            hash_string_or_example[:tags] = [tag]
+          end
+
           Example.new(**hash_string_or_example)
         end
       end
