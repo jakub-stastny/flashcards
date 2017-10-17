@@ -12,7 +12,7 @@ module Flashcards
     def edit_all(flashcards)
       new_flashcards = flashcards.select { |flashcard| flashcard.tags.include?(:new) }
       not_new_flashcards = flashcards.reject { |flashcard| flashcard.tags.include?(:new) }
-      (new_flashcards + not_new_flashcards)[0..10].each do |flashcard|
+      (new_flashcards.shuffle + not_new_flashcards)[0..10].each do |flashcard|
         self.edit(flashcards, flashcard)
       end
     end
