@@ -13,7 +13,7 @@ if commander.commands.include?(command_name)
 elsif [:'-h', :'--help'].include?(command_name)
   puts(commander.help)
 elsif ARGV.first.match(/^[a-z]{2}$/) # flashcards es
-  commander.run(:run, ARGV[1..-1] || Array.new)
+  commander.run(:run, ARGV || Array.new)
 else
   abort(commander.help)
 end
