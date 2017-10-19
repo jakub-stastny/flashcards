@@ -2,7 +2,7 @@ require 'flashcards/command'
 
 module Flashcards
   class ResetCommand < SingleLanguageCommand
-    self.help = <<-EOF
+    self.help = <<-EOF.gsub(/^\s*/, '')
       flashcards <green>reset</green> es<bright_black> # Reset metadata for given language.
       # Useful if you got someone else's file, and you want to reset his progress.</bright_black>
     EOF

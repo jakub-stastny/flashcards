@@ -5,7 +5,7 @@ require 'flashcards/command'
 
 module Flashcards
   class StatsCommand < SingleLanguageCommand
-    self.help = <<-EOF
+    self.help = <<-EOF.gsub(/^\s*/, '')
       flashcards <blue.bold>stats</blue.bold>
     EOF
 

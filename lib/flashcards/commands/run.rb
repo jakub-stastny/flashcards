@@ -4,7 +4,7 @@ module Flashcards
   class RunCommand < SingleLanguageCommand
     using RR::ColourExts
 
-    self.help = <<-EOF
+    self.help = <<-EOF.gsub(/^\s*/, '')
       flashcards <bright_black># Run it!</bright_black>
       flashcards <yellow>pl</yellow> <bright_black># Run it, Polish.</bright_black>
       <magenta.bold>FLASHCARDS=dar,estar</magenta.bold> flashcards <bright_black># Run it with a subset of defined flashcards.</bright_black>

@@ -2,7 +2,7 @@ require 'flashcards/command'
 
 module Flashcards
   class InspectCommand < SingleLanguageCommand
-    self.help = <<-EOF
+    self.help = <<-EOF.gsub(/^\s*/, '')
       flashcards <blue.bold>inspect</blue.bold>
       flashcards <blue.bold>inspect</blue.bold> casi
       flashcards <blue.bold>inspect</blue.bold> casi.correct_answers.length ya.metadata

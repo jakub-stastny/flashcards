@@ -15,7 +15,7 @@ module Flashcards
     using RR::ColourExts
     using CoreExts
 
-    self.help = <<-EOF
+    self.help = <<-EOF.gsub(/^\s*/, '')
       #{self.main_command} <red>add</red> [word] [translations]
       #{self.main_command} <red>add</red> todavía still
       #{self.main_command} <red>add</red> casi almost,nearly  <bright_black># Add multiple translations.</bright_black>

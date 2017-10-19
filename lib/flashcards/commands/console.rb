@@ -5,7 +5,7 @@ module Flashcards
   class ConsoleCommand < SingleLanguageCommand
     using RR::ColourExts
 
-    self.help = <<-EOF
+    self.help = <<-EOF.gsub(/^\s*/, '')
       flashcards <magenta>console</magenta>
       flashcards <magenta>console</magenta> es
       flashcards <magenta>console</magenta> es hablar comer vivir 'el problema'

@@ -23,8 +23,13 @@ module Flashcards
 
     def help
       self.commands.reduce(self.help_template) do |buffer, (command_name, command_class)|
-        command_class.help ? buffer + command_class.help : buffer
-      end
+        if command_class.help
+          help = command_class.help.gsub(/\n/m, "\n  ")
+          "#{buffer}  #{help}\n"
+        else
+          buffer
+        end
+      end.strip
     end
 
     def commands

@@ -3,7 +3,7 @@ require 'flashcards/utils'
 
 module Flashcards
   class ReviewCommand < SingleLanguageCommand
-    self.help = <<-EOF
+    self.help = <<-EOF.gsub(/^\s*/, '')
       flashcards <yellow>review</yellow><bright_black> # Review all the flashcards.
       flashcards <yellow>review</yellow> todavía<bright_black> # Review given flashcard.
       <magenta.bold>EDITOR=vim</magenta.bold> flashcards <green>review</green> <bright_black># Edit your flashcards in $EDITOR.</bright_black>
