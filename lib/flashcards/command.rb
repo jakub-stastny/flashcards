@@ -24,7 +24,7 @@ module Flashcards
     # 1. Add to the German flashcards (de), incomplete arguments.
     # 2. Add to the default flashcards the word de (can be Spanish, from).
     def get_args(args)
-      if Flashcards.defined_languages.include?(args[0].to_sym)
+      if args[0] && Flashcards.defined_languages.include?(args[0].to_sym)
         app = self.get_app_for_language(args[0])
         [app, args[1..-1]]
       else
