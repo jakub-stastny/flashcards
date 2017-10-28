@@ -1,6 +1,22 @@
 require 'yaml'
 require 'ostruct'
 
+# ---
+# # limit_per_run: false
+# #limit_per_run: 1
+# learning:
+#   es:
+#     default: true
+#     #test_me_on:
+#     #- :presente
+#     #- :pretérito
+#     #- :condicional
+#     #- :imperfecto
+#     #- :gerundio
+#     dont_test_me_on:
+#     - :subjuntivo_imperfecto
+#     - :subjuntivo_futuro
+
 # TODO: Keys symbols vs. strings.
 module Flashcards
   class Config
@@ -38,8 +54,8 @@ module Flashcards
     end
 
     def should_be_tested_on?(tense)
-      self.language.test_me_on.nil? ||
-      self.language.test_me_on.include?(tense)
+      self.language.test_me_on && self.language.test_me_on.include?(tense) ||
+      self.language.dont_test_me_on && ! self.language.dont_test_me_on.include?(tense)
     end
 
     private
