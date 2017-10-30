@@ -1,7 +1,10 @@
 require 'flashcards/command'
+require 'refined-refinements/colours'
 
 module Flashcards
   class InspectCommand < SingleLanguageCommand
+    using RR::ColourExts
+
     self.help = <<-EOF.gsub(/^\s*/, '')
       flashcards <blue.bold>inspect</blue.bold>
       flashcards <blue.bold>inspect</blue.bold> casi
@@ -10,13 +13,13 @@ module Flashcards
     EOF
 
     def run
-      args = self.get_args(argv)
+      app, args = self.get_args(@args)
       if args.empty?
         abort "Args cannot be empty."
       end
 
-      puts "~ Using language <yellow>#{Flashcards.app.language.name}</yellow>.".colourise
-      flashcards = Flashcards.app.flashcards
+      puts "~ Using language <yellow>#{app.language.name}</yellow>.".colourise
+      flashcards = app.flashcards
       flashcards.each do |flashcard|
         if expression = args.find { |arg| flashcard.expressions.include?(arg.split('.').first) }
           object = expression.split('.')[1..-1].reduce(flashcard) do |object, method|
