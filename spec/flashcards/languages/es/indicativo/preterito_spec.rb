@@ -2,10 +2,11 @@ require 'flashcards'
 require 'flashcards/language'
 
 describe 'Pretérito' do
-  let(:spanish) { Flashcards::App.new(:es).language }
+  let(:app)     { Flashcards::App.new(:es) }
+  let(:spanish) { app.language }
 
   before do
-    Flashcards::App.new(:es).language.flashcards = [
+    spanish.flashcards = [
       Flashcards::Flashcard.new(expressions: ['hablar', 'hablarse'], translation: 'to speak', tags: [:verb]),
       Flashcards::Flashcard.new(expressions: ['comer', 'comerse'], translation: 'to eat', tags: [:verb]),
       Flashcards::Flashcard.new(expressions: ['vivir', 'vivirse'], translation: 'to live', tags: [:verb]),
@@ -16,7 +17,7 @@ describe 'Pretérito' do
   end
 
   describe 'verbs ending with -ar' do
-    let(:hablar) { spanish.load_verb('hablar') }
+    let(:hablar) { spanish.load_verb(app, 'hablar') }
 
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
@@ -55,7 +56,7 @@ describe 'Pretérito' do
   end
 
   describe 'verbs ending with -car' do
-    let(:buscar) { spanish.load_verb('buscar') }
+    let(:buscar) { spanish.load_verb(app, 'buscar') }
 
     it 'changes c -> qu in the first person only' do
       expect(buscar.infinitive).to eql('buscar')
@@ -94,7 +95,7 @@ describe 'Pretérito' do
   end
 
   describe 'verbs ending with -gar' do
-    let(:pagar) { spanish.load_verb('pagar') }
+    let(:pagar) { spanish.load_verb(app, 'pagar') }
 
     it 'changes c -> gu in the first person only' do
       expect(pagar.infinitive).to eql('pagar')
@@ -134,7 +135,7 @@ describe 'Pretérito' do
   end
 
   describe 'verbs ending with -zar' do
-    let(:realizar) { spanish.load_verb('realizar') }
+    let(:realizar) { spanish.load_verb(app, 'realizar') }
 
     it 'changes c -> c in the first person only' do
       expect(realizar.infinitive).to eql('realizar')
@@ -173,7 +174,7 @@ describe 'Pretérito' do
   end
 
   describe 'verbs ending with -er' do
-    let(:comer) { spanish.load_verb('comer') }
+    let(:comer) { spanish.load_verb(app, 'comer') }
 
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
@@ -212,7 +213,7 @@ describe 'Pretérito' do
   end
 
   describe 'verbs ending with -ir' do
-    let(:vivir) { spanish.load_verb('vivir') }
+    let(:vivir) { spanish.load_verb(app, 'vivir') }
 
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
@@ -252,9 +253,9 @@ describe 'Pretérito' do
 
   # TODO: This should return "se vive" etc rather than just "vive".
   it 'handles reflective verbs' do
-    expect(spanish.load_verb('hablarse').pretérito.él).to eql(spanish.load_verb('hablar').pretérito.él)
-    expect(spanish.load_verb('comerse').pretérito.él).to eql(spanish.load_verb('comer').pretérito.él)
-    expect(spanish.load_verb('vivirse').pretérito.él).to eql(spanish.load_verb('vivir').pretérito.él)
+    expect(spanish.load_verb(app, 'hablarse').pretérito.él).to eql(spanish.load_verb(app, 'hablar').pretérito.él)
+    expect(spanish.load_verb(app, 'comerse').pretérito.él).to eql(spanish.load_verb(app, 'comer').pretérito.él)
+    expect(spanish.load_verb(app, 'vivirse').pretérito.él).to eql(spanish.load_verb(app, 'vivir').pretérito.él)
   end
 
   # TODO: How about ir? What's the stem of voy?

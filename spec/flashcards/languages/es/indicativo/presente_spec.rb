@@ -2,10 +2,11 @@ require 'flashcards'
 require 'flashcards/language'
 
 describe 'Presente' do
-  let(:spanish) { Flashcards::App.new(:es).language }
+  let(:app)     { Flashcards::App.new(:es) }
+  let(:spanish) { app.language }
 
   before do
-    Flashcards::App.new(:es).language.flashcards = [
+    spanish.flashcards = [
       Flashcards::Flashcard.new(expressions: ['hablar', 'hablarse'], translation: 'to speak', tags: [:verb]),
       Flashcards::Flashcard.new(expressions: ['comer', 'comerse'], translation: 'to eat', tags: [:verb]),
       Flashcards::Flashcard.new(expressions: ['vivir', 'vivirse'], translation: 'to live', tags: [:verb]),
@@ -16,7 +17,7 @@ describe 'Presente' do
   end
 
   describe 'verbs ending with -ar' do
-    let(:hablar) { spanish.load_verb('hablar') }
+    let(:hablar) { spanish.load_verb(app, 'hablar') }
 
     it 'is regular' do
       expect(hablar.infinitive).to eql('hablar')
@@ -55,7 +56,7 @@ describe 'Presente' do
   end
 
   describe 'verbs ending with -er' do
-    let(:comer) { spanish.load_verb('comer') }
+    let(:comer) { spanish.load_verb(app, 'comer') }
 
     it 'is regular' do
       expect(comer.infinitive).to eql('comer')
@@ -94,7 +95,7 @@ describe 'Presente' do
   end
 
   describe 'verbs ending with -ir' do
-    let(:vivir) { spanish.load_verb('vivir') }
+    let(:vivir) { spanish.load_verb(app, 'vivir') }
 
     it 'is regular' do
       expect(vivir.infinitive).to eql('vivir')
@@ -133,7 +134,7 @@ describe 'Presente' do
   end
 
   describe 'extinguir' do
-    let(:extinguir) { spanish.load_verb('extinguir') }
+    let(:extinguir) { spanish.load_verb(app, 'extinguir') }
 
     it 'is irregular in the first form of singular' do
       expect(extinguir.infinitive).to eql('extinguir')
@@ -172,7 +173,7 @@ describe 'Presente' do
   end
 
   describe 'escoger' do
-    let(:escoger) { spanish.load_verb('escoger') }
+    let(:escoger) { spanish.load_verb(app, 'escoger') }
 
     it 'is irregular in the first form of singular' do
       expect(escoger.infinitive).to eql('escoger')
@@ -211,7 +212,7 @@ describe 'Presente' do
   end
 
   describe 'dirigir' do
-    let(:dirigir) { spanish.load_verb('dirigir') }
+    let(:dirigir) { spanish.load_verb(app, 'dirigir') }
 
     it 'is irregular in the first form of singular' do
       expect(dirigir.infinitive).to eql('dirigir')
@@ -251,9 +252,9 @@ describe 'Presente' do
 
   # TODO: This should return "se vive" etc rather than just "vive".
   it 'handles reflective verbs' do
-    expect(spanish.load_verb('hablarse').presente.él).to eql(spanish.load_verb('hablar').presente.él)
-    expect(spanish.load_verb('comerse').presente.él).to eql(spanish.load_verb('comer').presente.él)
-    expect(spanish.load_verb('vivirse').presente.él).to eql(spanish.load_verb('vivir').presente.él)
+    expect(spanish.load_verb(app, 'hablarse').presente.él).to eql(spanish.load_verb(app, 'hablar').presente.él)
+    expect(spanish.load_verb(app, 'comerse').presente.él).to eql(spanish.load_verb(app, 'comer').presente.él)
+    expect(spanish.load_verb(app, 'vivirse').presente.él).to eql(spanish.load_verb(app, 'vivir').presente.él)
   end
 
   # TODO: How about ir? What's the stem of voy?

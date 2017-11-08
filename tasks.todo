@@ -1,4 +1,18 @@
+  review: Polish support
+  look for someone to join (CSRUG, TopTal slack)
+
+Mobile flashcards app:
+- The YAML is so large, we don't need all these smart singularisation/pluralisation
+  rules there, since I'm not editing it directly anyway. That can be used within
+  the edit command. -> Simplify the format, possibly make it JSON.
+- Make Dropbox sync (consider multiple languages).
+- Add "save a word" form.
+- Add "run".
+- Add dictionary.
+
 wrong reply: shouldn't forget completely, just reduce correct_answers.
+
+Add @gustar-like based on the list on SpanishDict.
 
 Support not just synonyms, but also FORMS:
 - primer,primera,primero
