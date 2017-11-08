@@ -170,9 +170,9 @@ module Flashcards
         puts "  <red>✘  #{flashcard.expressions.join_with_and('or').titlecase} is </red>#{list}.\n".colourise(bold: true)
       end
 
-      if flashcard.note
+      flashcard.notes.each do |note|
         puts <<-EOF.colourise(bold: true)
-  \n    <blue>ℹ #{flashcard.note}</blue>
+  \n    <blue>ℹ #{note}</blue>
         EOF
       end
 

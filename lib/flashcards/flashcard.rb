@@ -62,10 +62,12 @@ module Flashcards
       end
 
       deserialise_singular_or_plural_key(:silent_translation, data)
+
+      deserialise_singular_or_plural_key(:note, data)
     end
 
     ATTRIBUTES = [
-      :expressions, :translations, :silent_translations, :note, :hint, :tags, :conjugations, :examples, :metadata, :_
+      :expressions, :translations, :silent_translations, :notes, :hint, :tags, :conjugations, :examples, :metadata, :_
     ]
 
     ATTRIBUTES.each do |attribute|
@@ -81,9 +83,13 @@ module Flashcards
       results[:expressions] = self.expressions.dup
       results[:translations] = self.translations.dup
       results[:silent_translations] = self.silent_translations.dup
-      results[:tags] = self.tags.dup
-      results[:note] = self.note.dup
-      results[:hint] = self.hint.dup
+      results[:tags]  = self.tags.dup
+      if self.notes.length <= 2 # Empty or 1.
+        results[:note] = self.notes.dup
+      else
+        results[:notes] = self.notes.dup
+      end
+      results[:hint]  = self.hint.dup
       results[:examples] = self.examples.map(&:expanded_data)
       results[:conjugations] = self.conjugations.dup if self.tags.include?(:verb)
       results[:_] = self._.dup
@@ -106,7 +112,7 @@ module Flashcards
       serialise_singular_or_plural_key(:translation, @data, results)
       serialise_singular_or_plural_key(:silent_translation, @data, results)
       serialise_singular_or_plural_key(:tag, @data, results)
-      results[:note] = self.note if self.note
+      serialise_singular_or_plural_key(:note, @data, results) unless self.notes.empty?
       results[:hint] = self.hint if self.hint
       serialise_singular_or_plural_key(:example, {examples: self.examples.map(&:data)}, results)
 

@@ -1,5 +1,9 @@
 wrong reply: shouldn't forget completely, just reduce correct_answers.
 
+Support not just synonyms, but also FORMS:
+- primer,primera,primero
+- ... mirándote. OK, we have mirando, but then ...
+
 Tenses & nouns:
 - Add rules of irregularity for all the tenses. #get_online
 - doplnit el/la to all the nouns, tag as noun
