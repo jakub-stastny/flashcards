@@ -3,7 +3,7 @@ require 'flashcards/language'
 require 'flashcards/languages/es/syllabifier'
 
 describe Flashcards do
-  let(:spanish) { Flashcards.app.language }
+  let(:spanish) { Flashcards::App.new(:es).language }
 
   describe '#sounds' do
     it 'xxxxx' do

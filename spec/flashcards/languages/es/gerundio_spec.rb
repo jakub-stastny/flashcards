@@ -3,10 +3,10 @@ require 'flashcards'
 require 'flashcards/language'
 
 describe 'Gerundio' do
-  let(:spanish) { Flashcards.app.language }
+  let(:spanish) { Flashcards::App.new(:es).language }
 
   before(:each) do
-    Flashcards.app.language.flashcards = default_flashcards
+    Flashcards::App.new(:es).language.flashcards = default_flashcards
   end
 
   describe 'verbs ending with -ar' do
@@ -33,7 +33,7 @@ describe 'Gerundio' do
 
   describe 'verbs changing to -yendo' do
     before(:each) do
-      Flashcards.app.language.flashcards += [
+      Flashcards::App.new(:es).language.flashcards += [
         Flashcards::Flashcard.new(expressions: ['atraer'], translation: 'to attract', tags: [:verb])
       ]
     end
@@ -48,7 +48,7 @@ describe 'Gerundio' do
 
   describe 'verbs changing to -endo' do
     before(:each) do
-      Flashcards.app.language.flashcards += [
+      Flashcards::App.new(:es).language.flashcards += [
         Flashcards::Flashcard.new(expressions: ['tañer'], translation: 'to strum', tags: [:verb]),
         Flashcards::Flashcard.new(expressions: ['bullir'], translation: 'to boil', tags: [:verb]),
         Flashcards::Flashcard.new(expressions: ['engullir'], translation: 'to gobble', tags: [:verb])
@@ -73,7 +73,7 @@ describe 'Gerundio' do
 
   describe 'verbs with stem changes in the preterite' do
     before(:each) do
-      Flashcards.app.language.flashcards += [
+      Flashcards::App.new(:es).language.flashcards += [
         Flashcards::Flashcard.new(expressions: ['dormir'], translation: 'to sleep', tags: [:verb], conjugations: {pretérito: {él: 'durmió'}}),
         Flashcards::Flashcard.new(expressions: ['decir'], translation: 'to tell', tags: [:verb], conjugations: {pretérito: {él: 'dijo'}}),
         Flashcards::Flashcard.new(expressions: ['reñir'], translation: 'to tell off', tags: [:verb], conjugations: {pretérito: {él: 'riñó'}}),

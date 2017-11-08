@@ -2,10 +2,10 @@ require 'flashcards'
 require 'flashcards/language'
 
 describe 'Pretérito' do
-  let(:spanish) { Flashcards.app.language }
+  let(:spanish) { Flashcards::App.new(:es).language }
 
   before do
-    Flashcards.app.language.flashcards = [
+    Flashcards::App.new(:es).language.flashcards = [
       Flashcards::Flashcard.new(expressions: ['hablar', 'hablarse'], translation: 'to speak', tags: [:verb]),
       Flashcards::Flashcard.new(expressions: ['comer', 'comerse'], translation: 'to eat', tags: [:verb]),
       Flashcards::Flashcard.new(expressions: ['vivir', 'vivirse'], translation: 'to live', tags: [:verb]),
