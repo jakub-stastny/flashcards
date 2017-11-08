@@ -98,9 +98,12 @@ module Flashcards
       if flashcard.correct_answers[:default].length >= 1
         # Switch sides.
         if example = flashcard.examples.sample
-          puts('', flashcard.with(@app).word_variants.reduce(example.expression) do |result, expression|
+          xxxx = flashcard.with(@app).word_variants.sort_by(&:length).reverse
+          puts('', xxxx.reduce(example.expression) do |result, expression|
+            pattern = expression.gsub(/\b[[:alpha:]]{1,3}\b/, '__').
+                                 gsub(/\b[[:alpha:]]{4,}\b/, '____')
             result.
-              sub(/\b#{expression}\b/i, '_____')
+              sub(/\b#{expression}\b/i, pattern)
           end.colourise)
         else
           puts
