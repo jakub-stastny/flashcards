@@ -27,6 +27,8 @@ module Flashcards
 
     def data
       @data ||= YAML.load_file(self.config_path)
+    rescue Errno::ENOENT
+      @data ||= Hash.new
     end
 
     def limit_per_run
