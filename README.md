@@ -122,29 +122,6 @@ number of occurences.
 
 # Flashcards reference
 
-## Support for packs
-
-By default all the flashcards go into one file. Once you learn basic colours,
-numbers and words like dog, cat, beer and fuck, it's probably time to start using
-multiple flashcard files.
-
-At this moment support for packs is rather simplist. Set environment variable `FF`
-to point to any flashcard file.
-
-```shell
-# Assuming the directory ~/.config/flashcards/es exists:
-export FF=~/.config/flashcards/es/swearwords.yml
-
-flashcards add joder 'to fuck'
-flashcards # Run it as usual.
-```
-
-Of course you can set it just for the current command by using
-`FF=~/.config/flashcards/es/swearwords.yml flashcards`.
-
-Despite its simplicity, this implementation has its advantages, for instance in
-your `~/.zshrc` you can set `$FF` to a random pack or set it based on day of the week etc.
-
 ## Conjugations
 
 If a flashcard is tagged with `verb`, you will be automatically asked 1 random
@@ -189,7 +166,6 @@ Run `flashcard -h` to see all the options.
 >
 > ~ <cite>My mum.</cite>
 
-
 > Why don't you get a real job like your grandpa? I don't know what this freelancing really is, but I don't think it's good for you!
 >
 > ~ <cite>My grandmother.</cite>
@@ -203,10 +179,6 @@ Run `flashcard -h` to see all the options.
 > ~ <cite>Random homeless guy whom I paid money to review it.</cite>
 
 As you can see, the credentials are bullet-proof.
-
-# Future features
-
-- Testing the other side of cards.
 
 # Language learning resources
 
