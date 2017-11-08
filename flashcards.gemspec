@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'flashcards'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.authors     = ['James C Russell']
   s.email       = 'james@101ideas.cz'
   s.homepage    = 'http://github.com/botanicus/flashcards'
