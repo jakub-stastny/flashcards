@@ -25,10 +25,9 @@ module Flashcards
       @config_path = config_path
     end
 
+    # Minimal data: {learning: {es: {}}}
     def data
       @data ||= YAML.load_file(self.config_path)
-    rescue Errno::ENOENT
-      @data ||= Hash.new
     end
 
     def limit_per_run
