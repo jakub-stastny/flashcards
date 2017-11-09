@@ -8,27 +8,34 @@ module Flashcards
     self.help = <<-EOF.gsub(/^\s*/, '')
       flashcards <magenta>console</magenta>
       flashcards <magenta>console</magenta> es
-      flashcards <magenta>console</magenta> es hablar comer vivir 'el problema'
-      # el problema -> el_problema
     EOF
 
     def run
-      app, words = self.get_args(@args)
-      puts "~ Using language <yellow>#{app.language.name}</yellow>.".colourise
+      @app = self.get_app(*@args)
+      puts "~ Using language <yellow>#{@app.language.name}</yellow>.".colourise
 
-      fs = app.flashcards
-      ts = app.tests
-      words.each do |word|
-        if fs[:expressions, word].length == 1
-          flashcard = fs[:expressions, word].first
-          # I don't know how to set local variables in pry.
-          define_singleton_method(word.tr(' ', '_')) { flashcard }
-        else
-          warn '...'
-        end
-      end
-      puts "Help: app, app.flashcards, app.flashcards.save, app.tests."
+      app = @app; fs = app.flashcards; ts = app.tests
+
+      ###################################################################
+      # Help: app,                                                      #
+      #       app.flashcards (or fs), app.tests (or ts),                #
+      #       fs[:expressions, 'la cama']
+      #       app.flashcards.save                                       #
+      #                                                                 #
+      # Use ser or ser_verb to retrieve a flashcard or its verb object. #
+      ###################################################################
+
       require 'pry'; binding.pry
+    end
+
+    def method_missing(method_name, *args, &block)
+      if args.empty? && block.nil?
+        expression = method_name.to_s.sub(/_verb$/, '').tr('_', ' ')
+        flashcard  = @app.flashcards[:expressions, expression].first
+        method_name.match(/_verb$/) ? flashcard.with(@app).verb : flashcard
+      else
+        super(*args, &block)
+      end
     end
   end
 end
