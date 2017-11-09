@@ -16,11 +16,11 @@ module Flashcards
     using CoreExts
 
     self.help = <<-EOF.gsub(/^\s*/, '')
-      #{self.main_command} <red>add</red> [word] [translations]
-      #{self.main_command} <red>add</red> todavía still
-      #{self.main_command} <red>add</red> casi almost,nearly  <bright_black># Add multiple translations.</bright_black>
-      #{self.main_command} <red>add</red> dónde,adónde where  <bright_black># Add multiple expressions.</bright_black>
-      #{self.main_command} <red>add</red> dar 'to give' <yellow>#verb</yellow> <bright_black># Add with a tag.</bright_black>
+      #{self.main_command} <red>+</red> [word] [translations]
+      #{self.main_command} <red>+</red> todavía still
+      #{self.main_command} <red>+</red> casi almost,nearly  <bright_black># Add multiple translations.</bright_black>
+      #{self.main_command} <red>+</red> dónde,adónde where  <bright_black># Add multiple expressions.</bright_black>
+      #{self.main_command} <red>+</red> dar 'to give' <yellow>#verb</yellow> <bright_black># Add with a tag.</bright_black>
     EOF
 
     def process_arguments

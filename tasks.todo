@@ -1,19 +1,19 @@
-Timeline for the next month:
+Timeline for November:
 - Reimplement the add command on top of curses. Make arrows work for history, "e" to edit the last flashcard.
 - Improve test coverage of key classes.
+- The run command should prefer review over run, so new vocab is not accumulating.
 - Warn if regular forms are listed as exceptions in the flashcard file.
 - CONSIDER linked flashcards: Show "doing" instead of "participio". Assuming there is a flashcard i. e. "parecido". BTW what if there are multiple forms, regular (to be used with say estoy) and irregular (to be used as an adjectivum)?
-- Alias add to '+'.
 - wrong reply: shouldn't forget completely, just reduce correct_answers by 2.
 
-Mobile flashcards app:
+Mobile flashcards app (December):
 - The YAML is so large, we don't need all these smart singularisation/pluralisation
   rules there, since I'm not editing it directly anyway. That can be used within
   the edit command. -> Simplify the format, possibly make it JSON.
 - Make Dropbox sync (consider multiple languages).
 - Add "save a word" form.
-- Add "run".
 - Add dictionary.
+- Note: The "run" command will have to wait.
 
 Polish support
 
@@ -33,7 +33,7 @@ Tenses & nouns:
 
 Core engine:
 ! Do it with noecho a rerender the string every time.
-- The add command could get data from WR.
+- The add command could get data from WR or run verify on exit.
 - testing llamame, traigalo etc (accents there etc).
 - Support reflective in flashcards (also flashcard.expression.FIRST).
 - support highlights/cyan in flashcard defs - used in aun asi and notes in ninth etc.

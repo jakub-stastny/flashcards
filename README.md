@@ -22,6 +22,9 @@ First let's install the software and add a few flashcards. Let's say you're lear
 # Install it.
 gem install flashcards
 
+# Let's add Spanish into our languages.
+flashcards init es
+
 # Add data.
 flashcards add todavía still
 flashcards add casi almost,nearly

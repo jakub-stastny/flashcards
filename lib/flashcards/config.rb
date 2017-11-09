@@ -20,12 +20,17 @@ require 'ostruct'
 # TODO: Keys symbols vs. strings.
 module Flashcards
   class Config
+    DEFAULT_CONFIG_PATH ||= begin
+      File.expand_path(ENV['FLASHCARDS_CONFIG'] || '~/.config/flashcards.yml')
+    end
+
     attr_reader :config_path
-    def initialize(config_path = default_config_path)
+    def initialize(config_path = DEFAULT_CONFIG_PATH)
       @config_path = config_path
     end
 
     # Minimal data: {learning: {es: {}}}
+    attr_writer :data
     def data
       @data ||= YAML.load_file(self.config_path)
     end
@@ -59,9 +64,10 @@ module Flashcards
       self.language.dont_test_me_on && ! self.language.dont_test_me_on.include?(tense)
     end
 
-    private
-    def default_config_path
-      File.expand_path(ENV['FLASHCARDS_CONFIG'] || '~/.config/flashcards.yml')
+    def save
+      File.open(@config_path, 'w') do |file|
+        file.puts(@data.to_yaml)
+      end
     end
   end
 end

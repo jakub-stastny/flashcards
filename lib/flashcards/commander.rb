@@ -42,8 +42,11 @@ module Flashcards
       command.run
     end
 
+    require 'flashcards/commands/init'
+    self.command(:init, InitCommand)
+
     require 'flashcards/commands/add'
-    self.command(:add, AddCommand)
+    self.command(:+, AddCommand)
 
     require 'flashcards/commands/review'
     self.command(:review, ReviewCommand)
