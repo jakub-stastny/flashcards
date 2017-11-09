@@ -105,6 +105,16 @@ The file `~/.config/flashcards.yml` is an array of flashcards saved in YAML.
   - "Todavía la quiero.": "I still love her."
 ```
 
+## Day to day use
+
+I have the following code in my `~/.zshrc`:
+
+```
+flashcards has-not-run-today && flashcards
+```
+
+It's pretty self-explanatory: if the flashcards hasn't run today, they will, once I open a new shell window. This way I learn every day without having to think about it.
+
 ## The `flashcard` command
 
 Run `flashcard -h` to see all the options.
