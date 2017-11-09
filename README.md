@@ -4,44 +4,13 @@ Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but
 with an *actually* usable interface and support for **conjugations** of regular
 and irregular verbs.
 
-Albeit flashcards was developed primarily for my own need, I'm currently working
-on an experimental [desktop app](https://github.com/botanicus/flashcards/blob/master/apps/desktop),
-so my friend Jaime, who's crazy about learning Polish, so he can chat up hot
-Polish girls, can use it as well.
-
-There will be a mobile app, sooner or later.
-
-![flashcards-thumb](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards_thumb.png)
-[![flashcards-thumb](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/shoes-app_thumb.png)](https://github.com/botanicus/flashcards/blob/master/apps/desktop)
-
 ## Motivation
 
-Learning a language is easier than most people think. Believe me – I know a few.
-It's just most people don't learn what they *actually* need.
+There are many language learning apps out there. They are all missing one big thing and that is **context**. You will learn different vocabulary based on your objectives. Different Spanish is used in business, in daily situations, in books and in tango songs. Also there will be considerable differences in vocabulary (and also in pronunciation and even grammar) between different countries.
 
-> Learning the first 1000 most frequently used words in the entire language will
-allow you to understand 76.0% of all non-fiction writing, 79.6% of all fiction
-writing, and an astounding 87.8% of all oral speech.
->
-> Source: [HowLearnSpanish.com](http://howlearnspanish.com/2010/08/how-many-words-do-you-need-to-know/)
+None of it the language apps take in consideration and this is why the only vocabulary that matters is the one you actually come in touch. Which means you need to write down words you come across and don't know and to learn them.
 
-So all you have to do to be able to **understand nearly 90% of spoken Spanish**
-is to learn **10 Spanish words** for **3 months and 10 days**. Whaaat?
-
-> Of course, only a fraction of those words are used regularly. [This study](http://www.corpus4u.org/forum/upload/forum/2005062106260627.pdf)
-> found that knowing as few as 2000 words could lead to a 95% comprehension rate
-> for English speakers. If one increases their vocabulary size to 5000 words
-> (250% the vocabulary size as before), the comprehension rate only increases to
-> 96%. This is why focusing on just the most common words in a language, as you
-> are doing, is a common tactic for language learners.
->
-> Source: [StackExchange Linguistics](http://linguistics.stackexchange.com/questions/3333/how-many-words-do-i-need-to-learn)
-
-Besides, if you're reading this, you're probably a programmer, right? I bet **you
-know a bunch of languages already**. And no, I don't think it's all that different.
-Figuring out what's going on with little knowledge based on context, learning bunch
-of words, whether commands, methods or vocabulary, learning grammar ... what's the
-difference? There's a reason why programming languages are called *languages*.
+It is more work, but it's the only way I know to get results without wasting time learning vocabulary you don't need.
 
 # Tutorial
 
@@ -97,38 +66,13 @@ Also if you add a lot of new vocabulary, flashcards won't test you on everything
 It will prioritise vocabulary that is time to refresh (according to spaced repetition),
 and only adds limited number of the new vocabulary at a time.
 
-# Day to day use
-
-## Getting relevant vocabulary
-
-Knowing every bloody ZOO animal ain't gonna help you to ask a hot Colombian for
-her number, right? I'd suggest starting with a frequency list of 1000 words (can be
-found on [Wiktionary.org](https://en.wiktionary.org/wiki/Wiktionary%3aFrequency_lists))
-and then noting words you hear and don't understand.
-
-Yes, you have to put in the work yourself, but at least you will be learning words
-you really need, not a bunch of words that are either irrelevant or are not being
-used or mean a different think in the community you are in touch with.
-
-For instance Duolingo taught me the word _emparedado_, sandwich. In Spain I never
-heard it once, everyone says _bocadillo_. In Colombia everyone says _sandwich_.
-I don't know where is emparedado being used, and since I haven't encountered it,
-to me it's a totally irrelevant word.
-
-Part of flashcards is `words_by_relevance` script. Save messages from your Spanish
-friends, blog posts you are interested in understanding etc in a file and run
-`cat the_file | words_by_relevance` to get a list of words from there sorted by
-number of occurences.
-
 # Flashcards reference
 
 ## Conjugations
 
 If a flashcard is tagged with `verb`, you will be automatically asked 1 random
 conjugation of each tense. Currently only Spanish is supported, although adding
-new rules is easy. Check out
-[lib/flashcards/verb.rb](https://github.com/botanicus/flashcards/blob/master/lib/flashcards/verb.rb).
-Bonus points for sending a PR.
+new rules is easy.
 
 ![flashcards-3](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards-3.png)
 
@@ -179,8 +123,3 @@ Run `flashcard -h` to see all the options.
 > ~ <cite>Random homeless guy whom I paid money to review it.</cite>
 
 As you can see, the credentials are bullet-proof.
-
-# Language learning resources
-
-- [How Many Words Do You Need to Know in Spanish (or any other foreign language)? And WHICH Words Should You Be Learning?](http://howlearnspanish.com/2010/08/how-many-words-do-you-need-to-know/)
-- [Wiktionary frequency lists for any language](https://en.wiktionary.org/wiki/Wiktionary%3aFrequency_lists)
