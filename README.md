@@ -4,6 +4,8 @@ Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but
 with an *actually* usable interface and support for **conjugations** of regular
 and irregular verbs.
 
+![flashcards-screencash](https://raw.githubusercontent.com/botanicus/flashcards/master/doc/flashcards.gif)
+
 ## Motivation
 
 There are many language learning apps out there. They are all missing one big thing and that is **context**. You will learn different vocabulary based on your objectives. Different Spanish is used in business, in daily situations, in books and in tango songs. Also there will be considerable differences in vocabulary (and also in pronunciation and even grammar) between different countries.
