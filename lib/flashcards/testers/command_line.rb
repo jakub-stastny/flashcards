@@ -90,6 +90,25 @@ module Flashcards
       all_tests.save
     end
 
+    def display_example_without_the_expression(flashcard, example)
+      xxxx = flashcard.with(@app).word_variants.sort_by(&:length).reverse
+      puts('', xxxx.reduce(example.expression) do |result, expression|
+        pattern = expression.gsub(/\b[[:alpha:]]{1,3}\b/, '__').
+                             gsub(/\b[[:alpha:]]{4,}\b/, '____')
+        result.
+          sub(/\b#{expression}\b/i, pattern)
+      end.colourise)
+    end
+
+    def display_example_with_highlighted_expression(flashcard, example)
+      xxxx = flashcard.with(@app).word_variants.sort_by(&:length).reverse
+      puts('', xxxx.reduce(example.expression) do |result, expression|
+        result.
+          sub(/\b#{expression}\b/, "<bold>#{expression}</bold>").
+          sub(/\b#{expression.titlecase}\b/, "<bold>#{expression.titlecase}</bold>")
+      end.colourise)
+    end
+
     def test_flashcard(flashcard)
       if @app.language.accents_help
         puts @app.language.accents_help.colourise
@@ -98,13 +117,7 @@ module Flashcards
       if flashcard.correct_answers[:default].length >= 1
         # Switch sides.
         if example = flashcard.examples.sample
-          xxxx = flashcard.with(@app).word_variants.sort_by(&:length).reverse
-          puts('', xxxx.reduce(example.expression) do |result, expression|
-            pattern = expression.gsub(/\b[[:alpha:]]{1,3}\b/, '__').
-                                 gsub(/\b[[:alpha:]]{4,}\b/, '____')
-            result.
-              sub(/\b#{expression}\b/i, pattern)
-          end.colourise)
+          self.display_example_without_the_expression(flashcard, example)
         else
           puts
         end
@@ -117,15 +130,12 @@ module Flashcards
         end
       else
         if example = flashcard.examples.sample
-          puts('', flashcard.expressions.reduce(example.expression) do |result, expression|
-            result.
-              sub(/\b#{expression}\b/, "<bold>#{expression}</bold>").
-              sub(/\b#{expression.titlecase}\b/, "<bold>#{expression.titlecase}</bold>")
-          end.colourise)
+          self.display_example_with_highlighted_expression(flashcard, example)
         else
           puts
         end
 
+        # NOTE: ser/estar & saber/conocer are not really synomyms.
         synonyms = @all_flashcards.select { |f2| ! (flashcard.translations & f2.translations).empty? } - [flashcard]
         if synonyms.empty?
           print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ".colourise(bold: true)

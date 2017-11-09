@@ -79,7 +79,13 @@ module Flashcards
           end
         }.flatten.uniq
       else
-        @flashcard.expressions
+        expressions = @flashcard.expressions.dup
+        @flashcard.expressions.each do |expression|
+          if expression.match(/^(el|la|los|las) (.+)/)
+            expressions << $2 # nouns are often used without the articles.
+          end
+        end
+        expressions
       end
     end
 
