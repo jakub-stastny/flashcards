@@ -1,7 +1,10 @@
-  The README is old!
-  
-  review: Polish support
-  look for someone to join (CSRUG, TopTal slack)
+Timeline for the next month:
+- Reimplement the add command on top of curses. Make arrows work for history, "e" to edit the last flashcard.
+- Improve test coverage of key classes.
+- Warn if regular forms are listed as exceptions in the flashcard file.
+- CONSIDER linked flashcards: Show "doing" instead of "participio". Assuming there is a flashcard i. e. "parecido". BTW what if there are multiple forms, regular (to be used with say estoy) and irregular (to be used as an adjectivum)?
+- Alias add to '+'.
+- wrong reply: shouldn't forget completely, just reduce correct_answers by 2.
 
 Mobile flashcards app:
 - The YAML is so large, we don't need all these smart singularisation/pluralisation
@@ -12,10 +15,13 @@ Mobile flashcards app:
 - Add "run".
 - Add dictionary.
 
-wrong reply: shouldn't forget completely, just reduce correct_answers.
+Polish support
 
 Add @gustar-like based on the list on SpanishDict.
 
+- synonym – indicate what is and what is not a synonym (ser and estar are not synonyms).
+  What exactly is a synonym?
+- shall we link them specifically and have verify to check if there are any that look like synonyms?
 Support not just synonyms, but also FORMS:
 - primer,primera,primero
 - ... mirándote. OK, we have mirando, but then ...
@@ -25,45 +31,21 @@ Tenses & nouns:
 - doplnit el/la to all the nouns, tag as noun
   ! Sometimes they are nouns and adjectives, nouns and werbs (poder vs. el poder).
 
-Decisions:
-- synonym – indicate what is and what is not a synonym (ser and estar are not synonyms).
-  What exactly is a synonym?
-
 Core engine:
 ! Do it with noecho a rerender the string every time.
 - The add command could get data from WR.
 - testing llamame, traigalo etc (accents there etc).
 - Support reflective in flashcards (also flashcard.expression.FIRST).
 - support highlights/cyan in flashcard defs - used in aun asi and notes in ninth etc.
-- flashcards set ver.test true; add; remove; ver. new_hash key value
-- Define method_missing withing the console, so we can type any word and it will fetch it for us (like how flashcards console ver works now, but for anything, without reloading).
 - Learnt mode: common words, in the commander mode press l/u to learn or unlearn, then only show them, don't ask.
-- Warn if regular forms are listed as exceptions in the flashcard file.
-- Show "doing" instead of "gerundio".
 - Conflict resolutions for flashcards. If the YAML was updated in the meantime, try to merge, at least if it's an addition.
 
 ES:
 - Finish https://www.spanishdict.com/guide/spanish-syllables-and-syllabification-rules
 
 Curses:
-- Commander#add: allow history (first term to see if it's defined, then term = xyz, very common use).
 - Progress line.
 - Make it more compact (marking correct incorrect, just x/v and change colour of what was written).
 
-________________________________________________________________________________
-
-Packs:
-- Add `merge` (another yaml file), add pack attribute. Only allow names such as <lang>.<pack>.yml
-- Add `unmerge` [pack]: remove items from given pack.
-- Add `export`: export pack to a file <lang>.<pack>.yml
-- Add `packs`: list all packs.
-
-  Publish:
-  - Tag (git) and publish the gem.
-
-  After:
-  - Full tests coverage including integration tests.
-
-https://github.com/dam13n/motion-swipe
 https://github.com/cycloped-io/wiktionary + there are also media wiki APIs that can be used.
 https://en.wiktionary.org/w/api.php
