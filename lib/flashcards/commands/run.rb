@@ -1,4 +1,6 @@
 require 'flashcards/command'
+require 'flashcards/commands/test'
+require 'flashcards/commands/review'
 
 module Flashcards
   class RunCommand < SingleLanguageCommand
@@ -14,16 +16,13 @@ module Flashcards
       app = self.get_app(@args[0])
       puts "~ Using language <yellow>#{app.language.name}</yellow>.\n\n".colourise
 
-      begin
-        Flashcards::CommnandLineTester.new(
-          app,
-          app.flashcards,
-          app.language,
-          app.config
-        ).run
-      rescue Interrupt, EOFError
-        puts # Quit the test mode, the progress will be saved.
+      if app.flashcards.count { |flashcard| flashcard.tags.include?(:new) } >= 10
+        command = Flashcards::ReviewCommand.new(@args)
+      else
+        command = Flashcards::TestCommand.new(@args)
       end
+
+      command.run
     end
   end
 end

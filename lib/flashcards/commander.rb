@@ -69,6 +69,9 @@ module Flashcards
     require 'flashcards/commands/has-not-run-today'
     self.command(:'has-not-run-today', HasNotRunTodayCommand)
 
+    require 'flashcards/commands/test'
+    self.command(:test, TestCommand)
+
     require 'flashcards/commands/run'
     self.command(:run, RunCommand)
   end
