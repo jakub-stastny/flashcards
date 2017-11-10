@@ -6,18 +6,36 @@ module Flashcards
     # self.help = <<-EOF
     # EOF
 
+    def last_review_time
+      @app.flashcards.reduce(Time.now - (25 * 60 * 60)) do |newest_timestamp, flashcard|
+        [newest_timestamp, flashcard.metadata[:last_review_time]].compact.max
+      end
+    end
+
+    def last_test_time
+      @app.flashcards.map { |f| f.correct_answers.values.flatten.sort.last }.compact.sort.last
+    end
+
+    def are_there_flashcards_for_review
+      @app.flashcards.any? { |flashcard| flashcard.tags.include?(:new) }
+    end
+
+    def are_there_flashcards_to_be_tested_on
+      @app.flashcards.any? do |flashcard|
+        flashcard.with(@app).new? || flashcard.with(@app).time_to_review?
+      end
+    end
+
     def run
-      app = self.get_app(@args[0])
-      flashcards = app.flashcards.map { |flashcard| flashcard.with(app) }
-      to_be_reviewed = flashcards.count(&:time_to_review?)
-      new_flashcards = flashcards.count(&:new?)
+      @app = self.get_app(@args[0])
 
-      exit 1 if (to_be_reviewed + new_flashcards) == 0
+      has_been_reviewed_today = self.last_review_time.to_date == Date.today
+      has_run_today = self.last_test_time.to_date == Date.today
+      nothing_to_run_or_review = (! self.are_there_flashcards_for_review && ! self.are_there_flashcards_to_be_tested_on)
 
-      last_review_at = app.flashcards.map { |f| f.correct_answers.values.flatten.sort.last }.compact.sort.last
-
-      run_today = last_review_at && last_review_at.to_date == Date.today
-      exit 1 if run_today
+      if has_been_reviewed_today || has_run_today || nothing_to_run_or_review
+        exit 1
+      end
     end
   end
 end
