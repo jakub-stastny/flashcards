@@ -7,12 +7,14 @@ module Flashcards
       flashcards <yellow>review</yellow><bright_black> # Review all the flashcards.
       flashcards <yellow>review</yellow> todavía<bright_black> # Review given flashcard.
       <magenta.bold>EDITOR=vim</magenta.bold> flashcards <green>review</green> <bright_black># Edit your flashcards in $EDITOR.</bright_black>
+      <magenta.bold>LIMIT=5</magenta.bold> flashcards <green>review</green> <bright_black># Edit 5 flashcards.</bright_black>
     EOF
 
     def edit_all(flashcards)
+      limit = ENV.fetch('LIMIT') { '3' }.to_i
       new_flashcards = flashcards.select { |flashcard| flashcard.tags.include?(:new) }
       not_new_flashcards = flashcards.reject { |flashcard| flashcard.tags.include?(:new) }
-      (new_flashcards.shuffle + not_new_flashcards)[0..3].each do |flashcard|
+      (new_flashcards.shuffle + not_new_flashcards)[0..limit].each do |flashcard|
         self.edit(flashcards, flashcard)
       end
     end

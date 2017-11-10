@@ -17,6 +17,7 @@ module Flashcards
       puts "~ Using language <yellow>#{app.language.name}</yellow>.\n\n".colourise
 
       if app.flashcards.count { |flashcard| flashcard.tags.include?(:new) } >= 10
+        ENV['LIMIT'] = '10'
         command = Flashcards::ReviewCommand.new(@args)
       else
         command = Flashcards::TestCommand.new(@args)
