@@ -1,7 +1,6 @@
 Timeline for November:
 - Reimplement the add command on top of curses. Make arrows work for history, "e" to edit the last flashcard.
 - Improve test coverage of key classes.
-- The run command should prefer review over run, so new vocab is not accumulating.
 - Warn if regular forms are listed as exceptions in the flashcard file.
 - CONSIDER linked flashcards: Show "doing" instead of "participio". Assuming there is a flashcard i. e. "parecido". BTW what if there are multiple forms, regular (to be used with say estoy) and irregular (to be used as an adjectivum)?
 - wrong reply: shouldn't forget completely, just reduce correct_answers by 2.
