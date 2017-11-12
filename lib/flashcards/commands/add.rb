@@ -1,4 +1,5 @@
 require 'flashcards/command'
+require 'flashcards/commands/add-interactive'
 require 'flashcards/utils'
 require 'refined-refinements/colours'
 
@@ -117,36 +118,7 @@ module Flashcards
     end
 
     def run_interactive(app, args)
-      puts "<blue.bold>Usage</blue.bold>: <green>expression 1, expression 2</green> <magenta>=</magenta> <green>translation 1, translation 2</green> <yellow>#tags</yellow>\n\n".colourise
-      puts "Press <bold>Esc</bold> for the command mode.\n\n".colourise
-
-      loop do
-        print "> "
-        line = $stdin.readline.chomp
-        values, tags = line.split(/\s+/).group_by { |word| word.match(/^#/) }.values
-        values = values.join(' ').split(/\s*=\s*/)
-        tags = args[:tags] | (tags || Array.new)
-        if values.length == 1
-          matching_flashcards = self.matching_flashcards(app, values[0].split(/,\s*/), Array.new)
-          if matching_flashcards.empty?
-            puts "~ There is no definition yet.\n\n".colourise
-          else
-            puts "~ Flashcard #{matching_flashcards.join_with_and(&:to_s)} already exists.\n\n".colourise
-          end
-        elsif values.length == 2
-          matching_flashcards = self.matching_flashcards(app, values[0].split(/,\s*/), values[1].split(/,\s*/))
-          if matching_flashcards.empty?
-            puts "~ Adding <green>#{values.inspect}</green>#{" with tags #{tags.join_with_and { |tag| "<yellow>#{tag}</yellow>" }}" unless tags.empty?}.\n\n".colourise
-            self.add(app, values: values, tags: tags, args: '--no-edit') # Invoke the command in a non-interactive mode.
-          else
-            puts "~ Flashcard #{matching_flashcards.join_with_and(&:to_s)} already exists.\n\n".colourise
-          end
-        else
-          puts "<red>!</red> Invalid input, try again.".colourise
-        end
-      end
-    rescue Interrupt, EOFError
-      puts; exit
+      Flashcards::AddInteractive.new(self).run
     end
   end
 end
