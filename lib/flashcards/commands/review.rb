@@ -16,10 +16,10 @@ module Flashcards
       limit = ENV.fetch('LIMIT') { '3' }.to_i
       new_flashcards = flashcards.select { |flashcard| flashcard.tags.include?(:new) }
       not_new_flashcards = flashcards.reject { |flashcard| flashcard.tags.include?(:new) }
-      dataset = new_flashcards.shuffle + not_new_flashcards
-      dataset[0..limit].each.with_index do |flashcard, index|
+      dataset = new_flashcards.shuffle + not_new_flashcards.sort_by { |flashcard| flashcard.metadata[:last_review_time] }
+      dataset[0..(limit - 1)].each.with_index do |flashcard, index|
         unless index == 0
-          puts "~ Editing flashcard <blue.bold>#{index + 1}</blue.bold> of <blue.bold>#{dataset.length < limit ? dataset.length : limit}</blue.bold>. Press <green>Enter</green> to continue.".colourise
+          print "~ Editing flashcard <blue.bold>#{index + 1}</blue.bold> of <blue.bold>#{dataset.length < limit ? dataset.length : limit}</blue.bold>. Press <green>Enter</green> to continue. ".colourise
           STDIN.readline
         end
 
