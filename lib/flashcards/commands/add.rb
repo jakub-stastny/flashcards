@@ -37,22 +37,13 @@ module Flashcards
       return app, args
     end
 
-    def matching_flashcards(app, expressions, translations)
-      flashcards = app.flashcards # !
-
-      flashcards.select do |flashcard|
-        ! (flashcard.expressions & expressions).empty? &&
-        (! (flashcard.translations & translations).empty? || translations.empty?)
-      end
-    end
-
     def run
       app, args = self.process_arguments
 
       if args[:values].empty?
         self.run_interactive(app, args)
       elsif args[:values].length == 1
-        matching_flashcards = self.matching_flashcards(app, args[:values][0].split(/,\s*/), Array.new)
+        matching_flashcards = Utils.matching_flashcards(app.flashcards, args[:values][0].split(/,\s*/), Array.new)
 
         if matching_flashcards.empty?
           puts "There is no definition for <yellow>#{args[:values][0]}</yellow> yet.".colourise
@@ -118,7 +109,7 @@ module Flashcards
     end
 
     def run_interactive(app, args)
-      Flashcards::AddInteractive.new(self).run
+      Flashcards::AddInteractive.new(app, self).run
     end
   end
 end

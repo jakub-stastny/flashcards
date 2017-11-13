@@ -35,5 +35,12 @@ module Flashcards
 
       flashcard
     end
+
+    def self.matching_flashcards(flashcards, expressions, translations = Array.new)
+      flashcards.select do |flashcard|
+        ! (flashcard.expressions & expressions).empty? &&
+        (! (flashcard.translations & translations).empty? || translations.empty?)
+      end
+    end
   end
 end

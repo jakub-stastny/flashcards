@@ -1,4 +1,6 @@
 Timeline for November:
+- Review: unpack examples to the hash format.
+- Make last_review_time an array, so deleting it doesn't clear it altogether, only the last instance.
 - Reimplement the add command on top of curses. Make arrows work for history, "e" to edit the last flashcard.
 - Improve test coverage of key classes.
 - Warn if regular forms are listed as exceptions in the flashcard file.
