@@ -16,7 +16,11 @@ module Flashcards
       limit = ENV.fetch('LIMIT') { '3' }.to_i
       new_flashcards = flashcards.select { |flashcard| flashcard.tags.include?(:new) }
       not_new_flashcards = flashcards.reject { |flashcard| flashcard.tags.include?(:new) }
-      dataset = new_flashcards.shuffle + not_new_flashcards.sort_by { |flashcard| flashcard.metadata[:last_review_time] }
+      sorted_not_new_flashcards = not_new_flashcards.sort_by do |flashcard|
+        flashcard.metadata[:last_review_time] || Time.now - 60 * 60 * 24 * 365
+      end
+
+      dataset = new_flashcards.shuffle + sorted_not_new_flashcards
       dataset[0..(limit - 1)].each.with_index do |flashcard, index|
         unless index == 0
           print "~ Editing flashcard <blue.bold>#{index + 1}</blue.bold> of <blue.bold>#{dataset.length < limit ? dataset.length : limit}</blue.bold>. Press <green>Enter</green> to continue. ".colourise
