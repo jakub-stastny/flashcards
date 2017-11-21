@@ -24,7 +24,11 @@ module Flashcards
       dataset[0..(limit - 1)].each.with_index do |flashcard, index|
         unless index == 0
           print "~ Editing flashcard <blue.bold>#{index + 1}</blue.bold> of <blue.bold>#{dataset.length < limit ? dataset.length : limit}</blue.bold>. Press <green>Enter</green> to continue. ".colourise
-          STDIN.readline
+          begin
+            STDIN.readline
+          rescue Interrupt
+            puts; exit
+          end
         end
 
         self.edit(flashcards, flashcard)
