@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'flashcards/core_exts'
 
 describe Array do
