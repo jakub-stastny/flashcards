@@ -29,23 +29,8 @@ module Flashcards
       super(data)
 
       deserialise_singular_or_plural_key(:example, data)
-      self.examples.map! do |hash_string_or_example|
-        if hash_string_or_example.is_a?(Example)
-          hash_string_or_example
-        elsif hash_string_or_example.is_a?(String)
-          Example.new(expression: hash_string_or_example, translation: nil)
-        elsif hash_string_or_example.keys.length == 1
-          expression  = hash_string_or_example.keys.first
-          translation = hash_string_or_example.values.first
-          Example.new(expression: expression, translation: translation)
-        else
-          if hash_string_or_example[:tag]
-            tag = hash_string_or_example.delete(:tag)
-            hash_string_or_example[:tags] = [tag]
-          end
-
-          Example.new(**hash_string_or_example)
-        end
+      self.examples.map! do |array_string_or_example|
+        Example.deserialise(array_string_or_example)
       end
 
       deserialise_singular_or_plural_key(:tag, data)
