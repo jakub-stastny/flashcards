@@ -16,14 +16,6 @@ module Flashcards
         expression = array_string_or_example.keys.first
         translation = array_string_or_example.values.first
         self.new(expression: expression, translation: translation)
-      elsif array_string_or_example.is_a?(Hash) && array_string_or_example.keys.length > 1
-        # DEPRECATED.
-        if array_string_or_example[:tag]
-          tag = array_string_or_example.delete(:tag)
-          array_string_or_example[:tags] = [tag]
-        end
-
-        self.new(**array_string_or_example)
       else
         raise "Should not occur."
       end
