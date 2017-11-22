@@ -84,7 +84,7 @@ module Flashcards
         flashcards << flashcard
         flashcards.save
       else
-        if flashcard = self.edit_flashcard(flashcard)
+        if flashcard = Utils.edit_flashcard(flashcard)
           flashcards << flashcard
           flashcards.save
         else
@@ -98,10 +98,7 @@ module Flashcards
         expressions: args[:values][0].split(/,\s*/),
         translations: args[:values][1].split(/,\s*/),
         tags: (args[:tags] || Array.new).map { |tag| tag[1..-1].to_sym },
-        examples: [
-          Example.new(expression: 'Expression 1.', translation: 'Translation 1.'),
-          Example.new(expression: 'Expression 2.', translation: 'Translation 2.', label: '', tags: [''])
-        ],
+        examples: Array.new,
         metadata: {
           last_review_time: Time.now
         }
