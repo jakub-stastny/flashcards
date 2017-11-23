@@ -1,9 +1,11 @@
 require 'flashcards/utils'
+require 'flashcards/core_exts'
 require 'refined-refinements/colours'
 require 'refined-refinements/curses/app'
 
 module Flashcards
   class AddInteractive
+    using CoreExts
     using RR::ColourExts
 
     def initialize(app, command)
@@ -33,18 +35,21 @@ module Flashcards
           else
             window.write("~ Flashcard #{matching_flashcards.join_with_and(&:to_s)} already exists.")
           end
+          window.refresh; sleep 1 ### TODO: Write into a status line instead.
         elsif values.length == 2
           @log.puts('B'); @log.flush ####
           matching_flashcards = Utils.matching_flashcards(@app.flashcards, values[0].split(/,\s*/), values[1].split(/,\s*/))
           if matching_flashcards.empty?
             window.write("~ Adding <green>#{values.inspect}</green>#{" with tags #{tags.join_with_and { |tag| "<yellow>#{tag}</yellow>" }}" unless tags.empty?}.")
-            # self.add(@app, values: values, tags: tags, args: '--no-edit') # Invoke the command in a non-interactive mode.
+            @command.add(@app, values: values, tags: tags, args: '--no-edit') # Invoke the command in a non-interactive mode.
           else
             window.write("~ Flashcard #{matching_flashcards.join_with_and(&:to_s)} already exists.")
           end
+          window.refresh; sleep 1 ### TODO: Write into a status line instead.
         else
           @log.puts('C'); @log.flush ####
-          # status_line.write("<red>!</red> Invalid input, try again.")
+          window.write("<red>!</red> Invalid input, try again.")
+          window.refresh; sleep 1 ### TODO: Write into a status line instead.
         end
       end
     end
