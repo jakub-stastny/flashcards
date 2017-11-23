@@ -3,7 +3,9 @@ module Flashcards
     def self.edit_flashcard(flashcard)
       path = "/tmp/#{flashcard.expressions.first.tr(' ', '_')}.yml"
 
-      if File.exist?(path) # Give a chance to edit incorrect data.
+      five_hours_ago = Time.now - (60 * 60 * 5)
+
+      if File.exist?(path) && File.mtime(path) < five_hours_ago # Give a chance to edit incorrect data.
         # TODO: Compare if anything changed.
         File.open(path, 'a') do |file|
           file.rewind
