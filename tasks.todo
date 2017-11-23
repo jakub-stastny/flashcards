@@ -1,9 +1,8 @@
 Timeline for November:
-- Review: delete
-- Review: don't recover tmp file if not from today -> delete it.
+- Add interactive: implement a commander (Esc -> edit/delete/tag as/...).
+- Review: delete.
 - Review: don't update timestamp if nothing was changed.
 - Make last_review_time an array, so deleting it doesn't clear it altogether, only the last instance.
-- Reimplement the add command on top of curses. Make arrows work for history, "e" to edit the last flashcard.
 - Improve test coverage of key classes.
 - Warn if regular forms are listed as exceptions in the flashcard file.
 - CONSIDER linked flashcards: Show "doing" instead of "participio". Assuming there is a flashcard i. e. "parecido". BTW what if there are multiple forms, regular (to be used with say estoy) and irregular (to be used as an adjectivum)?
