@@ -35,7 +35,7 @@ module Flashcards
           end
         elsif values.length == 2
           @log.puts('B'); @log.flush ####
-          matching_flashcards = Utils.matching_flashcards(@app, values[0].split(/,\s*/), values[1].split(/,\s*/))
+          matching_flashcards = Utils.matching_flashcards(@app.flashcards, values[0].split(/,\s*/), values[1].split(/,\s*/))
           if matching_flashcards.empty?
             window.write("~ Adding <green>#{values.inspect}</green>#{" with tags #{tags.join_with_and { |tag| "<yellow>#{tag}</yellow>" }}" unless tags.empty?}.")
             # self.add(@app, values: values, tags: tags, args: '--no-edit') # Invoke the command in a non-interactive mode.
