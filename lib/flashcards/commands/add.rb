@@ -85,8 +85,12 @@ module Flashcards
         flashcards.save
       else
         if flashcard = Utils.edit_flashcard(flashcard)
-          flashcards << flashcard
-          flashcards.save
+          unless flashcard.tags.include?(:delete)
+            flashcards << flashcard
+            flashcards.save
+          else
+            abort "Delete tag detected. Aborted."
+          end
         else
           abort "No data found."
         end

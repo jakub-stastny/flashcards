@@ -75,8 +75,12 @@ module Flashcards
 
     def replace(original_item, new_item)
       index = self.items.index(original_item)
-      self.items.delete(original_item)
+      self.delete(original_item)
       self.items.insert(index, new_item)
+    end
+
+    def delete(flashcard)
+      self.items.delete(flashcard)
     end
 
     def save

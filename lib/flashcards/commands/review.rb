@@ -40,8 +40,15 @@ module Flashcards
       flashcard.metadata[:last_review_time] = Time.now # Do it here, so we have chance to remove it in the YAML.
 
       if new_flashcard = Utils.edit_flashcard(flashcard)
-        flashcards.replace(flashcard, new_flashcard)
-        flashcards.save
+        if new_flashcard.tags.include?(:delete)
+          flashcards.delete(flashcard)
+          flashcards.save
+          puts "~ Flashcard deleted (delete tag detected)."
+        else
+          flashcards.replace(flashcard, new_flashcard)
+          flashcards.save
+          puts "~ Flashcard updated."
+        end
       else
         flashcard.metadata[:last_review_time] = original_last_review_time
       end

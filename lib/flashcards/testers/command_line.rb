@@ -52,8 +52,13 @@ module Flashcards
         original_last_review_time = flashcard.metadata[:last_review_time]
         flashcard.metadata[:last_review_time] = Time.now # Do it here, so we have chance to remove it in the YAML.
         if new_flashcard = Utils.edit_flashcard(flashcard) # I don't think we should depend on this, move to utils?
-          @all_flashcards.replace(flashcard, new_flashcard)
-          @all_flashcards.save
+          if new_flashcard.tags.include?(:delete)
+            @all_flashcards.delete(flashcard)
+            @all_flashcards.save
+          else
+            @all_flashcards.replace(flashcard, new_flashcard)
+            @all_flashcards.save
+          end
         else
           flashcard.metadata[:last_review_time] = original_last_review_time
         end

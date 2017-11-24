@@ -1,6 +1,5 @@
 Timeline for November:
 - Add interactive: implement a commander (Esc -> edit/delete/tag as/...).
-- Review: delete.
 - Review: don't update timestamp if nothing was changed.
 - Make last_review_time an array, so deleting it doesn't clear it altogether, only the last instance.
 - Improve test coverage of key classes.

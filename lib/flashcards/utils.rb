@@ -18,7 +18,8 @@ module Flashcards
             "# Verb checklist:",
             "# - Is it tagged as verb?",
             "# - Does it have reflexive form?",
-            "# - Is it irregular?")
+            "# - Is it irregular?",
+            "# Add :delete to tags to delete")
           file.puts(flashcard.expanded_data.to_yaml)
         end
       end
