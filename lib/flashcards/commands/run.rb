@@ -16,8 +16,10 @@ module Flashcards
       app = self.get_app(@args[0])
       puts "~ Using language <yellow>#{app.language.name}</yellow>.\n\n".colourise
 
-      if app.flashcards.count { |flashcard| flashcard.tags.include?(:new) } >= 10
-        ENV['LIMIT'] = '10'
+      limit = 12
+
+      if app.flashcards.count { |flashcard| flashcard.tags.include?(:new) } >= limit
+        ENV['LIMIT'] = limit.to_s
         command = Flashcards::ReviewCommand.new(@args)
       else
         command = Flashcards::TestCommand.new(@args)
