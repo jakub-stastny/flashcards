@@ -16,15 +16,23 @@ module Flashcards
       app = self.get_app(@args[0])
       puts "~ Using language <yellow>#{app.language.name}</yellow>.\n\n".colourise
 
-      limit = 12
+      new_flashcard_count = app.flashcards.count { |flashcard| flashcard.tags.include?(:new) }
 
-      if app.flashcards.count { |flashcard| flashcard.tags.include?(:new) } >= limit
-        ENV['LIMIT'] = limit.to_s
-        command = Flashcards::ReviewCommand.new(@args)
-      else
-        command = Flashcards::TestCommand.new(@args)
-      end
+      case new_flashcard_count
+      when 0            then test
+      when 1..12        then review(3)  and test
+      when 12..(5 * 12) then review(6)  and test
+      else                   review(12) end
+    end
 
+    def test
+      command = Flashcards::TestCommand.new(@args)
+      command.run
+    end
+
+    def review(count)
+      ENV['LIMIT'] = count.to_s
+      command = Flashcards::ReviewCommand.new(@args)
       command.run
     end
   end
