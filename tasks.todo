@@ -1,4 +1,5 @@
 Timeline for November:
+- https://remotestorage.io/
 - Add interactive: implement a commander (Esc -> edit/delete/tag as/...).
 - Review: don't update timestamp if nothing was changed.
 - Make last_review_time an array, so deleting it doesn't clear it altogether, only the last instance.
