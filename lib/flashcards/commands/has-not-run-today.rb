@@ -1,3 +1,4 @@
+require 'date'
 require 'flashcards/command'
 
 module Flashcards
