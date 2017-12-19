@@ -2,6 +2,8 @@ require 'flashcards'
 require 'flashcards/core_exts'
 require 'flashcards/testers/command_line'
 
+# TODO: THIS IS ALREADY IN REFINED REFINEMENTS, DEPRECATE THIS VERSION.
+
 # TODO: Any command invocation should call auto_gc before to remove old backups.
 module Flashcards
   class Commander
