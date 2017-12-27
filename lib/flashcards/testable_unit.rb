@@ -53,7 +53,7 @@ module Flashcards
     protected
     def deserialise_singular_or_plural_key(key, data)
       if value = data.delete(key)
-        data["#{key}s".to_sym] = [value].flatten
+        data["#{key}s".to_sym] = [value]#.flatten # Do NOT do this, it fucks up examples.
       elsif data["#{key}s".to_sym].is_a?(String)
         data["#{key}s".to_sym] = [data["#{key}s".to_sym]]
       elsif data["#{key}s".to_sym].is_a?(Array)
