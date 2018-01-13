@@ -44,16 +44,24 @@ module Flashcards
         self.run_interactive(app, args)
       elsif args[:values].length == 1
         matching_flashcards = Utils.matching_flashcards(app.flashcards, args[:values][0].split(/,\s*/), Array.new)
+        possibly_matching_flashcards = Utils.possibly_matching_flashcards(app.flashcards, args[:values][0].split(/,\s*/), Array.new)
 
-        if matching_flashcards.empty?
+        if matching_flashcards.empty? && possibly_matching_flashcards.empty?
           puts "There is no definition for <yellow>#{args[:values][0]}</yellow> yet.".colourise
-        else
+        elsif possibly_matching_flashcards.empty?
           matching_flashcards_text = matching_flashcards.map { |f|
             a = f.expressions.join_with_and  { |word| "<yellow>#{word}</yellow>" }
             b = f.translations.join_with_and { |word| "<green>#{word}</green>" }
             "#{a}: #{b}"
           }.join("\n- ")
           puts "<magenta>Matching flashcards:</magenta>\n- #{matching_flashcards_text}".colourise
+        else
+          matching_flashcards_text = possibly_matching_flashcards.map { |f|
+            a = f.expressions.join_with_and  { |word| "<yellow>#{word}</yellow>" }
+            b = f.translations.join_with_and { |word| "<green>#{word}</green>" }
+            "#{a}: #{b}"
+          }.join("\n- ")
+          puts "<magenta>Possibly matching flashcards:</magenta>\n- #{matching_flashcards_text}".colourise
         end
       elsif args[:values].length == 2
         self.add(app, args)

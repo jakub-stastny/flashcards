@@ -45,5 +45,14 @@ module Flashcards
         (! (flashcard.translations & translations).empty? || translations.empty?)
       end
     end
+
+    def self.possibly_matching_flashcards(flashcards, expressions, translations = Array.new)
+      flashcards.select do |flashcard|
+        fe = flashcard.expressions.map { |e| e.sub(/^(el|las?|los) /, '') }
+        e =            expressions.map { |e| e.sub(/^(el|las?|los) /, '') }
+        ! (fe & e).empty? #&&
+        # (! (flashcard.translations & translations).empty? || translations.empty?)
+      end
+    end
   end
 end

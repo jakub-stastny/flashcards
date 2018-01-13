@@ -31,10 +31,14 @@ module Flashcards
         if values.length == 1
           @log.puts('A'); @log.flush ####
           matching_flashcards = Utils.matching_flashcards(@app.flashcards, values[0].split(/,\s*/))
-          if matching_flashcards.empty?
+          possibly_matching_flashcards = Utils.possibly_matching_flashcards(@app.flashcards, values[0].split(/,\s*/), Array.new)
+          if matching_flashcards.empty? && possibly_matching_flashcards.empty?
             set_status_line(window, "There is no definition yet.")
-          else
+          elsif possibly_matching_flashcards.empty?
             set_status_line(window, "Flashcard #{matching_flashcards.join_with_and(&:to_s)} already exists.")
+          else
+            set_status_line(window, "Similar flashcard #{possibly_matching_flashcards.join_with_and(&:to_s)} already exists.")
+            # This is not implemented when the translation is provided (! would be needed to override).
           end
         elsif values.length == 2
           @log.puts('B'); @log.flush ####
