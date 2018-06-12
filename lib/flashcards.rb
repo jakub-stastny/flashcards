@@ -31,7 +31,8 @@ module Flashcards
     def language
       require "flashcards/languages/#{self.language_config.name}"
       Flashcards::Language.languages[self.language_config.name] || raise(
-        "Language #{self.language_config.name} has a definition file, but it's empty.")
+        "Language #{self.language_config.name} has a definition file, but it's empty."
+      )
     rescue LoadError # Unsupported language.
       Language.new(self.language_config.name, self.config)
     end
