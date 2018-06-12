@@ -8,8 +8,8 @@ gem 'curses'
 gem 'nokogiri'
 
 group(:development) do
-gem 'pry'
-gem 'rubocop'
+  gem 'pry'
+  gem 'rubocop'
 end
 
 group(:test) do
