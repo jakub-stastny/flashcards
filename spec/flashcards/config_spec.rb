@@ -16,7 +16,7 @@ describe Flashcards::Config do
 
   describe '#data' do
     it 'loads the config' do
-      expect(subject.data).to eql({'learning' => {'es' => {'test_me_on' => ['present', 'past', 'reflective']}}})
+      expect(subject.data).to eql('learning' => {'es' => {'test_me_on' => ['present', 'past', 'reflective']}})
     end
   end
 
