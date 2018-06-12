@@ -46,7 +46,7 @@ module Flashcards
     end
 
     def tests
-      basename = "#{self.language.name.to_s}.tests"
+      basename = "#{self.language.name}.tests"
       Flashcards::Collection.new(Test, basename)
     end
   end

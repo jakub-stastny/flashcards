@@ -38,7 +38,7 @@ module Flashcards
     end
 
     def limit_per_run
-      limit = self.data.has_key?('limit_per_run') ? self.data['limit_per_run'] : 25
+      limit = self.data.key?('limit_per_run') ? self.data['limit_per_run'] : 25
       (limit == 0) ? false : limit
     end
 
@@ -62,8 +62,8 @@ module Flashcards
     end
 
     def should_be_tested_on?(tense)
-      self.language.test_me_on && self.language.test_me_on.include?(tense) ||
-      self.language.dont_test_me_on && ! self.language.dont_test_me_on.include?(tense)
+      self.language.test_me_on&.include?(tense) ||
+        self.language.dont_test_me_on && !self.language.dont_test_me_on.include?(tense)
     end
 
     def save

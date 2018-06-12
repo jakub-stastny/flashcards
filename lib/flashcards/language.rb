@@ -49,7 +49,7 @@ module Flashcards
         flashcard.expressions.include?(infinitive)
       end
 
-      flashcard.with(app).verb if flashcard
+      flashcard&.with(app)&.verb
     end
 
     def say_voice(voice)
@@ -78,7 +78,7 @@ module Flashcards
       @language = language
       extra_keys = conjugation_groups_2.keys - conjugation_groups.keys
       unless extra_keys.empty?
-        raise ArgumentError.new("The following tenses are not supported: #{extra_keys.inspect}")
+        raise ArgumentError, "The following tenses are not supported: #{extra_keys.inspect}"
       end
 
       @infinitive = infinitive
@@ -109,9 +109,9 @@ module Flashcards
     end
 
     def show_forms
-      self.forms.map do |group_name, conjugations|
+      self.forms.map { |group_name, conjugations|
         "<magenta.bold>#{group_name}</magenta.bold>\n#{self.send(group_name).show_forms}".colourise
-      end.join("\n\n")
+      }.join("\n\n")
     end
 
     def forms
@@ -136,19 +136,20 @@ module Flashcards
       # ir is not really stem ... so yeah, can be nil.
       # raise ArgumentError.new("Root for #{@infinitive} has to be present.") unless @stem.is_a?(String)
       unless @conjugations.is_a?(Hash)
-        raise ArgumentError.new("Conjugations for #{@infinitive} have to be defined.\nInspect: #{@conjugations.inspect}")
+        raise ArgumentError, "Conjugations for #{@infinitive} have to be defined.\nInspect: #{@conjugations.inspect}"
       end
 
       unless @conjugations.keys.all? { |key| key.is_a?(Symbol) }
-        raise TypeError.new(@conjugations.keys.inspect)
+        raise TypeError, @conjugations.keys.inspect
       end
 
-      unless @conjugations.values.all? { |key|
+      unless @conjugations.values.all? do |key|
         key.is_a?(String) ||
         ((key.is_a?(Array) && key.all? { |i| i.is_a?(String) })) ||
-        (key.is_a?(Hash) && key.keys.include?(:stem) && key.keys.include?(:ending)) ||
-        key == :delegated }
-        raise TypeError.new(@conjugations.values.inspect)
+        (key.is_a?(Hash) && key.key?(:stem) && key.key?(:ending)) ||
+        key == :delegated
+             end
+        raise TypeError, @conjugations.values.inspect
       end
 
       @forms = @conjugations.keys
@@ -170,12 +171,14 @@ module Flashcards
 
     def delegate(person, tense, pronoun, &transformation)
       @delegations[person] = [tense, pronoun, transformation]
-      return :delegated
+      :delegated
     end
 
     def regular_forms
       @forms.reduce(Hash.new) do |buffer, person|
-        unless self.irregular_forms.include?(person)
+        if self.irregular_forms.include?(person)
+          buffer
+        else
           if delegation = @delegations[person]
             tense, pronoun, transformation = *delegation
             form = tense.send(pronoun)
@@ -189,11 +192,9 @@ module Flashcards
             elsif ending_or_endings.is_a?(String)
               buffer.merge(person => xxxxx("#{@stem}#{ending_or_endings}"))
             else
-              raise TypeError.new("#{@tense}: #{ending_or_endings.inspect}")
+              raise TypeError, "#{@tense}: #{ending_or_endings.inspect}"
             end
           end
-        else
-          buffer
         end
       end
     end
@@ -231,22 +232,20 @@ module Flashcards
       @exceptions[match] = forms
     end
 
-    def overrides=(forms)
-      @overrides = forms
-    end
+    attr_writer :overrides
 
     def regular?
       self.irregular_forms.empty?
     end
 
     def irregular?
-      ! self.regular?
+      !self.regular?
     end
 
     # Verb.new('buscar').past.irregular?(:yo) # => true
     def irregular?(form)
       form = @aliased_persons.invert[form] if @aliased_persons.invert[form]
-      !! self.irregular_forms[form]
+      !!self.irregular_forms[form]
     end
 
     def show_forms

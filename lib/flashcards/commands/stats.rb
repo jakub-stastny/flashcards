@@ -20,25 +20,25 @@ module Flashcards
         app = Flashcards::App.new(language_name)
         begin
           flashcards = app.flashcards
-        rescue
+        rescue StandardError
           puts "Flashcards for language <bold>#{language_name.upcase}</bold> are not in a correct format.".colourise
           next
         end
 
-        body = <<-EOF
-<bold>Total flashcards</bold>: <green>#{flashcards.items.length}</green>.
-<bold>You remember</bold>: <green>#{flashcards.count { |flashcard| flashcard.correct_answers[:default].length > 2 }}</green> (ones that you answered correctly 3 times or more).
+        body = <<~EOF
+          <bold>Total flashcards</bold>: <green>#{flashcards.items.length}</green>.
+          <bold>You remember</bold>: <green>#{flashcards.count { |flashcard| flashcard.correct_answers[:default].length > 2 }}</green> (ones that you answered correctly 3 times or more).
 
-<bold>Ready for review</bold>: <blue>#{flashcards.map { |f| f.with(app) }.count(&:time_to_review?)}</blue>.
-<bold>To be reviewed later</bold>: <blue>#{flashcards.count { |flashcard| ! flashcard.with(app).should_run? }}</blue>.
-<bold>Comletely new</bold>: <blue>#{flashcards.map { |f| f.with(app) }.count(&:new?)}</blue>.
+          <bold>Ready for review</bold>: <blue>#{flashcards.map { |f| f.with(app) }.count(&:time_to_review?)}</blue>.
+          <bold>To be reviewed later</bold>: <blue>#{flashcards.count { |flashcard| !flashcard.with(app).should_run? }}</blue>.
+          <bold>Comletely new</bold>: <blue>#{flashcards.map { |f| f.with(app) }.count(&:new?)}</blue>.
         EOF
 
-        puts <<-EOF.colourise(bold: true)
+        puts <<~EOF.colourise(bold: true)
 
-<red>Stats for #{language_name.to_s.upcase}</red>
+          <red>Stats for #{language_name.to_s.upcase}</red>
 
-#{flashcards.items.length == 0 ? '<bold>Empty.</bold>' : body}
+          #{flashcards.items.empty? ? '<bold>Empty.</bold>' : body}
         EOF
       end
     end

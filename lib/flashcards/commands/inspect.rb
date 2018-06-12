@@ -16,23 +16,20 @@ module Flashcards
 
     def run
       app, args = self.get_args(@args)
-      if args.empty?
-        abort "Args cannot be empty."
-      end
+      abort "Args cannot be empty." if args.empty?
 
       puts "~ Using language <yellow>#{app.language.name}</yellow>.".colourise
       flashcards = app.flashcards
       flashcards.each do |flashcard|
-        if expression = args.find { |arg| flashcard.expressions.include?(arg.split('.').first) }
-          object = expression.split('.')[1..-1].reduce(flashcard) do |object, method|
-            object.send(method)
-          end
-          if object.is_a?(Numeric) || object.is_a?(Symbol) || [true, false, nil].include?(object)
-            puts "<green>#{expression}</green>: <blue.bold>#{object.inspect}</blue.bold>".colourise
-          else
-            puts "\n<green>#{expression}</green>:".colourise(bold: true)
-            puts object.to_yaml
-          end
+        next unless expression = args.find { |arg| flashcard.expressions.include?(arg.split('.').first) }
+        object = expression.split('.')[1..-1].reduce(flashcard) do |object, method|
+          object.send(method)
+        end
+        if object.is_a?(Numeric) || object.is_a?(Symbol) || [true, false, nil].include?(object)
+          puts "<green>#{expression}</green>: <blue.bold>#{object.inspect}</blue.bold>".colourise
+        else
+          puts "\n<green>#{expression}</green>:".colourise(bold: true)
+          puts object.to_yaml
         end
       end
     end

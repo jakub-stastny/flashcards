@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # If you have any texts in the language you want to learn, like FB messages from your friends,
 # work emails etc, collect all those into a file and run cat the_file | words_by_relevance.

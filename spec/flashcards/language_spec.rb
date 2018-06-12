@@ -18,7 +18,7 @@ describe Flashcards::Language do
         Flashcards::Tense.new(subject, :přací, infinitive) do
           case infinitive
           when /^(.+)at$/
-            [$1, {já: 'al bych'}]
+            [Regexp.last_match(1), {já: 'al bych'}]
           end
         end
       end

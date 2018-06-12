@@ -34,7 +34,7 @@ module Flashcards
       if args.empty? && block.nil?
         expression = method_name.to_s.sub(/_verb$/, '').tr('_', ' ')
         flashcard  = @app.flashcards[:expressions, expression].first
-        method_name.match(/_verb$/) ? flashcard.with(@app).verb : flashcard
+        /_verb$/.match?(method_name) ? flashcard.with(@app).verb : flashcard
       else
         super(*args, &block)
       end

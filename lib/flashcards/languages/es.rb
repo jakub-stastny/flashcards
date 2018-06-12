@@ -12,7 +12,6 @@ Flashcards::Language.define(:es) do
   syllabifier(Flashcards::ES::Syllabifier)
 end
 
-
 require_relative 'es/gerundio'
 require_relative 'es/participio'
 

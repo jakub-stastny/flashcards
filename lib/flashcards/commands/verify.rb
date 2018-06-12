@@ -21,12 +21,10 @@ module Flashcards
       require 'flashcards/wordreference'
 
       flashcards = app.flashcards
-      if ! (args & ['--force', '-f']).empty?
+      if !(args & ['--force', '-f']).empty?
         # Reset checksums.
         flashcards.each do |flashcard|
-          if flashcard.with(app).verb
-            flashcard.metadata.delete(:checksum)
-          end
+          flashcard.metadata.delete(:checksum) if flashcard.with(app).verb
         end
 
         flashcards.filter(:verbs) do |flashcard|
@@ -38,7 +36,7 @@ module Flashcards
         end
       else
         flashcards.filter(:only_selected) do |flashcard|
-          flashcard.with(app).verb && ! (flashcard.expressions & args).empty?
+          flashcard.with(app).verb && !(flashcard.expressions & args).empty?
         end
       end
 
@@ -53,8 +51,8 @@ module Flashcards
     end
 
     def report_unknown_flashcard_attributes(flashcards)
-      flashcards_with_unknown_attributes = flashcards.select do |flashcard|
-        ! flashcard.unknown_attributes.empty?
+      flashcards_with_unknown_attributes = flashcards.reject do |flashcard|
+        flashcard.unknown_attributes.empty?
       end
 
       unless flashcards_with_unknown_attributes.empty?

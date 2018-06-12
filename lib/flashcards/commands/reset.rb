@@ -16,8 +16,8 @@ module Flashcards
 
       argv.each.with_index do |language_name, index|
         Flashcards.app(language_name)
-        print "#{index > 0 ? "\n" : ""}~ Do you want to reset metadata of <red.bold>#{Flashcards.app.language.name}</red.bold>? [<red>y</red>/<green>n</green>] ".colourise
-        if $stdin.readline.chomp.upcase == 'Y'
+        print "#{index > 0 ? "\n" : ''}~ Do you want to reset metadata of <red.bold>#{Flashcards.app.language.name}</red.bold>? [<red>y</red>/<green>n</green>] ".colourise
+        if $stdin.readline.chomp.casecmp('Y').zero?
           flashcards = Flashcards.app.flashcards
           flashcards.save # Make a back-up. # FIXME: This won't work, as back-ups don't have seconds or rand in their names, so after the next save it will be overwritten.
           flashcards.each { |flashcard| flashcard.metadata.clear }

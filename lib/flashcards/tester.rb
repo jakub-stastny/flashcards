@@ -16,14 +16,14 @@ module Flashcards
     end
 
     def run
-      raise NotImplementedError.new('Override this in a subclass.')
+      raise NotImplementedError, 'Override this in a subclass.'
     end
 
     def filter_out_unverified_verbs(all_flashcards)
       return all_flashcards if ENV['FLASHCARDS']
 
       all_flashcards.filter_out(:unverified_verbs) do |flashcard|
-        flashcard.tags.include?(:verb) && ! flashcard.verified?
+        flashcard.tags.include?(:verb) && !flashcard.verified?
       end
 
       unverified_verbs = all_flashcards.filtered_out_items(:unverified_verbs)
@@ -39,7 +39,7 @@ module Flashcards
       return all_flashcards if ENV['FLASHCARDS']
 
       all_flashcards.filter_out(:verbs_with_changed_conjugations) do |flashcard|
-        flashcard.tags.include?(:verb) && flashcard.verified? && ! flashcard.with(@app).verify
+        flashcard.tags.include?(:verb) && flashcard.verified? && !flashcard.with(@app).verify
       end
 
       changed_verbs = all_flashcards.filtered_out_items(:verbs_with_changed_conjugations)
@@ -77,7 +77,7 @@ module Flashcards
         flashcard.with(@app).should_run?
       end
 
-      flashcards_to_review = all_flashcards.select { |flashcard| ! flashcard.with(@app).new? }
+      flashcards_to_review = all_flashcards.reject { |flashcard| flashcard.with(@app).new? }
       new_flashcards = all_flashcards.select { |flashcard| flashcard.with(@app).new? }
 
       if limit_per_run
@@ -98,7 +98,7 @@ module Flashcards
           if index < 0
             flashcards = flashcards_to_review_limited
           else
-            new_flashcards_limited = new_flashcards.shuffle[0..(index)]
+            new_flashcards_limited = new_flashcards.shuffle[0..index]
             flashcards = flashcards_to_review_limited + new_flashcards_limited
           end
         end

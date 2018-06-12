@@ -12,9 +12,9 @@ module Flashcards
     HACKS = {
       'haber.presente.él' => Proc.new do |verb|
         ha, hay = verb.presente.él
-        ["#{ha}", "impersonal: #{hay}"]
+        [ha.to_s, "impersonal: #{hay}"]
       end
-    }
+    }.freeze
 
     def self.already_correct(app, selected_flashcards)
       selected_flashcards.select do |flashcard|
@@ -23,8 +23,8 @@ module Flashcards
     end
 
     def self.unverified_verbs(app, selected_flashcards)
-      selected_flashcards.select do |flashcard|
-        ! flashcard.with(app).verify
+      selected_flashcards.reject do |flashcard|
+        flashcard.with(app).verify
       end
     end
 
@@ -39,7 +39,6 @@ module Flashcards
       Dir.mkdir(RR::CachedHttp.cache_dir) unless Dir.exist?(RR::CachedHttp.cache_dir)
 
       unverified_verbs.each do |flashcard|
-        begin
           checker = self.new(app, flashcard)
           checker.run
           if checker.correct?
@@ -50,10 +49,9 @@ module Flashcards
             puts checker.warnings.map { |warning| "- #{warning}" }
             flashcard.metadata.delete(:checksum)
           end
-        rescue => error
+      rescue StandardError => error
           raise error
           warn "<red>ERROR:</red> Verifying <yellow>#{flashcard.expressions.first}</yellow> failed: <yellow>#{error}</yellow>.".colourise(bold: true)
-        end
       end
 
       unless already_correct.empty?
@@ -120,14 +118,14 @@ module Flashcards
         imperativo_negativo: ['negativo', 0]
       }.each do |flashcards_tense_name, (wr_tense_name, index)|
         results = (conjugations(groups, wr_tense_name, index)[1..-1] || Array.new)
-        unless results.empty?
+        if results.empty?
+          @warnings << "Empty results (bug)."
+        else
           tense = @flashcard.with(@app).verb.send(flashcards_tense_name)
           test("1 #{@flashcard.with(@app).verb.infinitive}.#{tense.tense}.tú", results[0], tense.tú)
           test("1 #{@flashcard.with(@app).verb.infinitive}.#{tense.tense}.vos", process_vos(results[5]), tense.vos)
           test("1 #{@flashcard.with(@app).verb.infinitive}.#{tense.tense}.nosotros", results[2], tense.nosotros)
           test("1 #{@flashcard.with(@app).verb.infinitive}.#{tense.tense}.vosotros", results[3], tense.vosotros)
-        else
-          @warnings << "Empty results (bug)."
         end
       end
 
@@ -159,7 +157,7 @@ module Flashcards
       conjugation_list.map do |per_pronoun|
         unless per_pronoun == '-' # Otherwise return nil.
           per_pronoun.sub!(/^(no )?(.+)\!/, '\2')
-          per_pronoun.match(/, /) ? per_pronoun.split(', ') : per_pronoun
+          /, /.match?(per_pronoun) ? per_pronoun.split(', ') : per_pronoun
         end
       end
     end
@@ -169,13 +167,13 @@ module Flashcards
     end
 
     def incorrect?
-      ! self.correct?
+      !self.correct?
     end
 
     def process_vos(list_or_text) # TODO: refactor this, why can it be an array?
-      [list_or_text].flatten.compact.map do |word|
+      [list_or_text].flatten.compact.map { |word|
         word.delete('*!').sub(/no /, '').split(/,\s*/)
-      end.flatten
+      }.flatten
     end
 
     def test(label, a, b)

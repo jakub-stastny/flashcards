@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'flashcards/commander'
 require 'flashcards/core_exts'
@@ -12,7 +13,7 @@ if commander.commands.include?(command_name)
   commander.run(command_name, ARGV[1..-1] || Array.new)
 elsif [:'-h', :'--help'].include?(command_name)
   puts(commander.help.colourise)
-elsif ARGV.first.match(/^[a-z]{2}$/) # flashcards es
+elsif /^[a-z]{2}$/.match?(ARGV.first) # flashcards es
   commander.run(:run, ARGV || Array.new)
 else
   abort(commander.help.colourise)

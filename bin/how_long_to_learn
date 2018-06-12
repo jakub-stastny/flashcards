@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 def how_many_months_to_learn(total_words_to_learn, words_to_learn_per_day)
   total_days = total_words_to_learn.to_f / words_to_learn_per_day

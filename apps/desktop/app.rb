@@ -1,14 +1,14 @@
 #!/usr/bin/env shoes
 # frozen_string_literal: true
 
-$LOAD_PATH.unshift(File.expand_path('../flashcards../lib', __FILE__))
+$LOAD_PATH.unshift(File.expand_path('flashcards../lib', __dir__))
 
 require 'flashcards/commander'
 
 ENV['FF'] ||= '/tmp/test.yml' #File.expand_path('~/.config/flashcards.yml')
 ENV['EDITOR_APP'] ||= 'Atom'
 
-TAG_LIST = [:verb, :reflective]
+TAG_LIST = [:verb, :reflective].freeze
 
 Shoes.app(width: 600, height: 570) do
   background '#EFC'
@@ -96,11 +96,11 @@ Shoes.app(width: 600, height: 570) do
             select { |checkbox, _| checkbox.checked? }.
             map { |_, tag| tag }
 
-          examples = @example_lines.map do |expression, translation|
+          examples = @example_lines.map { |expression, translation|
             unless [expression.text, translation.text].any?(&:empty?)
               Example.new(expression.text, translation.text)
             end
-          end.compact
+          }.compact
 
           arguments = {
             expressions: @expressions.text.split(/\s*,\s*/),

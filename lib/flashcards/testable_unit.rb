@@ -26,20 +26,20 @@ module Flashcards
 
     def mark_as_failed(key = :default)
       self.correct_answers.delete(key) # Treat as new.
-      return false
+      false
     end
 
     def mark_as_correct(key = :default)
       self.correct_answers[key].push(Time.now)
-      return true
+      true
     end
 
     def correct_answers
-      if self.metadata[:correct_answers].is_a?(Array)
-        hash = self.metadata[:correct_answers] = {default: self.metadata[:correct_answers]}
+      hash = if self.metadata[:correct_answers].is_a?(Array)
+        self.metadata[:correct_answers] = {default: self.metadata[:correct_answers]}
       else
-        hash = self.metadata[:correct_answers] ||= Hash.new
-      end
+        self.metadata[:correct_answers] ||= Hash.new
+             end
 
       hash.tap do |correct_answers|
         correct_answers.default_proc = Proc.new do |hash, key|

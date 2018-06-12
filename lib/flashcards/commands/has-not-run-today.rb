@@ -16,7 +16,7 @@ module Flashcards
     end
 
     def last_test_time
-      @app.flashcards.map { |f| f.correct_answers.values.flatten.sort.last }.compact.sort.last
+      @app.flashcards.map { |f| f.correct_answers.values.flatten.max }.compact.max
     end
 
     def are_there_flashcards_for_review
@@ -34,11 +34,9 @@ module Flashcards
 
       has_been_reviewed_today = self.last_review_time.to_date == Date.today
       has_run_today = self.last_test_time.to_date == Date.today
-      nothing_to_run_or_review = (! self.are_there_flashcards_for_review && ! self.are_there_flashcards_to_be_tested_on)
+      nothing_to_run_or_review = (!self.are_there_flashcards_for_review && !self.are_there_flashcards_to_be_tested_on)
 
-      if has_been_reviewed_today || has_run_today || nothing_to_run_or_review
-        exit 1
-      end
+      exit 1 if has_been_reviewed_today || has_run_today || nothing_to_run_or_review
     end
   end
 end

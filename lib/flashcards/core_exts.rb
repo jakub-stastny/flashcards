@@ -23,7 +23,7 @@ module Flashcards
         puts "~ 1 Array#deep_copy'ing: #{self.inspect}."
         self.map do |item|
         puts "~ 2 Array#deep_copy'ing: #{item.inspect}."
-          item.respond_to?(:deep_copy) ? item.deep_copy : item.dup
+        item.respond_to?(:deep_copy) ? item.deep_copy : item.dup
         end
       end
     end

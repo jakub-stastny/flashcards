@@ -22,8 +22,8 @@ module Flashcards
 
       case new_flashcard_count
       when 0            then test
-      when 1..12        then review(3)  and test
-      when 12..(5 * 12) then review(6)  and test
+      when 1..12        then review(3)  && test
+      when 12..(5 * 12) then review(6)  && test
       else                   review(12) end
     end
 

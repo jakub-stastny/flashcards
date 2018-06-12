@@ -1,16 +1,16 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'date'
 
 NEW_PER_DAY = 10
-SCHEDULE = [1, 5, 25, 125]
+SCHEDULE = [1, 5, 25, 125].freeze
 
 # Doesn't include conjugations and errors.
 # It doesn't work with LIMIT either.
 
 def count(all_correct_answers, day, schedule)
   number_of_items_for_today = all_correct_answers.reduce(0) do |count, correct_answers|
-
     schedule.each.with_index do |number_of_days, index|
       if correct_answers.length == index + 1 && correct_answers.last <= day - number_of_days
         correct_answers << day
@@ -21,14 +21,13 @@ def count(all_correct_answers, day, schedule)
     count
   end
 
-
   [all_correct_answers.count, number_of_items_for_today]
 end
 
 all_correct_answers = Array.new
 
 335.times do |day_number|
-  day_number = day_number + 1
+  day_number += 1
   day = Date.new(2017, 1, 1) + day_number
   NEW_PER_DAY.times { all_correct_answers << [day] }
   vocabulary_size, number_of_items_for_today = count(all_correct_answers, day, SCHEDULE)

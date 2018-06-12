@@ -11,13 +11,13 @@ module Flashcards
 
     def run
       flashcards = self.flashcards_to_be_tested_on
-#       if flashcards.empty?
-#         abort(<<-EOF.colourise(bold: true))
-# <red>There are currently no flashcards that are new or pending to review.</red>
-#   Add new ones by running <bright_black>$ #{File.basename($0)} add expression translation</bright_black>.
-#   You can also reset all your learning by running <bright_black>$ #{File.basename($0)} reset</bright_black> or just wait until tomorrow.
-#         EOF
-#       end
+      #       if flashcards.empty?
+      #         abort(<<-EOF.colourise(bold: true))
+      # <red>There are currently no flashcards that are new or pending to review.</red>
+      #   Add new ones by running <bright_black>$ #{File.basename($0)} add expression translation</bright_black>.
+      #   You can also reset all your learning by running <bright_black>$ #{File.basename($0)} reset</bright_black> or just wait until tomorrow.
+      #         EOF
+      #       end
 
       flashcards.shuffle.each.with_index do |flashcard, index|
         original_metadata = flashcard.data[:metadata] # since flashcard.metadata.dup isn't a deep copy; this is.
@@ -45,7 +45,7 @@ module Flashcards
 
     # TODO: r for updating reviewed_at.
     def commander_mode(flashcard, original_metadata)
-      print "\n<bright_black>Press <green.bold>Enter</green.bold> to move on, <magenta>e</magenta> to edit, <yellow>c</yellow> for console and <blue.bold>d</blue.bold> to discard. Last review: #{flashcard.last_review_time ? flashcard.last_review_time.strftime("%d/%m/%Y") : 'never'}. </bright_black>".colourise
+      print "\n<bright_black>Press <green.bold>Enter</green.bold> to move on, <magenta>e</magenta> to edit, <yellow>c</yellow> for console and <blue.bold>d</blue.bold> to discard. Last review: #{flashcard.last_review_time ? flashcard.last_review_time.strftime('%d/%m/%Y') : 'never'}. </bright_black>".colourise
       case $stdin.readline.chomp
       when ''
         @all_flashcards.save
@@ -99,27 +99,25 @@ module Flashcards
 
     def display_example_without_the_expression(flashcard, example)
       xxxx = flashcard.with(@app).word_variants.sort_by(&:length).reverse
-      puts('', xxxx.reduce(example.expression) do |result, expression|
+      puts('', xxxx.reduce(example.expression) { |result, expression|
         pattern = expression.gsub(/\b[[:alpha:]]{1,3}\b/, '__').
                              gsub(/\b[[:alpha:]]{4,}\b/, '____')
         result.
           sub(/\b#{expression}\b/i, pattern)
-      end.colourise)
+      }.colourise)
     end
 
     def display_example_with_highlighted_expression(flashcard, example)
       xxxx = flashcard.with(@app).word_variants.sort_by(&:length).reverse
-      puts('', xxxx.reduce(example.expression) do |result, expression|
+      puts('', xxxx.reduce(example.expression) { |result, expression|
         result.
           sub(/\b#{expression}\b/, "<bold>#{expression}</bold>").
           sub(/\b#{expression.titlecase}\b/, "<bold>#{expression.titlecase}</bold>")
-      end.colourise)
+      }.colourise)
     end
 
     def test_flashcard(flashcard)
-      if @app.language.accents_help
-        puts @app.language.accents_help.colourise
-      end
+      puts @app.language.accents_help.colourise if @app.language.accents_help
 
       if flashcard.correct_answers[:default].length >= 1
         # Switch sides.
@@ -129,7 +127,7 @@ module Flashcards
           puts
         end
 
-        synonyms = @all_flashcards.select { |f2| ! (flashcard.translations & f2.translations).empty? } - [flashcard]
+        synonyms = @all_flashcards.reject { |f2| (flashcard.translations & f2.translations).empty? } - [flashcard]
         if synonyms.empty?
           print "#{flashcard.translations.join_with_and('or') { |t| "<underline>#{t}</underline>" }}#{" (#{flashcard.hint})" if flashcard.hint}: ".colourise(bold: true)
         else
@@ -143,7 +141,7 @@ module Flashcards
         end
 
         # NOTE: ser/estar & saber/conocer are not really synomyms.
-        synonyms = @all_flashcards.select { |f2| ! (flashcard.translations & f2.translations).empty? } - [flashcard]
+        synonyms = @all_flashcards.reject { |f2| (flashcard.translations & f2.translations).empty? } - [flashcard]
         if synonyms.empty?
           print "#{flashcard.expressions.join_with_and('or')}#{" (#{flashcard.hint})" if flashcard.hint}: ".colourise(bold: true)
         else
@@ -161,31 +159,31 @@ module Flashcards
         else
           synonyms = flashcard.translations - [translation]
         end
-        if flashcard.translations.include?(translation)
-          translation_or_first_translation = translation
+        translation_or_first_translation = if flashcard.translations.include?(translation)
+          translation
         else
-          translation_or_first_translation = flashcard.translations[0] # For silent translations.
-        end
+          flashcard.translations[0] # For silent translations.
+                                           end
 
         flashcard_expressions = flashcard.expressions.map.with_index { |word, index| "<yellow>#{index == 0 ? word.titlecase : word}</yellow>" }.join_with_and('or')
         list_of_synonyms = (synonyms - [translation]).map { |word| "<yellow>#{word}</yellow>" }.join_with_and('or')
 
-        puts <<-EOF.colourise(bold: true)
-<green>✔︎  <yellow>#{flashcard_expressions}</yellow> is indeed <yellow>#{translation_or_first_translation}</yellow>.</green>
+        puts <<~EOF.colourise(bold: true)
+          <green>✔︎  <yellow>#{flashcard_expressions}</yellow> is indeed <yellow>#{translation_or_first_translation}</yellow>.</green>
         EOF
 
         puts <<-EOF.colourise(bold: true) if synonyms.any?
-   #{"It can also mean #{list_of_synonyms}." }
+   #{"It can also mean #{list_of_synonyms}."}
         EOF
 
         # Experimental.
         self.run_conjugation_tests(flashcard)
       else
         @incorrect += 1
-        list = flashcard.translations.map do |word|
+        list = flashcard.translations.map { |word|
           word
           "<yellow>#{word}</yellow>"
-        end.join_with_and('<red>or</red>')
+        }.join_with_and('<red>or</red>')
 
         puts "  <red>✘  #{flashcard.expressions.join_with_and('or').titlecase} is </red>#{list}.\n".colourise(bold: true)
       end
@@ -201,9 +199,9 @@ module Flashcards
         @indentation = 2
         if example.label && example.tags.empty?
           puts "   <green>#{example.label}</green>:".colourise
-        elsif example.label && ! example.tags.empty?
+        elsif example.label && !example.tags.empty?
           puts "   <green>#{example.label}</green> (<yellow>#{example.tags.join(' ')}</yellow>):".colourise
-        elsif ! example.label && ! example.tags.empty?
+        elsif !example.label && !example.tags.empty?
           puts "   <yellow>#{example.tags.join(' ')}</yellow>:".colourise
         else
           @indentation = 0
@@ -217,8 +215,8 @@ module Flashcards
     def show_stats
       puts "\n<green>Statistics</green>".colourise(bold: true)
       blob = "- <bold>Total:</bold> #{@correct + @incorrect} (" +
-        [("<green>#{@correct} correct</green>" unless @correct == 0),
-          ("<red>#{@incorrect} incorrect</red>" unless @incorrect == 0)].compact.join(' and ') + ').'
+             [("<green>#{@correct} correct</green>" unless @correct == 0),
+               ("<red>#{@incorrect} incorrect</red>" unless @incorrect == 0)].compact.join(' and ') + ').'
       puts blob.colourise
       # puts "- Review"
       # puts "- New vocabulary:"
@@ -243,19 +241,19 @@ module Flashcards
       else
         @correct += 1
       end
-    # rescue StandardError => e # No signals such as Interrupt.
-    #   require 'pry'; binding.pry ###
+      # rescue StandardError => e # No signals such as Interrupt.
+      #   require 'pry'; binding.pry ###
     end
 
     def run_conjugation_test_for(conjugation_group, flashcard, verb)
       person = conjugation_group.forms.keys.sample
       if person == :default
-        print <<-EOF.colourise(bold: true).chomp + ' '
-~ <magenta>#{conjugation_group.tense.to_s.titlecase} <cyan>is:</cyan></magenta>
+        print <<~EOF.colourise(bold: true).chomp + ' '
+          ~ <magenta>#{conjugation_group.tense.to_s.titlecase} <cyan>is:</cyan></magenta>
         EOF
       else
-        print <<-EOF.colourise(bold: true).chomp + ' '
-~ <magenta>#{person.to_s.titlecase} <cyan>form of the</cyan> #{conjugation_group.tense}<cyan> tense is:</cyan></magenta>
+        print <<~EOF.colourise(bold: true).chomp + ' '
+          ~ <magenta>#{person.to_s.titlecase} <cyan>form of the</cyan> #{conjugation_group.tense}<cyan> tense is:</cyan></magenta>
         EOF
       end
 
@@ -276,7 +274,7 @@ module Flashcards
       # TODO: Format the lengts so | is always where it's supposed to be (delete tags before calculation).
       unless conjugation_group.pretty_inspect.empty? # Gerundio, participio.
         puts "\n    All the forms of the #{conjugation_group.tense} are:"
-        puts conjugation_group.show_forms.map { |line| "    #{line}"  }
+        puts conjugation_group.show_forms.map { |line| "    #{line}" }
       end
       puts
 

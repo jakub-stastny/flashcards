@@ -4,7 +4,7 @@ module Flashcards
   class TestableUnitWrapper
     def initialize(app, flashcard)
       @app, @flashcard = app, flashcard
-      raise ArgumentError.new("App can't be nil.") if app.nil?
+      raise ArgumentError, "App can't be nil." if app.nil?
     end
 
     def new?(key = nil)
@@ -68,9 +68,7 @@ module Flashcards
     end
 
     def should_run?(key = nil)
-      if (key && @app.config.should_be_tested_on?(key)) || key.nil?
-        super(key)
-      end
+      super(key) if (key && @app.config.should_be_tested_on?(key)) || key.nil?
     end
 
     def word_variants # TODO: nouns (plurals), cómodo/cómoda
@@ -83,8 +81,8 @@ module Flashcards
       else
         expressions = @flashcard.expressions.dup
         @flashcard.expressions.each do |expression|
-          if expression.match(/^(el|la|los|las) (.+)/)
-            expressions << $2 # nouns are often used without the articles.
+          if expression =~ /^(el|la|los|las) (.+)/
+            expressions << Regexp.last_match(2) # nouns are often used without the articles.
           end
         end
         expressions
@@ -98,7 +96,7 @@ module Flashcards
     end
 
     def verify
-      raise TypeError.new unless self.verb
+      raise TypeError unless self.verb
 
       if checksum = @flashcard.metadata[:checksum]
         return Digest::MD5.hexdigest(self.verb.forms.to_yaml) == checksum

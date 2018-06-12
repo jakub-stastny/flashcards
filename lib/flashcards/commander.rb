@@ -18,22 +18,22 @@ module Flashcards
     end
 
     def help_template
-      <<-EOF
-<red.bold>:: Flashcards ::</red.bold>
+      <<~EOF
+        <red.bold>:: Flashcards ::</red.bold>
 
-<cyan.bold>Commands</cyan.bold>
+        <cyan.bold>Commands</cyan.bold>
       EOF
     end
 
     def help
-      self.commands.reduce(self.help_template) do |buffer, (command_name, command_class)|
+      self.commands.reduce(self.help_template) { |buffer, (command_name, command_class)|
         if command_class.help
           help = command_class.help.gsub(/\n/m, "\n  ")
           "#{buffer}  #{help}\n"
         else
           buffer
         end
-      end.strip
+      }.strip
     end
 
     def commands

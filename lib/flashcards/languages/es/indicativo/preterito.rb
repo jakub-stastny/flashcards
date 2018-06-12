@@ -5,13 +5,13 @@ Flashcards::Language.define(:es) do
     tense = Flashcards::Tense.new(self, :pretérito, infinitive) do
       case self.infinitive
       when /^(.+)ar(se)?$/
-        [$1, {
+        [Regexp.last_match(1), {
           yo: 'é',    nosotros: 'amos',
           tú: 'aste', vosotros: 'asteis',
           él: 'ó',    ellos: 'aron'
         }]
       when /^(.*)[ei]r(se)?$/ # ir, irse
-        [$1, {
+        [Regexp.last_match(1), {
           yo: 'í',    nosotros: 'imos',
           tú: 'iste', vosotros: 'isteis',
           él: 'ió',   ellos:    'ieron'

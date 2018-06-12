@@ -5,14 +5,14 @@ require 'flashcards/commands/add-interactive'
 require 'flashcards/utils'
 require 'refined-refinements/colours'
 
-  # <magenta>Multilingual mode</magenta> If you have more than one language configured in your
-  #   <bright_black>~/.config/flashcards.yml</bright_black>, you can specify which one you want to add the
-  #   flashcard into. Note that you don't have to do so if you have one
-  #   langugage marked as the default one, but you always can.
-  #
-  #   flashcards <red>add</red> <yellow>es</yellow> todavía still
-  #   flashcards <red>add</red> todavía<bright_black> # Check if a flashcard is defined.</bright_black>
-  #   --no-edit #verb
+# <magenta>Multilingual mode</magenta> If you have more than one language configured in your
+#   <bright_black>~/.config/flashcards.yml</bright_black>, you can specify which one you want to add the
+#   flashcard into. Note that you don't have to do so if you have one
+#   langugage marked as the default one, but you always can.
+#
+#   flashcards <red>add</red> <yellow>es</yellow> todavía still
+#   flashcards <red>add</red> todavía<bright_black> # Check if a flashcard is defined.</bright_black>
+#   --no-edit #verb
 module Flashcards
   class AddCommand < SingleLanguageCommand
     using RR::ColourExts
@@ -36,7 +36,7 @@ module Flashcards
       end
 
       args.default_proc = Proc.new { |hash, key| hash[key] = Array.new }
-      return app, args
+      [app, args]
     end
 
     def run
@@ -69,7 +69,7 @@ module Flashcards
         self.add(app, args)
       else
         # TODO: Commander::HELP_ITEMS[:add]
-        abort "Usage: #{File.basename($0)} [lang] [word] [translation] [tags]"
+        abort "Usage: #{File.basename($PROGRAM_NAME)} [lang] [word] [translation] [tags]"
       end
     end
 
@@ -80,7 +80,7 @@ module Flashcards
       translations = args[:values][-1].split(/,\s*/)
 
       flashcards.each do |flashcard|
-        if (! (flashcard.expressions & expressions).empty?) && (! (flashcard.translations & translations).empty?)
+        if !(flashcard.expressions & expressions).empty? && !(flashcard.translations & translations).empty?
           abort "Same flashcard: #{flashcard}.".colourise
         end
       end
@@ -95,11 +95,11 @@ module Flashcards
         flashcards.save
       else
         if flashcard = Utils.edit_flashcard(flashcard)
-          unless flashcard.tags.include?(:delete)
+          if flashcard.tags.include?(:delete)
+            abort "Delete tag detected. Aborted."
+          else
             flashcards << flashcard
             flashcards.save
-          else
-            abort "Delete tag detected. Aborted."
           end
         else
           abort "No data found."

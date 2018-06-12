@@ -6,11 +6,11 @@ Flashcards::Language.define(:es) do
   conjugation_group(:subjuntivo_futuro) do |verb, infinitive|
     language = self
     tense = Flashcards::Tense.new(self, :subjuntivo_futuro, infinitive) do
-      if verb.infinitive != infinitive # Irregular infinitive.
-        stem = self.infinitive[0..-4]
+      stem = if verb.infinitive != infinitive # Irregular infinitive.
+        self.infinitive[0..-4]
       else
-        stem = verb.pretérito.ellos[0..-4]
-      end
+        verb.pretérito.ellos[0..-4]
+             end
 
       # NOTE: It might or might not be the right stem, but anyhow, I don't think it matters.
       [stem[0..-2], {

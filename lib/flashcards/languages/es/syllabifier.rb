@@ -7,8 +7,8 @@ module Flashcards
                ['a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú', 'ü'].map(&:upcase)
 
       CONSONANTS = ('a'..'z').to_a + ['ñ', 'll', 'rr', 'ch'] - VOWELS +
-                                          ['Ll', 'Rr', 'Ch'] +
-                  (('a'..'z').to_a + ['ñ', 'll', 'rr', 'ch'] - VOWELS).map(&:upcase)
+                   ['Ll', 'Rr', 'Ch'] +
+                   (('a'..'z').to_a + ['ñ', 'll', 'rr', 'ch'] - VOWELS).map(&:upcase)
 
       def self.vowels
         VOWELS
@@ -19,27 +19,23 @@ module Flashcards
       end
 
       def self.sounds(word)
-        word.each_char.reduce(Array.new) do |sounds, character|
-          if "#{sounds.last}#{character}".match(/(ll|rr|ch)$/i)
+        word.each_char.each_with_object(Array.new) do |character, sounds|
+          if /(ll|rr|ch)$/i.match?("#{sounds.last}#{character}")
             sounds[-1] += character
           else
             sounds << character
           end
-
-          sounds
         end
       end
 
       def self.syllables(word)
         sounds = self.sounds(word)
-        syllables = sounds[1..-1].map.with_index.reduce([sounds[0]]) do |syllables, (sound, index)|
+        syllables = sounds[1..-1].map.with_index.each_with_object([sounds[0]]) do |(sound, index), syllables|
           if self._should_append?(syllables.last, sound, sounds[index + 2])
             syllables[-1] += sound
           else
             syllables << sound
           end
-
-          syllables
         end
 
         # syllables.reduce(Array.new) do |syllables, syllable|
@@ -71,13 +67,13 @@ module Flashcards
           return false # le-o
         elsif two_consecutive_vowels
           return true # fui
-        elsif (CONSONANTS.include?(sound) && VOWELS.include?(next_sound)) && ! (CONSONANTS.include?(syllable[-1]) && r_l.include?(sound))
+        elsif (CONSONANTS.include?(sound) && VOWELS.include?(next_sound)) && !(CONSONANTS.include?(syllable[-1]) && r_l.include?(sound))
           # oro, but not trabajo or clave.
           # oro: syllable: 'o', sound: 'r', next_sound: 'o' => false, do not append 'ro' to 'o'
           return false # o-ro
         elsif CONSONANTS.include?(sound) && next_sound.nil?
           return true # Juan
-        elsif CONSONANTS.include?(sound) && CONSONANTS.include?(next_sound) && ! r_l.include?(next_sound)
+        elsif CONSONANTS.include?(sound) && CONSONANTS.include?(next_sound) && !r_l.include?(next_sound)
           return true # cuan-do
         elsif CONSONANTS.include?(sound) && r_l.include?(sound) && CONSONANTS.include?(syllable[-1])
           return true  # tra-ba-jo, cla-ve.
@@ -115,7 +111,7 @@ module Flashcards
       end
 
       def self.accentuate(word, syllable_index)
-        s1= syllable_index
+        s1 = syllable_index
         syllables = self.syllables(word)
         syllable_index = syllables.length + syllable_index if syllable_index < 0
 

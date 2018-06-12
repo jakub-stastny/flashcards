@@ -5,9 +5,9 @@ Flashcards::Language.define(:es) do
     tense = Flashcards::Tense.new(self, :participio, infinitive) do
       case self.infinitive
       when /^(.+)ar(se)?$/
-        [$1, default: 'ado']
+        [Regexp.last_match(1), default: 'ado']
       when /^(.*)[ei]r(se)?$/
-        [$1, default: 'ido']
+        [Regexp.last_match(1), default: 'ido']
       end
     end
 

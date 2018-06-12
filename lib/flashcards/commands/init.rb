@@ -13,12 +13,12 @@ module Flashcards
     EOF
 
     def run
-      if @args.empty? || @args.any? { |code| ! code.match(/^[a-z]{2}$/) }
-        abort <<-EOF.colourise
-Please provide one or more language codes as arguments.
-The codes are expected to be two characters long (such as <red>es</red>).
+      if @args.empty? || @args.any? { |code| !code.match(/^[a-z]{2}$/) }
+        abort <<~EOF.colourise
+          Please provide one or more language codes as arguments.
+          The codes are expected to be two characters long (such as <red>es</red>).
 
-For instance: <bright_black>flashcards init cz</bright_black>
+          For instance: <bright_black>flashcards init cz</bright_black>
         EOF
       end
 
@@ -27,7 +27,7 @@ For instance: <bright_black>flashcards init cz</bright_black>
         config = Flashcards::Config.new
 
         @args.each do |language_code|
-          if config.data['learning'].has_key?(language_code)
+          if config.data['learning'].key?(language_code)
             warn "~ Language #{language_code} has already been initiated.".colourise
           else
             config.data['learning'][language_code] = Hash.new

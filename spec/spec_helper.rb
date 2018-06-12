@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ENV['FLASHCARDS_CONFIG'] = File.expand_path('../data/config.yml', __FILE__)
+ENV['FLASHCARDS_CONFIG'] = File.expand_path('data/config.yml', __dir__)
 
 RSpec.configure do |config|
   config.include(Module.new {

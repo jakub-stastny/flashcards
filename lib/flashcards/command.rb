@@ -11,7 +11,7 @@ module Flashcards
     class << self
       attr_accessor :help
       def main_command
-        File.basename($0)
+        File.basename($PROGRAM_NAME)
       end
     end
 

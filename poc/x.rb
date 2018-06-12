@@ -15,19 +15,19 @@ def get_word_or_kbd_shortcut
   until (char = Curses.getch) == 13
     if char.is_a?(Integer)
       p [:kbd, char]
-      raise KeyboardInterrupt.new(char)
+      raise KeyboardInterrupt, char
     else
       buffer << char
     end
   end
 
-  return buffer
+  buffer
 end
 
 Curses.init_screen
 Curses.start_color
 
-PAIRS = {'hello' => 'hola', 'to have' => 'tener', 'to do' => 'hacer'}
+PAIRS = {'hello' => 'hola', 'to have' => 'tener', 'to do' => 'hacer'}.freeze
 
 begin
   Curses.init_pair(1, Curses::COLOR_RED, Curses::COLOR_BLUE)

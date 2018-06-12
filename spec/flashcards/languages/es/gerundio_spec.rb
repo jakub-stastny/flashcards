@@ -79,7 +79,7 @@ describe 'Gerundio' do
       spanish.flashcards += [
         Flashcards::Flashcard.new(expressions: ['dormir'], translation: 'to sleep', tags: [:verb], conjugations: {pretérito: {él: 'durmió'}}),
         Flashcards::Flashcard.new(expressions: ['decir'], translation: 'to tell', tags: [:verb], conjugations: {pretérito: {él: 'dijo'}}),
-        Flashcards::Flashcard.new(expressions: ['reñir'], translation: 'to tell off', tags: [:verb], conjugations: {pretérito: {él: 'riñó'}}),
+        Flashcards::Flashcard.new(expressions: ['reñir'], translation: 'to tell off', tags: [:verb], conjugations: {pretérito: {él: 'riñó'}})
       ]
     end
 

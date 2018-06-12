@@ -11,13 +11,13 @@ Flashcards::Language.define(:es) do
         tú: delegate(:tú, verb.presente, :él),
         vos: {
           stem: infinitive.sub(/(se)?$/, '')[0..-3],
-          ending: infinitive.sub(/^.*(.)r(se)?$/) {
+          ending: infinitive.sub(/^.*(.)r(se)?$/) do
             if language.syllabifier.syllables(infinitive[0..-2]).length > 1
-              language.syllabifier.accentuate($1, 0)
+              language.syllabifier.accentuate(Regexp.last_match(1), 0)
             else
-              $1
+              Regexp.last_match(1)
             end
-          }
+          end
         },
         nosotros: delegate(:nosotros, verb.subjuntivo, :nosotros),
         vosotros: {

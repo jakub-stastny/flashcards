@@ -1,4 +1,5 @@
 #!/usr/bin/env gem build
+# frozen_string_literal: true
 
 Gem::Specification.new do |s|
   s.name        = 'flashcards'
@@ -13,16 +14,16 @@ Gem::Specification.new do |s|
   s.files       = Dir.glob('{bin,lib}/**/*.rb') + ['README.md']
   s.executables = Dir['bin/*'].map(&File.method(:basename))
 
-  s.add_runtime_dependency('term-ansicolor', ['~> 1.4'])
   s.add_runtime_dependency('refined-refinements', ['~> 0.0'])
+  s.add_runtime_dependency('term-ansicolor', ['~> 1.4'])
 
-  s.post_install_message = <<-EOF
-Welcome to flashcards! To start, run
+  s.post_install_message = <<~EOF
+    Welcome to flashcards! To start, run
 
-  flashcards init es # Spanish. Use any two character long language code.
+      flashcards init es # Spanish. Use any two character long language code.
 
-Use the help to learn more (flashcards -h).
+    Use the help to learn more (flashcards -h).
 
-The full manual is available at http://github.com/botanicus/flashcards
+    The full manual is available at http://github.com/botanicus/flashcards
   EOF
 end

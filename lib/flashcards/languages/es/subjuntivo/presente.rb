@@ -5,23 +5,23 @@ require_relative '../indicativo/presente'
 Flashcards::Language.define(:es) do
   conjugation_group(:subjuntivo) do |verb, infinitive|
     tense = Flashcards::Tense.new(self, :subjuntivo, infinitive) do
-      if verb.infinitive != infinitive # Irregular infinitive.
-        stem = self.infinitive[0..-3]
+      stem = if verb.infinitive != infinitive # Irregular infinitive.
+        self.infinitive[0..-3]
       else
-        stem = verb.presente.yo.sub(/^(.+)oy?$/, '\1')
-      end
+        verb.presente.yo.sub(/^(.+)oy?$/, '\1')
+             end
 
       case self.infinitive
       when /^(.+)ar(se)?$/
         [stem, {
            yo: 'e',   nosotros: 'emos',
-vos: 'és', tú: 'es',  vosotros: 'éis',
+           vos: 'és', tú: 'es', vosotros: 'éis',
            él: 'e',   ellos: 'en'
         }]
       when /^(.*)[ei]r(se)?$/ # ir, irse
         [stem, {
            yo: 'a',   nosotros: 'amos',
-vos: 'ás', tú: 'as',  vosotros: 'áis',
+           vos: 'ás', tú: 'as', vosotros: 'áis',
            él: 'a',   ellos: 'an'
         }]
       end

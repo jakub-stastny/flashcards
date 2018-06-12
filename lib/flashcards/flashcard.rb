@@ -40,13 +40,11 @@ module Flashcards
 
       deserialise_singular_or_plural_key(:expression, data)
       if self.expressions.empty?
-        raise ArgumentError.new('At least one expression has to be provided!')
+        raise ArgumentError, 'At least one expression has to be provided!'
       end
 
       deserialise_singular_or_plural_key(:translation, data)
-      if self.translations.empty?
-        raise ArgumentError.new('Translations has to be provided!')
-      end
+      raise ArgumentError, 'Translations has to be provided!' if self.translations.empty?
 
       deserialise_singular_or_plural_key(:silent_translation, data)
 
@@ -55,7 +53,7 @@ module Flashcards
 
     ATTRIBUTES = [
       :expressions, :translations, :silent_translations, :notes, :hint, :tags, :conjugations, :examples, :metadata, :_
-    ]
+    ].freeze
 
     ATTRIBUTES.each do |attribute|
       define_method(attribute) { @data[attribute] }
@@ -70,13 +68,13 @@ module Flashcards
       results[:expressions] = self.expressions.dup
       results[:translations] = self.translations.dup
       results[:silent_translations] = self.silent_translations.dup
-      results[:tags]  = self.tags.dup
+      results[:tags] = self.tags.dup
       if self.notes.length <= 2 # Empty or 1.
         results[:note] = self.notes.dup
       else
         results[:notes] = self.notes.dup
       end
-      results[:hint]  = self.hint.dup
+      results[:hint] = self.hint.dup
       results[:examples] = self.examples.map(&:expanded_data)
       results[:conjugations] = self.conjugations.dup if self.tags.include?(:verb)
       results[:_] = self._.dup
@@ -114,14 +112,11 @@ module Flashcards
       if self.correct_answers.empty? || self.correct_answers == {default: Array.new}
         results[:metadata].delete(:correct_answers)
       else
-        correct_answers = self.correct_answers.reduce(Hash.new) do |hash, (key, values)|
-          hash.merge!(key => values) unless values.empty?
-          hash
+        correct_answers = self.correct_answers.each_with_object(Hash.new) do |(key, values), hash|
+          hash[key] = values unless values.empty?
         end
 
-        if correct_answers.keys == [:default]
-          correct_answers = correct_answers[:default]
-        end
+        correct_answers = correct_answers[:default] if correct_answers.keys == [:default]
 
         results[:metadata][:correct_answers] = correct_answers
       end
@@ -140,7 +135,7 @@ module Flashcards
     end
 
     def verified? # Verified against a dictionary.
-      !! self.metadata[:checksum]
+      !!self.metadata[:checksum]
     end
 
     def with(app)
@@ -150,8 +145,8 @@ module Flashcards
     def mark(answer, key = :default)
       super(answer, key) do
         self.translations.include?(answer) ||
-        self.silent_translations.include?(answer) ||
-        self.expressions.include?(answer) ###
+          self.silent_translations.include?(answer) ||
+          self.expressions.include?(answer) ###
       end
     end
 

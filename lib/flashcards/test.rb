@@ -8,7 +8,7 @@ module Flashcards
       "~/Dropbox/Data/Data/Flashcards/#{language_name}.tests.yml"
     end
 
-    ATTRIBUTES = [:prompt, :options, :answer, :metadata]
+    ATTRIBUTES = [:prompt, :options, :answer, :metadata].freeze
 
     ATTRIBUTES.each do |attribute|
       define_method(attribute) { @data[attribute] }
@@ -20,7 +20,7 @@ module Flashcards
 
     def mark(answer)
       super(answer) do
-        if answer.match(/^\d+$/) && ! self.options.empty?
+        if answer.match(/^\d+$/) && !self.options.empty?
           answer = self.options[answer.to_i - 1]
         end
 

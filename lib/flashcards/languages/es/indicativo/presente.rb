@@ -5,21 +5,21 @@ Flashcards::Language.define(:es) do
     tense = Flashcards::Tense.new(self, :presente, infinitive) do
       case self.infinitive
       when /^(.+)ar(se)?$/
-        [$1, {
+        [Regexp.last_match(1), {
            yo: 'o',   nosotros: 'amos',
-vos: 'ás', tú: 'as',  vosotros: 'áis',
+           vos: 'ás', tú: 'as', vosotros: 'áis',
            él: 'a',   ellos: 'an'
         }]
       when /^(.+)er(se)?$/
-        [$1, {
+        [Regexp.last_match(1), {
            yo: 'o',   nosotros: 'emos',
-vos: 'és', tú: 'es',  vosotros: 'éis',
+           vos: 'és', tú: 'es', vosotros: 'éis',
            él: 'e',   ellos: 'en'
         }]
       when /^(.*)ir(se)?$/ # ir, irse
-        [$1, {
+        [Regexp.last_match(1), {
            yo: 'o',   nosotros: 'imos',
-vos: 'ís', tú: 'es',  vosotros: 'ís',
+           vos: 'ís', tú: 'es', vosotros: 'ís',
            él: 'e',   ellos: 'en'
         }]
       end

@@ -30,9 +30,7 @@ module Flashcards
 
       flashcard_data = YAML.load_file(path)
 
-      if flashcard_data.nil?
-        File.unlink(path) && return
-      end
+      File.unlink(path) && return if flashcard_data.nil?
 
       flashcard = Flashcard.new(flashcard_data)
 
@@ -43,16 +41,16 @@ module Flashcards
 
     def self.matching_flashcards(flashcards, expressions, translations = Array.new)
       flashcards.select do |flashcard|
-        ! (flashcard.expressions & expressions).empty? &&
-        (! (flashcard.translations & translations).empty? || translations.empty?)
+        !(flashcard.expressions & expressions).empty? &&
+          (!(flashcard.translations & translations).empty? || translations.empty?)
       end
     end
 
     def self.possibly_matching_flashcards(flashcards, expressions, translations = Array.new)
-      flashcards.select do |flashcard|
+      flashcards.reject do |flashcard|
         fe = flashcard.expressions.map { |e| e.sub(/^(el|las?|los) /, '') }
         e =            expressions.map { |e| e.sub(/^(el|las?|los) /, '') }
-        ! (fe & e).empty? #&&
+        (fe & e).empty? #&&
         # (! (flashcard.translations & translations).empty? || translations.empty?)
       end
     end

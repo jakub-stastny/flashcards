@@ -26,7 +26,7 @@ module Flashcards
 
         values, tags = line.split(/\s+/).group_by { |word| word.match(/^#/) }.values
         values = values.join(' ').split(/\s*=\s*/)
-        tags = tags || Array.new
+        tags ||= Array.new
 
         @log.puts([line, values, tags].inspect); @log.flush ####
 
