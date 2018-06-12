@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Flashcards::Language.define(:es) do
   conjugation_group(:imperfecto) do |verb, infinitive|
     tense = Flashcards::Tense.new(self, :imperfecto, infinitive) do

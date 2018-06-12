@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'flashcards/flashcard'
 require 'flashcards/test'
 require 'flashcards/language'

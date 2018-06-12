@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'flashcards'
 require 'flashcards/core_exts'
 require 'flashcards/testers/command_line'

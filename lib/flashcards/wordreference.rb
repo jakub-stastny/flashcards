@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'nokogiri'
 require 'refined-refinements/cached_http'
 require 'flashcards/core_exts'

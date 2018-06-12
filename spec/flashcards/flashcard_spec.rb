@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'flashcards/flashcard'
 require 'flashcards/core_exts'

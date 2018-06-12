@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'flashcards/flashcard_wrapper'
 require 'flashcards/example'
 require 'flashcards/testable_unit'

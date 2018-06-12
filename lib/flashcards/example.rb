@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Flashcards
   class Example
     def self.deserialise(array_string_or_example)

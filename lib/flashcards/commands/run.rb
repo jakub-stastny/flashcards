@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'flashcards/command'
 require 'flashcards/commands/test'
 require 'flashcards/commands/review'

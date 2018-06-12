@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Flashcards::Language.define(:es) do
   conjugation_group(:pretérito) do |verb, infinitive|
     tense = Flashcards::Tense.new(self, :pretérito, infinitive) do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Flashcards
   class TestableUnitWrapper
     def initialize(app, flashcard)

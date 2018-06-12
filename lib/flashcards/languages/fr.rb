@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # say -v '?' | grep es_
 # fr_CA: Amelie
 # fr_FR: Thomas

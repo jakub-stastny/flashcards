@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # say -v '?' | grep es_
 # es_AR: Diego
 # es_ES: Jorge, Monica

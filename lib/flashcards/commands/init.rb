@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'flashcards/command'
 require 'flashcards/config'
 require 'refined-refinements/colours'

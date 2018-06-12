@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../indicativo/presente'
 require_relative '../subjuntivo/presente'
 

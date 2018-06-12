@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'curses'
 
 class KeyboardInterrupt < StandardError

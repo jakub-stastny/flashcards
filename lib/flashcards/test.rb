@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'flashcards/testable_unit'
 
 module Flashcards

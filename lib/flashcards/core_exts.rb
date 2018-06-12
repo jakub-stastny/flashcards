@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # h1 = {a: [1, {b: 2}, "string"], c: {d: []}}
 # h2 = h1.deep_copy
 # p [h1[:a].object_id, h2[:a].object_id, h1[:a].object_id == h2[:a].object_id]

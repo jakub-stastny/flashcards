@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Flashcards
   module Utils
     def self.edit_flashcard(flashcard)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'flashcards/core_exts'
 
 # verb = Flashcards.app.language.load_verb(app, 'hablar')
