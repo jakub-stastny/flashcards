@@ -1,3 +1,9 @@
+# As of now, we don't use Travis CI to push Docker images.
+#
+# For one thing, we'd have to build a new image, we don't
+# want to use the one that we built using Dockerfile.dev.
+#
+# We use automated builds on DockerHub.
 language: ruby
 sudo: required
 
