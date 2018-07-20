@@ -1,6 +1,6 @@
 # About
 
-[![Gem version][GV img]][Gem version]
+<!--[![Gem version][GV img]][Gem version]-->
 [![Build status][BS img]][Build status]
 [![DockerHub build][DH img]][DockerHub build status]
 [![Coverage status][CS img]][Coverage status]
@@ -20,14 +20,36 @@ None of it the language apps take in consideration and this is why the only voca
 
 It is more work, but it's the only way I know to get results without wasting time learning vocabulary you don't need.
 
+# Installation
+
+## With Docker
+
+This is the recommended way. You don't need to worry about having the correct version of Ruby, LibXML etc. Just grab it from DockerHub:
+
+```
+docker pull botanicus/flashcards
+```
+
+To avoid unnecessary typing:
+
+```sh
+alias flashcards="docker run flashcards"
+```
+
+## Via RubyGems
+
+_Note that the flashcards gem available on rubygems.org is **not** this one!_
+
+```
+gem build flashcards.gemspec
+gem install flashcards-*.gem
+```
+
 # Tutorial
 
 First let's install the software and add a few flashcards. Let's say you're learning Spanish:
 
 ```shell
-# Install it.
-gem install flashcards
-
 # Let's add Spanish into our languages.
 flashcards init es
 
