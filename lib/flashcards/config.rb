@@ -35,6 +35,8 @@ module Flashcards
     attr_writer :data
     def data
       @data ||= YAML.load_file(self.config_path)
+    rescue Errno::ENOENT
+      @data = Hash.new
     end
 
     def limit_per_run
