@@ -10,9 +10,9 @@ WORKDIR /app
 #     cd /app ; bundle install --without development test && \
 #     apk del build-dependencies
 COPY flashcards.gemspec Gemfile Gemfile.lock ./
-RUN bundle install --deployment --jobs=3
+RUN bundle install --without development test --jobs=3
 
 COPY . .
 
 ENTRYPOINT ["bundle", "exec", "bin/flashcards"]
-CMD ["es"]
+CMD ["--help"]
