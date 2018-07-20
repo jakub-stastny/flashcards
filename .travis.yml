@@ -10,6 +10,9 @@ before_install:
 script:
   - rake test
 
+after_script:
+  - rake rubocop
+
 # https://docs.travis-ci.com/user/notifications
 notifications:
   email: false

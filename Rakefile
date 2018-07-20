@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 # TODO: Dockerfile parser should be used.
 def workdir
   File.readlines('Dockerfile.dev').each do |line|
-    return line.split(' ')[1] if line.match(/^WORKDIR /)
+    return line.split(' ')[1] if line =~ /^WORKDIR /
   end
 end
 
@@ -23,6 +25,11 @@ end
 desc "Run the tests"
 task :test do
   sh "docker run --rm -v #{Dir.pwd}:#{workdir} -it flashcards:dev bundle exec rspec"
+end
+
+desc "Run Rubocop"
+task :rubocop do
+  sh "rake run 'bundle exec rubocop --auto-correct'"
 end
 
 desc "Delete all the Docker containers and images"
