@@ -1,4 +1,10 @@
-# About [![](https://travis-ci.org/botanicus/flashcards.svg?branch=master)](https://travis-ci.org/botanicus/flashcards)
+# About
+
+[![Gem version][GV img]][Gem version]
+[![Build status][BS img]][Build status]
+[![DockerHub build][DH img]][DockerHub build status]
+[![Coverage status][CS img]][Coverage status]
+[![CodeClimate status][CC img]][CodeClimate status]
 
 Flashcards for learning languages. Like [Anki](https://apps.ankiweb.net), but
 with an *actually* usable interface and support for **conjugations** of regular
@@ -138,3 +144,16 @@ Run `flashcard -h` to see all the options.
 > ~ <cite>Random homeless guy whom I paid money to review it.</cite>
 
 As you can see, the credentials are bullet-proof.
+
+[Gem version]: https://rubygems.org/gems/flashcards
+[Build status]: https://travis-ci.org/botanicus/flashcards
+[DockerHub build status]: https://hub.docker.com/r/botanicus/flashcards
+[Coverage status]: https://coveralls.io/github/botanicus/flashcards
+[CodeClimate status]: https://codeclimate.com/github/botanicus/flashcards/maintainability
+
+[GV img]: https://badge.fury.io/rb/flashcards.svg
+[BS img]: https://travis-ci.org/botanicus/flashcards.svg?branch=master
+[DH img]: https://img.shields.io/docker/automated/jrottenberg/ffmpeg.svg
+[CS img]: https://img.shields.io/coveralls/botanicus/flashcards.svg
+[CC img]: https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability
+[YD img]: http://img.shields.io/badge/yard-docs-blue.svg
