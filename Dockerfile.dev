@@ -10,5 +10,6 @@ RUN apk --update add --virtual build-dependencies ruby-dev build-base ncurses-de
 COPY . .
 
 # The entry point.
-ENTRYPOINT ["bundle", "exec", "bin/flashcards"]
-CMD ["--help"]
+# Note that here we are using CMD rather than ENTRYPOINT.
+# This is for convenience in development.
+CMD ["bundle", "exec", "bin/flashcards"]
