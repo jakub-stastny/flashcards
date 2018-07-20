@@ -12,7 +12,7 @@ end
 
 desc "Run the container"
 task :run do
-  sh "docker run --rm -v #{Dir.pwd}:#{workdir} -it flashcards:dev run"
+  sh "docker run --rm -v #{Dir.pwd}:#{workdir} -it flashcards:dev #{ARGV[1..-1].join(' ')}"
 end
 
 desc "Run shell within the container"
