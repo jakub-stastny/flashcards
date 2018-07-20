@@ -12,10 +12,16 @@ end
 
 desc "Run the container"
 task :run do
-  sh "docker run --rm -v #{Dir.pwd}:#{workdir} -it flashcards:dev run es"
+  sh "docker run --rm -v #{Dir.pwd}:#{workdir} -it flashcards:dev run"
 end
 
 desc "Run shell within the container"
 task :sh do
   sh "docker run --rm -v #{Dir.pwd}:#{workdir} --entrypoint /bin/bash -it flashcards:dev"
+end
+
+desc "Delete all the Docker containers and images"
+task :prune do
+  sh "docker rm $(docker ps -a -q)"
+  sh "docker rmi $(docker images -q)"
 end
