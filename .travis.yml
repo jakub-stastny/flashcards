@@ -1,11 +1,14 @@
-# https://docs.travis-ci.com/user/languages/ruby
 language: ruby
-cache: bundler
+sudo: required
 
-rvm:
-  - 2.5.0
+services:
+  - docker
+
+before_install:
+  - rake build
+
 script:
-  - bundle exec rspec
+  - rake test
 
 # https://docs.travis-ci.com/user/notifications
 notifications:

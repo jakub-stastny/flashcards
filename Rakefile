@@ -17,7 +17,12 @@ end
 
 desc "Run shell within the container"
 task :sh do
-  sh "docker run --rm -v #{Dir.pwd}:#{workdir} --entrypoint /bin/bash -it flashcards:dev"
+  sh "docker run --rm -v #{Dir.pwd}:#{workdir} -it flashcards:dev sh"
+end
+
+desc "Run the tests"
+task :test do
+  sh "docker run --rm -v #{Dir.pwd}:#{workdir} -it flashcards:dev bundle exec rspec"
 end
 
 desc "Delete all the Docker containers and images"
