@@ -7,7 +7,7 @@ module Flashcards
   class InspectCommand < SingleLanguageCommand
     using RR::ColourExts
 
-    self.help = <<-EOF.gsub(/^\s*/, '')
+    self.help = <<~EOF
       flashcards <blue.bold>inspect</blue.bold>
       flashcards <blue.bold>inspect</blue.bold> casi
       flashcards <blue.bold>inspect</blue.bold> casi.correct_answers.length ya.metadata

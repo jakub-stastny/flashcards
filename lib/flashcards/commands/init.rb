@@ -8,7 +8,7 @@ module Flashcards
   class InitCommand < GenericCommand
     using RR::ColourExts
 
-    self.help = <<-EOF.gsub(/^\s*/, '')
+    self.help = <<~EOF
       flashcards <magenta>init</magenta> es pl
     EOF
 

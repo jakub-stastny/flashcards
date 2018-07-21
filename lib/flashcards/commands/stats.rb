@@ -10,7 +10,7 @@ module Flashcards
   class StatsCommand < SingleLanguageCommand
     using RR::ColourExts
 
-    self.help = <<-EOF.gsub(/^\s*/, '')
+    self.help = <<~EOF
       flashcards <blue.bold>stats</blue.bold>
     EOF
 

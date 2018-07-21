@@ -7,7 +7,7 @@ module Flashcards
   class ReviewCommand < SingleLanguageCommand
     using RR::ColourExts
 
-    self.help = <<-EOF.gsub(/^\s*/, '')
+    self.help = <<~EOF
       flashcards <yellow>review</yellow><bright_black> # Review all the flashcards.
       flashcards <yellow>review</yellow> todavía<bright_black> # Review given flashcard.
       <magenta.bold>EDITOR=vim</magenta.bold> flashcards <green>review</green> <bright_black># Edit your flashcards in $EDITOR.</bright_black>

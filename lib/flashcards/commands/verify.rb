@@ -8,7 +8,7 @@ module Flashcards
   class VerifyCommand < SingleLanguageCommand
     using RR::ColourExts
 
-    self.help = <<-EOF.gsub(/^\s*/, '')
+    self.help = <<~EOF
       flashcards <red.bold>verify</red.bold>
     EOF
 
