@@ -33,7 +33,7 @@ docker pull botanicus/flashcards
 To avoid unnecessary typing:
 
 ```sh
-alias flashcards="docker run flashcards"
+alias flashcards="docker run -it -v ~/.flashcards:/data -v ~/.config:/config botanicus/flashcards"
 ```
 
 ## Via RubyGems

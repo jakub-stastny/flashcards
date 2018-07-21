@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'flashcards/commander'
+require 'flashcards/core_exts'
+
+using RR::ColourExts
+
+commander = Flashcards::Commander.new
+command_name = (ARGV.first || 'run').to_sym
+
+if commander.commands.include?(command_name)
+  commander.run(command_name, ARGV[1..-1] || Array.new)
+elsif [:'-h', :'--help'].include?(command_name)
+  puts(commander.help.colourise)
+elsif /^[a-z]{2}$/.match?(ARGV.first) # flashcards es
+  commander.run(:run, ARGV || Array.new)
+else
+  abort(commander.help.colourise)
+end

@@ -1,20 +1,26 @@
-#!/usr/bin/env ruby
-# frozen_string_literal: true
+#!/bin/sh
 
-require 'flashcards/commander'
-require 'flashcards/core_exts'
+# TODO: Add FLASHCARDS_PLATFORM with possible values docker (default)
+# or ruby. If ruby is used, defer to bin/runner.
+CONFIG_FILE=${FLASHCARDS_CONFIG_FILE:-~/.config/flashcards.yml}
+DATA_DIR=${FLASHCARDS_DATA_DIR:-~/.local/share/flashcards}
+DOCKER_IMAGE=${FLASHCARDS_DOCKER_IMAGE:-botanicus/flashcards:latest}
 
-using RR::ColourExts
+if ! which docker; then
+  echo "Docker is required."
+  echo "Docker and the flashcards image are the only dependencies."
+  echo "Please install Docker, the image will be installed automatically."
+  exit 1
+fi
 
-commander = Flashcards::Commander.new
-command_name = (ARGV.first || 'run').to_sym
+if ! docker image inspect $DOCKER_IMAGE; then
+  echo "Docker image $DOCKER_IMAGE hasn't been installed yet."
+  echo "Docker and the flashcards image are the only dependencies."
+  echo "Installling now.\n\n"
+  docker pull $DOCKER_IMAGE
+fi
 
-if commander.commands.include?(command_name)
-  commander.run(command_name, ARGV[1..-1] || Array.new)
-elsif [:'-h', :'--help'].include?(command_name)
-  puts(commander.help.colourise)
-elsif /^[a-z]{2}$/.match?(ARGV.first) # flashcards es
-  commander.run(:run, ARGV || Array.new)
-else
-  abort(commander.help.colourise)
-end
+# Touch the file, otherwise Docker will create it as a directory.
+test -f $CONFIG_FILE || mkdir -p $(dirname $CONFIG_FILE) && touch $CONFIG_FILE
+
+exec docker run --rm -v $CONFIG_FILE:/root/.config/flashcards.yml -v $DATA_DIR:/root/.local/share/flashcards -e CONFIG_FILE $CONFIG_FILE -e DATA_DIR $DATA_DIR -it $DOCKER_IMAGE "$@"

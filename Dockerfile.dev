@@ -12,4 +12,4 @@ COPY . .
 # The entry point.
 # Note that here we are using CMD rather than ENTRYPOINT.
 # This is for convenience in development.
-CMD ["bundle", "exec", "bin/flashcards"]
+CMD ["bundle", "exec", "bin/runner"]
