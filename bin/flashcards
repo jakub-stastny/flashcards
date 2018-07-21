@@ -1,26 +1,35 @@
 #!/bin/sh
 
+# NOTE: We want to keep it in shell rather than Ruby, because we don't
+# want to impose dependencies on the host system. (RubyGems installation
+# is not the only option).
+#
 # TODO: Add FLASHCARDS_PLATFORM with possible values docker (default)
 # or ruby. If ruby is used, defer to bin/runner.
+#
+# TODO: Refactor the code to use these ENV variables instead of hard-coded paths.
 CONFIG_FILE=${FLASHCARDS_CONFIG_FILE:-~/.config/flashcards.yml}
 DATA_DIR=${FLASHCARDS_DATA_DIR:-~/.local/share/flashcards}
 DOCKER_IMAGE=${FLASHCARDS_DOCKER_IMAGE:-botanicus/flashcards:latest}
 
-if ! which docker; then
+if ! which docker > /dev/null; then
   echo "Docker is required."
   echo "Docker and the flashcards image are the only dependencies."
   echo "Please install Docker, the image will be installed automatically."
   exit 1
 fi
 
-if ! docker image inspect $DOCKER_IMAGE; then
+if ! docker image inspect $DOCKER_IMAGE > /dev/null; then
   echo "Docker image $DOCKER_IMAGE hasn't been installed yet."
   echo "Docker and the flashcards image are the only dependencies."
   echo "Installling now.\n\n"
+  echo "Download? [Y]"
+  # TODO: Handle y upcase vs. else scenario.
+  read
   docker pull $DOCKER_IMAGE
 fi
 
 # Touch the file, otherwise Docker will create it as a directory.
 test -f $CONFIG_FILE || mkdir -p $(dirname $CONFIG_FILE) && touch $CONFIG_FILE
 
-exec docker run --rm -v $CONFIG_FILE:/root/.config/flashcards.yml -v $DATA_DIR:/root/.local/share/flashcards -e CONFIG_FILE $CONFIG_FILE -e DATA_DIR $DATA_DIR -it $DOCKER_IMAGE "$@"
+exec docker run --rm -v $CONFIG_FILE:/root/.config/flashcards.yml -v $DATA_DIR:/root/.local/share/flashcards -e FLASHCARDS_CONFIG_FILE:$CONFIG_FILE -e FLASHCARDS_DATA_DIR:$DATA_DIR -it $DOCKER_IMAGE "$@"
