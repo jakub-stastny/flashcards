@@ -7,6 +7,26 @@ def workdir
   end
 end
 
+def volumes
+  [
+    "#{Dir.pwd}:#{workdir}",
+    "#{ENV['HOME']}/.config/flashcards.yml:#{environment[:FLASHCARDS_CONFIG_FILE]}",
+    "#{ENV['HOME']}/.local/share/flashcards:#{environment[:FLASHCARDS_DATA_DIR]}"
+  ]
+end
+
+def environment
+  {
+    FLASHCARDS_CONFIG_FILE: '/root/.config/flashcards.yml',
+    FLASHCARDS_DATA_DIR: '/root/.local/flashcards'
+  }
+end
+
+def docker(command)
+  command = "docker run --rm #{volumes.map { |v| "-v #{v}" }.join(' ')} #{environment.map { |var, value| "-e #{var}:#{value}" }.join(' ')} -it flashcards:dev #{command}"
+  puts command; exec command
+end
+
 desc "Build Docker image"
 task :build do
   sh "docker build -t flashcards:dev -f Dockerfile.dev ."
@@ -14,17 +34,17 @@ end
 
 desc "Run the container"
 task :run do
-  sh "docker run --rm -v #{Dir.pwd}:#{workdir} -it flashcards:dev #{ARGV[1..-1].join(' ')}"
+  docker(ARGV[1..-1].join(' '))
 end
 
 desc "Run shell within the container"
 task :sh do
-  sh "docker run --rm -v #{Dir.pwd}:#{workdir} -it flashcards:dev sh"
+  docker('sh')
 end
 
 desc "Run the tests"
 task :test do
-  sh "docker run --rm -v #{Dir.pwd}:#{workdir} -it flashcards:dev bundle exec rspec"
+  docker('bundle exec rspec')
 end
 
 desc "Run Rubocop"
