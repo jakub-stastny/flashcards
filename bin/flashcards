@@ -8,6 +8,8 @@
 # or ruby. If ruby is used, defer to bin/runner.
 #
 # TODO: Refactor the code to use these ENV variables instead of hard-coded paths.
+#
+# TODO: Put the default values to the Dockerfile(s) and remove them from here.
 CONFIG_FILE=${FLASHCARDS_CONFIG_FILE:-~/.config/flashcards.yml}
 DATA_DIR=${FLASHCARDS_DATA_DIR:-~/.local/share/flashcards}
 DOCKER_IMAGE=${FLASHCARDS_DOCKER_IMAGE:-botanicus/flashcards:latest}

@@ -11,7 +11,8 @@ def volumes
   [
     "#{Dir.pwd}:#{workdir}",
     "#{ENV['HOME']}/.config/flashcards.yml:#{environment[:FLASHCARDS_CONFIG_FILE]}",
-    "#{ENV['HOME']}/.local/share/flashcards:#{environment[:FLASHCARDS_DATA_DIR]}"
+    "#{ENV['HOME']}/.local/share/flashcards:#{environment[:FLASHCARDS_DATA_DIR]}",
+    ("#{Dir.pwd}/../refined-refinements:/usr/local/bundle/gems/refined-refinements-0.0.2.3" if File.directory?('../refined-refinements')) # TODO: This should use Gemfile.lock parser to determine the version.
   ]
 end
 
